@@ -31,7 +31,7 @@ void ClearScene::Initialize()
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<ClearSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), nullptr);
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
 
 	// 平行光源

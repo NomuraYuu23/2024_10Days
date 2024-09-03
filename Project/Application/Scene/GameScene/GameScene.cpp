@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), nullptr);
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
 
 	// 平行光源

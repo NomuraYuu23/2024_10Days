@@ -3,7 +3,6 @@
 #include <array>
 
 #include "../../../Engine/Scene/IScene/IScene.h"
-#include "../../UI/UIManager.h"
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 
@@ -18,7 +17,6 @@
 
 #include "../../Camera/FollowCamera.h"
 
-#include "../../UI/TutorialUIManager.h"
 #include "../../GPUParticle/BonfireParticle.h"
 
 
