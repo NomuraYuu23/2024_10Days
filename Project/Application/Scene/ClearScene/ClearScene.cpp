@@ -4,6 +4,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../Object/ObjectFactory.h"
+#include "../../Object/Manager/ClearSceneObjectManager.h"
 
 ClearScene::~ClearScene()
 {
@@ -29,7 +30,7 @@ void ClearScene::Initialize()
 	audioManager_->Initialize();
 
 	// オブジェクトマネージャー
-	objectManager_ = std::make_unique<>();
+	objectManager_ = std::make_unique<ClearSceneObjectManager>();
 	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), nullptr);
 	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
 
