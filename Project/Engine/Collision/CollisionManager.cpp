@@ -4,6 +4,7 @@
 
 #include "../../Application/Object/Obstacle/BaseObstacle.h"
 #include "../../Application/Object/RigidBodyObject/BaseRigidBodyObject.h"
+#include "../../Application/Object/Character/Player/Player.h"
 
 
 void CollisionManager::Initialize()
