@@ -97,7 +97,7 @@ void TitleScene::Update()
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
-		requestSceneNo_ = kTutorial;
+		requestSceneNo_ = kGame;
 	}
 
 	objectManager_->Update();
