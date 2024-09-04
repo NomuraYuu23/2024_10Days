@@ -165,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp" />
     <ClCompile Include="Application\Object\Manager\ClearSceneObjectManager.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp" />
     <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
@@ -315,6 +316,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider2D\CollisionConfig2D.h" />
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
+    <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />
     <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h" />
     <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
