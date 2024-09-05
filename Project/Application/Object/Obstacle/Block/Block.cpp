@@ -55,6 +55,7 @@ void Block::Initialize(LevelData::MeshData* data)
 	state_ = std::bind(&Block::Idle,this);
 	isMove_ = false;
 	isCollision_ = false;
+	initialPosition_ = worldTransform_.transform_.translate;
 }
 
 
@@ -111,10 +112,10 @@ void Block::MoveStart() {
 void Block::Move() {
 	//イージングで移動
 	float t = float(countUp_) / float(moveAnimationLength_);
-	Vector3 to = worldTransform_.transform_.translate;
-	Vector3 from = worldTransform_.transform_.translate;
-	to.y = float(!hight_) * 8.0f;
-	from.y = float(hight_) * 8.0f;
+	Vector3 to = initialPosition_;
+	Vector3 from = initialPosition_;
+	to.y += float(!hight_) * 8.0f ;
+	from.y += float(hight_) * 8.0f ;
 	worldTransform_.transform_.translate  = Ease::Easing(Ease::EaseName::EaseInQuad,from,to,t);
 	
 	//移動終了したら待機状態にもどる
