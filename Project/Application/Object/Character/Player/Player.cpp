@@ -14,13 +14,13 @@ LevelData::MeshData Player::PlayerCreate()
 	data.name = "Player";
 	// トランスフォーム
 	data.transform = {
-		1.0f,1.0f,1.0f,
+		0.3f,0.3f,0.3f,
 		0.0f,0.0f,0.0f,
 		0.0f,2.0f,0.0f
 	};
 
 	// ファイルの名前
-	data.flieName = "PlayerHead.obj";
+	data.flieName = "PlayerMove.gltf";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Player/";
 	// クラスの名前
@@ -57,13 +57,13 @@ void Player::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
-	//localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	//localMatrixManager_->Initialize(model_->GetRootNode());
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(model_->GetRootNode());
 
-	//animation_.Initialize(
-	//	model_->GetNodeAnimationData(),
-	//	localMatrixManager_->GetInitTransform(),
-	//	localMatrixManager_->GetNodeNames());
+	animation_.Initialize(
+		model_->GetNodeAnimationData(),
+		localMatrixManager_->GetInitTransform(),
+		localMatrixManager_->GetNodeNames());
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
@@ -108,9 +108,9 @@ void Player::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	//localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
-
-	//localMatrixManager_->Map();
+	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	
+	localMatrixManager_->Map();
 
 	// 重力
 	worldTransform_.transform_.translate += Gravity::Execute();
@@ -128,15 +128,15 @@ void Player::Update()
 void Player::Draw(BaseCamera& camera)
 {
 
-	//ModelDraw::AnimObjectDesc desc;
-	//desc.camera = &camera;
-	//desc.localMatrixManager = localMatrixManager_.get();
-	//desc.material = material_.get();
-	//desc.model = model_;
-	//desc.worldTransform = &worldTransform_;
-	//ModelDraw::AnimObjectDraw(desc);
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
-	MeshObject::Draw(camera);
+	//MeshObject::Draw(camera);
 
 }
 
@@ -209,7 +209,7 @@ void Player::PartInitialize()
 	prevMotionNo_ = PlayerMotionIndex::kPlayerMotionWait;
 
 	// 待ちアニメーション
-	//animation_.StartAnimation(kPlayerMotionWait, true);
+	animation_.StartAnimation(kPlayerMotionWait, true);
 
 }
 
@@ -225,8 +225,6 @@ void Player::ColliderUpdate()
 
 	*colliderShape = obb;
 
-	//collider_.reset(colliderShape);
-
 	collider_->swap(*colliderShape);
 
 }
@@ -237,10 +235,10 @@ void Player::AnimationUpdate()
 	prevMotionNo_ = currentMotionNo_;
 	currentMotionNo_ = playerState_->GetPlaryerMotionNo();
 
-	//if (currentMotionNo_ != prevMotionNo_) {
-	//	animation_.StopAnimation(prevMotionNo_);
-	//	animation_.StartAnimation(currentMotionNo_, true);
-	//}
+	if (currentMotionNo_ != prevMotionNo_) {
+		animation_.StopAnimation(prevMotionNo_);
+		animation_.StartAnimation(currentMotionNo_, true);
+	}
 
 }
 
