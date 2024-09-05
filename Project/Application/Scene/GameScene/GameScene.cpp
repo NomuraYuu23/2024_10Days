@@ -259,8 +259,8 @@ void GameScene::CreateBlocks() {
 		for (size_t x = 0; x < Block::kNumOnece_;x++) {
 			data = Block::BlockCreate();
 			LevelData::MeshData &block = std::get<LevelData::MeshData>(data);
-			block.transform.translate.x = (float(x) - float(Block::kNumOnece_) * 0.5f)*2.0f;
-			block.transform.translate.z = (float(z) - float(Block::kNumOnece_) * 0.5f)*2.0f;
+			block.transform.translate.x = (float(x) - float(Block::kNumOnece_) * 0.5f)*2.0f * Block::kSize_;
+			block.transform.translate.z = (float(z) - float(Block::kNumOnece_) * 0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.y = -2.0f;
 			objectManager_->AddObject(data);
 		}
