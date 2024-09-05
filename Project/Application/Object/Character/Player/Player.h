@@ -18,6 +18,14 @@ class Player :
     public MeshObject
 {
 
+public: // 静的メンバ関数
+
+	/// <summary>
+	/// プレイヤーの生成
+	/// </summary>
+	/// <returns></returns>
+	static LevelData::MeshData PlayerCreate();
+
 public: // ベースのメンバ関数
 
 	/// <summary>

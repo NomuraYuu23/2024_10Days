@@ -152,3 +152,18 @@ void BaseObjectManager::Reset(LevelIndex levelIndex)
 
 }
 
+void BaseObjectManager::AddObject(LevelData::ObjectData& data)
+{
+
+	// 型にあわせてInitialize
+	std::unique_ptr<IObject> object;
+	object.reset(objectFactory_->CreateObject(data));
+
+	if (object) {
+
+		// listへ
+		objects_.emplace_back(object->GetName(), std::move(object));
+	}
+
+}
+

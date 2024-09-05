@@ -104,11 +104,6 @@ void TutorialScene::Initialize() {
 /// </summary>
 void TutorialScene::Update() {
 
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
-		// 行きたいシーンへ
-		requestSceneNo_ = kTutorial;
-	}
-
 	objectManager_->Update();
 
 	// デバッグカメラ
@@ -155,7 +150,7 @@ void TutorialScene::Draw() {
 
 void TutorialScene::ImguiDraw() {
 
-	ImGui::Begin("Framerate");
+	ImGui::Begin("TutorialScene");
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
 

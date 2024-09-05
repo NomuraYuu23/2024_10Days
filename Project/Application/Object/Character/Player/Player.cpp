@@ -4,6 +4,38 @@
 #include "../../Obstacle/BaseObstacle.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 
+LevelData::MeshData Player::PlayerCreate()
+{
+
+	LevelData::MeshData data;
+
+	// 名前
+	data.name = "Player";
+	// トランスフォーム
+	data.transform = {
+		1.0f,1.0f,1.0f,
+		0.0f,0.0f,0.0f,
+		0.0f,0.0f,0.0f
+	};
+
+	// ファイルの名前
+	data.flieName = "PlayerHead.obj";
+	// ディレクトリパス
+	data.directoryPath = "Resources/Model/Player/";
+	// クラスの名前
+	data.className = "Player";
+	// 親の名前
+	data.parentName = "";
+
+	// コライダー(一時的なもの、親部分はヌルにしとく)
+	OBB obb;
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,1.0f,1.0f }, static_cast<Null*>(nullptr));
+	data.collider = obb;
+
+	return data;
+
+}
+
 void Player::Initialize(LevelData::MeshData* data)
 {
 
@@ -24,13 +56,13 @@ void Player::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
-	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	localMatrixManager_->Initialize(model_->GetRootNode());
+	//localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	//localMatrixManager_->Initialize(model_->GetRootNode());
 
-	animation_.Initialize(
-		model_->GetNodeAnimationData(),
-		localMatrixManager_->GetInitTransform(),
-		localMatrixManager_->GetNodeNames());
+	//animation_.Initialize(
+	//	model_->GetNodeAnimationData(),
+	//	localMatrixManager_->GetInitTransform(),
+	//	localMatrixManager_->GetNodeNames());
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
@@ -75,9 +107,9 @@ void Player::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	//localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
-	localMatrixManager_->Map();
+	//localMatrixManager_->Map();
 
 	// 重力
 	//worldTransform_.transform_.translate += Gravity::Execute();
@@ -95,13 +127,15 @@ void Player::Update()
 void Player::Draw(BaseCamera& camera)
 {
 
-	ModelDraw::AnimObjectDesc desc;
-	desc.camera = &camera;
-	desc.localMatrixManager = localMatrixManager_.get();
-	desc.material = material_.get();
-	desc.model = model_;
-	desc.worldTransform = &worldTransform_;
-	ModelDraw::AnimObjectDraw(desc);
+	//ModelDraw::AnimObjectDesc desc;
+	//desc.camera = &camera;
+	//desc.localMatrixManager = localMatrixManager_.get();
+	//desc.material = material_.get();
+	//desc.model = model_;
+	//desc.worldTransform = &worldTransform_;
+	//ModelDraw::AnimObjectDraw(desc);
+
+	MeshObject::Draw(camera);
 
 }
 
@@ -174,7 +208,7 @@ void Player::PartInitialize()
 	prevMotionNo_ = PlayerMotionIndex::kPlayerMotionWait;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kPlayerMotionWait, true);
+	//animation_.StartAnimation(kPlayerMotionWait, true);
 
 }
 
@@ -200,10 +234,10 @@ void Player::AnimationUpdate()
 	prevMotionNo_ = currentMotionNo_;
 	currentMotionNo_ = playerState_->GetPlaryerMotionNo();
 
-	if (currentMotionNo_ != prevMotionNo_) {
-		animation_.StopAnimation(prevMotionNo_);
-		animation_.StartAnimation(currentMotionNo_, true);
-	}
+	//if (currentMotionNo_ != prevMotionNo_) {
+	//	animation_.StopAnimation(prevMotionNo_);
+	//	animation_.StartAnimation(currentMotionNo_, true);
+	//}
 
 }
 

@@ -11,6 +11,8 @@
 #include "../../Object/Manager/GameSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
 
+#include "../../Object/Character/Player/Player.h"
+
 GameScene::~GameScene()
 {
 
@@ -39,7 +41,7 @@ void GameScene::Initialize() {
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
 	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
-	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
+	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
 
 	// 平行光源
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -48,7 +50,7 @@ void GameScene::Initialize() {
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLightData.direction = { 0.0f, -1.0f, 0.0f };
-	directionalLightData.intencity = 0.0f;
+	directionalLightData.intencity = 1.0f;
 
 	directionalLight_->Update(directionalLightData);
 
@@ -64,7 +66,7 @@ void GameScene::Initialize() {
 		pointLightDatas_[i].used = false;
 	}
 
-	pointLightDatas_[0].color = { 0.93f, 0.47f, 0.0f, 1.0f };
+	pointLightDatas_[0].color = { 1.0f,1.0f,1.0f,1.0f };
 	pointLightDatas_[0].position = { 0.0f, 0.0f, 0.0f };
 	pointLightDatas_[0].intencity = 1.0f;
 	pointLightDatas_[0].radius = 50.0f;
@@ -95,6 +97,14 @@ void GameScene::Initialize() {
 	camera_.SetTransform(cameraTransform);
 	camera_.Update();
 
+	// ここからオブジェクト生成
+	LevelData::ObjectData data;
+
+	data = Player::PlayerCreate();
+	objectManager_->AddObject(data);
+	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+	player->SetCamera(&camera_);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -103,11 +113,6 @@ void GameScene::Initialize() {
 /// 更新処理
 /// </summary>
 void GameScene::Update() {
-
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
-		// 行きたいシーンへ
-		requestSceneNo_ = kTutorial;
-	}
 
 	objectManager_->Update();
 
@@ -155,7 +160,7 @@ void GameScene::Draw() {
 
 void GameScene::ImguiDraw(){
 
-	ImGui::Begin("Framerate");
+	ImGui::Begin("GameScene");
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
 
