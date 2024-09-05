@@ -34,7 +34,7 @@ void PlayerStateRoot::Update()
 		if (Vector3::Length(move) > kThresholdRunning) {
 			//ランニング
 			Move(move, worldTransform, runningSpeed_);
-			playerMotionNo_ = kPlayerMotionRun;
+			//playerMotionNo_ = kPlayerMotionRun;
 		}
 		else {
 			playerMotionNo_ = kPlayerMotionWait;

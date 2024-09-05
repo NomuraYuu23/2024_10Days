@@ -10,7 +10,7 @@
 /// </summary>
 enum PlayerMotionIndex {
 	kPlayerMotionWait, // 通常時
-	kPlayerMotionRun, // 走行時
+	//kPlayerMotionRun, // 走行時
 	kPlayerMotionIndexOfCount // 数
 };
 
