@@ -118,6 +118,7 @@ void GameCamera::ApplyGlobalVariables()
 	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
 	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
 	offsetHeight_ = globalVariables->GetFloatValue(groupName, "offsetHeight");
+	destinationAngleX_ = globalVariables->GetFloatValue(groupName, "destinationAngleX");
 
 }
 
@@ -132,5 +133,6 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
 	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
 	globalVariables->AddItem(groupName, "offsetHeight", offsetHeight_);
+	globalVariables->AddItem(groupName, "destinationAngleX", destinationAngleX_);
 
 }
