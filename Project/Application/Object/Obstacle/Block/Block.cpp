@@ -115,8 +115,8 @@ void Block::Move() {
 	float t = float(countUp_) / float(moveAnimationLength_);
 	Vector3 to = initialPosition_;
 	Vector3 from = initialPosition_;
-	to.y += float(!hight_) * 8.0f ;
-	from.y += float(hight_) * 8.0f ;
+	to.y += float(!hight_) * floatHight_;
+	from.y += float(hight_) * floatHight_;
 	worldTransform_.transform_.translate  = Ease::Easing(Ease::EaseName::EaseInQuad,from,to,t);
 	
 	//移動終了したら待機状態にもどる

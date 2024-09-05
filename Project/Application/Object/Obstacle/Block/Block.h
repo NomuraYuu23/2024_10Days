@@ -106,5 +106,8 @@ private: // パーツ,アニメーション変数
 
 	//初期位置
 	Vector3 initialPosition_{};
+
+	//浮き沈みの高さ
+	float floatHight_ = 16.0f;
 };
 
