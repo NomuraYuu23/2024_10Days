@@ -175,5 +175,9 @@ public: // アクセッサ
 
 	void SetHP(uint32_t hp) { hp_ = hp; }
 
+	Vector3 GetVelocity() { return velocity_; }
+	
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+
 };
 

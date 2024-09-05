@@ -1,8 +1,8 @@
-#include "PlayerStateRoot.h"
+#include "PlayerStateJump.h"
 #include "../Player.h"
 #include "../../../../../Engine/Math/Ease.h"
 
-void PlayerStateRoot::Initialize()
+void PlayerStateJump::Initialize()
 {
 
 	runningSpeed_ = 0.3f;
@@ -13,13 +13,14 @@ void PlayerStateRoot::Initialize()
 
 	playerMotionNo_ = kPlayerMotionWait;
 
-	playerStateNo_ = kPlayerStateRoot;
+	playerStateNo_ = kPlayerStateJump;
+
+	player_->SetVelocity(Vector3{0.0f, jumpInitialSpeed_ , 0.0f});
 
 }
 
-void PlayerStateRoot::Update()
+void PlayerStateJump::Update()
 {
-
 
 	WorldTransform* worldTransform = player_->GetWorldTransformAdress();
 
@@ -36,21 +37,21 @@ void PlayerStateRoot::Update()
 		if (Vector3::Length(move) > kThresholdRunning) {
 			//ランニング
 			Move(move, worldTransform, runningSpeed_);
-			//playerMotionNo_ = kPlayerMotionRun;
-		}
-		else {
-			playerMotionNo_ = kPlayerMotionWait;
 		}
 
 		// 角度補間
 		worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
 	}
 
-	player_->SetReceiveCommand(true);
+	player_->SetReceiveCommand(false);
+
+	if (player_->GetVelocity().y <= 0.0f) {
+		playerStateNo_ = kPlayerStateFloating;
+	}
 
 }
 
-void PlayerStateRoot::Move(Vector3& move, WorldTransform* worldTransform, float speed)
+void PlayerStateJump::Move(Vector3& move, WorldTransform* worldTransform, float speed)
 {
 
 	BaseCamera* camera = player_->GetCamera();

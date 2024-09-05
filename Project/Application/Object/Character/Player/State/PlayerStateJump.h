@@ -2,7 +2,7 @@
 #include "IPlayerState.h"
 #include "../../../../../Engine/3D/WorldTransform.h"
 
-class PlayerStateRoot :
+class PlayerStateJump :
     public IPlayerState
 {
 
@@ -35,6 +35,9 @@ private: // メンバ変数
 
 	// 目指す向きへの補間係数
 	float targetAngleT_;
+
+	// ジャンプ初速
+	float jumpInitialSpeed_ = 2.0f;
 
 };
 

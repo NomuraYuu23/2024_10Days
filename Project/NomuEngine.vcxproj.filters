@@ -379,6 +379,15 @@
     <Filter Include="Application\Camera\GameCamera">
       <UniqueIdentifier>{7f7a8526-5f34-4a36-93ff-e89ddf80fcfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Character\Player\State\Root">
+      <UniqueIdentifier>{ecba23c0-afdd-43d2-a3d1-361e5080b4c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Character\Player\State\Jump">
+      <UniqueIdentifier>{3ef336d8-de18-4542-9f81-b668ae26e3d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Character\Player\State\Floating">
+      <UniqueIdentifier>{0b7e9dd5-c48f-4f18-9b2f-817b9b8c69af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -829,11 +838,17 @@
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFactory.cpp">
       <Filter>Application\Object\Character\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateRoot.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Camera\GameCamera.cpp">
       <Filter>Application\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateRoot.cpp">
+      <Filter>Application\Object\Character\Player\State\Root</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateJump.cpp">
+      <Filter>Application\Object\Character\Player\State\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1440,11 +1455,17 @@
     <ClInclude Include="Application\Object\Character\Player\State\IPlayerState.h">
       <Filter>Application\Object\Character\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateRoot.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Camera\GameCamera.h">
       <Filter>Application\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateRoot.h">
+      <Filter>Application\Object\Character\Player\State\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateJump.h">
+      <Filter>Application\Object\Character\Player\State\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

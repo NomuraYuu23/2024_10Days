@@ -114,6 +114,9 @@ void Player::Update()
 
 	// 重力
 	velocity_ += Gravity::Execute();
+	// 速度制限
+	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+	// 位置更新
 	worldTransform_.transform_.translate += velocity_; 
 
 	worldTransform_.UpdateMatrix();
