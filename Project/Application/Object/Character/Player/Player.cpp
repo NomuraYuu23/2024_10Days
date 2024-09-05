@@ -3,6 +3,7 @@
 
 #include "../../Obstacle/BaseObstacle.h"
 #include "../../../../Engine/3D/ModelDraw.h"
+#include "../../../../Engine/Physics/Gravity.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -15,7 +16,7 @@ LevelData::MeshData Player::PlayerCreate()
 	data.transform = {
 		1.0f,1.0f,1.0f,
 		0.0f,0.0f,0.0f,
-		0.0f,0.0f,0.0f
+		0.0f,2.0f,0.0f
 	};
 
 	// ファイルの名前
@@ -112,7 +113,7 @@ void Player::Update()
 	//localMatrixManager_->Map();
 
 	// 重力
-	//worldTransform_.transform_.translate += Gravity::Execute();
+	worldTransform_.transform_.translate += Gravity::Execute();
 
 	worldTransform_.UpdateMatrix();
 
@@ -224,7 +225,9 @@ void Player::ColliderUpdate()
 
 	*colliderShape = obb;
 
-	collider_.reset(colliderShape);
+	//collider_.reset(colliderShape);
+
+	collider_->swap(*colliderShape);
 
 }
 
@@ -250,5 +253,6 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();
-
+	// コライダー
+	ColliderUpdate();
 }

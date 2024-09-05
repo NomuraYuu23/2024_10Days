@@ -3,7 +3,7 @@
 #include "../../Character/Player/Player.h"
 
 #include <variant>
-
+const float Block::kSize_ = 2.0f;
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
@@ -11,7 +11,7 @@ LevelData::MeshData Block::BlockCreate() {
 	data.name = "Block" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
-		1.0f,1.0f,1.0f,
+		kSize_,kSize_,kSize_,
 		0.0f,0.0f,0.0f,
 		0.0f,0.0f,0.0f
 	};
@@ -55,6 +55,7 @@ void Block::Initialize(LevelData::MeshData* data)
 	state_ = std::bind(&Block::Idle,this);
 	isMove_ = false;
 	isCollision_ = false;
+	initialPosition_ = worldTransform_.transform_.translate;
 }
 
 
@@ -73,6 +74,7 @@ void Block::ColliderUpdate()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.size_ = worldTransform_.transform_.scale;
 	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 
 	ColliderShape* colliderShape = new ColliderShape();
@@ -111,10 +113,10 @@ void Block::MoveStart() {
 void Block::Move() {
 	//イージングで移動
 	float t = float(countUp_) / float(moveAnimationLength_);
-	Vector3 to = worldTransform_.transform_.translate;
-	Vector3 from = worldTransform_.transform_.translate;
-	to.y = float(!hight_) * 8.0f;
-	from.y = float(hight_) * 8.0f;
+	Vector3 to = initialPosition_;
+	Vector3 from = initialPosition_;
+	to.y += float(!hight_) * 8.0f ;
+	from.y += float(hight_) * 8.0f ;
 	worldTransform_.transform_.translate  = Ease::Easing(Ease::EaseName::EaseInQuad,from,to,t);
 	
 	//移動終了したら待機状態にもどる
