@@ -8,7 +8,7 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 5;
+	static const size_t kNumOnece_ = 10;
 
 
 public: // static関数
@@ -102,5 +102,8 @@ private: // パーツ,アニメーション変数
 
 	//仮パラメータ
 	size_t moveAnimationLength_ = 60;
+
+	//初期位置
+	Vector3 initialPosition_{};
 };
 
