@@ -3,9 +3,9 @@
 
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
-
+	static size_t id;
 	// 名前
-	data.name = "Block";
+	data.name = "Block" + id;
 	// トランスフォーム
 	data.transform = {
 		1.0f,1.0f,1.0f,

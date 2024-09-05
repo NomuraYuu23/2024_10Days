@@ -5,6 +5,12 @@ class Block :
     public BaseObstacle
 {
 
+public: // パラメータ
+
+	//一辺の数
+	static const size_t kNumOnece_ = 10;
+
+
 public: // static関数
 
 	/// <summary>
