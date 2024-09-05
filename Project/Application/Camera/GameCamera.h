@@ -27,6 +27,9 @@ public:
 
 private: // メンバ関数
 
+	// 追従対象からのオフセットを計算する
+	Vector3 OffsetCalc() const;
+
 	/// <summary>
 	/// 調整項目の適用
 	/// </summary>
@@ -42,6 +45,14 @@ private:
 	// プレイヤー
 	Player* player_ = nullptr;
 
+	// 追従対象の残像座標
+	Vector3 interTarget_ = {};
+
+	// 目指すアングル
+	float destinationAngleX_ = 0.0f;
+	// 目指すアングル
+	float destinationAngleY_ = 0.0f;
+
 	// ステージの中心位置
 	Vector3 stageCenter_{};
 
@@ -56,9 +67,6 @@ private:
 
 	// オフセット高さ
 	float offsetHeight_ = 3.0f;
-
-	// 方向
-	Vector3 direction_ = { 0.0f,0.0f,1.0f };
 
 };
 

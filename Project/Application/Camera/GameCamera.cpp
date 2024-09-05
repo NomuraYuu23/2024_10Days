@@ -11,6 +11,15 @@ void GameCamera::Initialize()
 	// プレイヤー
 	player_ = nullptr;
 
+
+	// 追従対象の残像座標
+	interTarget_ = { 0.0f, 0.0f, 0.0f };
+
+	// 目指すアングル
+	destinationAngleX_ = 3.14f / 4.0f;
+	// 目指すアングル
+	destinationAngleY_ = 0.0f;
+
 	// ステージの中心位置
 	stageCenter_ = { 0.0f, 0.0f, 0.0f };
 
@@ -26,12 +35,6 @@ void GameCamera::Initialize()
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
 
-	// 方向
-	direction_ = { 0.0f,0.0f,1.0f };
-
-	// 回転行列
-	rotateMatrix_ = Matrix4x4::MakeIdentity4x4();
-
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -44,59 +47,70 @@ void GameCamera::Update(float elapsedTime)
 
 #ifdef _DEMO
 	ApplyGlobalVariables();
-#endif // _DEMO
+#endif // _DEBUG
 
-	// プレイヤー
+	// スティック入力で角度を変更処理
+
+	const float RotateSpeed = 0.05f;
+
+	// カメラから見てプレイヤーが右か左か
 	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
+	Vector2 toCenter = { stageCenter_.x - transform_.translate.x, stageCenter_.z - transform_.translate.z };
+	Vector2 toPlayer = { playerPos.x - transform_.translate.x, playerPos.z - transform_.translate.z };
 
-	// 位置
+	float cross = Vector2::Cross(toCenter, toPlayer);
 
-	//ステージからプレイヤーの位置で方向取得
-	playerPos.y = stageCenter_.y;
-	Vector3	playerFromStage = Vector3::Normalize(playerPos - stageCenter_);
+	float dir = 0.0f;
 
-	//方向とカメラオフセットで目指すべきカメラ位置取得
-	Vector3 targetPosition = playerFromStage * offsetLength_;
-	targetPosition.y = offsetHeight_;
+	if (fabsf(cross) <= 0.2f) {
+		//transform_.rotate.y = destinationAngleY_;
+		//transform_.rotate.x = destinationAngleX_;
+	}
+	else {
+		if (cross != 0.0f) {
+			if (cross < 0.0f) {
+				dir = -1.0f;
+			}
+			else {
+				dir = 1.0f;
+			}
+		}
 
-	//カメラの現在位置と目指すべきカメラ位置で補間
-	transform_.translate = Ease::Easing(Ease::EaseName::Lerp, transform_.translate, targetPosition, moveRate_);
+		destinationAngleY_ += dir * RotateSpeed;
 
-	// 回転
-
-	//カメラからステージで目指す方向取得
-
-	Vector3 pos = transform_.translate;
-	pos.y = stageCenter_.y;
-	Vector3 stagFromCamera = Vector3::Normalize(stageCenter_ - pos);
-
-	////現在の方向から目指す方向で補間
-	direction_.x = Ease::Easing(Ease::EaseName::Lerp, direction_.x, stagFromCamera.x, rotateRate_);
-	direction_.y = stagFromCamera.y;
-	direction_.z = Ease::Easing(Ease::EaseName::Lerp, direction_.z, stagFromCamera.z, rotateRate_);
-	//direction_ = Ease::Easing(Ease::EaseName::Lerp, direction_, stagFromCamera, rotateRate_);
-	direction_ = stagFromCamera;
-
-	// ズーム
-	Zoom(elapsedTime);
-
-	// シェイク
-	if (isShake_) {
-		ShakeUpdate(elapsedTime);
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+		transform_.rotate.x = destinationAngleX_;
 	}
 
-	// マッピング
-	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(transform_.scale);
-	rotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{0.0f,0.0f,1.0f}, direction_);
-	Matrix4x4 translateMatrix = Matrix4x4::MakeTranslateMatrix(transform_.translate + shakeAddPosition_);
-	transformMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix_, translateMatrix));;
+	// 追従対象がいれば
+	// 追従座標の補間
+	interTarget_ = Ease::Easing(Ease::EaseName::Lerp, interTarget_, stageCenter_, moveRate_);
 
-	viewMatrix_ = Matrix4x4::Inverse(transformMatrix_);
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);
+	// オフセット
+	Vector3 offset = OffsetCalc();
 
-	viewProjectionMatrix_->matrix = Matrix4x4::Multiply(viewMatrix_, projectionMatrix_);
+	transform_.translate = Vector3::Add(interTarget_, offset);
 
-	worldPositionMap_->worldPosition = { transformMatrix_.m[3][0],transformMatrix_.m[3][1], transformMatrix_.m[3][2] };
+	//ビュー更新
+	BaseCamera::Update();
+
+}
+
+Vector3 GameCamera::OffsetCalc() const
+{
+
+	//追従対象からカメラまでのオフセット
+	Vector3 offset = { 0.0f, offsetHeight_, offsetLength_ };
+
+	Matrix4x4 rotateMatrix;
+
+	//カメラの角度から回転行列を計算する
+	rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(transform_.rotate);
+
+	//オフセットをカメラの回転に合わせて回転させる
+	offset = Matrix4x4::TransformNormal(offset, rotateMatrix);
+
+	return offset;
 
 }
 

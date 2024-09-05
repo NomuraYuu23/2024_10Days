@@ -113,7 +113,7 @@ void Player::Update()
 	//localMatrixManager_->Map();
 
 	// 重力
-	//worldTransform_.transform_.translate += Gravity::Execute();
+	worldTransform_.transform_.translate += Gravity::Execute();
 
 	worldTransform_.UpdateMatrix();
 
