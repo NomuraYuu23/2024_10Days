@@ -72,6 +72,12 @@ public: //virtualではない
 	/// <param name="levelIndex">レベル番号</param>
 	void Reset(LevelIndex levelIndex);
 
+	/// <summary>
+	/// オブジェクト手動追加
+	/// </summary>
+	/// <param name="data">オブジェクトデータ</param>
+	void AddObject(LevelData::ObjectData& data);
+
 protected:
 
 	using ObjectPair = std::pair<std::string, std::unique_ptr<IObject>>;
