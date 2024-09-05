@@ -47,7 +47,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
-	void ImGuiDraw();
+	void ImGuiDraw() override;
 
 	/// <summary>
 	/// 衝突処理

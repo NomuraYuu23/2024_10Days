@@ -4,6 +4,7 @@
 #include "../../Obstacle/BaseObstacle.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
+#include "../../../../externals/imgui/imgui.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -144,6 +145,14 @@ void Player::Draw(BaseCamera& camera)
 
 void Player::ImGuiDraw()
 {
+
+	ImGui::Begin("Player");
+	if (ImGui::Button("PositionReset")) {
+		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+	}
+	ImGui::End();
+
+
 }
 
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
