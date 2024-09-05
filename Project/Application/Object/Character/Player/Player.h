@@ -150,6 +150,9 @@ private: //	変数
 	// カメラ
 	BaseCamera* camera_ = nullptr;
 
+	// 速度
+	Vector3 velocity_ = {};
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
