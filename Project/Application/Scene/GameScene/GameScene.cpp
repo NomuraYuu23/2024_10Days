@@ -88,6 +88,9 @@ void GameScene::Initialize() {
 	camera_.SetTransform(cameraTransform);
 	camera_.Update();
 
+	gameCamera_ = std::make_unique<GameCamera>();
+	gameCamera_->Initialize();
+
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
@@ -98,6 +101,7 @@ void GameScene::Initialize() {
 	objectManager_->AddObject(data);
 	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 	player->SetCamera(&camera_);
+	gameCamera_->SetPlayer(player);
 
 	CreateBlocks();
 
@@ -122,6 +126,11 @@ void GameScene::Update() {
 
 
 	objectManager_->Update();
+
+	// カメラ
+	gameCamera_->Update();
+
+	camera_ = static_cast<BaseCamera>(*gameCamera_.get());
 
 	// デバッグカメラ
 	DebugCameraUpdate();

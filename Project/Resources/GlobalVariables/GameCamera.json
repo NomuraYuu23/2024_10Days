@@ -1,0 +1,9 @@
+{
+    "GameCamera": {
+        "destinationAngleX": 0.4000000059604645,
+        "moveRate": 0.20000000298023224,
+        "offsetHeight": 3.0,
+        "offsetLength": -50.0,
+        "rotateRate": 0.10000000149011612
+    }
+}

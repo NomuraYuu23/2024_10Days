@@ -15,6 +15,7 @@
 #include "../../../Engine/Collision2D/Collision2DDebugDraw.h"
 
 #include "../../Camera/FollowCamera.h"
+#include "../../Camera/GameCamera.h"
 
 class GameScene : public IScene
 {
@@ -85,5 +86,8 @@ private:
 
 	// 衝突マネージャー
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	// ゲームカメラ
+	std::unique_ptr<GameCamera> gameCamera_;
 
 };
