@@ -94,9 +94,6 @@
     <Filter Include="Application\Audio">
       <UniqueIdentifier>{d427ee17-8f5a-4077-9b9a-194749a45066}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\FollowCamera">
-      <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\UI">
       <UniqueIdentifier>{0b3658e1-3d24-45eb-85b9-841a9f303cf5}</UniqueIdentifier>
     </Filter>
@@ -372,6 +369,15 @@
     </Filter>
     <Filter Include="Application\Object\Character\Player\System">
       <UniqueIdentifier>{1d6e1c6b-e229-48a1-9d16-ef3ddd9e63bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Camera">
+      <UniqueIdentifier>{2a1ca4fa-3644-4391-877b-9a26a1426706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Camera\FollowCamera">
+      <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Camera\GameCamera">
+      <UniqueIdentifier>{7f7a8526-5f34-4a36-93ff-e89ddf80fcfe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -677,7 +683,7 @@
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
-      <Filter>Application\FollowCamera</Filter>
+      <Filter>Application\Camera\FollowCamera</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2D\ImGuiManager.cpp">
       <Filter>Engine\2D\ImGui</Filter>
@@ -824,6 +830,9 @@
       <Filter>Application\Object\Character\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateRoot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Camera\GameCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1213,7 +1222,7 @@
       <Filter>Engine\Contactrecord</Filter>
     </ClInclude>
     <ClInclude Include="Application\Camera\FollowCamera.h">
-      <Filter>Application\FollowCamera</Filter>
+      <Filter>Application\Camera\FollowCamera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2D\ImGuiManager.h">
       <Filter>Engine\2D\ImGui</Filter>
@@ -1432,6 +1441,9 @@
       <Filter>Application\Object\Character\Player\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateRoot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Camera\GameCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
