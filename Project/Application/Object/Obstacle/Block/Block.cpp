@@ -1,5 +1,8 @@
 #include "Block.h"
 #include "../../../Engine/Math/Ease.h"
+#include "../../Character/Player/Player.h"
+
+#include <variant>
 
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
@@ -50,8 +53,12 @@ void Block::Draw(BaseCamera& camera) {
 }
 
 void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) {
-	isCollision_ = true;
-	isMove_ = true;
+	if (std::holds_alternative<Player*>(colliderPartner)) {
+		//衝突相手がプレイヤーだったら移動フラグをたてる
+		isCollision_ = true;
+		isMove_ = true;
+	}
+
 }
 
 void Block::Idle() {
