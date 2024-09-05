@@ -8,7 +8,7 @@ LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
 	// 名前
-	data.name = "Block" + id;
+	data.name = "Block" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
 		1.0f,1.0f,1.0f,
@@ -37,6 +37,21 @@ void Block::Initialize(LevelData::MeshData* data)
 {
 
 	BaseObstacle::Initialize(data);
+
+	//衝突属性(自分)
+	collisionAttribute_ = 0x00000010;
+
+	// 衝突マスク(相手)
+	collisionMask_ = 0xffffffef;
+
+	OBB obb = std::get<OBB>(*collider_.get());
+	obb.SetParentObject(this);
+	obb.SetCollisionAttribute(collisionAttribute_);
+	obb.SetCollisionMask(collisionMask_);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	collider_.reset(colliderShape);
+
 	state_ = std::bind(&Block::Idle,this);
 	isMove_ = false;
 	isCollision_ = false;
@@ -44,8 +59,28 @@ void Block::Initialize(LevelData::MeshData* data)
 
 
 void Block::Update() {
+	BaseObstacle::Update();
+	worldTransform_.UpdateMatrix();
 	state_();
 	isCollision_ = false;
+
+	ColliderUpdate();
+}
+
+void Block::ColliderUpdate()
+{
+
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
+
 }
 
 void Block::Draw(BaseCamera& camera) {
@@ -78,12 +113,13 @@ void Block::Move() {
 	float t = float(countUp_) / float(moveAnimationLength_);
 	Vector3 to = worldTransform_.transform_.translate;
 	Vector3 from = worldTransform_.transform_.translate;
-	to.y = float(!hight_);
-	from.y = float(hight_);
+	to.y = float(!hight_) * 8.0f;
+	from.y = float(hight_) * 8.0f;
 	worldTransform_.transform_.translate  = Ease::Easing(Ease::EaseName::EaseInQuad,from,to,t);
 	
 	//移動終了したら待機状態にもどる
 	if (countUp_ >= moveAnimationLength_) {
+		isMove_ = false;
 		countUp_ = 0;
 		hight_ = !hight_;
 		state_ = std::bind(&Block::Idle, this);

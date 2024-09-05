@@ -1,11 +1,11 @@
 #include "IScene.h"
 
-//タイトルシーンで初期化
-int IScene::sceneNo_ = kTitle;
-int IScene::requestSceneNo_ = kTitle;
+//ゲームシーンで初期化
+int IScene::sceneNo_ = kGame;
+int IScene::requestSceneNo_ = kGame;
 
-int IScene::sceneNoCheck_ = kTitle;
-int IScene::requestSceneNoCheck_ = kTitle;
+int IScene::sceneNoCheck_ = kGame;
+int IScene::requestSceneNoCheck_ = kGame;
 
 DirectXCommon* IScene::dxCommon_ = nullptr;
 Input* IScene::input_ = nullptr;

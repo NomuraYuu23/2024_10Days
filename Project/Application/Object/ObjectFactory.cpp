@@ -33,7 +33,7 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 	createObjectFunctions_[kCreateObjectIndexPlayer].second = ObjectFactory::CreateObjectPlayer;
 
 	createObjectFunctions_[kCreateObjectIndexBlock].first = "Block";
-	createObjectFunctions_[kCreateObjectIndexBlock].second = ObjectFactory::CreateObjectGround;
+	createObjectFunctions_[kCreateObjectIndexBlock].second = ObjectFactory::CreateObjectBlock;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)

@@ -8,7 +8,7 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 10;
+	static const size_t kNumOnece_ = 5;
 
 
 public: // static関数
@@ -48,6 +48,11 @@ public: // ベースのメンバ関数
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
+
+	/// <summary>
+	/// コライダー更新
+	/// </summary>
+	void ColliderUpdate();
 
 private: // ステート処理
 
