@@ -8,8 +8,9 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 10;
+	static const size_t kNumOnece_ = 5;
 
+	static const float kSize_;
 
 public: // static関数
 

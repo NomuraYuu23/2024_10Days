@@ -3,7 +3,7 @@
 #include "../../Character/Player/Player.h"
 
 #include <variant>
-
+const float Block::kSize_ = 2.0f;
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
@@ -11,7 +11,7 @@ LevelData::MeshData Block::BlockCreate() {
 	data.name = "Block" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
-		1.0f,1.0f,1.0f,
+		kSize_,kSize_,kSize_,
 		0.0f,0.0f,0.0f,
 		0.0f,0.0f,0.0f
 	};
@@ -74,6 +74,7 @@ void Block::ColliderUpdate()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.size_ = worldTransform_.transform_.scale;
 	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 
 	ColliderShape* colliderShape = new ColliderShape();
