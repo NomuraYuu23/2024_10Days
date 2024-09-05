@@ -5,6 +5,20 @@ class Block :
     public BaseObstacle
 {
 
+public: // パラメータ
+
+	//一辺の数
+	static const size_t kNumOnece_ = 5;
+
+
+public: // static関数
+
+	/// <summary>
+	/// ブロックデータの生成
+	/// </summary>
+	/// <returns></returns>
+	static LevelData::MeshData BlockCreate();
+
 public: // ベースのメンバ関数
 
 	/// <summary>
@@ -26,7 +40,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
-	void ImGuiDraw() override;
+	//void ImGuiDraw() override;
 
 	/// <summary>
 	/// 衝突処理
@@ -34,6 +48,28 @@ public: // ベースのメンバ関数
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
+
+	/// <summary>
+	/// コライダー更新
+	/// </summary>
+	void ColliderUpdate();
+
+private: // ステート処理
+
+	/// <summary>
+	/// 待機状態
+	/// </summary>
+	void Idle();
+
+	/// <summary>
+	/// 移動状態
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// 移動開始
+	/// </summary>
+	void MoveStart();
 
 private: // パーツ,アニメーション変数
 
@@ -49,6 +85,22 @@ private: // パーツ,アニメーション変数
 	// ローカル行列
 	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
+	//ステート
+	std::function<void(void)> state_;
 
+	//移動フラグ
+	bool isMove_ = false;
+
+	//プレイヤーが触れているか
+	bool isCollision_ = false;
+
+	//高さ(f:下 t:上)
+	bool hight_ = false;
+
+	//カウント用
+	size_t countUp_=0;
+
+	//仮パラメータ
+	size_t moveAnimationLength_ = 60;
 };
 

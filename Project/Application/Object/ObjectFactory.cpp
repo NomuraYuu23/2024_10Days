@@ -3,6 +3,7 @@
 
 #include "../Object/Obstacle/Ground/Ground.h"
 #include "../Object/Character/Player/Player.h"
+#include "../Object/Obstacle/Block/Block.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -31,6 +32,8 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 	createObjectFunctions_[kCreateObjectIndexPlayer].first = "Player";
 	createObjectFunctions_[kCreateObjectIndexPlayer].second = ObjectFactory::CreateObjectPlayer;
 
+	createObjectFunctions_[kCreateObjectIndexBlock].first = "Block";
+	createObjectFunctions_[kCreateObjectIndexBlock].second = ObjectFactory::CreateObjectBlock;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -72,5 +75,14 @@ IObject* ObjectFactory::CreateObjectPlayer(LevelData::ObjectData& objectData)
 	IObject* object = new Player();
 	// 初期化
 	static_cast<Player*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBlock(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Block();
+	// 初期化
+	static_cast<Block*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }
