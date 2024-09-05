@@ -21,7 +21,7 @@ void GameCamera::Initialize()
 	rotateRate_ = 0.1f;
 
 	// オフセット距離
-	offsetLength_ = -10.0f;
+	offsetLength_ = -50.0f;
 
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
