@@ -58,7 +58,7 @@ void PlayerStateRoot::Move(Vector3& move, WorldTransform* worldTransform, float 
 	move = Vector3::Multiply(speed, Vector3::Normalize(move));
 
 	// カメラの角度から回転行列を計算する
-	Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(camera->GetRotate());
+	Matrix4x4 rotateMatrix = camera->GetRotateMatrix();
 
 	// 移動ベクトルをカメラの角度だけ回転する
 	move = Matrix4x4::TransformNormal(move, rotateMatrix);

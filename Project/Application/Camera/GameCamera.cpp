@@ -29,6 +29,9 @@ void GameCamera::Initialize()
 	// 方向
 	direction_ = { 0.0f,0.0f,1.0f };
 
+	// 回転行列
+	rotateMatrix_ = Matrix4x4::MakeIdentity4x4();
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -62,12 +65,17 @@ void GameCamera::Update(float elapsedTime)
 	// 回転
 
 	//カメラからステージで目指す方向取得
-	Vector3 stagFromCamera = Vector3::Normalize(stageCenter_ - transform_.translate);
 
-	//現在の方向から目指す方向で補間
-	direction_.x = Math::LerpShortAngle(direction_.x, stagFromCamera.x, rotateRate_);
-	direction_.y = Math::LerpShortAngle(direction_.y, stagFromCamera.y, rotateRate_);
-	direction_.z = Math::LerpShortAngle(direction_.z, stagFromCamera.z, rotateRate_);
+	Vector3 pos = transform_.translate;
+	pos.y = stageCenter_.y;
+	Vector3 stagFromCamera = Vector3::Normalize(stageCenter_ - pos);
+
+	////現在の方向から目指す方向で補間
+	direction_.x = Ease::Easing(Ease::EaseName::Lerp, direction_.x, stagFromCamera.x, rotateRate_);
+	direction_.y = stagFromCamera.y;
+	direction_.z = Ease::Easing(Ease::EaseName::Lerp, direction_.z, stagFromCamera.z, rotateRate_);
+	//direction_ = Ease::Easing(Ease::EaseName::Lerp, direction_, stagFromCamera, rotateRate_);
+	direction_ = stagFromCamera;
 
 	// ズーム
 	Zoom(elapsedTime);
@@ -79,9 +87,9 @@ void GameCamera::Update(float elapsedTime)
 
 	// マッピング
 	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(transform_.scale);
-	Matrix4x4 rotateMatrix = Matrix4x4::DirectionToDirection(Vector3{0.0f,0.0f,1.0f}, direction_);
+	rotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{0.0f,0.0f,1.0f}, direction_);
 	Matrix4x4 translateMatrix = Matrix4x4::MakeTranslateMatrix(transform_.translate + shakeAddPosition_);
-	transformMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix, translateMatrix));;
+	transformMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix_, translateMatrix));;
 
 	viewMatrix_ = Matrix4x4::Inverse(transformMatrix_);
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);

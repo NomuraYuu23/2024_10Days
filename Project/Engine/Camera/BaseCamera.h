@@ -95,6 +95,12 @@ public:
 	void SetZoomT(float zoomT) { zoomT_ = zoomT; }
 
 	/// <summary>
+	/// 回転行列取得
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 GetRotateMatrix() { return rotateMatrix_; }
+
+	/// <summary>
 	/// シェイク開始
 	/// </summary>
 	/// <param name="shakeSize">シェイク大きさ</param>
@@ -170,6 +176,9 @@ protected: // 変数
 	float targetFovY_;
 	// ズームの補間係数
 	float zoomT_;
+
+	// 回転行列
+	Matrix4x4 rotateMatrix_{};
 
 };
 

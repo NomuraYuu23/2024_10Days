@@ -127,13 +127,13 @@ void GameScene::Update() {
 
 	objectManager_->Update();
 
-	// デバッグカメラ
-	DebugCameraUpdate();
-
 	// カメラ
 	gameCamera_->Update();
 
 	camera_ = static_cast<BaseCamera>(*gameCamera_.get());
+
+	// デバッグカメラ
+	DebugCameraUpdate();
 
 	// あたり判定
 	collisionManager_->ListClear();
