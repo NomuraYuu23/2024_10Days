@@ -249,7 +249,24 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 
 	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
 
-	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*obstacle->GetCollider()));
+	OBB* myOBB = &std::get<OBB>(*collider_);
+	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());
+
+	float myY = myOBB->center_.y - myOBB->size_.y;
+	float partnerY = partnerOBB->center_.y + partnerOBB->size_.y;
+
+	if (partnerY - myY <= fabsf(Gravity::Execute().y) + 0.01f) {
+		
+		worldTransform_.transform_.translate.y += partnerY - myY;
+		worldTransform_.UpdateMatrix();
+		// コライダー
+		ColliderUpdate();
+
+		return;
+
+	}
+
+	Vector3 extrusion = Extrusion::OBBAndOBB(myOBB, partnerOBB);
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();
