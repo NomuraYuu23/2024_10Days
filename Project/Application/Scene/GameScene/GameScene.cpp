@@ -65,16 +65,6 @@ void GameScene::Initialize() {
 		pointLightDatas_[i].decay = 10.0f;
 		pointLightDatas_[i].used = false;
 	}
-
-	pointLightDatas_[0].color = { 1.0f,1.0f,1.0f,1.0f };
-	pointLightDatas_[0].position = { 0.0f, 0.0f, 0.0f };
-	pointLightDatas_[0].intencity = 1.0f;
-	pointLightDatas_[0].radius = 50.0f;
-	pointLightDatas_[0].decay = 10.0f;
-	pointLightDatas_[0].used = true;
-
-	pointLightManager_->Update(pointLightDatas_);
-
 	spotLightManager_ = std::make_unique<SpotLightManager>();
 	spotLightManager_->Initialize();
 	for (size_t i = 0; i < spotLightDatas_.size(); ++i) {
@@ -97,6 +87,9 @@ void GameScene::Initialize() {
 	camera_.SetTransform(cameraTransform);
 	camera_.Update();
 
+	collisionManager_.reset(new CollisionManager);
+	collisionManager_->Initialize();
+
 	// ここからオブジェクト生成
 	LevelData::ObjectData data;
 
@@ -114,10 +107,28 @@ void GameScene::Initialize() {
 /// </summary>
 void GameScene::Update() {
 
+#ifdef _DEMO
+
+	// デバッグ用 クリアシーンへ
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonBACK)) {
+		// 行きたいシーンへ
+		requestSceneNo_ = kClear;
+	}
+
+#endif // _DEMO
+
+
 	objectManager_->Update();
 
 	// デバッグカメラ
 	DebugCameraUpdate();
+
+	// あたり判定
+	collisionManager_->ListClear();
+
+	objectManager_->CollisionListRegister(collisionManager_.get());
+
+	collisionManager_->CheakAllCollision();
 
 	ImguiDraw();
 
@@ -144,6 +155,12 @@ void GameScene::Draw() {
 	objectManager_->Draw(camera_, drawLine_);
 
 	ModelDraw::PostDraw();
+
+#pragma endregion
+
+#pragma region 線描画
+
+	drawLine_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion
 

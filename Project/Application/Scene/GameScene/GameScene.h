@@ -78,4 +78,7 @@ private:
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
 
+	// 衝突マネージャー
+	std::unique_ptr<CollisionManager> collisionManager_;
+
 };

@@ -41,7 +41,7 @@ void ClearScene::Initialize()
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLightData.direction = { 0.0f, -1.0f, 0.0f };
-	directionalLightData.intencity = 0.0f;
+	directionalLightData.intencity = 1.0f;
 
 	directionalLight_->Update(directionalLightData);
 
@@ -56,15 +56,6 @@ void ClearScene::Initialize()
 		pointLightDatas_[i].decay = 10.0f;
 		pointLightDatas_[i].used = false;
 	}
-
-	pointLightDatas_[0].color = { 0.93f, 0.47f, 0.0f, 1.0f };
-	pointLightDatas_[0].position = { 0.0f, 0.0f, 0.0f };
-	pointLightDatas_[0].intencity = 1.0f;
-	pointLightDatas_[0].radius = 50.0f;
-	pointLightDatas_[0].decay = 10.0f;
-	pointLightDatas_[0].used = true;
-
-	pointLightManager_->Update(pointLightDatas_);
 
 	spotLightManager_ = std::make_unique<SpotLightManager>();
 	spotLightManager_->Initialize();
@@ -95,10 +86,15 @@ void ClearScene::Initialize()
 void ClearScene::Update()
 {
 
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
+#ifdef _DEMO
+
+	// デバッグ用 ゲームシーンへ
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonBACK)) {
 		// 行きたいシーンへ
-		requestSceneNo_ = kTutorial;
+		requestSceneNo_ = kGame;
 	}
+
+#endif // _DEMO
 
 	objectManager_->Update();
 
@@ -128,6 +124,12 @@ void ClearScene::Draw()
 	objectManager_->Draw(camera_, drawLine_);
 
 	ModelDraw::PostDraw();
+
+#pragma endregion
+
+#pragma region 線描画
+
+	drawLine_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion
 
