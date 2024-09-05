@@ -5,6 +5,14 @@ class Block :
     public BaseObstacle
 {
 
+public: // static関数
+
+	/// <summary>
+	/// ブロックデータの生成
+	/// </summary>
+	/// <returns></returns>
+	static LevelData::MeshData BlockCreate();
+
 public: // ベースのメンバ関数
 
 	/// <summary>
@@ -34,6 +42,8 @@ public: // ベースのメンバ関数
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
+
+private: // ステート処理
 
 	/// <summary>
 	/// 待機状態

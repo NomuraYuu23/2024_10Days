@@ -1,5 +1,35 @@
 #include "Block.h"
 #include "../../../Engine/Math/Ease.h"
+
+LevelData::MeshData Block::BlockCreate() {
+	LevelData::MeshData data;
+
+	// 名前
+	data.name = "Block";
+	// トランスフォーム
+	data.transform = {
+		1.0f,1.0f,1.0f,
+		0.0f,0.0f,0.0f,
+		0.0f,0.0f,0.0f
+	};
+
+	// ファイルの名前
+	data.flieName = "block.obj";
+	// ディレクトリパス
+	data.directoryPath = "Resources/Model/FloatBlock/";
+	// クラスの名前
+	data.className = "Block";
+	// 親の名前
+	data.parentName = "";
+
+	// コライダー(一時的なもの、親部分はヌルにしとく)
+	OBB obb;
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,1.0f,1.0f }, static_cast<Null*>(nullptr));
+	data.collider = obb;
+
+	return data;
+}
+
 void Block::Initialize(LevelData::MeshData* data)
 {
 

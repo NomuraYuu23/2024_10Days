@@ -2,6 +2,7 @@
 #include "../../Engine/Object/MeshObject.h"
 
 #include "../Object/Obstacle/Ground/Ground.h"
+#include "../Object/Obstacle/Block/Block.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -27,6 +28,8 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 	createObjectFunctions_[kCreateObjectIndexGround].first = "Ground";
 	createObjectFunctions_[kCreateObjectIndexGround].second = ObjectFactory::CreateObjectGround;
 
+	createObjectFunctions_[kCreateObjectIndexBlock].first = "Block";
+	createObjectFunctions_[kCreateObjectIndexBlock].second = ObjectFactory::CreateObjectGround;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -59,5 +62,14 @@ IObject* ObjectFactory::CreateObjectGround(LevelData::ObjectData& objectData)
 	IObject* object = new Ground();
 	// 初期化
 	static_cast<Ground*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBlock(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Block();
+	// 初期化
+	static_cast<Block*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

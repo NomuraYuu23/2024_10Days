@@ -11,6 +11,7 @@ public: // サブクラス,定数
 
 	enum CreateObjectIndex {
 		kCreateObjectIndexGround, // 地面
+		kCreateObjectIndexBlock,//ブロック
 		kCreateObjectIndexOfCount, // 数数える用
 	};
 
@@ -52,6 +53,13 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectGround(LevelData::ObjectData& objectData);
+
+	/// <summary>
+	/// ブロック
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectBlock(LevelData::ObjectData& objectData);
 
 private:
 
