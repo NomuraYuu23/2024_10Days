@@ -225,7 +225,9 @@ void Player::ColliderUpdate()
 
 	*colliderShape = obb;
 
-	collider_.reset(colliderShape);
+	//collider_.reset(colliderShape);
+
+	collider_->swap(*colliderShape);
 
 }
 
@@ -251,5 +253,6 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();
-
+	// コライダー
+	ColliderUpdate();
 }
