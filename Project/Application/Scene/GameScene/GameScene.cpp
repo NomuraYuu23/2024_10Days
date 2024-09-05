@@ -12,6 +12,7 @@
 #include "../../Object/ObjectFactory.h"
 
 #include "../../Object/Character/Player/Player.h"
+#include "../../Object/Obstacle/Block/Block.h"
 
 GameScene::~GameScene()
 {
@@ -97,6 +98,8 @@ void GameScene::Initialize() {
 	objectManager_->AddObject(data);
 	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 	player->SetCamera(&camera_);
+
+	CreateBlocks();
 
 	IScene::InitilaizeCheck();
 
@@ -247,4 +250,19 @@ void GameScene::LowerVolumeBGM()
 	//	}
 	//}
 
+}
+
+void GameScene::CreateBlocks() {
+	LevelData::ObjectData data;
+	
+	for (size_t z = 0; z < Block::kNumOnece_; z++) {
+		for (size_t x = 0; x < Block::kNumOnece_;x++) {
+			data = Block::BlockCreate();
+			LevelData::MeshData &block = std::get<LevelData::MeshData>(data);
+			block.transform.translate.x = (float(x) - float(Block::kNumOnece_) * 0.5f)*2.0f;
+			block.transform.translate.z = (float(z) - float(Block::kNumOnece_) * 0.5f)*2.0f;
+			block.transform.translate.y = -2.0f;
+			objectManager_->AddObject(data);
+		}
+	}
 }

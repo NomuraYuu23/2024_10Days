@@ -69,6 +69,11 @@ private:
 	/// </summary>
 	void LowerVolumeBGM();
 
+	/// <summary>
+	/// ブロック初期配置
+	/// </summary>
+	void CreateBlocks();
+
 private:
 
 	// オーディオマネージャー
