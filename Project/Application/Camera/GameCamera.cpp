@@ -30,7 +30,7 @@ void GameCamera::Initialize()
 	rotateRate_ = 0.1f;
 
 	// オフセット距離
-	offsetLength_ = -50.0f;
+	offsetLength_ = -70.0f;
 
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
@@ -49,24 +49,16 @@ void GameCamera::Update(float elapsedTime)
 	ApplyGlobalVariables();
 #endif // _DEBUG
 
-	// スティック入力で角度を変更処理
-
 	const float RotateSpeed = 0.05f;
 
 	// カメラから見てプレイヤーが右か左か
 	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
 	Vector2 toCenter = { stageCenter_.x - transform_.translate.x, stageCenter_.z - transform_.translate.z };
 	Vector2 toPlayer = { playerPos.x - transform_.translate.x, playerPos.z - transform_.translate.z };
-
 	float cross = Vector2::Cross(toCenter, toPlayer);
-
 	float dir = 0.0f;
 
-	if (fabsf(cross) <= 0.2f) {
-		//transform_.rotate.y = destinationAngleY_;
-		//transform_.rotate.x = destinationAngleX_;
-	}
-	else {
+	if (fabsf(cross) >= 0.5f) {
 		if (cross != 0.0f) {
 			if (cross < 0.0f) {
 				dir = -1.0f;
@@ -79,8 +71,10 @@ void GameCamera::Update(float elapsedTime)
 		destinationAngleY_ += dir * RotateSpeed;
 
 		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
-		transform_.rotate.x = destinationAngleX_;
 	}
+
+	//X
+	transform_.rotate.x = destinationAngleX_;
 
 	// 追従対象がいれば
 	// 追従座標の補間
@@ -116,8 +110,27 @@ Vector3 GameCamera::OffsetCalc() const
 
 void GameCamera::ApplyGlobalVariables()
 {
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "GameCamera";
+
+	moveRate_ = globalVariables->GetFloatValue(groupName, "moveRate");
+	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
+	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
+	offsetHeight_ = globalVariables->GetFloatValue(groupName, "offsetHeight");
+
 }
 
 void GameCamera::RegistrationGlobalVariables()
 {
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "GameCamera";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "moveRate", moveRate_);
+	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
+	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
+	globalVariables->AddItem(groupName, "offsetHeight", offsetHeight_);
+
 }
