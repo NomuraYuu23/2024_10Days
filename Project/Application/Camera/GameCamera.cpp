@@ -74,7 +74,23 @@ void GameCamera::Update(float elapsedTime)
 	}
 
 	//X
-	transform_.rotate.x = destinationAngleX_;
+	
+	// プレイヤーの高さ確認
+	float destinationAngleXAdd = 0.0f;
+	float fieldDown = 0.0f;
+	float fieldTop= 16.0f;
+
+
+	float a = playerPos.y - fieldDown; // 分子
+	float b = fieldTop - fieldDown;// 分母
+
+	float c = a / b;
+	c = std::fmaxf(c, 0.0f);
+	c = std::fminf(c, 1.0f);
+
+	destinationAngleXAdd = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, c);
+
+	transform_.rotate.x = destinationAngleX_ + destinationAngleXAdd;
 
 	// 追従対象がいれば
 	// 追従座標の補間
