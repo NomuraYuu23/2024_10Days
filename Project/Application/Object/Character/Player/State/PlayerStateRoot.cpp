@@ -9,7 +9,7 @@ void PlayerStateRoot::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerMotionNo_ = kPlayerMotionWait;
+	playerMotionNo_ = kPlayerMotionRun;
 
 	playerStateNo_ = kPlayerStateRoot;
 
@@ -33,7 +33,8 @@ void PlayerStateRoot::Update()
 		Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 		if (Vector3::Length(move) > kThresholdRunning) {
 			//ランニング
-			Move(move, worldTransform, player_->GetRunningSpeed());
+			Move(move, worldTransform, player_->GetRunningSpeed()); 
+			playerMotionNo_ = kPlayerMotionRun;
 		}
 		else {
 			playerMotionNo_ = kPlayerMotionWait;

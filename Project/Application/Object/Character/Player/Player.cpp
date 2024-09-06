@@ -22,7 +22,7 @@ LevelData::MeshData Player::PlayerCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "PlayerMove.gltf";
+	data.flieName = "Player.gltf";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Player/";
 	// クラスの名前
