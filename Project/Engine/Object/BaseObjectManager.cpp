@@ -79,7 +79,17 @@ void BaseObjectManager::ParticleDraw(BaseCamera& camera)
 void BaseObjectManager::ImGuiDraw()
 {
 
+#ifdef _DEMO
+
 	colliderDebugDraw_->ImGuiDraw();
+
+	for (std::list<ObjectPair>::iterator it = objects_.begin();
+		it != objects_.end(); ++it) {
+		it->second->ImGuiDraw();
+	}
+
+#endif // _DEMO
+
 
 }
 

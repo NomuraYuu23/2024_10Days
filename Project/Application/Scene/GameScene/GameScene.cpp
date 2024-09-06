@@ -204,7 +204,7 @@ void GameScene::DebugCameraUpdate()
 {
 
 #ifdef _DEMO
-	if (input_->TriggerKey(DIK_RETURN)) {
+	if (input_->TriggerKey(DIK_RSHIFT)) {
 		if (isDebugCameraActive_) {
 			isDebugCameraActive_ = false;
 		}

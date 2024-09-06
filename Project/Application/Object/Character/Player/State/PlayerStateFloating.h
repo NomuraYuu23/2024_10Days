@@ -2,7 +2,7 @@
 #include "IPlayerState.h"
 #include "../../../../../Engine/3D/WorldTransform.h"
 
-class PlayerStateRoot :
+class PlayerStateFloating :
     public IPlayerState
 {
 

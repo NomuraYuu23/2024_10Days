@@ -4,6 +4,7 @@
 #include "../../Obstacle/BaseObstacle.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
+#include "../../../../externals/imgui/imgui.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -14,7 +15,7 @@ LevelData::MeshData Player::PlayerCreate()
 	data.name = "Player";
 	// トランスフォーム
 	data.transform = {
-		0.3f,0.3f,0.3f,
+		0.5f,0.5f,0.5f,
 		0.0f,0.0f,0.0f,
 		0.0f,2.0f,0.0f
 	};
@@ -113,7 +114,11 @@ void Player::Update()
 	localMatrixManager_->Map();
 
 	// 重力
-	worldTransform_.transform_.translate += Gravity::Execute();
+	velocity_ += Gravity::Execute();
+	// 速度制限
+	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+	// 位置更新
+	worldTransform_.transform_.translate += velocity_; 
 
 	worldTransform_.UpdateMatrix();
 
@@ -136,12 +141,18 @@ void Player::Draw(BaseCamera& camera)
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
 
-	//MeshObject::Draw(camera);
-
 }
 
 void Player::ImGuiDraw()
 {
+
+	ImGui::Begin("Player");
+	if (ImGui::Button("PositionReset")) {
+		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+	}
+	ImGui::End();
+
+
 }
 
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -253,18 +264,18 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 	float myY = myOBB->center_.y - myOBB->size_.y;
 	float partnerY = partnerOBB->center_.y + partnerOBB->size_.y;
 
+	Vector3 extrusion = {};
+
 	if (partnerY - myY <= fabsf(Gravity::Execute().y) + 0.01f) {
-		
-		worldTransform_.transform_.translate.y += partnerY - myY;
-		worldTransform_.UpdateMatrix();
-		// コライダー
-		ColliderUpdate();
-
-		return;
-
+		extrusion.y = partnerY - myY;
+	}
+	else {
+		extrusion = Extrusion::OBBAndOBB(myOBB, partnerOBB);
 	}
 
-	Vector3 extrusion = Extrusion::OBBAndOBB(myOBB, partnerOBB);
+	if (extrusion.y > 0.0f) {
+		velocity_.y = 0.0f;
+	}
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();

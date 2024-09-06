@@ -47,7 +47,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
-	void ImGuiDraw();
+	void ImGuiDraw() override;
 
 	/// <summary>
 	/// 衝突処理
@@ -150,6 +150,9 @@ private: //	変数
 	// カメラ
 	BaseCamera* camera_ = nullptr;
 
+	// 速度
+	Vector3 velocity_ = {};
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -171,6 +174,10 @@ public: // アクセッサ
 	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
 
 	void SetHP(uint32_t hp) { hp_ = hp; }
+
+	Vector3 GetVelocity() { return velocity_; }
+	
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 
 };
 

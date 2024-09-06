@@ -8,7 +8,7 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 6;
+	static const size_t kNumOnece_ = 8;
 
 	static const float kSize_;
 
@@ -106,5 +106,8 @@ private: // パーツ,アニメーション変数
 
 	//初期位置
 	Vector3 initialPosition_{};
+
+	//浮き沈みの高さ
+	float floatHight_ = 16.0f;
 };
 
