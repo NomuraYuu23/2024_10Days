@@ -38,6 +38,19 @@ public: // ベースのメンバ関数
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(BaseCamera& camera) override;
 
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager) override;
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
@@ -99,6 +112,9 @@ private: // パーツ,アニメーション変数
 	//ステート
 	std::function<void(void)> state_;
 
+	//衝撃波用コライダー
+	std::unique_ptr<ColliderShape> shockWaveCollider_;
+
 	//フラグ
 	bool isMove_ = false;
 	bool isAttack_ = false;
@@ -125,5 +141,12 @@ private: // パーツ,アニメーション変数
 	//攻撃時のブロックの浮き
 	float attackFloatStrength_ = 3.0f;
 
+	//枯れた色
+	Vector3 blownColor_ = {200.0f/255.0f,160.0f/255.0f,300.0f/255.0f};
+
+	//色の変化の長さ
+	static const size_t colorLength_ = 180;
+	//色の変化
+	size_t colorCount_ = 0;
 };
 

@@ -65,7 +65,41 @@ void Block::Update() {
 	state_();
 	isCollision_ = false;
 
+	//色変更
+	colorCount_++;
+	float t = float(colorCount_) / float(colorLength_);
+	Vector3 color = Ease::Easing(Ease::EaseName::Lerp,{1.0f,1.0f,1.0f}, blownColor_, t);
+	material_->SetColor({ color.x,color.y,color.z,1.0f });
+	if (colorCount_ > colorLength_) {
+		colorCount_ = colorLength_;
+	}
+
 	ColliderUpdate();
+}
+
+
+void Block::CollisionListRegister(CollisionManager* collisionManager)
+{
+	BaseObstacle::CollisionListRegister(collisionManager);
+	if (1) {
+		return;
+	}
+
+	collisionManager->ListRegister(shockWaveCollider_.get());
+
+}
+
+void Block::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+	BaseObstacle::CollisionListRegister(collisionManager, colliderDebugDraw);
+	if (1) {
+		return;
+	}
+
+	collisionManager->ListRegister(shockWaveCollider_.get());
+
+	colliderDebugDraw->AddCollider(*shockWaveCollider_.get());
+
 }
 
 void Block::ColliderUpdate()
@@ -94,6 +128,7 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 	if ( !isAttack_ && std::holds_alternative<Player*>(colliderPartner)) {
 		float velocity = std::get<Player*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition().y - worldTransform_.GetWorldPosition().y;
 		if (velocity > 0) {//プレイヤーが上からぶつかったら移動
+			colorCount_ = 0;
 			isCollision_ = true;
 			isMove_ = true;
 		}
