@@ -300,7 +300,7 @@ void Player::ApplyGlobalVariables()
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "Player";
 	
-	initHp_ = globalVariables->GetUIntValue(groupName, "initHp");
+	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
 
 }
@@ -312,7 +312,7 @@ void Player::RegistrationGlobalVariables()
 	const char* groupName = "Player";
 
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
-	globalVariables->AddItem(groupName, "initHp", initHp_);
+	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 
 }

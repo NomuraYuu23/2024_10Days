@@ -34,7 +34,14 @@ private: // メンバ変数
 	float targetAngleT_;
 
 	// ジャンプ初速
-	float jumpInitialSpeed_ = 2.0f;
+	float jumpInitialSpeed_ = 3.0f;
+
+	// ジャンプしてからの時間
+
+	// チェックポイント1
+
+	// チェックポイント2
+
 
 };
 
