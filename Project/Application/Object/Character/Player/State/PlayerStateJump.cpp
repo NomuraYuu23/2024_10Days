@@ -10,7 +10,7 @@ void PlayerStateJump::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerMotionNo_ = kPlayerMotionWait;
+	playerMotionNo_ = kPlayerMotionJump;
 
 	playerStateNo_ = kPlayerStateJump;
 

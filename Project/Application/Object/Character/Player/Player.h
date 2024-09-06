@@ -11,6 +11,7 @@
 enum PlayerMotionIndex {
 	kPlayerMotionRun, // 走行時
 	kPlayerMotionWait, // 通常時
+	kPlayerMotionJump, // ジャンプ時
 	kPlayerMotionIndexOfCount // 数
 };
 

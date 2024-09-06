@@ -29,9 +29,9 @@ uint32_t PlayerCommand::Command()
 		resultState = PlayerState::kPlayerStateJump;
 	}
 
-	if (player_->GetVelocity().y <= Gravity::Execute().y * 2.0f) {
-		resultState = PlayerState::kPlayerStateFloating;
-	}
+	//if (player_->GetVelocity().y <= Gravity::Execute().y * 2.0f) {
+	//	resultState = PlayerState::kPlayerStateFloating;
+	//}
 
 	return resultState;
 
