@@ -35,6 +35,15 @@ void GameCamera::Initialize()
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
 
+	// 目指すアングルX高さ加算用最大値
+	destinationAngleXAddMax_ = 0.1f;
+
+	// アングル変更用の位置下
+	fieldDown_ = -2.0f;
+
+	// アングル変更用の位置上
+	fieldTop_ = 10.0f;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -77,18 +86,15 @@ void GameCamera::Update(float elapsedTime)
 	
 	// プレイヤーの高さ確認
 	float destinationAngleXAdd = 0.0f;
-	float fieldDown = 0.0f;
-	float fieldTop= 16.0f;
 
+	float addRateNumerator = playerPos.y - fieldDown_; // 分子
+	float addRateDenominator = fieldTop_ - fieldDown_;// 分母
 
-	float a = playerPos.y - fieldDown; // 分子
-	float b = fieldTop - fieldDown;// 分母
+	float addRate = addRateNumerator / addRateDenominator;
+	addRate = std::fmaxf(addRate, 0.0f);
+	addRate = std::fminf(addRate, 1.0f);
 
-	float c = a / b;
-	c = std::fmaxf(c, 0.0f);
-	c = std::fminf(c, 1.0f);
-
-	destinationAngleXAdd = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, c);
+	destinationAngleXAdd = Ease::Easing(Ease::EaseName::Lerp, 0.0f, destinationAngleXAddMax_, addRate);
 
 	transform_.rotate.x = destinationAngleX_ + destinationAngleXAdd;
 
@@ -135,6 +141,9 @@ void GameCamera::ApplyGlobalVariables()
 	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
 	offsetHeight_ = globalVariables->GetFloatValue(groupName, "offsetHeight");
 	destinationAngleX_ = globalVariables->GetFloatValue(groupName, "destinationAngleX");
+	destinationAngleXAddMax_ = globalVariables->GetFloatValue(groupName, "destinationAngleXAddMax");
+	fieldDown_ = globalVariables->GetFloatValue(groupName, "fieldDown");
+	fieldTop_ = globalVariables->GetFloatValue(groupName, "fieldTop");
 
 }
 
@@ -150,5 +159,8 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
 	globalVariables->AddItem(groupName, "offsetHeight", offsetHeight_);
 	globalVariables->AddItem(groupName, "destinationAngleX", destinationAngleX_);
+	globalVariables->AddItem(groupName, "destinationAngleXAddMax", destinationAngleXAddMax_);
+	globalVariables->AddItem(groupName, "fieldDown", fieldDown_);
+	globalVariables->AddItem(groupName, "fieldTop", fieldTop_);
 
 }
