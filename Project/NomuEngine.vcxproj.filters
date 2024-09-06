@@ -388,6 +388,9 @@
     <Filter Include="Application\Object\Character\Player\State\Floating">
       <UniqueIdentifier>{0b7e9dd5-c48f-4f18-9b2f-817b9b8c69af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Character\Player\Horn">
+      <UniqueIdentifier>{45e1a89e-d053-4f73-bd64-752471edcd94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -848,6 +851,9 @@
       <Filter>Application\Object\Character\Player\State\Jump</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\Horn\PlayerHorn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1465,6 +1471,9 @@
       <Filter>Application\Object\Character\Player\State\Jump</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\Horn\PlayerHorn.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
