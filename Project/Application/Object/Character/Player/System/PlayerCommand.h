@@ -1,6 +1,9 @@
 #pragma once
 #include <cstdint>
 #include "../../../../../Engine/Input/Input.h"
+
+class Player;
+
 class PlayerCommand
 {
 
@@ -17,7 +20,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	/// <param name="player">プレイヤー</param>
+	void Initialize(Player* player);
 
 	/// <summary>
 	/// コマンド
@@ -28,6 +32,8 @@ public:
 private:
 
 	static Input* input_;
+
+	static Player* player_;
 
 private:
 	PlayerCommand() = default;

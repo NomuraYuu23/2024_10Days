@@ -69,7 +69,7 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
-	playerCommand_->Initialize();
+	playerCommand_->Initialize(this);
 
 	// コマンドを受け取るか
 	receiveCommand_ = true;
