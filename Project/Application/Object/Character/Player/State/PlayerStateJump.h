@@ -34,14 +34,14 @@ private: // メンバ変数
 	float targetAngleT_;
 
 	// ジャンプ初速
-	float jumpInitialSpeed_ = 3.0f;
+	float jumpInitialSpeed_ = 2.0f;
 
 	// ジャンプしてからの時間
+	float jumpElapsedTime_ = 0.0f;
 
 	// チェックポイント1
-
-	// チェックポイント2
-
+	float checkpoint1_ = 0.0f;
+	bool checkpoint1Flg_ = false;
 
 };
 
