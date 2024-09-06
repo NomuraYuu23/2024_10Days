@@ -68,6 +68,9 @@ private:
 	// オフセット高さ
 	float offsetHeight_ = 3.0f;
 
+	// オフセットサイド
+	float offsetSide_ = 3.0f;
+
 	// 目指すアングルX高さ加算用最大値
 	float destinationAngleXAddMax_ = 0.0f;
 	

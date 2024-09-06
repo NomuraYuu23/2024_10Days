@@ -35,6 +35,9 @@ void GameCamera::Initialize()
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
 
+	// オフセットサイド
+	offsetSide_ = 3.0f;
+
 	// 目指すアングルX高さ加算用最大値
 	destinationAngleXAddMax_ = 0.1f;
 
@@ -116,7 +119,7 @@ Vector3 GameCamera::OffsetCalc() const
 {
 
 	//追従対象からカメラまでのオフセット
-	Vector3 offset = { 0.0f, offsetHeight_, offsetLength_ };
+	Vector3 offset = { offsetSide_, offsetHeight_, offsetLength_ };
 
 	Matrix4x4 rotateMatrix;
 
@@ -140,6 +143,7 @@ void GameCamera::ApplyGlobalVariables()
 	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
 	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
 	offsetHeight_ = globalVariables->GetFloatValue(groupName, "offsetHeight");
+	offsetSide_ = globalVariables->GetFloatValue(groupName, "offsetSide");
 	destinationAngleX_ = globalVariables->GetFloatValue(groupName, "destinationAngleX");
 	destinationAngleXAddMax_ = globalVariables->GetFloatValue(groupName, "destinationAngleXAddMax");
 	fieldDown_ = globalVariables->GetFloatValue(groupName, "fieldDown");
@@ -158,6 +162,7 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
 	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
 	globalVariables->AddItem(groupName, "offsetHeight", offsetHeight_);
+	globalVariables->AddItem(groupName, "offsetSide", offsetSide_);
 	globalVariables->AddItem(groupName, "destinationAngleX", destinationAngleX_);
 	globalVariables->AddItem(groupName, "destinationAngleXAddMax", destinationAngleXAddMax_);
 	globalVariables->AddItem(groupName, "fieldDown", fieldDown_);
