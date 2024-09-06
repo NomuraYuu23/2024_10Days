@@ -15,7 +15,7 @@ void PlayerStateJump::Initialize()
 	playerStateNo_ = kPlayerStateJump;
 
 	// ジャンプ初速
-	jumpInitialSpeed_ = 1.2f;
+	jumpInitialSpeed_ = 1.4f;
 
 	player_->SetVelocity(Vector3{0.0f, jumpInitialSpeed_ , 0.0f});
 
