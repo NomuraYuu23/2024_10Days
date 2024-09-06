@@ -3,7 +3,7 @@
 #include "../../Character/Player/Player.h"
 
 #include <variant>
-const float Block::kSize_ = 2.0f;
+const float Block::kSize_ = 3.0f;
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
@@ -90,10 +90,18 @@ void Block::Draw(BaseCamera& camera) {
 }
 
 void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) {
-	if (std::holds_alternative<Player*>(colliderPartner)) {
-		//衝突相手がプレイヤーだったら移動フラグをたてる
-		isCollision_ = true;
-		isMove_ = true;
+	//待機状態かつプレイヤーとぶつかったら
+	if ( !isAttack_ && std::holds_alternative<Player*>(colliderPartner)) {
+		float velocity = std::get<Player*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition().y - worldTransform_.GetWorldPosition().y;
+		if (velocity > 0) {//プレイヤーが上からぶつかったら移動
+			isCollision_ = true;
+			isMove_ = true;
+		}
+		else if(velocity < 1.0f && !isMove_){//プレイヤーが下からぶつかったら攻撃
+			AttackStart();
+			isMove_ = false;
+		}
+		
 	}
 
 }
@@ -124,6 +132,34 @@ void Block::Move() {
 		isMove_ = false;
 		countUp_ = 0;
 		hight_ = !hight_;
+		state_ = std::bind(&Block::Idle, this);
+		return;
+	}
+	countUp_++;
+}
+
+void Block::AttackStart() {
+	countUp_ = 0;
+	state_ = std::bind(&Block::Attack, this);
+	isAttack_ = true;
+}
+
+void Block::Attack() {
+	//イージングで移動
+	float t = float(countUp_) / float(attackAnimationLength_);
+	worldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::EaseOutQuint, 0, 3.141592f * 2.0f, t);
+	Vector3 to = initialPosition_;
+	Vector3 from = initialPosition_;
+	to.y += float(hight_) * floatHight_ + attackFloatStrength_;
+	from.y += float(hight_) * floatHight_;
+	t = (2.0f * t) - 1.0f;
+	t = -t * -t + 1.0f;
+	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad, from, to, t);
+	//移動終了したら待機状態にもどる
+	if (countUp_ >= attackAnimationLength_) {
+		//worldTransform_.transform_.translate.y = float(hight_) * floatHight_;
+		countUp_ = 0;
+		isAttack_ = false;
 		state_ = std::bind(&Block::Idle, this);
 		return;
 	}
