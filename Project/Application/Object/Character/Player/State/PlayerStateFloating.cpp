@@ -5,8 +5,6 @@
 void PlayerStateFloating::Initialize()
 {
 
-	runningSpeed_ = 0.3f;
-
 	targetDirection_ = { 0.0f, 0.0f, 1.0f };
 
 	targetAngleT_ = 0.1f;
@@ -34,7 +32,7 @@ void PlayerStateFloating::Update()
 		Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 		if (Vector3::Length(move) > kThresholdRunning) {
 			//ランニング
-			Move(move, worldTransform, runningSpeed_);
+			Move(move, worldTransform, player_->GetRunningSpeed());
 		}
 
 		// 角度補間

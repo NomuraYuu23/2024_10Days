@@ -68,5 +68,14 @@ private:
 	// オフセット高さ
 	float offsetHeight_ = 3.0f;
 
+	// 目指すアングルX高さ加算用最大値
+	float destinationAngleXAddMax_ = 0.0f;
+	
+	// アングル変更用の位置下
+	float fieldDown_ = -2.0f;
+
+	// アングル変更用の位置上
+	float fieldTop_ = 10.0f;
+
 };
 

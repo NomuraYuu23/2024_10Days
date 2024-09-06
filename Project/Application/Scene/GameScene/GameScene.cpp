@@ -13,6 +13,7 @@
 
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Obstacle/Block/Block.h"
+#include "../../../Engine/Physics/Gravity.h"
 
 GameScene::~GameScene()
 {
@@ -93,6 +94,8 @@ void GameScene::Initialize() {
 
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
+
+	Gravity::SetPower(2.45f);
 
 	// ここからオブジェクト生成
 	LevelData::ObjectData data;

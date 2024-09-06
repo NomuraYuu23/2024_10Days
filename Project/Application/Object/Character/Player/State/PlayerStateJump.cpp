@@ -1,11 +1,10 @@
 #include "PlayerStateJump.h"
 #include "../Player.h"
 #include "../../../../../Engine/Math/Ease.h"
+#include "../../../../../Engine/Math/DeltaTime.h"
 
 void PlayerStateJump::Initialize()
 {
-
-	runningSpeed_ = 0.3f;
 
 	targetDirection_ = { 0.0f, 0.0f, 1.0f };
 
@@ -15,7 +14,17 @@ void PlayerStateJump::Initialize()
 
 	playerStateNo_ = kPlayerStateJump;
 
+	// ジャンプ初速
+	jumpInitialSpeed_ = 1.2f;
+
 	player_->SetVelocity(Vector3{0.0f, jumpInitialSpeed_ , 0.0f});
+
+	// ジャンプしてからの時間
+	jumpElapsedTime_ = 0.0f;
+
+	// チェックポイント1
+	checkpoint1_ = kDeltaTime_ * 8.0f;
+	checkpoint1Flg_ = false;
 
 }
 
@@ -36,7 +45,7 @@ void PlayerStateJump::Update()
 		Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 		if (Vector3::Length(move) > kThresholdRunning) {
 			//ランニング
-			Move(move, worldTransform, runningSpeed_);
+			Move(move, worldTransform, player_->GetRunningSpeed());
 		}
 
 		// 角度補間
@@ -44,6 +53,17 @@ void PlayerStateJump::Update()
 	}
 
 	player_->SetReceiveCommand(false);
+
+	// 終了確認
+	jumpElapsedTime_ += kDeltaTime_;
+
+	if (!checkpoint1Flg_ && jumpElapsedTime_ > checkpoint1_) {
+		checkpoint1Flg_ = true;
+		if (input_->NoPushJoystick(JoystickButton::kJoystickButtonA)) {
+			playerStateNo_ = kPlayerStateFloating;
+			player_->SetVelocity(Vector3{ 0.0f,0.0f,0.0f });
+		}
+	}
 
 	if (player_->GetVelocity().y <= 0.0f) {
 		playerStateNo_ = kPlayerStateFloating;
