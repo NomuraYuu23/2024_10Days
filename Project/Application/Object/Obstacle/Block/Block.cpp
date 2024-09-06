@@ -3,7 +3,7 @@
 #include "../../Character/Player/Player.h"
 
 #include <variant>
-const float Block::kSize_ = 2.0f;
+const float Block::kSize_ = 3.0f;
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
@@ -147,7 +147,7 @@ void Block::AttackStart() {
 void Block::Attack() {
 	//イージングで移動
 	float t = float(countUp_) / float(attackAnimationLength_);
-	worldTransform_.transform_.rotate.x = 3.141592f*2.0f * t;
+	worldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::EaseOutQuint, 0, 3.141592f * 2.0f, t);
 	Vector3 to = initialPosition_;
 	Vector3 from = initialPosition_;
 	to.y += float(hight_) * floatHight_ + attackFloatStrength_;
