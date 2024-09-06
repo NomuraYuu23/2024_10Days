@@ -139,6 +139,13 @@ private: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+private: // 関数
+
+	/// <summary>
+	/// ポジション修正
+	/// </summary>
+	void PositionLimit();
+
 private: //	変数
 
 	//hp
