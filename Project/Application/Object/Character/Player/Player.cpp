@@ -5,6 +5,7 @@
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
+#include "../../../../Engine/GlobalVariables/GlobalVariables.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -80,8 +81,9 @@ void Player::Initialize(LevelData::MeshData* data)
 	PartInitialize();
 
 	// hp
-	hp_ = 3;
 	initHp_ = 3;
+
+	runningSpeed_ = 0.3f;
 
 	isDead_ = false;
 
@@ -92,10 +94,19 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+	RegistrationGlobalVariables();
+	ApplyGlobalVariables();
+	
+	hp_ = initHp_;
+
 }
 
 void Player::Update()
 {
+
+#ifdef _DEMO
+	ApplyGlobalVariables();
+#endif // _DEBUG
 
 	MeshObject::Update();
 
@@ -281,4 +292,27 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 	worldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
+}
+
+void Player::ApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	
+	initHp_ = globalVariables->GetUIntValue(groupName, "initHp");
+	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
+
+}
+
+void Player::RegistrationGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "initHp", initHp_);
+	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
+
 }

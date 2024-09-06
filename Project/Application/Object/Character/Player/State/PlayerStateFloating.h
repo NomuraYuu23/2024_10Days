@@ -27,9 +27,6 @@ private:
 
 private: // メンバ変数
 
-	// 速度
-	float runningSpeed_;
-
 	// 目指す向き
 	Vector3 targetDirection_;
 

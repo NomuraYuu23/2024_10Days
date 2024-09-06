@@ -153,6 +153,9 @@ private: //	変数
 	// 速度
 	Vector3 velocity_ = {};
 
+	// 速度
+	float runningSpeed_ = 0.3f;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -178,6 +181,20 @@ public: // アクセッサ
 	Vector3 GetVelocity() { return velocity_; }
 	
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+
+	float GetRunningSpeed() { return runningSpeed_; }
+
+private: // グローバル変数
+
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
+
+	/// <summary>
+	/// 調整項目の登録
+	/// </summary>
+	void RegistrationGlobalVariables();
 
 };
 
