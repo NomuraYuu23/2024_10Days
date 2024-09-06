@@ -72,6 +72,16 @@ private: // ステート処理
 	/// </summary>
 	void MoveStart();
 
+	/// <summary>
+	/// 攻撃状態
+	/// </summary>
+	void Attack();
+
+	/// <summary>
+	/// 攻撃開始
+	/// </summary>
+	void AttackStart();
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -89,8 +99,9 @@ private: // パーツ,アニメーション変数
 	//ステート
 	std::function<void(void)> state_;
 
-	//移動フラグ
+	//フラグ
 	bool isMove_ = false;
+	bool isAttack_ = false;
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;
@@ -103,11 +114,15 @@ private: // パーツ,アニメーション変数
 
 	//仮パラメータ
 	size_t moveAnimationLength_ = 60;
+	size_t attackAnimationLength_ = 15;
+
 
 	//初期位置
 	Vector3 initialPosition_{};
 
 	//浮き沈みの高さ
 	float floatHight_ = 16.0f;
+	//攻撃時のブロックの浮き
+	float attackFloatStrength_ = 3.0f;
 };
 
