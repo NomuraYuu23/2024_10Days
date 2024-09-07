@@ -80,5 +80,13 @@ private:
 	// アングル変更用の位置上
 	float fieldTop_ = 10.0f;
 
+	// 目指すFOVMAX
+	float targetFovYMax_ = 1.0f;
+	// 目指すFOVMIN
+	float targetFovYMin_ = 0.45f;
+
+	// 目指すFOVが切り替わる位置
+	float fovYChangeLine_ = 30.0f;
+
 };
 

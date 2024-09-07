@@ -2,6 +2,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
+#include "../../Engine/Math/DeltaTime.h"
 
 void GameCamera::Initialize()
 {
@@ -46,6 +47,14 @@ void GameCamera::Initialize()
 
 	// アングル変更用の位置上
 	fieldTop_ = 10.0f;
+
+	// 目指すFOVMAX
+	targetFovYMax_ = 1.0f;
+	// 目指すFOVMIN
+	targetFovYMin_ = 0.45f;
+
+	// 目指すFOVが切り替わる位置
+	fovYChangeLine_ = 30.0f;
 
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
@@ -115,8 +124,17 @@ void GameCamera::Update(float elapsedTime)
 
 	transform_.translate = Vector3::Add(interTarget_, offset);
 
+	// FOV
+	if (playerPos.y > fovYChangeLine_) {
+		targetFovY_ = targetFovYMax_;
+	}
+	else {
+		targetFovY_ = targetFovYMin_;
+	}
+
+
 	//ビュー更新
-	BaseCamera::Update();
+	BaseCamera::Update(kDeltaTime_);
 
 }
 
@@ -153,6 +171,9 @@ void GameCamera::ApplyGlobalVariables()
 	destinationAngleXAddMax_ = globalVariables->GetFloatValue(groupName, "destinationAngleXAddMax");
 	fieldDown_ = globalVariables->GetFloatValue(groupName, "fieldDown");
 	fieldTop_ = globalVariables->GetFloatValue(groupName, "fieldTop");
+	targetFovYMax_ = globalVariables->GetFloatValue(groupName, "targetFovYMax");
+	targetFovYMin_ = globalVariables->GetFloatValue(groupName, "targetFovYMin");
+	fovYChangeLine_ = globalVariables->GetFloatValue(groupName, "fovYChangeLine");
 
 }
 
@@ -172,5 +193,8 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "destinationAngleXAddMax", destinationAngleXAddMax_);
 	globalVariables->AddItem(groupName, "fieldDown", fieldDown_);
 	globalVariables->AddItem(groupName, "fieldTop", fieldTop_);
+	globalVariables->AddItem(groupName, "targetFovYMax", targetFovYMax_);
+	globalVariables->AddItem(groupName, "targetFovYMin", targetFovYMin_);
+	globalVariables->AddItem(groupName, "fovYChangeLine", fovYChangeLine_);
 
 }
