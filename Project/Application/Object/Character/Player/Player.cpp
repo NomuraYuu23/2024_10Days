@@ -106,6 +106,11 @@ void Player::Update()
 
 #ifdef _DEMO
 	ApplyGlobalVariables();
+
+	if (Input::GetInstance()->TriggerKey(DIK_P)) {
+		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+	}
+
 #endif // _DEBUG
 
 	MeshObject::Update();
