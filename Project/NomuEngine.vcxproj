@@ -168,6 +168,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Character\Player\State\IPlayerState.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFactory.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp" />
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateJump.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateRoot.cpp" />
     <ClCompile Include="Application\Object\Character\Player\System\PlayerCommand.cpp" />
@@ -175,6 +176,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Manager\ClearSceneObjectManager.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
+    <ClCompile Include="Application\Object\Obstacle\Block\BlockManager.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp" />
     <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
@@ -324,6 +326,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Character\Player\State\IPlayerState.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFactory.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h" />
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateJump.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateRoot.h" />
     <ClInclude Include="Application\Object\Character\Player\System\PlayerCommand.h" />
@@ -335,6 +338,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />
+    <ClInclude Include="Application\Object\Obstacle\Block\BlockManager.h" />
     <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h" />
     <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />

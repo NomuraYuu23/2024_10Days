@@ -162,7 +162,7 @@ void BaseObjectManager::Reset(LevelIndex levelIndex)
 
 }
 
-void BaseObjectManager::AddObject(LevelData::ObjectData& data)
+IObject* BaseObjectManager::AddObject(LevelData::ObjectData& data)
 {
 
 	// 型にあわせてInitialize
@@ -174,6 +174,8 @@ void BaseObjectManager::AddObject(LevelData::ObjectData& data)
 		// listへ
 		objects_.emplace_back(object->GetName(), std::move(object));
 	}
+
+	return objects_.back().second.get();
 
 }
 

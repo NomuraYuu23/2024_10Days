@@ -76,7 +76,8 @@ public: //virtualではない
 	/// オブジェクト手動追加
 	/// </summary>
 	/// <param name="data">オブジェクトデータ</param>
-	void AddObject(LevelData::ObjectData& data);
+	/// <returns>オブジェクトのポインタ</returns>
+	IObject* AddObject(LevelData::ObjectData& data);
 
 protected:
 

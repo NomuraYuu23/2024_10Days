@@ -16,6 +16,7 @@
 
 #include "../../Camera/FollowCamera.h"
 #include "../../Camera/GameCamera.h"
+#include "../../Object/Obstacle/Block/BlockManager.h"
 
 class GameScene : public IScene
 {
@@ -94,5 +95,8 @@ private:
 
 	// ゲームカメラ
 	std::unique_ptr<GameCamera> gameCamera_;
+
+	// ブロックマネージャー
+	std::unique_ptr<BlockManager> blockManager_;
 
 };
