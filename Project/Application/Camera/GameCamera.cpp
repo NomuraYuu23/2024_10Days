@@ -61,27 +61,32 @@ void GameCamera::Update(float elapsedTime)
 	ApplyGlobalVariables();
 #endif // _DEBUG
 
-	const float RotateSpeed = 0.05f;
-
-	// カメラから見てプレイヤーが右か左か
+	// プレイヤーの位置
 	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
-	Vector2 toCenter = { stageCenter_.x - transform_.translate.x, stageCenter_.z - transform_.translate.z };
-	Vector2 toPlayer = { playerPos.x - transform_.translate.x, playerPos.z - transform_.translate.z };
-	float cross = Vector2::Cross(toCenter, toPlayer);
-	float dir = 0.0f;
+	
+	// ステージ中心からプレイヤー
+	Vector2 toPlayer = { playerPos.x - stageCenter_.x, playerPos.z - stageCenter_.z };
+	// 正規化
+	toPlayer = Vector2::Normalize(toPlayer);
 
-	if (fabsf(cross) >= 0.5f) {
-		if (cross != 0.0f) {
-			if (cross < 0.0f) {
-				dir = -1.0f;
-			}
-			else {
-				dir = 1.0f;
-			}
-		}
-
-		destinationAngleY_ += dir * RotateSpeed;
-
+	// 手前左
+	if (toPlayer.x <= 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, 1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 奥左
+	else if (toPlayer.x <= 0.0f && toPlayer.y > 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, 1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 手前右
+	else if (toPlayer.x > 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, -1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 奥右
+	else {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, -1.57f, fabsf(toPlayer.x));
 		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
 	}
 
