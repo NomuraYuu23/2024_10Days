@@ -4,6 +4,7 @@
 #include "../Object/Obstacle/Ground/Ground.h"
 #include "../Object/Character/Player/Player.h"
 #include "../Object/Obstacle/Block/Block.h"
+#include "../Object/Character/Player/Horn/PlayerHorn.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -34,6 +35,11 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexBlock].first = "Block";
 	createObjectFunctions_[kCreateObjectIndexBlock].second = ObjectFactory::CreateObjectBlock;
+
+
+	createObjectFunctions_[kCreateObjectIndexPlayerHorn].first = "PlayerHorn";
+	createObjectFunctions_[kCreateObjectIndexPlayerHorn].second = ObjectFactory::CreateObjectPlayerHorn;
+
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -84,5 +90,14 @@ IObject* ObjectFactory::CreateObjectBlock(LevelData::ObjectData& objectData)
 	IObject* object = new Block();
 	// 初期化
 	static_cast<Block*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectPlayerHorn(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new PlayerHorn();
+	// 初期化
+	static_cast<PlayerHorn*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

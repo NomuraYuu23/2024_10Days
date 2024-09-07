@@ -16,7 +16,7 @@ LevelData::MeshData Player::PlayerCreate()
 	data.name = "Player";
 	// トランスフォーム
 	data.transform = {
-		0.5f,0.5f,0.5f,
+		1.0f,1.0f,1.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,2.0f,0.0f
 	};

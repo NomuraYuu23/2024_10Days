@@ -13,6 +13,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexGround, // 地面
 		kCreateObjectIndexPlayer, // プレイヤー
 		kCreateObjectIndexBlock,//ブロック
+		kCreateObjectIndexPlayerHorn, //プレイヤーの角
 		kCreateObjectIndexOfCount, // 数数える用
 	};
 
@@ -68,6 +69,13 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectBlock(LevelData::ObjectData& objectData);
+
+	/// <summary>
+	/// プレイヤーの角
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectPlayerHorn(LevelData::ObjectData& objectData);
 
 private:
 

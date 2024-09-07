@@ -14,6 +14,7 @@
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Obstacle/Block/Block.h"
 #include "../../../Engine/Physics/Gravity.h"
+#include "../../Object/Character/Player/Horn/PlayerHorn.h"
 
 GameScene::~GameScene()
 {
@@ -105,6 +106,16 @@ void GameScene::Initialize() {
 	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 	player->SetCamera(&camera_);
 	gameCamera_->SetPlayer(player);
+
+	data = PlayerHorn::PlayerHornCreate("RightPlayerHorn");
+	objectManager_->AddObject(data);
+	PlayerHorn* playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("RightPlayerHorn"));
+	playerHorn->SetParent(player, "RightHorn");
+
+	data = PlayerHorn::PlayerHornCreate("LeftPlayerHorn");
+	objectManager_->AddObject(data);
+	playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("LeftPlayerHorn"));
+	playerHorn->SetParent(player, "LeftHorn");
 
 	CreateBlocks();
 
