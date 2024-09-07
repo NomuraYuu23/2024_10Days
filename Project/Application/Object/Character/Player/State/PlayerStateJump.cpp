@@ -22,6 +22,9 @@ void PlayerStateJump::Initialize()
 	// チェックポイント
 	checkpointFlg_ = false;
 
+	// アニメーションを止めるフラグ
+	animStop_ = true;
+
 }
 
 void PlayerStateJump::Update()
@@ -59,6 +62,9 @@ void PlayerStateJump::Update()
 			Vector3 velocityTmp = player_->GetVelocity();
 			velocityTmp.y *= player_->GetSmallJumpMultiplier();
 			player_->SetVelocity(velocityTmp);
+		}
+		else {
+			animStop_ = false;
 		}
 	}
 
@@ -110,6 +116,14 @@ void PlayerStateJump::Update()
 
 		}
 
+	}
+
+	// アニメーション確認
+	Animation* animation = player_->GetAnimationAdress();
+
+	if (animStop_) {
+		double animTimer = 0.0f;
+		animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
 	}
 
 }

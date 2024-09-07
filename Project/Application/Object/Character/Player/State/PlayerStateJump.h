@@ -39,5 +39,8 @@ private: // メンバ変数
 	// チェックポイント
 	bool checkpointFlg_ = false;
 
+	// アニメーションを止めるフラグ
+	bool animStop_ = false;
+
 };
 
