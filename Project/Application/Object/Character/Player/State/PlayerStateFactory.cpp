@@ -3,6 +3,7 @@
 #include "PlayerStateRoot.h"
 #include "PlayerStateJump.h"
 #include "PlayerStateFloating.h"
+#include "PlayerStateHeadDrop.h"
 
 PlayerStateFactory* PlayerStateFactory::GetInstance()
 {
@@ -24,6 +25,9 @@ IPlayerState* PlayerStateFactory::CreatePlayerState(uint32_t playerStateName)
 		break;
 	case kPlayerStateFloating: // 浮いている状態
 		newPlayerState = new PlayerStateFloating();
+		break;
+	case kPlayerStateHeadDrop: // ヘッドドロップ状態
+		newPlayerState = new PlayerStateHeadDrop();
 		break;
 	case kPlayerStateOfCount: // 使用不可
 	default:

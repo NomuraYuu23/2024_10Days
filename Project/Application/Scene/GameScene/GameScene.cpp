@@ -301,6 +301,7 @@ void GameScene::CreatePlayer()
 	pointer =  objectManager_->AddObject(data);
 	Player* player = static_cast<Player*>(pointer);
 	player->SetCamera(&camera_);
+	player->SetBlockManager(blockManager_.get());
 	
 	// カメラにプレイヤー設定
 	gameCamera_->SetPlayer(player);
