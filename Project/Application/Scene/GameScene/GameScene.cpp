@@ -103,6 +103,11 @@ void GameScene::Initialize() {
 	blockManager_ = std::make_unique<BlockManager>();
 	blockManager_->Initialize();
 
+	// 影
+	shadowModel_.reset(Model::Create("Resources/Model/shadow/", "shadow.obj", dxCommon_));
+	shadowManager_ = std::make_unique<ShadowManager>();
+	shadowManager_->Initialize(shadowModel_.get());
+
 	// ここからオブジェクト生成
 
 	// プレイヤー
@@ -148,6 +153,9 @@ void GameScene::Update() {
 
 	collisionManager_->CheakAllCollision();
 
+	// 影
+	ShadowUpdate();
+
 	ImguiDraw();
 
 }
@@ -171,6 +179,9 @@ void GameScene::Draw() {
 	//3Dオブジェクトはここ
 
 	objectManager_->Draw(camera_, drawLine_);
+
+	// 影
+	shadowManager_->Draw(camera_);
 
 	ModelDraw::PostDraw();
 
@@ -299,23 +310,46 @@ void GameScene::CreatePlayer()
 	// プレイヤー本体
 	data = Player::PlayerCreate();
 	pointer =  objectManager_->AddObject(data);
-	Player* player = static_cast<Player*>(pointer);
-	player->SetCamera(&camera_);
-	player->SetBlockManager(blockManager_.get());
+	player_ = static_cast<Player*>(pointer);
+	player_->SetCamera(&camera_);
+	player_->SetBlockManager(blockManager_.get());
 	
 	// カメラにプレイヤー設定
-	gameCamera_->SetPlayer(player);
+	gameCamera_->SetPlayer(player_);
 
 	// 右角
 	data = PlayerHorn::PlayerHornCreate("RightPlayerHorn");
 	pointer = objectManager_->AddObject(data);
 	PlayerHorn* playerHorn = static_cast<PlayerHorn*>(pointer);
-	playerHorn->SetParent(player, "RightHorn");
+	playerHorn->SetParent(player_, "RightHorn");
 
 	// 左角
 	data = PlayerHorn::PlayerHornCreate("LeftPlayerHorn");
 	pointer = objectManager_->AddObject(data);
 	playerHorn = static_cast<PlayerHorn*>(pointer);
-	playerHorn->SetParent(player, "LeftHorn");
+	playerHorn->SetParent(player_, "LeftHorn");
+
+}
+
+void GameScene::ShadowUpdate()
+{
+
+	// 前処理
+	shadowManager_->PreUpdate();
+
+	// 登録
+	
+	// 影を発生させるオブジェクト
+	// プレイヤー
+	shadowManager_->CastsShadowObjListRegister(player_);
+
+	// 影が現れるオブジェクト
+	// ブロック
+	for (uint32_t i = 0; i < blockManager_->GetBlockNum(); ++i) {
+		shadowManager_->ShadowAppearsObjListRegister(blockManager_->GetBlocks()->at(i));
+	}
+
+	// 更新
+	shadowManager_->Update();
 
 }

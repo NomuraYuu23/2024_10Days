@@ -17,6 +17,7 @@
 #include "../../Camera/FollowCamera.h"
 #include "../../Camera/GameCamera.h"
 #include "../../Object/Obstacle/Block/BlockManager.h"
+#include "../../System/Shadow/ShadowManager.h"
 
 class GameScene : public IScene
 {
@@ -81,6 +82,11 @@ private:
 	/// </summary>
 	void CreatePlayer();
 
+	/// <summary>
+	/// 影更新
+	/// </summary>
+	void ShadowUpdate();
+
 private:
 
 	// オーディオマネージャー
@@ -98,5 +104,12 @@ private:
 
 	// ブロックマネージャー
 	std::unique_ptr<BlockManager> blockManager_;
+
+	// 影マネージャー
+	std::unique_ptr<ShadowManager> shadowManager_;
+	std::unique_ptr<Model> shadowModel_;
+
+	// プレイヤー
+	Player* player_;
 
 };

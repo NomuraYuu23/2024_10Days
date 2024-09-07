@@ -94,5 +94,8 @@ private:
 	// 影が最大か
 	bool isShadowMax_;
 
+	// 影の位置追加分
+	float posYAdd_;
+
 };
 

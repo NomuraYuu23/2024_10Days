@@ -6,6 +6,16 @@ void ShadowManager::Initialize(Model* model)
 
 	LargeNumberOfObjects::Initialize(model);
 
+
+	// 影を出す数
+	shadowCount_ = 0u;
+
+	// 影が最大か
+	isShadowMax_ = false;
+
+	// 影の位置追加分
+	posYAdd_ = 0.1f;
+
 }
 
 void ShadowManager::Update()
@@ -24,6 +34,10 @@ void ShadowManager::PreUpdate()
 		object.reset();
 		return true;
 		});
+
+	// リストをクリア
+	castsShadowObjList_.clear();
+	shadowAppearsObjList_.clear();
 
 }
 
@@ -65,7 +79,7 @@ void ShadowManager::SeeShadow()
 
 			// 影が出るか確認
 			if (CollisionCheck(*itrCastsShadowObj, *itrShadowAppearsObj)) {
-				break;
+				//break;
 			}
 
 		}
@@ -124,7 +138,7 @@ void ShadowManager::CompriseOnCollision(const ShadowCandidate& castsShadow, cons
 	
 	// ワールドトランスフォーム
 	obj->transform_.translate.x = castsShadow.position_.x;
-	obj->transform_.translate.y = shadowAppears.position_.y + shadowAppears.size_.y;
+	obj->transform_.translate.y = shadowAppears.position_.y + shadowAppears.size_.y + posYAdd_;
 	obj->transform_.translate.z = castsShadow.position_.z;
 	obj->transform_.scale = castsShadow.size_;
 	obj->transform_.scale.y = 1.0f;
@@ -151,7 +165,7 @@ void ShadowManager::NotCompriseOnCollision(const ShadowCandidate& castsShadow, c
 
 	// ワールドトランスフォーム
 	obj->transform_.translate.x = castsShadow.position_.x;
-	obj->transform_.translate.y = shadowAppears.position_.y + shadowAppears.size_.y;
+	obj->transform_.translate.y = shadowAppears.position_.y + shadowAppears.size_.y + posYAdd_;
 	obj->transform_.translate.z = castsShadow.position_.z;
 	obj->transform_.scale = castsShadow.size_;
 	obj->transform_.scale.y = 1.0f;
