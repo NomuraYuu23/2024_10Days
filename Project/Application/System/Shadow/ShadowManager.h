@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Engine/3D/LargeNumberOfObjects.h"
+#include "../../../Engine/Object/MeshObject.h"
 
 class ShadowManager :
     public LargeNumberOfObjects
@@ -32,6 +33,18 @@ public:
 	/// 前更新
 	/// </summary>
 	void PreUpdate();
+
+	/// <summary>
+	/// 影を発生させるオブジェクトリスト登録
+	/// </summary>
+	/// <param name="object">オブジェクト</param>
+	void CastsShadowObjListRegister(MeshObject* object);
+
+	/// <summary>
+	/// 影が現れるオブジェクトリスト登録
+	/// </summary>
+	/// <param name="object">オブジェクト</param>
+	void ShadowAppearsObjListRegister(MeshObject* object);
 
 private:
 

@@ -27,6 +27,28 @@ void ShadowManager::PreUpdate()
 
 }
 
+void ShadowManager::CastsShadowObjListRegister(MeshObject* object)
+{
+
+	OBB obb = std::get<OBB>(*object->GetCollider());
+
+	ShadowCandidate shadow = { obb.center_ , obb.size_ };
+
+	castsShadowObjList_.push_back(shadow);
+
+}
+
+void ShadowManager::ShadowAppearsObjListRegister(MeshObject* object)
+{
+
+	OBB obb = std::get<OBB>(*object->GetCollider());
+
+	ShadowCandidate shadow = { obb.center_ , obb.size_ };
+
+	shadowAppearsObjList_.push_back(shadow);
+
+}
+
 void ShadowManager::SeeShadow()
 {
 
