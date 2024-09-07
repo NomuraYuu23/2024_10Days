@@ -75,6 +75,11 @@ private:
 	/// </summary>
 	void CreateBlocks();
 
+	/// <summary>
+	/// プレイヤー作成
+	/// </summary>
+	void CreatePlayer();
+
 private:
 
 	// オーディオマネージャー

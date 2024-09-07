@@ -99,24 +99,11 @@ void GameScene::Initialize() {
 	Gravity::SetPower(2.45f);
 
 	// ここからオブジェクト生成
-	LevelData::ObjectData data;
 
-	data = Player::PlayerCreate();
-	objectManager_->AddObject(data);
-	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
-	player->SetCamera(&camera_);
-	gameCamera_->SetPlayer(player);
+	// プレイヤー
+	CreatePlayer();
 
-	data = PlayerHorn::PlayerHornCreate("RightPlayerHorn");
-	objectManager_->AddObject(data);
-	PlayerHorn* playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("RightPlayerHorn"));
-	playerHorn->SetParent(player, "RightHorn");
-
-	data = PlayerHorn::PlayerHornCreate("LeftPlayerHorn");
-	objectManager_->AddObject(data);
-	playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("LeftPlayerHorn"));
-	playerHorn->SetParent(player, "LeftHorn");
-
+	// ブロック
 	CreateBlocks();
 
 	IScene::InitilaizeCheck();
@@ -288,4 +275,32 @@ void GameScene::CreateBlocks() {
 			objectManager_->AddObject(data);
 		}
 	}
+}
+
+void GameScene::CreatePlayer()
+{
+
+	LevelData::ObjectData data;
+
+	// プレイヤー本体
+	data = Player::PlayerCreate();
+	objectManager_->AddObject(data);
+	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+	player->SetCamera(&camera_);
+	
+	// カメラにプレイヤー設定
+	gameCamera_->SetPlayer(player);
+
+	// 右角
+	data = PlayerHorn::PlayerHornCreate("RightPlayerHorn");
+	objectManager_->AddObject(data);
+	PlayerHorn* playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("RightPlayerHorn"));
+	playerHorn->SetParent(player, "RightHorn");
+
+	// 左角
+	data = PlayerHorn::PlayerHornCreate("LeftPlayerHorn");
+	objectManager_->AddObject(data);
+	playerHorn = static_cast<PlayerHorn*>(objectManager_->GetObjectPointer("LeftPlayerHorn"));
+	playerHorn->SetParent(player, "LeftHorn");
+
 }
