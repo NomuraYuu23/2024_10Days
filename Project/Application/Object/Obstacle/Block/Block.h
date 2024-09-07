@@ -1,6 +1,16 @@
 #pragma once
 #include "../BaseObstacle.h"
 #include "../../../../Engine/Animation/Animation.h"
+
+class ShockWave
+{
+public:
+	ShockWave() {};
+	~ShockWave() {};
+	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) {};
+private:
+};
+
 class Block :
     public BaseObstacle
 {
@@ -38,6 +48,19 @@ public: // ベースのメンバ関数
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(BaseCamera& camera) override;
 
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager) override;
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
@@ -55,7 +78,21 @@ public: // ベースのメンバ関数
 	/// </summary>
 	void ColliderUpdate();
 
+public: //衝撃波用インナークラス
+
+	std::unique_ptr<ShockWave> shockWave_;
+
 private: // ステート処理
+
+	/// <summary>
+	/// 衝撃波用コライダー初期化
+	/// </summary>
+	void ShockWaveColliderInitialize();
+
+	/// <summary>
+	/// 衝撃波用コライダー更新
+	/// </summary>
+	void ShockWaveColliderUpdate();
 
 	/// <summary>
 	/// 待機状態
@@ -82,6 +119,16 @@ private: // ステート処理
 	/// </summary>
 	void AttackStart();
 
+	/// <summary>
+	/// 衝撃波(中心)
+	/// </summary>
+	void ShockWaveCenter();
+
+	/// <summary>
+	/// 衝撃波(外側)
+	/// </summary>
+	void ShockWaveAfter();
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -99,9 +146,13 @@ private: // パーツ,アニメーション変数
 	//ステート
 	std::function<void(void)> state_;
 
+	//衝撃波用コライダー
+	std::unique_ptr<ColliderShape> shockWaveCollider_;
+
 	//フラグ
 	bool isMove_ = false;
 	bool isAttack_ = false;
+	bool isShockWave_ = false;
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;
@@ -125,5 +176,15 @@ private: // パーツ,アニメーション変数
 	//攻撃時のブロックの浮き
 	float attackFloatStrength_ = 3.0f;
 
+	//枯れた色
+	Vector3 blownColor_ = {200.0f/255.0f,160.0f/255.0f,300.0f/255.0f};
+
+	//色の変化の長さ
+	static const size_t colorLength_ = 180;
+	//色の変化
+	size_t colorCount_ = 0;
+
+	//衝撃波用判定を出すか
+	bool isShockWaveCollision_ = false;
 };
 

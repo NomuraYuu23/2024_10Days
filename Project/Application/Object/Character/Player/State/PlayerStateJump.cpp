@@ -14,17 +14,13 @@ void PlayerStateJump::Initialize()
 
 	playerStateNo_ = kPlayerStateJump;
 
-	// ジャンプ初速
-	jumpInitialSpeed_ = 1.4f;
-
-	player_->SetVelocity(Vector3{0.0f, jumpInitialSpeed_ , 0.0f});
+	player_->SetVelocity(Vector3{0.0f, player_->GetJumpInitialSpeed() , 0.0f});
 
 	// ジャンプしてからの時間
 	jumpElapsedTime_ = 0.0f;
 
-	// チェックポイント1
-	checkpoint1_ = kDeltaTime_ * 8.0f;
-	checkpoint1Flg_ = false;
+	// チェックポイント
+	checkpointFlg_ = false;
 
 }
 
@@ -57,11 +53,12 @@ void PlayerStateJump::Update()
 	// 終了確認
 	jumpElapsedTime_ += kDeltaTime_;
 
-	if (!checkpoint1Flg_ && jumpElapsedTime_ > checkpoint1_) {
-		checkpoint1Flg_ = true;
+	if (!checkpointFlg_ && jumpElapsedTime_ > kDeltaTime_ * static_cast<float>(player_->GetJumpCheckpointFrame())) {
+		checkpointFlg_ = true;
 		if (input_->NoPushJoystick(JoystickButton::kJoystickButtonA)) {
-			playerStateNo_ = kPlayerStateFloating;
-			player_->SetVelocity(Vector3{ 0.0f,0.0f,0.0f });
+			Vector3 velocityTmp = player_->GetVelocity();
+			velocityTmp.y *= player_->GetSmallJumpMultiplier();
+			player_->SetVelocity(velocityTmp);
 		}
 	}
 

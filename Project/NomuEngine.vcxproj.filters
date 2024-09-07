@@ -862,6 +862,9 @@
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp">
       <Filter>Application\Object\Character\Player\State\Floating</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.cpp">
+      <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Block\BlockManager.cpp">
       <Filter>Application\Object\Obstacle\Block</Filter>
     </ClCompile>
@@ -1494,17 +1497,14 @@
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h">
       <Filter>Application\Object\Character\Player\State\Floating</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h">
+      <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
+    </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Block\BlockManager.h">
       <Filter>Application\Object\Obstacle\Block</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h">
       <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\System\Shadow\Shadow.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\System\Shadow\ShadowManager.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

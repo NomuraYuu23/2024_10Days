@@ -168,6 +168,15 @@ private: //	変数
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
+	// ジャンプ初速
+	float jumpInitialSpeed_ = 1.4f;
+
+	// ジャンプチェックポイント
+	int32_t jumpCheckpointFrame_ = 8;
+
+	// 小ジャンプ倍率
+	float smallJumpMultiplier_ = 0.5f;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -199,6 +208,12 @@ public: // アクセッサ
 	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
 
 	BlockManager* GetBlockManager() { return blockManager_; }
+
+	float GetJumpInitialSpeed() { return jumpInitialSpeed_; }
+
+	int32_t GetJumpCheckpointFrame() { return jumpCheckpointFrame_; }
+
+	float GetSmallJumpMultiplier() { return smallJumpMultiplier_; }
 
 private: // グローバル変数
 

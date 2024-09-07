@@ -33,15 +33,11 @@ private: // メンバ変数
 	// 目指す向きへの補間係数
 	float targetAngleT_;
 
-	// ジャンプ初速
-	float jumpInitialSpeed_ = 2.0f;
-
 	// ジャンプしてからの時間
 	float jumpElapsedTime_ = 0.0f;
 
-	// チェックポイント1
-	float checkpoint1_ = 0.0f;
-	bool checkpoint1Flg_ = false;
+	// チェックポイント
+	bool checkpointFlg_ = false;
 
 };
 

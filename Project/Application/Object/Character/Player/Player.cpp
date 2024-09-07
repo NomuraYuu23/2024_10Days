@@ -87,6 +87,15 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	isDead_ = false;
 
+	// ジャンプ初速
+	jumpInitialSpeed_ = 1.4f;
+
+	// ジャンプチェックポイント
+	jumpCheckpointFrame_ = 8;
+
+	// 小ジャンプ倍率
+	smallJumpMultiplier_ = 0.5f;
+
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
@@ -324,6 +333,9 @@ void Player::ApplyGlobalVariables()
 	
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
+	jumpInitialSpeed_ = globalVariables->GetFloatValue(groupName, "jumpInitialSpeed");
+	jumpCheckpointFrame_ = globalVariables->GetIntValue(groupName, "jumpCheckpointFrame");
+	smallJumpMultiplier_ = globalVariables->GetFloatValue(groupName, "smallJumpMultiplier");
 
 }
 
@@ -336,5 +348,8 @@ void Player::RegistrationGlobalVariables()
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
+	globalVariables->AddItem(groupName, "jumpInitialSpeed", jumpInitialSpeed_);
+	globalVariables->AddItem(groupName, "jumpCheckpointFrame", jumpCheckpointFrame_);
+	globalVariables->AddItem(groupName, "smallJumpMultiplier", smallJumpMultiplier_);
 
 }
