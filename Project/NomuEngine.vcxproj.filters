@@ -391,6 +391,9 @@
     <Filter Include="Application\Object\Character\Player\Horn">
       <UniqueIdentifier>{45e1a89e-d053-4f73-bd64-752471edcd94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Character\Player\State\HeadDrop">
+      <UniqueIdentifier>{0309cb0b-bf3a-40bf-bd77-76ecdc4bf4d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -850,11 +853,17 @@
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateJump.cpp">
       <Filter>Application\Object\Character\Player\State\Jump</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\Horn\PlayerHorn.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Character\Player\Horn</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp">
+      <Filter>Application\Object\Character\Player\State\Floating</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\Block\BlockManager.cpp">
+      <Filter>Application\Object\Obstacle\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.cpp">
+      <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1470,11 +1479,17 @@
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateJump.h">
       <Filter>Application\Object\Character\Player\State\Jump</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\Horn\PlayerHorn.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Character\Player\Horn</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h">
+      <Filter>Application\Object\Character\Player\State\Floating</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\Block\BlockManager.h">
+      <Filter>Application\Object\Obstacle\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h">
+      <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

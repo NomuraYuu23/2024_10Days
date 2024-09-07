@@ -172,7 +172,7 @@ private: // パーツ,アニメーション変数
 	Vector3 initialPosition_{};
 
 	//浮き沈みの高さ
-	float floatHight_ = 12.0f;
+	float floatHight_ = 18.0f;
 	//攻撃時のブロックの浮き
 	float attackFloatStrength_ = 3.0f;
 

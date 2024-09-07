@@ -14,6 +14,7 @@
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Obstacle/Block/Block.h"
 #include "../../../Engine/Physics/Gravity.h"
+#include "../../Object/Character/Player/Horn/PlayerHorn.h"
 
 GameScene::~GameScene()
 {
@@ -95,17 +96,19 @@ void GameScene::Initialize() {
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
+	// 重力設定
 	Gravity::SetPower(2.45f);
 
+	// ブロックマネージャー
+	blockManager_ = std::make_unique<BlockManager>();
+	blockManager_->Initialize();
+
 	// ここからオブジェクト生成
-	LevelData::ObjectData data;
 
-	data = Player::PlayerCreate();
-	objectManager_->AddObject(data);
-	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
-	player->SetCamera(&camera_);
-	gameCamera_->SetPlayer(player);
+	// プレイヤー
+	CreatePlayer();
 
+	// ブロック
 	CreateBlocks();
 
 	IScene::InitilaizeCheck();
@@ -265,7 +268,10 @@ void GameScene::LowerVolumeBGM()
 }
 
 void GameScene::CreateBlocks() {
+	
 	LevelData::ObjectData data;
+	
+	IObject* pointer = nullptr;
 	
 	for (size_t z = 0; z < Block::kNumOnece_; z++) {
 		for (size_t x = 0; x < Block::kNumOnece_;x++) {
@@ -274,7 +280,42 @@ void GameScene::CreateBlocks() {
 			block.transform.translate.x = (float(x) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.z = (float(z) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.y = -2.0f;
-			objectManager_->AddObject(data);
+			pointer = objectManager_->AddObject(data);
+			
+			// ブロックマネージャーに登録
+			blockManager_->AddBlock(static_cast<Block*>(pointer));
 		}
 	}
+
+}
+
+void GameScene::CreatePlayer()
+{
+
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	// プレイヤー本体
+	data = Player::PlayerCreate();
+	pointer =  objectManager_->AddObject(data);
+	Player* player = static_cast<Player*>(pointer);
+	player->SetCamera(&camera_);
+	player->SetBlockManager(blockManager_.get());
+	
+	// カメラにプレイヤー設定
+	gameCamera_->SetPlayer(player);
+
+	// 右角
+	data = PlayerHorn::PlayerHornCreate("RightPlayerHorn");
+	pointer = objectManager_->AddObject(data);
+	PlayerHorn* playerHorn = static_cast<PlayerHorn*>(pointer);
+	playerHorn->SetParent(player, "RightHorn");
+
+	// 左角
+	data = PlayerHorn::PlayerHornCreate("LeftPlayerHorn");
+	pointer = objectManager_->AddObject(data);
+	playerHorn = static_cast<PlayerHorn*>(pointer);
+	playerHorn->SetParent(player, "LeftHorn");
+
 }

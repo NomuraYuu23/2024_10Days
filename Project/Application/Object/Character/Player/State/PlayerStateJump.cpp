@@ -10,12 +10,12 @@ void PlayerStateJump::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerMotionNo_ = kPlayerMotionWait;
+	playerMotionNo_ = kPlayerMotionJump;
 
 	playerStateNo_ = kPlayerStateJump;
 
 	// ジャンプ初速
-	jumpInitialSpeed_ = 1.2f;
+	jumpInitialSpeed_ = 1.4f;
 
 	player_->SetVelocity(Vector3{0.0f, jumpInitialSpeed_ , 0.0f});
 
@@ -66,7 +66,53 @@ void PlayerStateJump::Update()
 	}
 
 	if (player_->GetVelocity().y <= 0.0f) {
-		playerStateNo_ = kPlayerStateFloating;
+		
+		// 高く飛んでいる && 下の足場がひくい位置にあるならドロップ
+
+		// プレイヤーの位置は高いか
+		if (worldTransform->GetWorldPosition().y < 40.0f) {
+			playerStateNo_ = kPlayerStateFloating;
+		}
+		else {
+
+			// ブロック情報
+			BlockManager* blockManager = player_->GetBlockManager();
+			std::vector<Block*>* blocks = blockManager->GetBlocks();
+			Vector3 blockPos{};
+			
+			// プレイヤーの位置
+			Vector3 playerPos = worldTransform->GetWorldPosition();
+			// ブロックまでの距離
+			Vector2 distanceToBlock{};
+			// 範囲内距離
+			float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
+			// フラグ
+			bool dropFlg = false;
+
+			for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
+
+				blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
+				distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
+
+				// 範囲内確認
+				if ((distance >= distanceToBlock.x && distance >= distanceToBlock.y) &&
+					blockPos.y == -2.0f) {
+					dropFlg = true;
+					break;
+				}
+
+			}
+
+			// フラグが立っていればドロップ
+			if (dropFlg) {
+				playerStateNo_ = kPlayerStateHeadDrop;
+			}
+			else {
+				playerStateNo_ = kPlayerStateFloating;
+			}
+
+		}
+
 	}
 
 }

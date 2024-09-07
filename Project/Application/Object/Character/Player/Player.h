@@ -4,6 +4,7 @@
 #include "System/PlayerCommand.h"
 #include "State/IPlayerState.h"
 #include "State/PlayerStateFactory.h"
+#include "../../Obstacle/Block/BlockManager.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -11,6 +12,7 @@
 enum PlayerMotionIndex {
 	kPlayerMotionRun, // 走行時
 	kPlayerMotionWait, // 通常時
+	kPlayerMotionJump, // ジャンプ時
 	kPlayerMotionIndexOfCount // 数
 };
 
@@ -139,6 +141,13 @@ private: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+private: // 関数
+
+	/// <summary>
+	/// ポジション修正
+	/// </summary>
+	void PositionLimit();
+
 private: //	変数
 
 	//hp
@@ -155,6 +164,9 @@ private: //	変数
 
 	// 速度
 	float runningSpeed_ = 0.3f;
+
+	// ブロックマネージャー
+	BlockManager* blockManager_ = nullptr;
 
 public: // アクセッサ
 
@@ -183,6 +195,10 @@ public: // アクセッサ
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 
 	float GetRunningSpeed() { return runningSpeed_; }
+
+	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
+
+	BlockManager* GetBlockManager() { return blockManager_; }
 
 private: // グローバル変数
 

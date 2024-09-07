@@ -16,7 +16,7 @@ LevelData::MeshData Player::PlayerCreate()
 	data.name = "Player";
 	// トランスフォーム
 	data.transform = {
-		0.5f,0.5f,0.5f,
+		1.0f,1.0f,1.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,2.0f,0.0f
 	};
@@ -69,7 +69,7 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
-	playerCommand_->Initialize();
+	playerCommand_->Initialize(this);
 
 	// コマンドを受け取るか
 	receiveCommand_ = true;
@@ -106,6 +106,11 @@ void Player::Update()
 
 #ifdef _DEMO
 	ApplyGlobalVariables();
+
+	if (Input::GetInstance()->TriggerKey(DIK_P)) {
+		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+	}
+
 #endif // _DEBUG
 
 	MeshObject::Update();
@@ -130,6 +135,8 @@ void Player::Update()
 	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
 	// 位置更新
 	worldTransform_.transform_.translate += velocity_; 
+	// 位置制限
+	PositionLimit();
 
 	worldTransform_.UpdateMatrix();
 
@@ -295,6 +302,18 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 	worldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
+}
+
+void Player::PositionLimit()
+{
+
+	Vector3 Max = { 18.0f,1000.0f, 18.0f };
+	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+
+	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
+	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);
+	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Min.z, Max.z);
+
 }
 
 void Player::ApplyGlobalVariables()

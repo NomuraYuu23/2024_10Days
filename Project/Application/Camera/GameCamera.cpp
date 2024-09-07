@@ -2,6 +2,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
+#include "../../Engine/Math/DeltaTime.h"
 
 void GameCamera::Initialize()
 {
@@ -35,6 +36,9 @@ void GameCamera::Initialize()
 	// オフセット高さ
 	offsetHeight_ = 3.0f;
 
+	// オフセットサイド
+	offsetSide_ = 3.0f;
+
 	// 目指すアングルX高さ加算用最大値
 	destinationAngleXAddMax_ = 0.1f;
 
@@ -43,6 +47,14 @@ void GameCamera::Initialize()
 
 	// アングル変更用の位置上
 	fieldTop_ = 10.0f;
+
+	// 目指すFOVMAX
+	targetFovYMax_ = 1.0f;
+	// 目指すFOVMIN
+	targetFovYMin_ = 0.45f;
+
+	// 目指すFOVが切り替わる位置
+	fovYChangeLine_ = 30.0f;
 
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
@@ -58,27 +70,32 @@ void GameCamera::Update(float elapsedTime)
 	ApplyGlobalVariables();
 #endif // _DEBUG
 
-	const float RotateSpeed = 0.05f;
-
-	// カメラから見てプレイヤーが右か左か
+	// プレイヤーの位置
 	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
-	Vector2 toCenter = { stageCenter_.x - transform_.translate.x, stageCenter_.z - transform_.translate.z };
-	Vector2 toPlayer = { playerPos.x - transform_.translate.x, playerPos.z - transform_.translate.z };
-	float cross = Vector2::Cross(toCenter, toPlayer);
-	float dir = 0.0f;
+	
+	// ステージ中心からプレイヤー
+	Vector2 toPlayer = { playerPos.x - stageCenter_.x, playerPos.z - stageCenter_.z };
+	// 正規化
+	toPlayer = Vector2::Normalize(toPlayer);
 
-	if (fabsf(cross) >= 0.5f) {
-		if (cross != 0.0f) {
-			if (cross < 0.0f) {
-				dir = -1.0f;
-			}
-			else {
-				dir = 1.0f;
-			}
-		}
-
-		destinationAngleY_ += dir * RotateSpeed;
-
+	// 手前左
+	if (toPlayer.x <= 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, 1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 奥左
+	else if (toPlayer.x <= 0.0f && toPlayer.y > 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, 1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 手前右
+	else if (toPlayer.x > 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, -1.57f, fabsf(toPlayer.x));
+		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	}
+	// 奥右
+	else {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, -1.57f, fabsf(toPlayer.x));
 		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
 	}
 
@@ -107,8 +124,17 @@ void GameCamera::Update(float elapsedTime)
 
 	transform_.translate = Vector3::Add(interTarget_, offset);
 
+	// FOV
+	if (playerPos.y > fovYChangeLine_) {
+		targetFovY_ = targetFovYMax_;
+	}
+	else {
+		targetFovY_ = targetFovYMin_;
+	}
+
+
 	//ビュー更新
-	BaseCamera::Update();
+	BaseCamera::Update(kDeltaTime_);
 
 }
 
@@ -116,7 +142,7 @@ Vector3 GameCamera::OffsetCalc() const
 {
 
 	//追従対象からカメラまでのオフセット
-	Vector3 offset = { 0.0f, offsetHeight_, offsetLength_ };
+	Vector3 offset = { offsetSide_, offsetHeight_, offsetLength_ };
 
 	Matrix4x4 rotateMatrix;
 
@@ -140,10 +166,14 @@ void GameCamera::ApplyGlobalVariables()
 	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
 	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
 	offsetHeight_ = globalVariables->GetFloatValue(groupName, "offsetHeight");
+	offsetSide_ = globalVariables->GetFloatValue(groupName, "offsetSide");
 	destinationAngleX_ = globalVariables->GetFloatValue(groupName, "destinationAngleX");
 	destinationAngleXAddMax_ = globalVariables->GetFloatValue(groupName, "destinationAngleXAddMax");
 	fieldDown_ = globalVariables->GetFloatValue(groupName, "fieldDown");
 	fieldTop_ = globalVariables->GetFloatValue(groupName, "fieldTop");
+	targetFovYMax_ = globalVariables->GetFloatValue(groupName, "targetFovYMax");
+	targetFovYMin_ = globalVariables->GetFloatValue(groupName, "targetFovYMin");
+	fovYChangeLine_ = globalVariables->GetFloatValue(groupName, "fovYChangeLine");
 
 }
 
@@ -158,9 +188,13 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
 	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
 	globalVariables->AddItem(groupName, "offsetHeight", offsetHeight_);
+	globalVariables->AddItem(groupName, "offsetSide", offsetSide_);
 	globalVariables->AddItem(groupName, "destinationAngleX", destinationAngleX_);
 	globalVariables->AddItem(groupName, "destinationAngleXAddMax", destinationAngleXAddMax_);
 	globalVariables->AddItem(groupName, "fieldDown", fieldDown_);
 	globalVariables->AddItem(groupName, "fieldTop", fieldTop_);
+	globalVariables->AddItem(groupName, "targetFovYMax", targetFovYMax_);
+	globalVariables->AddItem(groupName, "targetFovYMin", targetFovYMin_);
+	globalVariables->AddItem(groupName, "fovYChangeLine", fovYChangeLine_);
 
 }
