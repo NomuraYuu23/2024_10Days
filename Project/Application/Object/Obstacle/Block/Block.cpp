@@ -171,9 +171,16 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 	if ( !isAttack_ && !isShockWave_ && std::holds_alternative<Player*>(colliderPartner)) {
 		float velocity = std::get<Player*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition().y - worldTransform_.GetWorldPosition().y;
 		if (velocity > 0) {//プレイヤーが上からぶつかったら移動
-			colorCount_ = 0;
-			isCollision_ = true;
-			isMove_ = true;
+			if (std::get<Player*>(colliderPartner)->GetCurrentStateNo() == PlayerState::kPlayerStateHeadDrop) {//プレイヤーが落下攻撃状態だったら
+				countUp_ = 0;
+				state_ = std::bind(&Block::ShockWaveCenter, this);
+				isShockWave_ = true;
+			}
+			else{
+				colorCount_ = 0;
+				isCollision_ = true;
+				isMove_ = true;
+			}
 			//countUp_ = 0;
 			//state_ = std::bind(&Block::ShockWaveCenter, this);
 			//isShockWave_ = true;
@@ -265,7 +272,7 @@ void Block::ShockWaveCenter() {
 	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad, from, to, t);
 
 	isShockWaveCollision_ = false;
-	if (countUp_ == 15) {
+	if (countUp_ == 5) {
 		isShockWaveCollision_ = true;
 	}
 
