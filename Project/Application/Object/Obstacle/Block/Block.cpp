@@ -56,8 +56,50 @@ void Block::Initialize(LevelData::MeshData* data)
 	isMove_ = false;
 	isCollision_ = false;
 	initialPosition_ = worldTransform_.transform_.translate;
+
+	//衝撃波
+	shockWave_.reset(new ShockWave);
+	ShockWaveColliderInitialize();
 }
 
+void Block::ShockWaveColliderInitialize() {
+	//衝突属性(自分)
+	uint32_t collisionAttribute = 0x00000020;
+
+	// 衝突マスク(相手)
+	uint32_t collisionMask = 0xffffffde;
+
+	ColliderShape* colliderShape1 = new ColliderShape();
+	OBB obbs;
+	obbs.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,1.0f,1.0f }, static_cast<Null*>(nullptr));
+	*colliderShape1 = obbs;
+	shockWaveCollider_.reset(colliderShape1);
+
+	OBB obb = std::get<OBB>(*shockWaveCollider_.get());
+	obb.SetParentObject(shockWave_.get());
+	obb.SetCollisionAttribute(collisionAttribute);
+	obb.SetCollisionMask(collisionMask);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	shockWaveCollider_.reset(colliderShape);
+}
+
+void Block::ShockWaveColliderUpdate() {
+	OBB obb = std::get<OBB>(*shockWaveCollider_.get());
+
+	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.size_ = worldTransform_.transform_.scale;
+	obb.size_.x *= 1.1f;
+	obb.size_.z *= 1.1f;
+
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	shockWaveCollider_.reset(colliderShape);
+}
 
 void Block::Update() {
 	BaseObstacle::Update();
@@ -75,13 +117,14 @@ void Block::Update() {
 	}
 
 	ColliderUpdate();
+	ShockWaveColliderUpdate();
 }
 
 
 void Block::CollisionListRegister(CollisionManager* collisionManager)
 {
 	BaseObstacle::CollisionListRegister(collisionManager);
-	if (1) {
+	if (!isShockWaveCollision_) {
 		return;
 	}
 
@@ -92,7 +135,7 @@ void Block::CollisionListRegister(CollisionManager* collisionManager)
 void Block::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
 {
 	BaseObstacle::CollisionListRegister(collisionManager, colliderDebugDraw);
-	if (1) {
+	if (!isShockWaveCollision_) {
 		return;
 	}
 
@@ -125,12 +168,15 @@ void Block::Draw(BaseCamera& camera) {
 
 void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) {
 	//待機状態かつプレイヤーとぶつかったら
-	if ( !isAttack_ && std::holds_alternative<Player*>(colliderPartner)) {
+	if ( !isAttack_ && !isShockWave_ && std::holds_alternative<Player*>(colliderPartner)) {
 		float velocity = std::get<Player*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition().y - worldTransform_.GetWorldPosition().y;
 		if (velocity > 0) {//プレイヤーが上からぶつかったら移動
 			colorCount_ = 0;
 			isCollision_ = true;
 			isMove_ = true;
+			countUp_ = 0;
+			//state_ = std::bind(&Block::ShockWaveCenter, this);
+			//isShockWave_ = true;
 		}
 		else if(velocity < 1.0f && !isMove_){//プレイヤーが下からぶつかったら攻撃
 			AttackStart();
@@ -139,6 +185,12 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 		
 	}
 
+	//衝撃波判定とぶつかったら
+	if (!isAttack_ &&  !isShockWave_ && std::holds_alternative<ShockWave*>(colliderPartner)) {
+		countUp_ = 0;
+		state_ = std::bind(&Block::ShockWaveAfter, this);
+		isShockWave_ = true;
+	}
 }
 
 void Block::Idle() {
@@ -195,6 +247,55 @@ void Block::Attack() {
 		//worldTransform_.transform_.translate.y = float(hight_) * floatHight_;
 		countUp_ = 0;
 		isAttack_ = false;
+		state_ = std::bind(&Block::Idle, this);
+		return;
+	}
+	countUp_++;
+}
+
+void Block::ShockWaveCenter() {
+	//イージングで移動
+	float t = float(countUp_) / float(30);
+	Vector3 to = initialPosition_;
+	Vector3 from = initialPosition_;
+	to.y += float(hight_) * floatHight_ - 1.5f;
+	from.y += float(hight_) * floatHight_;
+	t = (2.0f * t) - 1.0f;
+	t = -t * -t + 1.0f;
+	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad, from, to, t);
+
+	isShockWaveCollision_ = false;
+	if (countUp_ == 15) {
+		isShockWaveCollision_ = true;
+	}
+
+	//移動終了したら待機状態にもどる
+	if (countUp_ >= 30) {
+		//worldTransform_.transform_.translate.y = float(hight_) * floatHight_;
+		countUp_ = 0;
+		isShockWave_ = false;
+		state_ = std::bind(&Block::Idle, this);
+		return;
+	}
+	countUp_++;
+}
+
+void Block::ShockWaveAfter() {
+	//イージングで移動
+	float t = float(countUp_) / float(attackAnimationLength_);
+	worldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::EaseOutQuint, 0, 3.141592f * 2.0f, t);
+	Vector3 to = initialPosition_;
+	Vector3 from = initialPosition_;
+	to.y += float(hight_) * floatHight_ + attackFloatStrength_;
+	from.y += float(hight_) * floatHight_;
+	t = (2.0f * t) - 1.0f;
+	t = -t * -t + 1.0f;
+	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad, from, to, t);
+	//移動終了したら待機状態にもどる
+	if (countUp_ >= attackAnimationLength_) {
+		//worldTransform_.transform_.translate.y = float(hight_) * floatHight_;
+		countUp_ = 0;
+		isShockWave_ = false;
 		state_ = std::bind(&Block::Idle, this);
 		return;
 	}

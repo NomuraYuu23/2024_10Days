@@ -6,8 +6,9 @@ class Null;
 class BaseObstacle;
 class BaseRigidBodyObject;
 class Player;
+class ShockWave;
 
-using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*>;
+using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*,ShockWave*>;
 
 // 親がないもの用
 class Null {

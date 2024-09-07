@@ -1,6 +1,16 @@
 #pragma once
 #include "../BaseObstacle.h"
 #include "../../../../Engine/Animation/Animation.h"
+
+class ShockWave
+{
+public:
+	ShockWave() {};
+	~ShockWave() {};
+	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) {};
+private:
+};
+
 class Block :
     public BaseObstacle
 {
@@ -68,7 +78,21 @@ public: // ベースのメンバ関数
 	/// </summary>
 	void ColliderUpdate();
 
+public: //衝撃波用インナークラス
+
+	std::unique_ptr<ShockWave> shockWave_;
+
 private: // ステート処理
+
+	/// <summary>
+	/// 衝撃波用コライダー初期化
+	/// </summary>
+	void ShockWaveColliderInitialize();
+
+	/// <summary>
+	/// 衝撃波用コライダー更新
+	/// </summary>
+	void ShockWaveColliderUpdate();
 
 	/// <summary>
 	/// 待機状態
@@ -95,6 +119,16 @@ private: // ステート処理
 	/// </summary>
 	void AttackStart();
 
+	/// <summary>
+	/// 衝撃波(中心)
+	/// </summary>
+	void ShockWaveCenter();
+
+	/// <summary>
+	/// 衝撃波(外側)
+	/// </summary>
+	void ShockWaveAfter();
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -118,6 +152,7 @@ private: // パーツ,アニメーション変数
 	//フラグ
 	bool isMove_ = false;
 	bool isAttack_ = false;
+	bool isShockWave_ = false;
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;
@@ -148,5 +183,8 @@ private: // パーツ,アニメーション変数
 	static const size_t colorLength_ = 180;
 	//色の変化
 	size_t colorCount_ = 0;
+
+	//衝撃波用判定を出すか
+	bool isShockWaveCollision_ = false;
 };
 
