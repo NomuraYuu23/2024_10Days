@@ -871,11 +871,11 @@
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.cpp">
       <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\Shadow\Shadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\System\Shadow\ShadowManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\System\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\Shadow\Shadow.cpp">
+      <Filter>Application\System\Shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1505,6 +1505,12 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h">
       <Filter>Application\Object\Character\Player\State\HeadDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\Shadow\ShadowManager.h">
+      <Filter>Application\System\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\Shadow\Shadow.h">
+      <Filter>Application\System\Shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
