@@ -89,6 +89,9 @@ private:
 	// 位置
 	Vector3 localPosition_ = { 0.0f, 0.0f, 0.0f };
 
+	// 大きさ
+	Vector3 localScale_ = { 1.0f, 1.0f, 1.0f };
+
 	//// 剛体
 	//RigidBody rigidBody_;
 

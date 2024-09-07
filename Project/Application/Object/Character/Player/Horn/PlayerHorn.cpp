@@ -11,7 +11,7 @@ LevelData::MeshData PlayerHorn::PlayerHornCreate(const std::string& name)
 	data.name = name;
 	// トランスフォーム
 	data.transform = {
-		1.0f,1.0f,1.0f,
+		3.0f,3.0f,3.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,0.0f,0.0f
 	};
@@ -56,6 +56,9 @@ void PlayerHorn::Initialize(LevelData::MeshData* data)
 	
 	// 位置
 	localPosition_ = { 0.0f, -0.2f, -0.02f };
+
+	// 大きさ
+	localScale_ = { 1.0f,1.0f,1.0f };
 
 }
 
@@ -171,6 +174,8 @@ void PlayerHorn::NodeFollowing()
 
 	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::MakeRotateXYZMatrix(localRotate_), Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix));
 
-	worldTransform_.worldMatrix_ = Matrix4x4::Multiply(rotateMatrix, Matrix4x4::MakeTranslateMatrix(pos));
+	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(localScale_);
+
+	worldTransform_.worldMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix, Matrix4x4::MakeTranslateMatrix(pos)));
 
 }
