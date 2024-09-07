@@ -13,6 +13,7 @@ enum PlayerMotionIndex {
 	kPlayerMotionRun, // 走行時
 	kPlayerMotionWait, // 通常時
 	kPlayerMotionJump, // ジャンプ時
+	kPlayerMotionHeadDrop, // ヘッドドロップ
 	kPlayerMotionIndexOfCount // 数
 };
 
@@ -214,6 +215,8 @@ public: // アクセッサ
 	int32_t GetJumpCheckpointFrame() { return jumpCheckpointFrame_; }
 
 	float GetSmallJumpMultiplier() { return smallJumpMultiplier_; }
+
+	Animation* GetAnimationAdress() { return &animation_; }
 
 private: // グローバル変数
 

@@ -26,7 +26,10 @@ private: // メンバ変数
 	Vector3 endPos_{};
 
 	// 落下終了までの時間
-	float endTime_ = 0.0f;
+	float fallEndTime_ = 0.0f;
+
+	// 状態終了までの時間
+	float stateEndTime_ = 0.0f;
 
 	// 経過時間
 	float time_ = 0.0f;

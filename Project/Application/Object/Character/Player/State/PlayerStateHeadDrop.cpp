@@ -6,7 +6,7 @@
 void PlayerStateHeadDrop::Initialize()
 {
 
-	playerMotionNo_ = kPlayerMotionWait;
+	playerMotionNo_ = kPlayerMotionHeadDrop;
 
 	playerStateNo_ = kPlayerStateHeadDrop;
 
@@ -18,7 +18,10 @@ void PlayerStateHeadDrop::Initialize()
 	endPos_.y = 0.0f;
 
 	// 落下終了までの時間
-	endTime_ = 0.5f;
+	fallEndTime_ = 0.5f;
+
+	// 状態終了までの時間
+	stateEndTime_ = 0.75f;
 
 	// 経過時間
 	time_ = 0.0f;
@@ -32,21 +35,30 @@ void PlayerStateHeadDrop::Update()
 	time_ += kDeltaTime_;
 
 	// 補間係数決定
-	float t = time_ / endTime_;
-	t = fminf(t, 1.0f);
+	float t = time_ / fallEndTime_;
 
 	// 位置変更
 	WorldTransform* worldTransform = player_->GetWorldTransformAdress();
 	worldTransform->usedDirection_ = true;
 
-	worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::EaseInOutCirc, startPos_, endPos_, t);
+	worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::EaseInCirc, startPos_, endPos_, fminf(t, 1.0f));
 
 	// コマンドは受け付けない
 	player_->SetReceiveCommand(false);
 
-	// 落下終了したらRootへ
-	if (t == 1.0f) {
+	// 終了時間になったらRootへ
+	if (time_ >= stateEndTime_) {
 		playerStateNo_ = kPlayerStateRoot;
+	}
+
+	// アニメーション確認
+	Animation* animation = player_->GetAnimationAdress();
+	double animEndTime = animation->GetAnimationDatas()->at(kPlayerMotionHeadDrop).animation.endTime_;
+	double animTimer = animation->GetAnimationDatas()->at(kPlayerMotionHeadDrop).timer;
+
+	if (animTimer > animEndTime - kDeltaTime_) {
+		animTimer = animEndTime - kDeltaTime_;
+		animation->AnimationTimerFix(kPlayerMotionHeadDrop, animTimer);
 	}
 
 }
