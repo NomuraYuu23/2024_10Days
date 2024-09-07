@@ -18,7 +18,7 @@ void PlayerStateHeadDrop::Initialize()
 	endPos_.y = 0.0f;
 
 	// 落下終了までの時間
-	endTime_ = 1.0f;
+	endTime_ = 0.5f;
 
 	// 経過時間
 	time_ = 0.0f;
@@ -39,7 +39,7 @@ void PlayerStateHeadDrop::Update()
 	WorldTransform* worldTransform = player_->GetWorldTransformAdress();
 	worldTransform->usedDirection_ = true;
 
-	worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCirc, startPos_, endPos_, t);
+	worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::EaseInOutCirc, startPos_, endPos_, t);
 
 	// コマンドは受け付けない
 	player_->SetReceiveCommand(false);
