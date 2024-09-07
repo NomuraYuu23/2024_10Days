@@ -174,7 +174,7 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 			colorCount_ = 0;
 			isCollision_ = true;
 			isMove_ = true;
-			countUp_ = 0;
+			//countUp_ = 0;
 			//state_ = std::bind(&Block::ShockWaveCenter, this);
 			//isShockWave_ = true;
 		}
