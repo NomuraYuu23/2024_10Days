@@ -1,6 +1,7 @@
 #include "directionalLightSystem.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/Math/Ease.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 
 void DirectionalLightSystem::initialize(DirectionalLight* directionalLight)
 {
@@ -25,10 +26,17 @@ void DirectionalLightSystem::initialize(DirectionalLight* directionalLight)
 	directionalLightData_.direction = { 0.0f, -1.0f, 0.0f };
 	directionalLightData_.intencity = 1.0f;
 
+	RegistrationGlobalVariables();
+	ApplyGlobalVariables();
+
 }
 
 void DirectionalLightSystem::Update()
 {
+
+#ifdef _DEMO
+	ApplyGlobalVariables();
+#endif // _DEMO
 
 	// タイマーを進める
 	timer_ = fmodf(timer_ + kDeltaTime_, dailyCycleTime_);
@@ -84,5 +92,30 @@ void DirectionalLightSystem::Update()
 	directionalLightData_.direction = direction;
 	directionalLightData_.intencity = 1.0f;
 	directionalLight_->Update(directionalLightData_);
+
+}
+
+void DirectionalLightSystem::ApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "DirectionalLight";
+
+	dailyCycleTime_ = globalVariables->GetFloatValue(groupName, "dailyCycleTime");
+	daytimeColor_ = globalVariables->GetVector3Value(groupName, "daytimeColor");
+	nightColor_ = globalVariables->GetVector3Value(groupName, "nightColor");
+
+}
+
+void DirectionalLightSystem::RegistrationGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "DirectionalLight";
+
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "dailyCycleTime", dailyCycleTime_);
+	globalVariables->AddItem(groupName, "daytimeColor", daytimeColor_);
+	globalVariables->AddItem(groupName, "nightColor", nightColor_);
 
 }

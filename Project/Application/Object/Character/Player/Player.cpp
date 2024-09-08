@@ -120,7 +120,7 @@ void Player::Update()
 		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
 	}
 
-#endif // _DEBUG
+#endif // _DEMO
 
 	MeshObject::Update();
 

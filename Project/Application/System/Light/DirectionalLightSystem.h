@@ -6,8 +6,15 @@ class DirectionalLightSystem
 
 public: // メンバ関数
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="directionalLight">平行光源</param>
 	void initialize(DirectionalLight* directionalLight);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
 private: // 変数
@@ -33,6 +40,18 @@ private: // 変数
 public: // アクセッサ
 
 	DirectionalLightData GetDirectionalLightData() { return directionalLightData_; }
+
+private: // グローバル変数
+
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
+
+	/// <summary>
+	/// 調整項目の登録
+	/// </summary>
+	void RegistrationGlobalVariables();
 
 };
 
