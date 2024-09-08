@@ -59,13 +59,13 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
-	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	localMatrixManager_->Initialize(model_->GetRootNode());
+	//localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	//localMatrixManager_->Initialize(model_->GetRootNode());
 
-	animation_.Initialize(
+	/*animation_.Initialize(
 		model_->GetNodeAnimationData(),
 		localMatrixManager_->GetInitTransform(),
-		localMatrixManager_->GetNodeNames());
+		localMatrixManager_->GetNodeNames());*/
 
 	// パーツ
 	PartInitialize();
@@ -104,9 +104,9 @@ void Enemy::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	//localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
-	localMatrixManager_->Map();
+	//localMatrixManager_->Map();
 
 	// 重力
 	velocity_ += Gravity::Execute();
@@ -129,15 +129,15 @@ void Enemy::Update()
 
 void Enemy::Draw(BaseCamera& camera)
 {
-
-	ModelDraw::AnimObjectDesc desc;
+	MeshObject::Draw(camera);
+	/*ModelDraw::AnimObjectDesc desc;
 	desc.camera = &camera;
 	desc.localMatrixManager = localMatrixManager_.get();
 	desc.material = material_.get();
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
-
+	*/
 }
 
 void Enemy::ImGuiDraw()

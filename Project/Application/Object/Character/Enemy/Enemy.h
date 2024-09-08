@@ -92,16 +92,16 @@ private: // パーツ構成関数
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
-	uint32_t currentMotionNo_;
+	//uint32_t currentMotionNo_;
 
 	// 前のモーション番号
-	uint32_t prevMotionNo_;
+	//uint32_t prevMotionNo_;
 
 	//ノードアニメーション
-	Animation animation_;
+	//Animation animation_;
 
 	// ローカル行列
-	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
+	//std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 private: // 衝突処理
 
@@ -146,7 +146,7 @@ public: // アクセッサ
 
 	uint32_t GetInitHp() { return initHp_; }
 
-	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
+	//LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
 
 	void SetHP(uint32_t hp) { hp_ = hp; }
 
@@ -160,7 +160,7 @@ public: // アクセッサ
 
 	BlockManager* GetBlockManager() { return blockManager_; }
 
-	Animation* GetAnimationAdress() { return &animation_; }
+	//Animation* GetAnimationAdress() { return &animation_; }
 
 private: // グローバル変数
 
