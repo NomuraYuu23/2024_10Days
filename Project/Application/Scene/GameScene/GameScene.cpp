@@ -108,6 +108,9 @@ void GameScene::Initialize() {
 	shadowManager_ = std::make_unique<ShadowManager>();
 	shadowManager_->Initialize(shadowModel_.get());
 
+	directionalLightSystem_ = std::make_unique<DirectionalLightSystem>();
+	directionalLightSystem_->initialize(directionalLight_.get());
+
 	// ここからオブジェクト生成
 
 	// プレイヤー
@@ -155,6 +158,9 @@ void GameScene::Update() {
 
 	// 影
 	ShadowUpdate();
+
+	// 平行光源
+	directionalLightSystem_->Update();
 
 	ImguiDraw();
 

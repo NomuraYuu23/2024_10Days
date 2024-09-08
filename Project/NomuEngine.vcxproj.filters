@@ -397,6 +397,9 @@
     <Filter Include="Application\System\Shadow">
       <UniqueIdentifier>{b6f4e4dd-460f-4510-866b-2cc6a950bd7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\Light">
+      <UniqueIdentifier>{17ab5154-8ae1-4a7c-b8ea-256bfcab4e83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -876,6 +879,9 @@
     </ClCompile>
     <ClCompile Include="Application\System\Shadow\Shadow.cpp">
       <Filter>Application\System\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1511,6 +1517,9 @@
     </ClInclude>
     <ClInclude Include="Application\System\Shadow\Shadow.h">
       <Filter>Application\System\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\Light\DirectionalLightSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
