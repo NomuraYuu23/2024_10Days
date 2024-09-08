@@ -40,10 +40,10 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 
 				int32_t particleIndex = gFreeList[freeListIndex];
 
-				gParticles[particleIndex].scale = float32_t3(1.0f, 1.0f, 1.0f);
+				gParticles[particleIndex].scale = float32_t3(2.0f, 2.0f, 1.0f);
 
 				gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + gEmitter.translate;
-				gParticles[particleIndex].translate.y = gEmitter.translate.y;
+				gParticles[particleIndex].translate.y = gEmitter.translate.y + generator.Generate1d() * 4.0f - 2.0f;
 				gParticles[particleIndex].color.rgb = float32_t3(1.0f, 1.0f, 1.0f);
 				gParticles[particleIndex].color.a = 1.0f;
 				gParticles[particleIndex].lifeTime = 1.0f;

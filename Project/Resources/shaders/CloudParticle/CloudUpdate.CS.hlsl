@@ -18,27 +18,25 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
 		if (gParticles[particleIndex].color.a != 0) {
 
-			//float32_t3 velocity = gParticles[particleIndex].velocity;
-			//float32_t3 acceleration = float32_t3(0.0f, 0.0f, 0.0f);
-			//if (velocity.x != 0.0f) {
-			//	acceleration.x = velocity.x / abs(velocity.x) * 0.05f;
-			//}
-			//if (velocity.y != 0.0f) {
-			//	acceleration.y = velocity.y / abs(velocity.y) * 0.05f;
-			//}
-			//if (velocity.z != 0.0f) {
-			//	acceleration.z = velocity.z / abs(velocity.z) * 0.05f;
-			//}
-
-			//velocity += acceleration;
-			//gParticles[particleIndex].velocity = velocity;
-
-			//gParticles[particleIndex].translate += velocity;
-
 			gParticles[particleIndex].currentTime += gPerFrame.deltaTime;
-			float32_t alpha =
-				1.0f - (gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime));
-			//gParticles[particleIndex].color.a = saturate(alpha);
+
+			float32_t t = gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime);
+
+			float32_t alpha = 0.0f;
+
+			if (t <= 0.5f) {
+				t *= 2.0f;
+				alpha = t;
+			}
+			else {
+				t -= 0.5f;
+				t *= 2.0f;
+				alpha = 1.0f - t;
+				if (alpha < 0.0f) {
+					alpha = 0.0f;
+				}
+			}
+			gParticles[particleIndex].color.a = saturate(alpha);
 		}
 		else {
 

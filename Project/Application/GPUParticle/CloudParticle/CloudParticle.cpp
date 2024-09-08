@@ -16,10 +16,10 @@ void CloudParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* 
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 
 	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.5f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = Vector3(0.0f, 10.0f, 0.0f);
+	emitter.count = 128;
+	emitter.frequency = 0.2f;
+	emitter.frequencyTime = 0.2f;
+	emitter.translate = Vector3(0.0f, 30.0f, 0.0f);
 	emitter.radius = 18.0f;
 	emitter.emit = 0;
 
