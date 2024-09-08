@@ -11,9 +11,9 @@ LevelData::MeshData Enemy::EnemyCreate()
 {
 
 	LevelData::MeshData data;
-
+	static size_t id;
 	// 名前
-	data.name = "Enemy";
+	data.name = "Enemy" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
 		1.0f,1.0f,1.0f,
