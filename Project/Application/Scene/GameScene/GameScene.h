@@ -19,6 +19,7 @@
 #include "../../Object/Obstacle/Block/BlockManager.h"
 #include "../../System/Shadow/ShadowManager.h"
 #include "../../System/Light/DirectionalLightSystem.h"
+#include "../../System/BackGround/BackGround.h"
 
 class GameScene : public IScene
 {
@@ -115,5 +116,9 @@ private:
 
 	// 平行光源システム
 	std::unique_ptr<DirectionalLightSystem> directionalLightSystem_;
+
+	// 背景
+	std::unique_ptr<BackGround> backGround_;
+	uint32_t backGroundTextureHandle_ = 0;
 
 };

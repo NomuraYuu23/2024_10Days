@@ -10,7 +10,7 @@ public: // メンバ関数
 
 	void Update();
 
-private:
+private: // 変数
 
 	// 一日のサイクル時間
 	float dailyCycleTime_ = 60.0f;
@@ -26,6 +26,13 @@ private:
 
 	// 平行光源
 	DirectionalLight* directionalLight_;
+
+	// 平行光源データ
+	DirectionalLightData directionalLightData_;
+
+public: // アクセッサ
+
+	DirectionalLightData GetDirectionalLightData() { return directionalLightData_; }
 
 };
 

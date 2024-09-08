@@ -189,6 +189,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp" />
+    <ClCompile Include="Application\System\BackGround\BackGround.cpp" />
     <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp" />
     <ClCompile Include="Application\System\Shadow\Shadow.cpp" />
     <ClCompile Include="Application\System\Shadow\ShadowManager.cpp" />
@@ -355,6 +356,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h" />
+    <ClInclude Include="Application\System\BackGround\BackGround.h" />
     <ClInclude Include="Application\System\Light\DirectionalLightSystem.h" />
     <ClInclude Include="Application\System\Shadow\Shadow.h" />
     <ClInclude Include="Application\System\Shadow\ShadowManager.h" />

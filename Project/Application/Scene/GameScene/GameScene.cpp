@@ -108,8 +108,14 @@ void GameScene::Initialize() {
 	shadowManager_ = std::make_unique<ShadowManager>();
 	shadowManager_->Initialize(shadowModel_.get());
 
+	// 平行光源システム
 	directionalLightSystem_ = std::make_unique<DirectionalLightSystem>();
 	directionalLightSystem_->initialize(directionalLight_.get());
+
+	//
+	backGroundTextureHandle_ = TextureManager::Load("Resources/default/white2x2.png", dxCommon_);
+	backGround_ = std::make_unique<BackGround>();
+	backGround_->Initialize(backGroundTextureHandle_);
 
 	// ここからオブジェクト生成
 
@@ -161,6 +167,8 @@ void GameScene::Update() {
 
 	// 平行光源
 	directionalLightSystem_->Update();
+	// 背景
+	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
 
 	ImguiDraw();
 
@@ -170,6 +178,20 @@ void GameScene::Update() {
 /// 描画処理
 /// </summary>
 void GameScene::Draw() {
+
+#pragma region 背景スプライト描画
+
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(dxCommon_->GetCommadList());
+
+	backGround_->Draw();
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	renderTargetTexture_->ClearDepthBuffer();
+
+#pragma endregion
 
 #pragma region モデル描画
 

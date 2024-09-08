@@ -20,12 +20,15 @@ void DirectionalLightSystem::initialize(DirectionalLight* directionalLight)
 	// 平行光源
 	directionalLight_ = directionalLight;
 
+	// 平行光源データ
+	directionalLightData_.color = { 1.0f,1.0f,1.0f,1.0f };
+	directionalLightData_.direction = { 0.0f, -1.0f, 0.0f };
+	directionalLightData_.intencity = 1.0f;
+
 }
 
 void DirectionalLightSystem::Update()
 {
-
-	DirectionalLightData directionalLightData;
 
 	// タイマーを進める
 	timer_ = fmodf(timer_ + kDeltaTime_, dailyCycleTime_);
@@ -77,9 +80,9 @@ void DirectionalLightSystem::Update()
 	// 強さの変更
 
 	// データを更新
-	directionalLightData.color = { color.x, color.y, color.z, 1.0f };
-	directionalLightData.direction = direction;
-	directionalLightData.intencity = 1.0f;
-	directionalLight_->Update(directionalLightData);
+	directionalLightData_.color = { color.x, color.y, color.z, 1.0f };
+	directionalLightData_.direction = direction;
+	directionalLightData_.intencity = 1.0f;
+	directionalLight_->Update(directionalLightData_);
 
 }
