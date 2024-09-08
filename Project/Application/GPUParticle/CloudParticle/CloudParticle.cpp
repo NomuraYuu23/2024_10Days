@@ -15,15 +15,15 @@ void CloudParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* 
 
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 
-	EmitterCS emitter;
-	emitter.count = 128;
-	emitter.frequency = 0.2f;
-	emitter.frequencyTime = 0.2f;
-	emitter.translate = Vector3(0.0f, 30.0f, 0.0f);
-	emitter.radius = 18.0f;
-	emitter.emit = 0;
-
-	SetEmitter(emitter, true);
+	// powerBuff_
+	powerBuff_ = BufferResource::CreateBufferResource(device, (sizeof(Power) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	powerBuff_->Map(0, nullptr, reinterpret_cast<void**>(&powerMap_));
+	// マッピング
+	powerMap_->position_ = { 0.0f,0.0f,0.0f };
+	powerMap_->power_ = 1.0f;
+	powerMap_->radius_ = 1.0f;
+	powerMap_->execution_ = 0;
 
 }
 
@@ -150,6 +150,8 @@ void CloudParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(2, freeListIndexHandleGPU_);
 
 	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
+
+	commandList->SetComputeRootConstantBufferView(4, powerBuff_->GetGPUVirtualAddress());
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -363,7 +365,7 @@ void CloudParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -402,6 +404,10 @@ void CloudParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[3].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
+
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[4].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -453,5 +459,15 @@ void CloudParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 
 	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdate]));
 	assert(SUCCEEDED(hr));
+
+}
+
+void CloudParticle::SetPowerMap(const Power& powerMap)
+{
+
+	powerMap_->position_ = powerMap.position_;
+	powerMap_->power_ = powerMap.power_;
+	powerMap_->radius_ = powerMap.radius_;
+	powerMap_->execution_ = powerMap.execution_;
 
 }

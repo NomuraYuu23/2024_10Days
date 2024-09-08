@@ -117,14 +117,6 @@ void GameScene::Initialize() {
 	backGround_ = std::make_unique<BackGround>();
 	backGround_->Initialize(backGroundTextureHandle_);
 
-	// 雲
-	cloudSystem_ = std::make_unique<CloudSystem>();
-	cloudSystem_->Initialize(
-		dxCommon_->GetDevice(),
-		dxCommon_->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
-
 	// ここからオブジェクト生成
 
 	// プレイヤー
@@ -132,6 +124,16 @@ void GameScene::Initialize() {
 
 	// ブロック
 	CreateBlocks();
+
+
+	// 雲
+	cloudSystem_ = std::make_unique<CloudSystem>();
+	cloudSystem_->Initialize(
+		dxCommon_->GetDevice(),
+		dxCommon_->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		player_);
 
 	IScene::InitilaizeCheck();
 

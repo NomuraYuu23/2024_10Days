@@ -1,6 +1,15 @@
 #include "Cloud.CS.hlsli"
 #include "../RandomGenerator/RandomGenerator.hlsli"
 
+struct Power{
+
+	float32_t3 position_;
+	float32_t power_;
+	float32_t radius_;
+	uint32_t execution_;
+
+};
+
 RWStructuredBuffer<Particle> gParticles : register(u0);
 
 ConstantBuffer<PerFrame> gPerFrame : register(b0);
@@ -8,6 +17,8 @@ ConstantBuffer<PerFrame> gPerFrame : register(b0);
 RWStructuredBuffer<int32_t> gFreeListIndex : register(u1);
 
 RWStructuredBuffer<uint32_t> gFreeList : register(u2);
+
+ConstantBuffer<Power> gPower : register(b1);
 
 [numthreads(1024, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
@@ -17,6 +28,9 @@ void main(uint3 DTid : SV_DispatchThreadID)
 	if (particleIndex < kMaxParticles) {
 
 		if (gParticles[particleIndex].color.a != 0) {
+
+			if (gPower.execution_ == 1) {
+			}
 
 			gParticles[particleIndex].currentTime += gPerFrame.deltaTime;
 

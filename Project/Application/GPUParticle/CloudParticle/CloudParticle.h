@@ -5,6 +5,17 @@ class CloudParticle :
     public GPUParticle
 {
 
+public: //サブクラス
+
+	struct Power{
+
+		Vector3 position_;
+		float power_;
+		float radius_;
+		uint32_t execution_;
+
+	};
+
 public:
 
 	/// <summary>
@@ -75,6 +86,18 @@ private: // パイプラインステートの初期化CS
 	/// </summary>
 	/// <param name="device"></param>
 	void PipelineStateCSInitializeForUpdate(ID3D12Device* device) override;
+
+private:
+
+	// Powerバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> powerBuff_;
+	// Powerマップ
+	Power* powerMap_ = nullptr;
+
+
+public: 
+
+	void SetPowerMap(const Power& powerMap);
 
 };
 

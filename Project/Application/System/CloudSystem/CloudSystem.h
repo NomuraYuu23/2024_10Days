@@ -1,6 +1,8 @@
 #pragma once
 #include "../../GPUParticle/CloudParticle/CloudParticle.h"
 
+class Player;
+
 class CloudSystem
 {
 
@@ -13,11 +15,13 @@ public:
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="rootSignature">ルートシグネチャ</param>
 	/// <param name="pipelineState">パイプラインステート</param>
+	/// <param name="player"プレイヤー></param>
 	void Initialize(
 		ID3D12Device* device,
 		ID3D12GraphicsCommandList* commandList,
 		ID3D12RootSignature* rootSignature,
-		ID3D12PipelineState* pipelineState);
+		ID3D12PipelineState* pipelineState,
+		Player* player);
 
 	void Update();
 
@@ -32,10 +36,23 @@ public:
 
 private:
 
-	/// <summary>
-	/// パーティクル
-	/// </summary>
-	std::unique_ptr<CloudParticle> cloudParticle;
+	// パーティクル
+	std::unique_ptr<CloudParticle> cloudParticle_;
+
+	// プレイヤー
+	Player* player_;
+
+	// プレイヤーは下
+	bool playerIsBelow_;
+
+	// 雲の標準位置
+	float cloudPosY_ = 30.0f;
+
+	// プレイヤーのパワー範囲
+	float pawerRadius_ = 0.0f;
+
+	// パワー
+	float power_ = 0.0f;
 
 };
 
