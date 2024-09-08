@@ -89,6 +89,8 @@ void Enemy::Initialize(LevelData::MeshData* data)
 
 	hp_ = initHp_;
 
+	//初期ステート
+	state_ = std::bind(&Enemy::Shot, this);
 }
 
 void Enemy::Update()
@@ -101,6 +103,9 @@ void Enemy::Update()
 #endif // _DEBUG
 
 	MeshObject::Update();
+
+	state_();
+
 	// アニメーション
 	AnimationUpdate();
 
@@ -276,5 +281,20 @@ void Enemy::Rush() {
 
 
 void Enemy::RushStart() {
+
+}
+
+void Enemy::Shot() {
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	//プレイヤーの方を向く
+	Matrix4x4 rotate = Matrix4x4::DirectionToDirection({0.0f,0.0f,1.0f}, to-from);
+	worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},rotate);
+	worldTransform_.usedDirection_ = true;
+}
+
+void Enemy::ShotStart() {
 
 }
