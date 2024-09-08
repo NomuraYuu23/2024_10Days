@@ -30,7 +30,16 @@ void main(uint3 DTid : SV_DispatchThreadID)
 		if (gParticles[particleIndex].color.a != 0) {
 
 			if (gPower.execution_ == 1) {
+				float32_t3 powerPos = gPower.position_;
+				powerPos.y = gParticles[particleIndex].translate.y;
+				if (distance(gParticles[particleIndex].translate, gPower.position_) <= gPower.radius_) {
+					float32_t3 norm = normalize(gParticles[particleIndex].translate - gPower.position_);
+					gParticles[particleIndex].velocity = norm * gPower.power_;
+				}
+
 			}
+
+			gParticles[particleIndex].translate += gParticles[particleIndex].velocity;
 
 			gParticles[particleIndex].currentTime += gPerFrame.deltaTime;
 

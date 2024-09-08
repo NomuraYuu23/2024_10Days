@@ -7,7 +7,7 @@ void CloudSystem::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	cloudParticle_ = std::make_unique<CloudParticle>();
 	cloudParticle_->Initialize(device, commandList, rootSignature, pipelineState);
 
-	cloudPosY_ = 30.0f;
+	cloudPosY_ = 33.0f;
 
 	EmitterCS emitter;
 	emitter.count = 128;
@@ -23,9 +23,9 @@ void CloudSystem::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 
 	playerIsBelow_ = true;
 
-	pawerRadius_ = 3.0f;
+	pawerRadius_ = 10.0f;
 
-	power_ = 1.0f;
+	power_ = 0.5f;
 
 }
 
