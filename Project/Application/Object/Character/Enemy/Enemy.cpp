@@ -6,7 +6,7 @@
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
 #include "../../../../Engine/GlobalVariables/GlobalVariables.h"
-
+#include "../../Obstacle/Block/Block.h"
 LevelData::MeshData Enemy::EnemyCreate()
 {
 
@@ -104,7 +104,7 @@ void Enemy::Update()
 
 	MeshObject::Update();
 
-	//CheckFloorConect();
+	CheckFloorConect();
 
 	state_();
 

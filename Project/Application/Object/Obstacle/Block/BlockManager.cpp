@@ -30,25 +30,37 @@ void BlockManager::Set2dArray() {
 
 bool BlockManager::IsConnectRoad(Vector3 from, Vector3 to, bool hight) {
 	Set2dArray();
-	Vector3 length = to - from;
-	float x = length.x;
-	float z = length.z;
-	if (x*x > z*z) { //x成分の方が長い時
-		for (size_t i = 0; i < size_t(x / Block::kSize_);i++) {
-			Vector3 va = (to + (from * (1.0f / Block::kSize_)));
-			va.x += Block::kNumOnece_ * 0.5f;
-			va.z += Block::kNumOnece_ * 0.5f;
+	Vector3 length{0,0,0};
+	length = Vector3::Subtract(to, from);
+	if (length.x * length.x > length.z * length.z && length.x > 0.1f) { //x成分の方が長い時
+		float div = std::fabsf(length.x) / Block::kSize_;
+		for (size_t i = 0; i < size_t(div);i++) {
+			Vector3 va = {0,0,0};
+			va.x =  (from.x + length.x/div * float(i));
+			va.x /= Block::kSize_*2.0f;
+			va.z =  (from.z + length.z/div * float(i));
+			va.z /= Block::kSize_*2.0f;
+			//va.z = GetMinPoint().z + (to.z + (from.z * (length.z / Block::kSize_) * float(i)));
+			va.x += float(Block::kNumOnece_) * 0.5f;
+			va.z += float(Block::kNumOnece_) * 0.5f;
+
 			if (heights_[size_t(va.z)][size_t(va.x)] != size_t(hight)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	else {
-		for (size_t i = 0; i < size_t(z / Block::kSize_); i++) {
-			Vector3 va = (to + (from * (1.0f / Block::kSize_)));
-			va.x += Block::kNumOnece_ * 0.5f;
-			va.z += Block::kNumOnece_ * 0.5f;
+	else if(length.z*length.z > 0.1f){
+		float div = std::fabsf(length.z) / Block::kSize_;
+		for (size_t i2 = 0; i2 < size_t(std::fabsf(length.z) / Block::kSize_); i2++) {
+			Vector3 va = { 0,0,0 };
+			va.x =  (from.x + length.x / div * float(i2));
+			va.x /= Block::kSize_*2.0f;
+			va.z =  (from.z + length.z / div * float(i2));
+			va.z /= Block::kSize_*2.0f;
+			//va.z = GetMinPoint().z + (to.z + (from.z * (length.z / Block::kSize_) * float(i)));
+			va.x += float(Block::kNumOnece_) * 0.5f;
+			va.z += float(Block::kNumOnece_) * 0.5f;
 			if (heights_[size_t(va.z)][size_t(va.x)] != size_t(hight)) {
 				return false;
 			}
