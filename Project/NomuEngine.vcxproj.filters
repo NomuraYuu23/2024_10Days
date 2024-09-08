@@ -883,6 +883,12 @@
     <ClCompile Include="Application\System\CloudSystem\CloudSystem.cpp">
       <Filter>Application\System\Cloud</Filter>
     </ClCompile>
+    <ClCompile Include="Application\UI\UISystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\UI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1529,6 +1535,12 @@
     </ClInclude>
     <ClInclude Include="Application\System\CloudSystem\CloudSystem.h">
       <Filter>Application\System\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UISystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UI.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
