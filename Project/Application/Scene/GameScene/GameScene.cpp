@@ -180,7 +180,7 @@ void GameScene::Update() {
 	// 背景
 	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
 	// 雲
-	cloudSystem_->Update();
+	cloudSystem_->Update(directionalLightSystem_->GetDirectionalLightData().color);
 
 	ImguiDraw();
 

@@ -242,5 +242,9 @@ protected:
 	// ディスクリプタヒープの位置
 	uint32_t freeListDescriptorHeap_ = 0;
 
+public:
+
+	Material* GetMaterial() { return material_.get(); }
+
 };
 

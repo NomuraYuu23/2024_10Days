@@ -29,7 +29,7 @@ void CloudSystem::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 
 }
 
-void CloudSystem::Update()
+void CloudSystem::Update(const Vector4& color)
 {
 
 	cloudParticle_->Update();
@@ -58,6 +58,17 @@ void CloudSystem::Update()
 	}
 
 	cloudParticle_->SetPowerMap(power);
+
+	Vector4 materialColor = { 0.1f,0.1f,0.1f,1.0f };
+	materialColor.x += color.x;
+	materialColor.y += color.y;
+	materialColor.z += color.z;
+
+	materialColor.x /= 2.0f;
+	materialColor.y /= 2.0f;
+	materialColor.z /= 2.0f;
+
+	cloudParticle_->GetMaterial()->SetColor(materialColor);
 
 }
 

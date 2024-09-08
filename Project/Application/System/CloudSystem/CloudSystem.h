@@ -23,7 +23,11 @@ public:
 		ID3D12PipelineState* pipelineState,
 		Player* player);
 
-	void Update();
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="color">色</param>
+	void Update(const Vector4& color);
 
 	/// <summary>
 	/// 描画
