@@ -17,8 +17,6 @@
 
 #include "../../Camera/FollowCamera.h"
 
-#include "../../GPUParticle/BonfireParticle.h"
-
 
 class TutorialScene : public IScene
 {

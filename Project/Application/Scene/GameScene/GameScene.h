@@ -20,6 +20,7 @@
 #include "../../System/Shadow/ShadowManager.h"
 #include "../../System/Light/DirectionalLightSystem.h"
 #include "../../System/BackGround/BackGround.h"
+#include "../../System/CloudSystem/CloudSystem.h"
 
 class GameScene : public IScene
 {
@@ -120,5 +121,8 @@ private:
 	// 背景
 	std::unique_ptr<BackGround> backGround_;
 	uint32_t backGroundTextureHandle_ = 0;
+
+	// 雲
+	std::unique_ptr<CloudSystem> cloudSystem_;
 
 };

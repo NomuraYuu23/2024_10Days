@@ -325,30 +325,6 @@
     <Filter Include="shaders\PostEffect\HSVFilter">
       <UniqueIdentifier>{e4bed640-a217-4143-a704-421f4f242a9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders\GPUParticle\BonfireParticle">
-      <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\BonfireParticle\CS">
-      <UniqueIdentifier>{b68dd55c-7912-4a19-9900-2d57191447dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\BloadParticle">
-      <UniqueIdentifier>{0f8b438b-72de-4fb6-b7dc-f3b819eac664}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\BloadParticle\CS">
-      <UniqueIdentifier>{990f24b8-1d49-404f-bae2-03d82e4b1a60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\FieldSparksParticle">
-      <UniqueIdentifier>{775d06be-4c4b-4bee-a162-8e3259f528c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\FieldSparksParticle\CS">
-      <UniqueIdentifier>{0a5136f7-afef-4201-8083-9b99789eadce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\PillarSmokeParticle">
-      <UniqueIdentifier>{1457ec65-2545-4635-b9de-e0155fbc62e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\GPUParticle\PillarSmokeParticle\CS">
-      <UniqueIdentifier>{afe45777-70ea-4ac6-9a41-16b3d960fbd9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\String">
       <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
     </Filter>
@@ -399,6 +375,15 @@
     </Filter>
     <Filter Include="Application\System\Light">
       <UniqueIdentifier>{17ab5154-8ae1-4a7c-b8ea-256bfcab4e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\GPUParticle\CloudParticle">
+      <UniqueIdentifier>{d29296d0-a62f-4217-8483-55531ad460af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\CloudParticle">
+      <UniqueIdentifier>{a6c25a18-a9cb-4c05-a64b-34a28b5735cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\CloudParticle\CS">
+      <UniqueIdentifier>{725c65b2-0ab5-40d4-9540-529347e7b5fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -880,10 +865,16 @@
     <ClCompile Include="Application\System\Shadow\Shadow.cpp">
       <Filter>Application\System\Shadow</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp">
+    <ClCompile Include="Application\System\BackGround\BackGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\BackGround\BackGround.cpp">
+    <ClCompile Include="Application\GPUParticle\CloudParticle\CloudParticle.cpp">
+      <Filter>Application\GPUParticle\CloudParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp">
+      <Filter>Application\System\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\CloudSystem\CloudSystem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1521,10 +1512,16 @@
     <ClInclude Include="Application\System\Shadow\Shadow.h">
       <Filter>Application\System\Shadow</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\Light\DirectionalLightSystem.h">
+    <ClInclude Include="Application\System\BackGround\BackGround.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\BackGround\BackGround.h">
+    <ClInclude Include="Application\GPUParticle\CloudParticle\CloudParticle.h">
+      <Filter>Application\GPUParticle\CloudParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\Light\DirectionalLightSystem.h">
+      <Filter>Application\System\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\CloudSystem\CloudSystem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1572,23 +1569,14 @@
     <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
       <Filter>shaders\GPUParticle\CS</Filter>
     </None>
-    <None Include="Resources\shaders\BonfireParticle\Bonfire.CS.hlsli">
-      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
-    </None>
     <None Include="Resources\shaders\GPUParticle\GPUParticleDissolve.hlsli">
       <Filter>shaders\GPUParticle</Filter>
     </None>
     <None Include="Resources\shaders\PostEffect\PostEffectParameters.hlsli">
       <Filter>shaders\PostEffect</Filter>
     </None>
-    <None Include="Resources\shaders\BloadParticle\Bload.CS.hlsli">
-      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
-    </None>
-    <None Include="Resources\shaders\FieldSparksParticle\FieldSparks.CS.hlsli">
-      <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
-    </None>
-    <None Include="Resources\shaders\PillarSmokeParticle\PillarSmoke.CS.hlsli">
-      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
+    <None Include="Resources\shaders\CloudParticle\Cloud.CS.hlsli">
+      <Filter>shaders\GPUParticle\CloudParticle\CS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1684,15 +1672,6 @@
     <FxCompile Include="Resources\shaders\GPUParticle\ParticleUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\CS</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
-      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireEmit.CS.hlsl">
-      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireInitialize.CS.hlsl">
-      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.PS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
@@ -1762,32 +1741,14 @@
     <FxCompile Include="Resources\shaders\PostEffect\HSVFilter.CS.hlsl">
       <Filter>shaders\PostEffect\HSVFilter</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\BloadParticle\BloadEmit.CS.hlsl">
-      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
+    <FxCompile Include="Resources\shaders\CloudParticle\CloudEmit.CS.hlsl">
+      <Filter>shaders\GPUParticle\CloudParticle\CS</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\BloadParticle\BloadInitialize.CS.hlsl">
-      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
+    <FxCompile Include="Resources\shaders\CloudParticle\CloudInitialize.CS.hlsl">
+      <Filter>shaders\GPUParticle\CloudParticle\CS</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\BloadParticle\BloadUpdate.CS.hlsl">
-      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\FieldSparksParticle\FieldSparksEmit.CS.hlsl">
-      <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\FieldSparksParticle\FieldSparksInitialize.CS.hlsl">
-      <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\FieldSparksParticle\FieldSparksUpdate.CS.hlsl">
-      <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeEmit.CS.hlsl">
-      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeInitialize.CS.hlsl">
-      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeUpdate.CS.hlsl">
-      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
+    <FxCompile Include="Resources\shaders\CloudParticle\CloudUpdate.CS.hlsl">
+      <Filter>shaders\GPUParticle\CloudParticle\CS</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

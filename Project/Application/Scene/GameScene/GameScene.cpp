@@ -112,10 +112,18 @@ void GameScene::Initialize() {
 	directionalLightSystem_ = std::make_unique<DirectionalLightSystem>();
 	directionalLightSystem_->initialize(directionalLight_.get());
 
-	//
+	// 背景
 	backGroundTextureHandle_ = TextureManager::Load("Resources/default/white2x2.png", dxCommon_);
 	backGround_ = std::make_unique<BackGround>();
 	backGround_->Initialize(backGroundTextureHandle_);
+
+	// 雲
+	cloudSystem_ = std::make_unique<CloudSystem>();
+	cloudSystem_->Initialize(
+		dxCommon_->GetDevice(),
+		dxCommon_->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
 
 	// ここからオブジェクト生成
 
@@ -169,6 +177,8 @@ void GameScene::Update() {
 	directionalLightSystem_->Update();
 	// 背景
 	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
+	// 雲
+	cloudSystem_->Update();
 
 	ImguiDraw();
 
@@ -223,6 +233,9 @@ void GameScene::Draw() {
 
 	// パーティクル描画
 	objectManager_->ParticleDraw(camera_);
+
+	// 雲
+	cloudSystem_->Draw(dxCommon_->GetCommadList(), camera_);
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());
