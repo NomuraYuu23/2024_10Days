@@ -1,0 +1,6 @@
+{
+    "Enemy": {
+        "initHp": 3,
+        "runningSpeed": 0.1599999964237213
+    }
+}

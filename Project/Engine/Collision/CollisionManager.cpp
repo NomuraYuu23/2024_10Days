@@ -6,7 +6,7 @@
 #include "../../Application/Object/RigidBodyObject/BaseRigidBodyObject.h"
 #include "../../Application/Object/Character/Player/Player.h"
 #include "../../Application/Object/Obstacle/Block/Block.h"
-
+#include "../../Application/Object/Character/Enemy/Enemy.h"
 void CollisionManager::Initialize()
 {
 
