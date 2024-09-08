@@ -129,6 +129,11 @@ private: // ステート処理
 	/// </summary>
 	void ShockWaveAfter();
 
+public: //アクセッサ
+	bool GetHight() { return hight_; };
+
+	bool GetIsMove() { return isMove_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
