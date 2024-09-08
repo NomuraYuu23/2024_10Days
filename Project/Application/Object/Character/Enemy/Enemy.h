@@ -84,6 +84,9 @@ private: // ステート関数
 	/// </summary>
 	void CheckFloorConect();
 
+	//プレイヤーの方を向く
+	void RotateToPlayer();
+
 private: // ステート変数
 
 

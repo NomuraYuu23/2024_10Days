@@ -90,7 +90,7 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Enemy::Shot, this);
+	state_ = std::bind(&Enemy::Rush, this);
 }
 
 void Enemy::Update()
@@ -103,6 +103,8 @@ void Enemy::Update()
 #endif // _DEBUG
 
 	MeshObject::Update();
+
+	//CheckFloorConect();
 
 	state_();
 
@@ -276,7 +278,16 @@ void Enemy::RegistrationGlobalVariables()
 
 
 void Enemy::Rush() {
+	RotateToPlayer();
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	Vector3 move = Vector3::Normalize(to-from);
 
+	move.y = 0;
+	move *= runningSpeed_;
+	worldTransform_.transform_.translate += move;
 }
 
 
@@ -285,16 +296,39 @@ void Enemy::RushStart() {
 }
 
 void Enemy::Shot() {
-	Vector3 from = worldTransform_.GetWorldPosition();
-	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
-	from.y = 0;
-	to.y = 0;
-	//プレイヤーの方を向く
-	Matrix4x4 rotate = Matrix4x4::DirectionToDirection({0.0f,0.0f,1.0f}, to-from);
-	worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},rotate);
-	worldTransform_.usedDirection_ = true;
+	RotateToPlayer();
 }
 
 void Enemy::ShotStart() {
 
 }
+
+void Enemy::RotateToPlayer() {
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	//プレイヤーの方を向く
+	Matrix4x4 rotate = Matrix4x4::DirectionToDirection({ 0.0f,0.0f,1.0f }, to - from);
+	worldTransform_.direction_ = Matrix4x4::TransformNormal({ 0.0f,0.0f,1.0f }, rotate);
+	worldTransform_.usedDirection_ = true;
+}
+
+void Enemy::CheckFloorConect() {
+	bool hight = false;
+	if (worldTransform_.GetWorldPosition().y > Block::kFloatHight) {
+		hight = true;
+	}
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	if (blockManager_->IsConnectRoad(from, to, hight)) {
+		//突進に移行
+		state_ = std::bind(&Enemy::Rush, this);
+	}
+	else {
+		state_ = std::bind(&Enemy::Shot, this);
+	}
+}
+

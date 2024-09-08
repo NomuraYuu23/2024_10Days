@@ -39,6 +39,7 @@ public:
 	void Set2dArray();
 
 	//平面上で二点間のブロックが全て繋がっているか
+	bool IsConnectRoad(Vector3 from,Vector3 to,bool hight);
 
 private:
 
