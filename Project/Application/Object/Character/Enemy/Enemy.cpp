@@ -22,7 +22,7 @@ LevelData::MeshData Enemy::EnemyCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "Enemy.gltf";
+	data.flieName = "Spino.gltf";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Enemy/";
 	// クラスの名前
@@ -267,4 +267,14 @@ void Enemy::RegistrationGlobalVariables()
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
+}
+
+
+void Enemy::Rush() {
+
+}
+
+
+void Enemy::RushStart() {
+
 }

@@ -60,18 +60,33 @@ private: // ベースのメンバ変数
 private: // ステート関数
 
 	/// <summary>
-	/// ステート初期化
+	/// 移動状態
 	/// </summary>
-	void StateInitialize();
+	void Rush();
 
 	/// <summary>
-	/// ステート更新
+	/// 移動開始
 	/// </summary>
-	void StateUpdate();
+	void RushStart();
+
+	/// <summary>
+	/// 射撃状態
+	/// </summary>
+	void Shot();
+
+	/// <summary>
+	/// 射撃開始
+	/// </summary>
+	void ShotStart();
+
+	/// <summary>
+	/// 状態チェック
+	/// </summary>
+	void CheckFloorConect();
 
 private: // ステート変数
 
-	
+
 private: // パーツ構成関数
 
 	/// <summary>
@@ -98,11 +113,11 @@ private: // パーツ,アニメーション変数
 	//uint32_t prevMotionNo_;
 
 	//ノードアニメーション
-	//Animation animation_;
+	Animation animation_;
 
 	// ローカル行列
-	//std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
-
+	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
+	
 private: // 衝突処理
 
 	/// <summary>
@@ -136,8 +151,11 @@ private: //	変数
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
-	Player* target = nullptr;
+	Player* target_ = nullptr;
 	
+	//ステート
+	std::function<void(void)> state_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -161,6 +179,8 @@ public: // アクセッサ
 	BlockManager* GetBlockManager() { return blockManager_; }
 
 	//Animation* GetAnimationAdress() { return &animation_; }
+
+	void SetPlayer(Player* player) { target_ = player; };
 
 private: // グローバル変数
 
