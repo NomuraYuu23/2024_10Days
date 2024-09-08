@@ -385,6 +385,12 @@
     <Filter Include="shaders\GPUParticle\CloudParticle\CS">
       <UniqueIdentifier>{725c65b2-0ab5-40d4-9540-529347e7b5fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\BackGround">
+      <UniqueIdentifier>{e947abcd-8fae-417c-b629-4a2aa55d088e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\Cloud">
+      <UniqueIdentifier>{34c0fb68-80b6-486c-b9cb-c5c7633f8a3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -865,17 +871,17 @@
     <ClCompile Include="Application\System\Shadow\Shadow.cpp">
       <Filter>Application\System\Shadow</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\BackGround\BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\GPUParticle\CloudParticle\CloudParticle.cpp">
       <Filter>Application\GPUParticle\CloudParticle</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp">
       <Filter>Application\System\Light</Filter>
     </ClCompile>
+    <ClCompile Include="Application\System\BackGround\BackGround.cpp">
+      <Filter>Application\System\BackGround</Filter>
+    </ClCompile>
     <ClCompile Include="Application\System\CloudSystem\CloudSystem.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\System\Cloud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1512,17 +1518,17 @@
     <ClInclude Include="Application\System\Shadow\Shadow.h">
       <Filter>Application\System\Shadow</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\BackGround\BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\GPUParticle\CloudParticle\CloudParticle.h">
       <Filter>Application\GPUParticle\CloudParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\Light\DirectionalLightSystem.h">
       <Filter>Application\System\Light</Filter>
     </ClInclude>
+    <ClInclude Include="Application\System\BackGround\BackGround.h">
+      <Filter>Application\System\BackGround</Filter>
+    </ClInclude>
     <ClInclude Include="Application\System\CloudSystem\CloudSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\System\Cloud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
