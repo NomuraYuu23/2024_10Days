@@ -877,6 +877,9 @@
     <ClCompile Include="Application\System\Shadow\Shadow.cpp">
       <Filter>Application\System\Shadow</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1511,6 +1514,9 @@
     </ClInclude>
     <ClInclude Include="Application\System\Shadow\Shadow.h">
       <Filter>Application\System\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
