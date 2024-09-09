@@ -5,6 +5,20 @@ class EggBreakParticle :
     public GPUParticle
 {
 
+	struct ParticleBlendNormalCS
+	{
+
+		Vector3 translate; // 位置
+		Vector3 scale; // 大きさ
+		float lifeTime; // 生存時間
+		Vector3 velocity; // 速度
+		float currentTime; // 経過時間
+		Vector4 color; // 色
+		Vector3 rotate;
+		Vector3 rotateVelocity;
+		Matrix4x4 rotateMatrix;
+	};
+
 public:
 
 	/// <summary>

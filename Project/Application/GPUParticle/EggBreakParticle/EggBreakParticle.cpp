@@ -88,7 +88,95 @@ void EggBreakParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& 
 void EggBreakParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
 {
 
-	GPUParticle::UAVBufferInitialize(device, commandList);
+
+	// バッファ
+	buff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ParticleBlendNormalCS) + 0xff) & ~0xff) * kParticleMax);
+
+	/// UAV
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = kParticleMax;
+	uavDesc.Buffer.CounterOffsetInBytes = 0;
+	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	uavDesc.Buffer.StructureByteStride = sizeof(ParticleBlendNormalCS);
+
+	uavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	uavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	uavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(buff_.Get(), nullptr, &uavDesc, uavHandleCPU_);
+
+	/// ここまでUAV
+
+	/// SRV
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	srvDesc.Buffer.NumElements = kParticleMax;
+	srvDesc.Buffer.StructureByteStride = sizeof(ParticleBlendNormalCS);
+
+	srvHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	srvHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	srvIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateShaderResourceView(buff_.Get(), &srvDesc, srvHandleCPU_);
+
+	/// ここまでSRV
+
+	// フリーリストインデックスUAVバッファ
+	freeListIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListIndexUavDesc{};
+
+	freeListIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListIndexUavDesc.Buffer.FirstElement = 0;
+	freeListIndexUavDesc.Buffer.NumElements = 1;
+	freeListIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
+
+	freeListIndexHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListIndexHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeListIndexBuff_.Get(), nullptr, &freeListIndexUavDesc, freeListIndexHandleCPU_);
+
+
+	// フリーリストUAVバッファ
+	freeListBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff) * kParticleMax);
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListUavDesc{};
+
+	freeListUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListUavDesc.Buffer.FirstElement = 0;
+	freeListUavDesc.Buffer.NumElements = kParticleMax;
+	freeListUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+
+	freeListHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
+
+	// CSによる初期化
+	InitialzieCS(commandList);
+
 
 }
 

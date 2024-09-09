@@ -1834,5 +1834,8 @@
     <FxCompile Include="Resources\shaders\EggBreakParticle\EggBreakUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\EggBreakParticle</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleBlendNormal.VS.hlsl">
+      <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

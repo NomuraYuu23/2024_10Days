@@ -6,6 +6,9 @@ struct Particle {
 	float32_t3 velocity;
 	float32_t currentTime;
 	float32_t4 color;
+	float32_t3 rotate;
+	float32_t3 rotateVelocity;
+	float32_t4x4 rotateMatrix;
 
 };
 
