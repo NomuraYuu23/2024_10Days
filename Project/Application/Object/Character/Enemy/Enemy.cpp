@@ -107,8 +107,9 @@ void Enemy::Update()
 #endif // _DEBUG
 
 	MeshObject::Update();
-
-	CheckFloorConect();
+	if (!isPlayDeathAnimation_) {
+		CheckFloorConect();
+	}
 
 	state_();
 
@@ -118,16 +119,16 @@ void Enemy::Update()
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	localMatrixManager_->Map();
-
-	// 重力
-	velocity_ += Gravity::Execute();
-	// 速度制限
-	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
-	// 位置更新
-	worldTransform_.transform_.translate += velocity_;
-	// 位置制限
-	PositionLimit();
-
+	if (!isPlayDeathAnimation_) {
+		// 重力
+		velocity_ += Gravity::Execute();
+		// 速度制限
+		velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+		// 位置更新
+		worldTransform_.transform_.translate += velocity_;
+		// 位置制限
+		PositionLimit();
+	}
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
@@ -159,7 +160,13 @@ void Enemy::ImGuiDraw()
 void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner)) {
+		if (1) {
+			//死亡
+			isPlayDeathAnimation_ = true;
+			state_ = std::bind(&Enemy::Dead, this);
+			countUp_ = 0;
+		}
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
@@ -218,7 +225,7 @@ void Enemy::AnimationUpdate()
 void Enemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<Block*>(colliderPartner);
 
 	OBB* myOBB = &std::get<OBB>(*collider_);
 	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());
@@ -296,11 +303,6 @@ void Enemy::Rush() {
 	countUp_ = shotStart_;
 }
 
-
-void Enemy::RushStart() {
-
-}
-
 void Enemy::Shot() {
 	RotateToPlayer();
 	if (countUp_ >= shotEnd) {
@@ -310,8 +312,13 @@ void Enemy::Shot() {
 	countUp_++;
 }
 
-void Enemy::ShotStart() {
-
+void Enemy::Dead() {
+	currentMotionNo_ = kEnemyMotionDead;
+	if (countUp_ >= deadEnd_) {
+		isDead_ = true;
+		countUp_ = 0;
+	}
+	countUp_++;
 }
 
 void Enemy::RotateToPlayer() {

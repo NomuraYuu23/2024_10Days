@@ -79,19 +79,14 @@ private: // ステート関数
 	void Rush();
 
 	/// <summary>
-	/// 移動開始
-	/// </summary>
-	void RushStart();
-
-	/// <summary>
 	/// 射撃状態
 	/// </summary>
 	void Shot();
 
 	/// <summary>
-	/// 射撃開始
+	/// 死亡状態
 	/// </summary>
-	void ShotStart();
+	void Dead();
 
 	/// <summary>
 	/// 状態チェック
@@ -187,6 +182,13 @@ private: //	変数
 
 	// 射撃開始
 	size_t shotStart_ = 10;
+
+	//死亡アニメーション終了
+	size_t deadEnd_ = 40;
+
+	//フラグ
+
+	bool isPlayDeathAnimation_ = false;
 
 public: // アクセッサ
 

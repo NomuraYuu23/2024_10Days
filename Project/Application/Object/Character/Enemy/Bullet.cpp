@@ -100,7 +100,7 @@ void Bullet::Draw(BaseCamera& camera)
 void Bullet::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
