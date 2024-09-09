@@ -21,6 +21,7 @@
 #include "../../System/Light/DirectionalLightSystem.h"
 #include "../../System/BackGround/BackGround.h"
 #include "../../System/CloudSystem/CloudSystem.h"
+#include "../../UI/UISystem.h"
 
 class GameScene : public IScene
 {
@@ -124,5 +125,8 @@ private:
 
 	// 雲
 	std::unique_ptr<CloudSystem> cloudSystem_;
+
+	// UIシステム
+	std::unique_ptr<UISystem> UISystem_;
 
 };

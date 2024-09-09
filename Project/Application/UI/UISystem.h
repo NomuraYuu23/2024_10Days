@@ -61,7 +61,7 @@ private:
 
 	// テクスチャのパス
 	const std::array<std::string, UITextureHandleIndex::kUITextureHandleIndexOfCount> textureNames_ = {
-		"",
+		"Resources/UI/joystick_L.png",
 		//"",
 		//"",
 		//"",

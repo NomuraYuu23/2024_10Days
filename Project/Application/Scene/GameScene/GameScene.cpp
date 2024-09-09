@@ -135,6 +135,10 @@ void GameScene::Initialize() {
 		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
 		player_);
 
+	// UIシステム
+	UISystem_ = std::make_unique<UISystem>();
+	UISystem_->Initialize(dxCommon_);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -181,6 +185,9 @@ void GameScene::Update() {
 	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
 	// 雲
 	cloudSystem_->Update(directionalLightSystem_->GetDirectionalLightData().color);
+
+	// UI
+	UISystem_->Update();
 
 	ImguiDraw();
 
@@ -241,6 +248,9 @@ void GameScene::Draw() {
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());
+
+	// UI
+	UISystem_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();

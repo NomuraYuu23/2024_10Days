@@ -1,5 +1,6 @@
 #include "UISystem.h"
 #include "../../Engine/base/TextureManager.h"
+#include "LeftStickUI.h"
 
 void UISystem::Initialize(DirectXCommon* dxCommon)
 {
@@ -10,6 +11,10 @@ void UISystem::Initialize(DirectXCommon* dxCommon)
 	}
 
 	// UIはそれぞれ個別で初期化
+
+	// 左スティック
+	UIs_[kUITextureHandleIndexLeftStick] = std::make_unique<LeftStickUI>();
+	UIs_[kUITextureHandleIndexLeftStick]->Initialize(textureHandles_[kUITextureHandleIndexLeftStick], "LeftStick");
 
 }
 

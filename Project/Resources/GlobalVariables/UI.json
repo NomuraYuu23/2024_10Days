@@ -1,0 +1,25 @@
+{
+    "UI": {
+        "LeftStickalpha": 1.0,
+        "LeftStickinputColor": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "LeftStickmovingRange": 5.0,
+        "LeftSticknotInputColor": [
+            0.75,
+            0.75,
+            0.75
+        ],
+        "LeftStickposition": [
+            100.0,
+            500.0
+        ],
+        "LeftStickrotate": 0.0,
+        "LeftSticksize": [
+            64.0,
+            64.0
+        ]
+    }
+}
