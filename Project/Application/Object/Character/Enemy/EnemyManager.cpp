@@ -27,17 +27,12 @@ void EnemyManager::Update() {
 		});
 
 	spownDatas_[0].remove_if([&](EnemyData enemy) {
-		if (enemy.spownFrame < frameCount_) {
+		if (enemy.spownFrame == frameCount_) {
+			AddEnemy(enemy);
 			return true;
 		}
 		return false;
 		});
-
-	for (EnemyData& data : spownDatas_[0]){
-		if (data.spownFrame == frameCount_) {
-			AddEnemy(data);
-		}
-	}
 
 	frameCount_++;
 }
