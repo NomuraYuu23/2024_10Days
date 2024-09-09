@@ -1,5 +1,14 @@
 {
     "UI": {
+        "LeftStickStringposition": [
+            230.0,
+            500.0
+        ],
+        "LeftStickStringrotate": 0.0,
+        "LeftStickStringsize": [
+            147.1999969482422,
+            80.0
+        ],
         "LeftStickalpha": 1.0,
         "LeftStickinputColor": [
             1.0,

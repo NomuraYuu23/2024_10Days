@@ -22,6 +22,10 @@ void UISystem::Initialize(DirectXCommon* dxCommon)
 	UIs_[kUIIndexLeftStickBG]->Initialize(textureHandles_[kUITextureHandleIndexLeftStickBG], "LeftStick");
 	static_cast<LeftStickBG*>(UIs_[kUIIndexLeftStickBG].get())->SetParent(static_cast<LeftStickUI*>(UIs_[kUIIndexLeftStick].get()));
 
+	// 左スティック
+	UIs_[kUIIndexLeftStickStr] = std::make_unique<UI>();
+	UIs_[kUIIndexLeftStickStr]->Initialize(textureHandles_[kUITextureHandleIndexLeftStickStr], "LeftStickString");
+
 }
 
 void UISystem::Update()

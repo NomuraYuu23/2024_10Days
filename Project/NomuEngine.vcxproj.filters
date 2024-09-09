@@ -899,7 +899,7 @@
       <Filter>Application\UI\LeftStick</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\LeftStickBG.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI\LeftStickBG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1558,7 +1558,7 @@
       <Filter>Application\UI\LeftStick</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\LeftStickBG.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\UI\LeftStickBG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
