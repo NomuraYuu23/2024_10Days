@@ -11,6 +11,8 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 #include "Bullet.h"
 
+#include "../../../Engine/Math/Ease.h"
+
 LevelData::MeshData Enemy::EnemyCreate()
 {
 
@@ -128,6 +130,7 @@ void Enemy::Update()
 		worldTransform_.transform_.translate += velocity_;
 		// 位置制限
 		PositionLimit();
+		worldTransform_.transform_.scale = oridinalScale_;
 	}
 	worldTransform_.UpdateMatrix();
 
@@ -161,7 +164,7 @@ void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
-		if (1) {
+		if (std::get<Block*>(colliderPartner)->GetIsAttack() && !isPlayDeathAnimation_) {
 			//死亡
 			isPlayDeathAnimation_ = true;
 			state_ = std::bind(&Enemy::Dead, this);
@@ -272,7 +275,7 @@ void Enemy::ApplyGlobalVariables()
 
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
-	worldTransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "scale");
+	oridinalScale_ = globalVariables->GetVector3Value(groupName, "scale");
 
 }
 
@@ -314,6 +317,7 @@ void Enemy::Shot() {
 
 void Enemy::Dead() {
 	currentMotionNo_ = kEnemyMotionDead;
+	worldTransform_.transform_.scale = Ease::Easing(Ease::EaseName::EaseInBack, oridinalScale_, {0,0,0},float(countUp_) / float(deadEnd_));
 	if (countUp_ >= deadEnd_) {
 		isDead_ = true;
 		countUp_ = 0;

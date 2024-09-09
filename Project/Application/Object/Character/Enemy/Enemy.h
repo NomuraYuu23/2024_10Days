@@ -186,6 +186,9 @@ private: //	変数
 	//死亡アニメーション終了
 	size_t deadEnd_ = 40;
 
+	//基準のスケール
+	Vector3 oridinalScale_;
+
 	//フラグ
 
 	bool isPlayDeathAnimation_ = false;
