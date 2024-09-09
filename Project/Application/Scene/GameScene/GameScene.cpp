@@ -124,7 +124,14 @@ void GameScene::Initialize() {
 	CreatePlayer();
 
 	//敵(仮)
-	CreateEnemy();
+	//CreateEnemy();
+
+	//敵マネージャー
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Initialize();
+	enemyManager_->SetPlayer(player_);
+	enemyManager_->SetObjectManager(objectManager_.get());
+	enemyManager_->SetBlockManager(blockManager_.get());
 
 	// ブロック
 	CreateBlocks();
@@ -162,6 +169,7 @@ void GameScene::Update() {
 
 #endif // _DEMO
 
+	enemyManager_->Update();
 
 	objectManager_->Update();
 

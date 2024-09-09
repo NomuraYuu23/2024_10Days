@@ -17,6 +17,7 @@
 #include "../../Camera/FollowCamera.h"
 #include "../../Camera/GameCamera.h"
 #include "../../Object/Obstacle/Block/BlockManager.h"
+#include "../../Object/Character/Enemy/EnemyManager.h"
 #include "../../System/Shadow/ShadowManager.h"
 #include "../../System/Light/DirectionalLightSystem.h"
 #include "../../System/BackGround/BackGround.h"
@@ -116,6 +117,9 @@ private:
 
 	// ブロックマネージャー
 	std::unique_ptr<BlockManager> blockManager_;
+
+	//敵マネージャー
+	std::unique_ptr<EnemyManager> enemyManager_;
 
 	// 影マネージャー
 	std::unique_ptr<ShadowManager> shadowManager_;

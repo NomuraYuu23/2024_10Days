@@ -80,6 +80,7 @@ protected:
 
 public: // アクセッサ
 
+	bool GetIsPlayDeathAnimation_() { return isPlayDeathAnimation_; };
 
 };
 
