@@ -33,6 +33,36 @@ void main(uint3 DTid : SV_DispatchThreadID)
 			if (1.0f <= gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime)) {
 				gParticles[particleIndex].color.a = 0.0f;
 			}
+
+			gParticles[particleIndex].rotate += gParticles[particleIndex].rotateVelocity;
+
+			float32_t3 rotate = gParticles[particleIndex].rotate;
+			float32_t4x4 rotateXMatrix = (float32_t4x4)0;
+			rotateXMatrix[0][0] = 1.0f;
+			rotateXMatrix[1][1] = cos(rotate.x);
+			rotateXMatrix[1][2] = sin(rotate.x);
+			rotateXMatrix[2][1] = -sin(rotate.x);
+			rotateXMatrix[2][2] = cos(rotate.x);
+			rotateXMatrix[3][3] = 1.0f;
+
+			float32_t4x4 rotateYMatrix = (float32_t4x4)0;
+			rotateYMatrix[0][0] = cos(rotate.y);
+			rotateYMatrix[0][2] = -sin(rotate.y);
+			rotateYMatrix[1][1] = 1.0f;
+			rotateYMatrix[2][0] = sin(rotate.y);
+			rotateYMatrix[2][2] = cos(rotate.y);
+			rotateYMatrix[3][3] = 1.0f;
+
+			float32_t4x4 rotateZMatrix = (float32_t4x4)0;
+			rotateZMatrix[0][0] = cos(rotate.z);
+			rotateZMatrix[0][1] = sin(rotate.z);
+			rotateZMatrix[1][0] = -sin(rotate.z);
+			rotateZMatrix[1][1] = cos(rotate.z);
+			rotateZMatrix[2][2] = 1.0f;
+			rotateZMatrix[3][3] = 1.0f;
+
+			gParticles[particleIndex].rotateMatrix = rotateXMatrix * rotateYMatrix * rotateZMatrix;
+
 		}
 		else {
 

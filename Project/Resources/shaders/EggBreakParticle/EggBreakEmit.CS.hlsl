@@ -61,8 +61,8 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 
 				gParticles[particleIndex].currentTime = 0.0f;
 
-				gParticles[particleIndex].rotate = float32_t3(0.0f, 0.0f, 0.0f);
-				gParticles[particleIndex].rotateVelocity = float32_t3(0.0f, 0.0f, 0.0f);
+				gParticles[particleIndex].rotate = generator.Generate3d() * 6.28f - 3.14f;
+				gParticles[particleIndex].rotateVelocity = generator.Generate3d() * 1.0f - 0.5f;
 
 				gParticles[particleIndex].rotateMatrix[0][0] = 1.0f;
 				gParticles[particleIndex].rotateMatrix[0][1] = 0.0f;
