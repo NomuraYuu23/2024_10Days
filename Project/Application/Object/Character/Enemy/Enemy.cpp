@@ -97,6 +97,17 @@ void Enemy::Initialize(LevelData::MeshData* data)
 
 	//初期ステート
 	state_ = std::bind(&Enemy::Shot, this);
+
+	eggBreakParticle_ = std::make_unique<EggBreakParticle>();
+	eggBreakParticle_->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get());
+
+	// パーティクルフラグ
+	emit_ = false;
+
 }
 
 void Enemy::Update()
@@ -140,6 +151,33 @@ void Enemy::Update()
 	// 速度保存
 	SaveVelocityUpdate();
 
+	if (emit_) {
+		EmitterCS emitter;
+		emitter.count = 30;
+		emitter.frequency = 1.0f;
+		emitter.frequencyTime = 0.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.radius = 1.0f;
+		emitter.emit = 0;
+
+		eggBreakParticle_->SetEmitter(emitter, true);
+
+	}
+	else {
+		EmitterCS emitter;
+		emitter.count = 30;
+		emitter.frequency = 1.0f;
+		emitter.frequencyTime = 1.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.translate.y += 3.0f;
+		emitter.radius = 1.0f;
+		emitter.emit = 1;
+
+		eggBreakParticle_->SetEmitter(emitter, true);
+		eggBreakParticle_->Update();
+		emit_ = true;
+	}
+
 }
 
 void Enemy::Draw(BaseCamera& camera)
@@ -177,6 +215,9 @@ void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 
 void Enemy::ParticleDraw(BaseCamera& camera)
 {
+
+	eggBreakParticle_->Draw(DirectXCommon::GetInstance()->GetCommadList(), camera);
+
 }
 
 

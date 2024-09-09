@@ -143,14 +143,6 @@ void GameScene::Initialize() {
 	UISystem_ = std::make_unique<UISystem>();
 	UISystem_->Initialize(dxCommon_);
 
-	// デバッグ
-	eggBreakParticle_ = std::make_unique<EggBreakParticle>();
-	eggBreakParticle_->Initialize(
-		dxCommon_->GetDevice(),
-		dxCommon_->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get());
-
 	IScene::InitilaizeCheck();
 
 }
@@ -200,9 +192,6 @@ void GameScene::Update() {
 
 	// UI
 	UISystem_->Update();
-
-	// デバッグ
-	eggBreakParticle_->Update();
 
 	ImguiDraw();
 
@@ -260,9 +249,6 @@ void GameScene::Draw() {
 
 	// 雲
 	cloudSystem_->Draw(dxCommon_->GetCommadList(), camera_);
-
-	// デバッグ
-	eggBreakParticle_->Draw(dxCommon_->GetCommadList(), camera_);
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

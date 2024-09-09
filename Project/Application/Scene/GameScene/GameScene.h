@@ -137,7 +137,4 @@ private:
 	// UIシステム
 	std::unique_ptr<UISystem> UISystem_;
 
-	// デバッグ用
-	std::unique_ptr<EggBreakParticle> eggBreakParticle_;
-
 };
