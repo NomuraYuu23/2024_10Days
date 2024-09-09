@@ -1,7 +1,7 @@
 {
     "Player": {
         "initHp": 3,
-        "jumpCheckpointFrame": 8,
+        "jumpCheckpointFrame": 12,
         "jumpInitialSpeed": 1.399999976158142,
         "runningSpeed": 0.30000001192092896,
         "smallJumpMultiplier": 0.5
