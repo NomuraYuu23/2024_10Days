@@ -7,6 +7,10 @@
 #include "../../../../externals/imgui/imgui.h"
 #include "../../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Obstacle/Block/Block.h"
+
+#include "../../../Engine/Object/BaseObjectManager.h"
+#include "Bullet.h"
+
 LevelData::MeshData Enemy::EnemyCreate()
 {
 
@@ -288,6 +292,7 @@ void Enemy::Rush() {
 	move.y = 0;
 	move *= runningSpeed_;
 	worldTransform_.transform_.translate += move;
+	countUp_ = 0;
 }
 
 
@@ -297,6 +302,11 @@ void Enemy::RushStart() {
 
 void Enemy::Shot() {
 	RotateToPlayer();
+	if (countUp_ >= shotEnd) {
+		CreateBullet();
+		countUp_=0;
+	}
+	countUp_++;
 }
 
 void Enemy::ShotStart() {
@@ -332,3 +342,19 @@ void Enemy::CheckFloorConect() {
 	}
 }
 
+void Enemy::CreateBullet() {
+
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Bullet::BulletCreate();
+	LevelData::MeshData& bullet = std::get<LevelData::MeshData>(data);
+	bullet.transform.translate = worldTransform_.GetWorldPosition();
+	bullet.transform.translate.x += worldTransform_.direction_.x * 0.5f;
+	bullet.transform.translate.z += worldTransform_.direction_.z * 0.5f;
+	bullet.transform.translate.y += 4.0f;
+	pointer = objectManager_->AddObject(data);
+	static_cast<Bullet*>(pointer)->SetVelocity(Vector3::Normalize(worldTransform_.direction_));
+	
+}

@@ -15,6 +15,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexBlock,//ブロック
 		kCreateObjectIndexPlayerHorn, //プレイヤーの角
 		kCreateObjectIndexEnemy,//敵
+		kCreateObjectIndexBullet,//弾
 		kCreateObjectIndexOfCount, // 数数える用
 	};
 
@@ -84,6 +85,13 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectEnemy(LevelData::ObjectData& objectData);
+
+	/// <summary>
+	/// 弾
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectBullet(LevelData::ObjectData& objectData);
 
 private:
 

@@ -415,5 +415,6 @@ void GameScene::CreateEnemy()
 	pointer = objectManager_->AddObject(data);
 	static_cast<Enemy*>(pointer)->SetPlayer(player_);
 	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_.get());
+	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_.get());
 	
 }
