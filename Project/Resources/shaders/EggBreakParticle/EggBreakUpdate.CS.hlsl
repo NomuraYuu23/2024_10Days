@@ -34,7 +34,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
 				gParticles[particleIndex].color.a = 0.0f;
 			}
 
-			gParticles[particleIndex].rotate += gParticles[particleIndex].rotateVelocity;
+			//gParticles[particleIndex].rotate += gParticles[particleIndex].rotateVelocity;
 
 			float32_t3 rotate = gParticles[particleIndex].rotate;
 			float32_t4x4 rotateXMatrix = (float32_t4x4)0;
