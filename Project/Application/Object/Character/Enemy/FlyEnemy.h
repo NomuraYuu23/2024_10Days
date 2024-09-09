@@ -89,6 +89,8 @@ private: //	変数
 	// 速度
 	float speed_ = 0.3f;
 
+	size_t countUp=0;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

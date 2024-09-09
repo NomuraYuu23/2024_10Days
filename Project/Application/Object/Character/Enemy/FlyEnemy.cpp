@@ -90,6 +90,12 @@ void FlyEnemy::Update()
 	// 速度保存
 	SaveVelocityUpdate();
 
+	if (isPlayDeathAnimation_) {
+		if (countUp > 15) {
+			isDead_ = true;
+		}
+		countUp++;
+	}
 }
 
 void FlyEnemy::Draw(BaseCamera& camera)
@@ -136,7 +142,8 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 
 	//BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
 
-	isDead_ = true;
+	//isDead_ = true;
+	isPlayDeathAnimation_ = true;
 }
 
 void FlyEnemy::PositionLimit()
@@ -147,6 +154,7 @@ void FlyEnemy::PositionLimit()
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
-		isDead_ = true;
+		//isDead_ = true;
+		isPlayDeathAnimation_ = true;
 	}
 }
