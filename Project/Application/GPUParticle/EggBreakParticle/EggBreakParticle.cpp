@@ -17,7 +17,7 @@ void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 
 	EmitterCS emitter;
-	emitter.count = 10;
+	emitter.count = 30;
 	emitter.frequency = 1.0f;
 	emitter.frequencyTime = 0.0f;
 	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
@@ -26,7 +26,7 @@ void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 
 	SetEmitter(emitter);
 
-	eggModel_ = ModelManager::GetInstance()->GetModel("Resources/Model/Enemy/", "Spino.gltf");
+	eggModel_ = ModelManager::GetInstance()->GetModel("Resources/Model/Enemy/", "EggDebris.obj");
 
 }
 
