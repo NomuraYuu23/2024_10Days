@@ -18,7 +18,7 @@ void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 
 	EmitterCS emitter;
 	emitter.count = 10;
-	emitter.frequency = 0.1f;
+	emitter.frequency = 1.0f;
 	emitter.frequencyTime = 0.0f;
 	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
 	emitter.radius = 1.0f;

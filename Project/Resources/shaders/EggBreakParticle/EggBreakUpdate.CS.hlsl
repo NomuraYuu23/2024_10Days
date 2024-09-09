@@ -36,9 +36,10 @@ void main(uint3 DTid : SV_DispatchThreadID)
 			gParticles[particleIndex].translate += velocity;
 			
 			gParticles[particleIndex].currentTime += gPerFrame.deltaTime;
-			float32_t alpha =
-				1.0f - (gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime));
-			gParticles[particleIndex].color.a = saturate(alpha);
+
+			if (1.0f <= gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime)) {
+				gParticles[particleIndex].color.a = 0.0f;
+			}
 		}
 		else {
 
