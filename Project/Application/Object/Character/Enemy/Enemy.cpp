@@ -265,6 +265,7 @@ void Enemy::ApplyGlobalVariables()
 
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
+	worldTransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "scale");
 
 }
 
@@ -277,6 +278,7 @@ void Enemy::RegistrationGlobalVariables()
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
+	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
 }
 
 
