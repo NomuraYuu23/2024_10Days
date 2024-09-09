@@ -148,8 +148,8 @@ void GameScene::Initialize() {
 	eggBreakParticle_->Initialize(
 		dxCommon_->GetDevice(),
 		dxCommon_->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleBlendNormal].Get());
 
 	IScene::InitilaizeCheck();
 
