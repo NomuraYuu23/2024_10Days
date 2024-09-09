@@ -175,8 +175,8 @@ private: //	変数
 	// ジャンプチェックポイント
 	int32_t jumpCheckpointFrame_ = 8;
 
-	// 小ジャンプ倍率
-	float smallJumpMultiplier_ = 0.5f;
+	// 小ジャンプ初速
+	float  smallJumpInitialSpeed_ = 1.0f;
 
 	// 滞空時倍率
 	float airborneMultiplier_ = 0.5f;
@@ -223,7 +223,7 @@ public: // アクセッサ
 
 	int32_t GetJumpCheckpointFrame() { return jumpCheckpointFrame_; }
 
-	float GetSmallJumpMultiplier() { return smallJumpMultiplier_; }
+	float GetSmallJumpInitialSpeed() { return smallJumpInitialSpeed_; }
 
 	Animation* GetAnimationAdress() { return &animation_; }
 

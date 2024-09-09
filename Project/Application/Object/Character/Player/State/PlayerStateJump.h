@@ -36,11 +36,11 @@ private: // メンバ変数
 	// ジャンプしてからの時間
 	float jumpElapsedTime_ = 0.0f;
 
-	// チェックポイント
-	bool checkpointFlg_ = false;
-
 	// アニメーションを止めるフラグ
 	bool animStop_ = false;
+
+	// 踏み込み中か
+	bool steppingIn_ = true;
 
 };
 
