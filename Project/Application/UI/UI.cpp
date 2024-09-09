@@ -110,7 +110,7 @@ void UI::SetPosition(const Vector2& positon)
 
 Vector2 UI::GetPosition()
 {
-	return sprite_->GetPosition();
+	return position_;
 }
 
 void UI::SetSize(const Vector2& size)

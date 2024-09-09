@@ -394,6 +394,9 @@
     <Filter Include="Application\UI\LeftStick">
       <UniqueIdentifier>{78fb7cbf-3edb-4c6a-a9cc-74449fd60a33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\LeftStickBG">
+      <UniqueIdentifier>{9509cd16-8b07-4bcb-902e-6e3437b2fa75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -893,6 +896,9 @@
       <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\LeftStickUI.cpp">
+      <Filter>Application\UI\LeftStick</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\LeftStickBG.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1549,6 +1555,9 @@
       <Filter>Application\UI</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\LeftStickUI.h">
+      <Filter>Application\UI\LeftStick</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickBG.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

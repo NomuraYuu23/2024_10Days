@@ -1,5 +1,6 @@
 #include "LeftStickUI.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../Engine/Input/Input.h"
 
 void LeftStickUI::Initialize(uint32_t textureHandle, const std::string& groupName, const std::string& jsonName)
 {
@@ -16,6 +17,9 @@ void LeftStickUI::Initialize(uint32_t textureHandle, const std::string& groupNam
 	// 透明度
 	alpha_ = 0.75f;
 
+	// 色
+	color_ = { notInputColor_.x, notInputColor_.y, notInputColor_.z, alpha_ };
+
 	UI::Initialize(textureHandle, groupName, jsonName);
 
 }
@@ -24,6 +28,22 @@ void LeftStickUI::Update()
 {
 
 	UI::Update();
+
+	Input* input = Input::GetInstance();
+	Vector2 dir = input->GetLeftAnalogstick();
+	dir = Vector2::Normalize(dir);
+	dir *= movingRange_;
+
+	sprite_->SetPosition(position_ + dir);
+
+	if (dir.x == 0.0f && dir.y == 0.0f) {
+		color_ = { notInputColor_.x, notInputColor_.y, notInputColor_.z, alpha_ };
+	}
+	else {
+		color_ = { inputColor_.x, inputColor_.y, inputColor_.z, alpha_ };
+	}
+
+	sprite_->SetColor(color_);
 
 }
 
