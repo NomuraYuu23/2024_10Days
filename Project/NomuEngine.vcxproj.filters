@@ -391,6 +391,18 @@
     <Filter Include="Application\System\Cloud">
       <UniqueIdentifier>{34c0fb68-80b6-486c-b9cb-c5c7633f8a3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\LeftStick">
+      <UniqueIdentifier>{78fb7cbf-3edb-4c6a-a9cc-74449fd60a33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\UI\LeftStickBG">
+      <UniqueIdentifier>{9509cd16-8b07-4bcb-902e-6e3437b2fa75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\UI\ButtonA">
+      <UniqueIdentifier>{b1108431-1039-408b-b73e-b39a958de7ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Character\Enemy">
+      <UniqueIdentifier>{bf355c13-d10e-450c-ba8d-77c56e7ab3ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -883,8 +895,26 @@
     <ClCompile Include="Application\System\CloudSystem\CloudSystem.cpp">
       <Filter>Application\System\Cloud</Filter>
     </ClCompile>
+    <ClCompile Include="Application\UI\UI.cpp">
+      <Filter>Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\UISystem.cpp">
+      <Filter>Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\LeftStickUI.cpp">
+      <Filter>Application\UI\LeftStick</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\LeftStickBG.cpp">
+      <Filter>Application\UI\LeftStickBG</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\ButtonAUI.cpp">
+      <Filter>Application\UI\ButtonA</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
       <Filter>ソース ファイル</Filter>
@@ -1536,8 +1566,26 @@
     <ClInclude Include="Application\System\CloudSystem\CloudSystem.h">
       <Filter>Application\System\Cloud</Filter>
     </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickBG.h">
+      <Filter>Application\UI\LeftStickBG</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UISystem.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UI.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Bullet.h">
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickUI.h">
+      <Filter>Application\UI\LeftStick</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\ButtonAUI.h">
+      <Filter>Application\UI\ButtonA</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\Bullet.h">
       <Filter>ヘッダー ファイル</Filter>

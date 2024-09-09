@@ -63,13 +63,13 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
-	//localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	//localMatrixManager_->Initialize(model_->GetRootNode());
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(model_->GetRootNode());
 
-	/*animation_.Initialize(
+	animation_.Initialize(
 		model_->GetNodeAnimationData(),
 		localMatrixManager_->GetInitTransform(),
-		localMatrixManager_->GetNodeNames());*/
+		localMatrixManager_->GetNodeNames());
 
 	// パーツ
 	PartInitialize();
@@ -115,9 +115,9 @@ void Enemy::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	//localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
-	//localMatrixManager_->Map();
+	localMatrixManager_->Map();
 
 	// 重力
 	velocity_ += Gravity::Execute();
@@ -140,15 +140,15 @@ void Enemy::Update()
 
 void Enemy::Draw(BaseCamera& camera)
 {
-	MeshObject::Draw(camera);
-	/*ModelDraw::AnimObjectDesc desc;
+
+	ModelDraw::AnimObjectDesc desc;
 	desc.camera = &camera;
 	desc.localMatrixManager = localMatrixManager_.get();
 	desc.material = material_.get();
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
-	*/
+	
 }
 
 void Enemy::ImGuiDraw()
@@ -173,15 +173,15 @@ void Enemy::ParticleDraw(BaseCamera& camera)
 void Enemy::PartInitialize()
 {
 
-	/*// 現在のモーション番号
-	currentMotionNo_ = EnemyMotionIndex::kEnemyMotionWait;
+	// 現在のモーション番号
+	currentMotionNo_ = EnemyMotionIndex::kEnemyMotionIdle;
 
 	// 前のモーション番号
-	prevMotionNo_ = EnemyMotionIndex::kEnemyMotionWait;
+	prevMotionNo_ = EnemyMotionIndex::kEnemyMotionIdle;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kEnemyMotionWait, true);
-	*/
+	animation_.StartAnimation(kEnemyMotionIdle, true);
+	
 }
 
 void Enemy::ColliderUpdate()
@@ -205,15 +205,14 @@ void Enemy::ColliderUpdate()
 
 void Enemy::AnimationUpdate()
 {
-	/*
-	prevMotionNo_ = currentMotionNo_;
-	currentMotionNo_ = EnemyState_->GetPlaryerMotionNo();
 
 	if (currentMotionNo_ != prevMotionNo_) {
 		animation_.StopAnimation(prevMotionNo_);
 		animation_.StartAnimation(currentMotionNo_, true);
 	}
-	*/
+
+	prevMotionNo_ = currentMotionNo_;
+
 }
 
 void Enemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -266,6 +265,7 @@ void Enemy::ApplyGlobalVariables()
 
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
+	worldTransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "scale");
 
 }
 
@@ -278,6 +278,7 @@ void Enemy::RegistrationGlobalVariables()
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
+	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
 }
 
 
@@ -292,7 +293,7 @@ void Enemy::Rush() {
 	move.y = 0;
 	move *= runningSpeed_;
 	worldTransform_.transform_.translate += move;
-	countUp_ = 0;
+	countUp_ = shotStart_;
 }
 
 
@@ -336,9 +337,11 @@ void Enemy::CheckFloorConect() {
 	if (blockManager_->IsConnectRoad(from, to, hight)) {
 		//突進に移行
 		state_ = std::bind(&Enemy::Rush, this);
+		currentMotionNo_ = kEnemyMotionMove;
 	}
 	else {
 		state_ = std::bind(&Enemy::Shot, this);
+		currentMotionNo_ = kEnemyMotionAttack;
 	}
 }
 

@@ -7,6 +7,17 @@
 
 class BaseObjectManager;
 
+/// <summary>
+/// エネミーのモーション一覧
+/// </summary>
+enum EnemyMotionIndex {
+	kEnemyMotionIdle, // 通常時
+	kEnemyMotionMove, // 移動時
+	kEnemyMotionAttack, // 攻撃時
+	kEnemyMotionDead, // 死亡時
+	kEnemyMotionIndexOfCount // 数
+};
+
 class Enemy :
 	public MeshObject
 {
@@ -113,10 +124,10 @@ private: // パーツ構成関数
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
-	//uint32_t currentMotionNo_;
+	uint32_t currentMotionNo_;
 
 	// 前のモーション番号
-	//uint32_t prevMotionNo_;
+	uint32_t prevMotionNo_;
 
 	//ノードアニメーション
 	Animation animation_;
@@ -172,7 +183,10 @@ private: //	変数
 	size_t countUp_ = 0;
 
 	//仮パラメータ、射撃終了
-	size_t shotEnd = 180;
+	size_t shotEnd = 65;
+
+	// 射撃開始
+	size_t shotStart_ = 10;
 
 public: // アクセッサ
 
