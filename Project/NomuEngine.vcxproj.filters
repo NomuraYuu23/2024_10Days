@@ -397,6 +397,9 @@
     <Filter Include="Application\UI\LeftStickBG">
       <UniqueIdentifier>{9509cd16-8b07-4bcb-902e-6e3437b2fa75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\ButtonA">
+      <UniqueIdentifier>{b1108431-1039-408b-b73e-b39a958de7ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -900,6 +903,9 @@
     </ClCompile>
     <ClCompile Include="Application\UI\LeftStickBG.cpp">
       <Filter>Application\UI\LeftStickBG</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\ButtonAUI.cpp">
+      <Filter>Application\UI\ButtonA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1559,6 +1565,9 @@
     </ClInclude>
     <ClInclude Include="Application\UI\LeftStickBG.h">
       <Filter>Application\UI\LeftStickBG</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\ButtonAUI.h">
+      <Filter>Application\UI\ButtonA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "../../Engine/base/TextureManager.h"
 #include "LeftStickUI.h"
 #include "LeftStickBG.h"
+#include "ButtonAUI.h"
 
 void UISystem::Initialize(DirectXCommon* dxCommon)
 {
@@ -22,9 +23,17 @@ void UISystem::Initialize(DirectXCommon* dxCommon)
 	UIs_[kUIIndexLeftStickBG]->Initialize(textureHandles_[kUITextureHandleIndexLeftStickBG], "LeftStick");
 	static_cast<LeftStickBG*>(UIs_[kUIIndexLeftStickBG].get())->SetParent(static_cast<LeftStickUI*>(UIs_[kUIIndexLeftStick].get()));
 
-	// 左スティック
+	// 左スティック文字
 	UIs_[kUIIndexLeftStickStr] = std::make_unique<UI>();
 	UIs_[kUIIndexLeftStickStr]->Initialize(textureHandles_[kUITextureHandleIndexLeftStickStr], "LeftStickString");
+
+	// Aボタン
+	UIs_[kUIIndexButtonA] = std::make_unique<ButtonAUI>();
+	UIs_[kUIIndexButtonA]->Initialize(textureHandles_[kUITextureHandleIndexButtonA], "ButtonA");
+
+	// Aボタン文字
+	UIs_[kUIIndexButtonAStr] = std::make_unique<UI>();
+	UIs_[kUIIndexButtonAStr]->Initialize(textureHandles_[kUITextureHandleIndexButtonAStr], "ButtonAString");
 
 }
 

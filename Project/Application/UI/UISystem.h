@@ -7,8 +7,8 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexLeftStickBG, // 左スティック背景
 	kUITextureHandleIndexLeftStick, // 左スティック
 	kUITextureHandleIndexLeftStickStr, // 左スティック文字
-	//kUITextureHandleIndexButtonA, // Aボタン
-	//kUITextureHandleIndexButtonAStr, // Aボタン文字
+	kUITextureHandleIndexButtonA, // Aボタン
+	kUITextureHandleIndexButtonAStr, // Aボタン文字
 	//kUITextureHandleIndexHP,// HP
 
 	kUITextureHandleIndexOfCount
@@ -18,8 +18,8 @@ enum UIIndex {
 	kUIIndexLeftStickBG, // 左スティック背景
 	kUIIndexLeftStick, // 左スティック
 	kUIIndexLeftStickStr, // 左スティック文字
-	//kUIIndexButtonA, // Aボタン
-	//kUIIndexButtonAStr, // Aボタン文字
+	kUIIndexButtonA, // Aボタン
+	kUIIndexButtonAStr, // Aボタン文字
 	//kUIIndexHP,// HP
 	kUIIndexOfCount
 };
@@ -63,8 +63,8 @@ private:
 		"Resources/UI/joystick_L_BG.png",
 		"Resources/UI/joystick_L.png",
 		"Resources/UI/moveUI.png",
-		//"",
-		//"",
+		"Resources/UI/buttonA.png",
+		"Resources/UI/jumpUI.png",
 		//"",
 	};
 
