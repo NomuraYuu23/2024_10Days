@@ -20,15 +20,8 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
 			float32_t3 velocity = gParticles[particleIndex].velocity;
 			float32_t3 acceleration = float32_t3(0.0f, 0.0f, 0.0f);
-			if (velocity.x != 0.0f) {
-				acceleration.x = velocity.x / abs(velocity.x) * 0.05f;
-			}
-			if (velocity.y != 0.0f) {
-				acceleration.y = velocity.y / abs(velocity.y) * 0.05f;
-			}
-			if (velocity.z != 0.0f) {
-				acceleration.z = velocity.z / abs(velocity.z) * 0.05f;
-			}
+
+			acceleration.y = -0.016f;
 
 			velocity += acceleration;
 			gParticles[particleIndex].velocity = velocity;
