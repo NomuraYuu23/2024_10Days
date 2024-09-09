@@ -8,6 +8,7 @@
 #include "../Object/Character/Enemy/Enemy.h"
 #include "../Object/Character/Enemy/Bullet.h"
 #include "../Object/Character/Enemy/Egg.h"
+#include "../Object/Character/Enemy/FlyEnemy.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -51,6 +52,9 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexEgg].first = "Egg";
 	createObjectFunctions_[kCreateObjectIndexEgg].second = ObjectFactory::CreateObjectEgg;
+
+	createObjectFunctions_[kCreateObjectIndexFlyEnemy].first = "FlyEnemy";
+	createObjectFunctions_[kCreateObjectIndexFlyEnemy].second = ObjectFactory::CreateObjectFlyEnemy;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -137,5 +141,14 @@ IObject* ObjectFactory::CreateObjectEgg(LevelData::ObjectData& objectData)
 	IObject* object = new Egg();
 	// 初期化
 	static_cast<Bullet*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectFlyEnemy(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new FlyEnemy();
+	// 初期化
+	static_cast<Enemy*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

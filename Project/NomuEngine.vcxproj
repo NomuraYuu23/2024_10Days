@@ -166,6 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="Application\Object\Character\Enemy\FlyEnemy.cpp" />
     <ClCompile Include="Application\Object\Character\Player\Horn\PlayerHorn.cpp" />
     <ClCompile Include="Application\Object\Character\Player\Player.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\IPlayerState.cpp" />
@@ -338,6 +339,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Character\Enemy\Bullet.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Egg.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Enemy.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\FlyEnemy.h" />
     <ClInclude Include="Application\Object\Character\Player\Horn\PlayerHorn.h" />
     <ClInclude Include="Application\Object\Character\Player\Player.h" />
     <ClInclude Include="Application\Object\Character\Player\State\IPlayerState.h" />

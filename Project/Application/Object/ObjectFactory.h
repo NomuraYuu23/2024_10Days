@@ -17,6 +17,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexEnemy,//敵
 		kCreateObjectIndexBullet,//弾
 		kCreateObjectIndexEgg,//敵のタマゴ
+		kCreateObjectIndexFlyEnemy,//飛ぶ敵
 		kCreateObjectIndexOfCount, // 数数える用
 	};
 
@@ -100,6 +101,13 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectEgg(LevelData::ObjectData& objectData);
+
+	/// <summary>
+	/// 敵
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectFlyEnemy(LevelData::ObjectData& objectData);
 
 private:
 

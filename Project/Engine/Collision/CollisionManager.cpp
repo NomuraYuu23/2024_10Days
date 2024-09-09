@@ -9,6 +9,7 @@
 #include "../../Application/Object/Character/Enemy/Enemy.h"
 #include "../../Application/Object/Character/Enemy/Bullet.h"
 #include "../../Application/Object/Character/Enemy/Egg.h"
+#include "../../Application/Object/Character/Enemy/FlyEnemy.h"
 void CollisionManager::Initialize()
 {
 
