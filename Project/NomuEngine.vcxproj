@@ -163,6 +163,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\Camera\GameCamera.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
+    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Object\Character\Player\Horn\PlayerHorn.cpp" />
     <ClCompile Include="Application\Object\Character\Player\Player.cpp" />
@@ -328,6 +329,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Camera\GameCamera.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\Bullet.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Enemy.h" />
     <ClInclude Include="Application\Object\Character\Player\Horn\PlayerHorn.h" />
     <ClInclude Include="Application\Object\Character\Player\Player.h" />

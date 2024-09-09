@@ -3,6 +3,9 @@
 #include "../../../../Engine/Animation/Animation.h"
 #include "../../Obstacle/Block/BlockManager.h"
 #include "../Player/Player.h"
+//#include "../../../Engine/Object/BaseObjectManager.h"
+
+class BaseObjectManager;
 
 class Enemy :
 	public MeshObject
@@ -137,6 +140,9 @@ private: // 関数
 	/// </summary>
 	void PositionLimit();
 
+	//発射処理
+	void CreateBullet();
+
 private: //	変数
 
 	//hp
@@ -154,10 +160,19 @@ private: //	変数
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
+	//オブジェクトマネージャー
+	BaseObjectManager* objectManager_ = nullptr;
+
 	Player* target_ = nullptr;
 	
 	//ステート
 	std::function<void(void)> state_;
+
+	//カウント用
+	size_t countUp_ = 0;
+
+	//仮パラメータ、射撃終了
+	size_t shotEnd = 180;
 
 public: // アクセッサ
 
@@ -180,6 +195,8 @@ public: // アクセッサ
 	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
 
 	BlockManager* GetBlockManager() { return blockManager_; }
+
+	void SetObjectManager(BaseObjectManager* manager) { objectManager_ = manager; }
 
 	//Animation* GetAnimationAdress() { return &animation_; }
 
