@@ -400,6 +400,9 @@
     <Filter Include="Application\UI\ButtonA">
       <UniqueIdentifier>{b1108431-1039-408b-b73e-b39a958de7ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Character\Enemy">
+      <UniqueIdentifier>{bf355c13-d10e-450c-ba8d-77c56e7ab3ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -907,11 +910,11 @@
     <ClCompile Include="Application\UI\ButtonAUI.cpp">
       <Filter>Application\UI\ButtonA</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
+      <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1559,6 +1562,27 @@
     </ClInclude>
     <ClInclude Include="Application\System\CloudSystem\CloudSystem.h">
       <Filter>Application\System\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickBG.h">
+      <Filter>Application\UI\LeftStickBG</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UISystem.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UI.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Bullet.h">
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Enemy.h">
+      <Filter>Application\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickUI.h">
+      <Filter>Application\UI\LeftStick</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\ButtonAUI.h">
+      <Filter>Application\UI\ButtonA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
