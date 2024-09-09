@@ -125,7 +125,7 @@ void GameCamera::Update(float elapsedTime)
 	transform_.translate = Vector3::Add(interTarget_, offset);
 
 	// FOV
-	if (playerPos.y > fovYChangeLine_) {
+	if (player_->GetCurrentStateNo() == kPlayerStateHeadDrop) {
 		targetFovY_ = targetFovYMax_;
 	}
 	else {
