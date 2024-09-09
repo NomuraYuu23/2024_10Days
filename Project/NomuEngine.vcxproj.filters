@@ -916,20 +916,20 @@
     <ClCompile Include="Application\UI\ButtonAUI.cpp">
       <Filter>Application\UI\ButtonA</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
-      <Filter>Application\Object\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
       <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
+      <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\GPUParticle\EggBreakParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp">
+      <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1598,6 +1598,12 @@
     </ClInclude>
     <ClInclude Include="Application\UI\ButtonAUI.h">
       <Filter>Application\UI\ButtonA</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.h">
+      <Filter>Application\GPUParticle\EggBreakParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Egg.h">
+      <Filter>Application\Object\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
