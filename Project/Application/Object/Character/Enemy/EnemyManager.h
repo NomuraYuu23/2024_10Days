@@ -33,6 +33,9 @@ public:
 	/// <param name="data">敵情報</param>
 	void AddEnemy(EnemyData& data);
 
+	//タマゴが敵を生成したときにも入れる用
+	void AddEnemy(BaseEnemy* enemy);
+
 	/// <summary>
 	/// 取得
 	/// </summary>
@@ -56,11 +59,16 @@ public:
 private:
 
 	// 
-	std::list<Enemy*> enemys_;
+	std::list<BaseEnemy*> enemys_;
 
 	std::vector<std::list<EnemyData>> spownDatas_;
 
 	size_t frameCount_=0;
+
+	//ウェーブ数(仮)
+	size_t kWaveNum = 2;
+
+	size_t waveNum = 0;
 
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;

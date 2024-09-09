@@ -6,6 +6,7 @@
 //#include "../../../Engine/Object/BaseObjectManager.h"
 
 class BaseObjectManager;
+class EnemyManager;
 
 class Egg :
 	public MeshObject
@@ -100,6 +101,9 @@ private: //	変数
 	//オブジェクトマネージャー
 	BaseObjectManager* objectManager_ = nullptr;
 
+	//敵マネージャ
+	EnemyManager* enemyManager_ = nullptr;
+
 	//カウント用
 	size_t countUp_ = 0;
 
@@ -120,6 +124,8 @@ public: // アクセッサ
 
 	void SetObjectManager(BaseObjectManager* manager) { objectManager_ = manager; }
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
 
 private: // グローバル変数
 

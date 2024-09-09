@@ -12,7 +12,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "../../../Engine/Math/Ease.h"
-
+#include "EnemyManager.h"
 LevelData::MeshData Egg::EggCreate()
 {
 
@@ -184,4 +184,5 @@ void Egg::CreateEnemy() {
 	static_cast<Enemy*>(pointer)->SetPlayer(target_);
 	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_);
 	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_);
+	enemyManager_->AddEnemy(static_cast<BaseEnemy*>(pointer));
 }
