@@ -147,7 +147,7 @@ private: // 関数
 	void PositionLimit();
 
 	//発射処理
-	void CreateBullet();
+	void CreateBullet(float rotateY);
 
 private: //	変数
 
@@ -180,14 +180,21 @@ private: //	変数
 	//仮パラメータ、射撃終了
 	size_t shotEnd = 65;
 
+
 	// 射撃開始
 	size_t shotStart_ = 10;
+
+	//実際に射撃を行うフレーム
+	size_t shotFrame_ = 30;
 
 	//死亡アニメーション終了
 	size_t deadEnd_ = 40;
 
 	//基準のスケール
 	Vector3 oridinalScale_;
+
+	//3Wayの左右の角度(rad)
+	float threewayRotate_ = 0.5f;
 
 	//フラグ
 

@@ -96,7 +96,7 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Enemy::Rush, this);
+	state_ = std::bind(&Enemy::Shot, this);
 }
 
 void Enemy::Update()
@@ -110,7 +110,7 @@ void Enemy::Update()
 
 	MeshObject::Update();
 	if (!isPlayDeathAnimation_) {
-		CheckFloorConect();
+		//CheckFloorConect();
 	}
 
 	state_();
@@ -276,6 +276,8 @@ void Enemy::ApplyGlobalVariables()
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
 	oridinalScale_ = globalVariables->GetVector3Value(groupName, "scale");
+	shotFrame_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotFrame"));
+	threewayRotate_ = globalVariables->GetFloatValue(groupName, "threewayRotate");
 
 }
 
@@ -289,6 +291,8 @@ void Enemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
+	globalVariables->AddItem(groupName, "shotFrame", static_cast<int32_t>(shotFrame_));
+	globalVariables->AddItem(groupName, "threewayRotate", threewayRotate_);
 }
 
 
@@ -308,9 +312,15 @@ void Enemy::Rush() {
 
 void Enemy::Shot() {
 	RotateToPlayer();
+	if (countUp_ == shotFrame_) {
+		CreateBullet(0);
+		CreateBullet(threewayRotate_);
+		CreateBullet(-threewayRotate_);
+	}
+	currentMotionNo_ = kEnemyMotionAttack;
 	if (countUp_ >= shotEnd) {
-		CreateBullet();
 		countUp_=0;
+		currentMotionNo_ = kEnemyMotionIdle;
 	}
 	countUp_++;
 }
@@ -356,7 +366,7 @@ void Enemy::CheckFloorConect() {
 	}
 }
 
-void Enemy::CreateBullet() {
+void Enemy::CreateBullet(float rotateY) {
 
 	LevelData::ObjectData data;
 
@@ -369,6 +379,6 @@ void Enemy::CreateBullet() {
 	bullet.transform.translate.z += worldTransform_.direction_.z * 0.5f;
 	bullet.transform.translate.y += 4.0f;
 	pointer = objectManager_->AddObject(data);
-	static_cast<Bullet*>(pointer)->SetVelocity(Vector3::Normalize(worldTransform_.direction_));
+	static_cast<Bullet*>(pointer)->SetVelocity(Matrix4x4::TransformNormal(Vector3::Normalize(worldTransform_.direction_),Matrix4x4::MakeRotateYMatrix(rotateY)));
 	
 }
