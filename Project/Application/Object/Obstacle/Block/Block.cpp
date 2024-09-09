@@ -4,6 +4,7 @@
 
 #include <variant>
 const float Block::kSize_ = 3.0f;
+const float Block::kFloatHight = 18.0f;
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;

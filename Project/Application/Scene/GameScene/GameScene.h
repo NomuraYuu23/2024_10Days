@@ -87,6 +87,11 @@ private:
 	void CreatePlayer();
 
 	/// <summary>
+	/// 敵作成(仮)
+	/// </summary>
+	void CreateEnemy();
+
+	/// <summary>
 	/// 影更新
 	/// </summary>
 	void ShadowUpdate();

@@ -22,6 +22,9 @@ public: // パラメータ
 
 	static const float kSize_;
 
+	//浮き沈みの高さ
+	static const float kFloatHight;
+
 public: // static関数
 
 	/// <summary>
@@ -129,6 +132,11 @@ private: // ステート処理
 	/// </summary>
 	void ShockWaveAfter();
 
+public: //アクセッサ
+	bool GetHight() { return hight_; };
+
+	bool GetIsMove() { return isMove_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -172,7 +180,7 @@ private: // パーツ,アニメーション変数
 	Vector3 initialPosition_{};
 
 	//浮き沈みの高さ
-	float floatHight_ = 18.0f;
+	float floatHight_ = kFloatHight;
 	//攻撃時のブロックの浮き
 	float attackFloatStrength_ = 3.0f;
 

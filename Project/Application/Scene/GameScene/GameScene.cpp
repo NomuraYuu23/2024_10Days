@@ -15,6 +15,7 @@
 #include "../../Object/Obstacle/Block/Block.h"
 #include "../../../Engine/Physics/Gravity.h"
 #include "../../Object/Character/Player/Horn/PlayerHorn.h"
+#include "../../Object/Character/Enemy/Enemy.h"
 
 GameScene::~GameScene()
 {
@@ -121,6 +122,9 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	CreatePlayer();
+
+	//敵(仮)
+	CreateEnemy();
 
 	// ブロック
 	CreateBlocks();
@@ -405,4 +409,22 @@ void GameScene::ShadowUpdate()
 	// 更新
 	shadowManager_->Update();
 
+}
+
+void GameScene::CreateEnemy()
+{
+
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Enemy::EnemyCreate();
+	LevelData::MeshData& enemy = std::get<LevelData::MeshData>(data);
+	enemy.transform.translate.x = -8.0f;
+
+	pointer = objectManager_->AddObject(data);
+	static_cast<Enemy*>(pointer)->SetPlayer(player_);
+	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_.get());
+	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_.get());
+	
 }

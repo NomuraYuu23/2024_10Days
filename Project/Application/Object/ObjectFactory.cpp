@@ -5,6 +5,8 @@
 #include "../Object/Character/Player/Player.h"
 #include "../Object/Obstacle/Block/Block.h"
 #include "../Object/Character/Player/Horn/PlayerHorn.h"
+#include "../Object/Character/Enemy/Enemy.h"
+#include "../Object/Character/Enemy/Bullet.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -40,6 +42,11 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 	createObjectFunctions_[kCreateObjectIndexPlayerHorn].first = "PlayerHorn";
 	createObjectFunctions_[kCreateObjectIndexPlayerHorn].second = ObjectFactory::CreateObjectPlayerHorn;
 
+	createObjectFunctions_[kCreateObjectIndexEnemy].first = "Enemy";
+	createObjectFunctions_[kCreateObjectIndexEnemy].second = ObjectFactory::CreateObjectEnemy;
+
+	createObjectFunctions_[kCreateObjectIndexBullet].first = "Bullet";
+	createObjectFunctions_[kCreateObjectIndexBullet].second = ObjectFactory::CreateObjectBullet;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -99,5 +106,23 @@ IObject* ObjectFactory::CreateObjectPlayerHorn(LevelData::ObjectData& objectData
 	IObject* object = new PlayerHorn();
 	// 初期化
 	static_cast<PlayerHorn*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectEnemy(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Enemy();
+	// 初期化
+	static_cast<Enemy*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBullet(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Bullet();
+	// 初期化
+	static_cast<Bullet*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

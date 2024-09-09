@@ -35,6 +35,9 @@ void PlayerStateJump::Update()
 	worldTransform->usedDirection_ = true;
 	targetDirection_ = worldTransform->direction_;
 
+	Animation* animation = player_->GetAnimationAdress();
+	double animTimer = 0.0f;
+
 	//移動
 	if (input_->GetJoystickConnected()) {
 
@@ -65,6 +68,8 @@ void PlayerStateJump::Update()
 		}
 		else {
 			animStop_ = false;
+			animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+			animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
 		}
 	}
 
@@ -119,10 +124,9 @@ void PlayerStateJump::Update()
 	}
 
 	// アニメーション確認
-	Animation* animation = player_->GetAnimationAdress();
 
 	if (animStop_) {
-		double animTimer = 0.0f;
+		animTimer = 0.0f;
 		animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
 	}
 
