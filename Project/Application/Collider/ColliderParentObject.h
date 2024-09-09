@@ -9,8 +9,9 @@ class Player;
 class ShockWave;
 class Enemy;
 class Bullet;
+class Block;
 
-using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*,ShockWave*,Enemy*,Bullet*>;
+using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*,ShockWave*,Enemy*,Bullet*,Block*>;
 
 // 親がないもの用
 class Null {

@@ -11,6 +11,8 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 #include "Bullet.h"
 
+#include "../../../Engine/Math/Ease.h"
+
 LevelData::MeshData Enemy::EnemyCreate()
 {
 
@@ -94,7 +96,7 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Enemy::Rush, this);
+	state_ = std::bind(&Enemy::Shot, this);
 }
 
 void Enemy::Update()
@@ -107,8 +109,9 @@ void Enemy::Update()
 #endif // _DEBUG
 
 	MeshObject::Update();
-
-	CheckFloorConect();
+	if (!isPlayDeathAnimation_) {
+		//CheckFloorConect();
+	}
 
 	state_();
 
@@ -118,16 +121,17 @@ void Enemy::Update()
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	localMatrixManager_->Map();
-
-	// 重力
-	velocity_ += Gravity::Execute();
-	// 速度制限
-	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
-	// 位置更新
-	worldTransform_.transform_.translate += velocity_;
-	// 位置制限
-	PositionLimit();
-
+	if (!isPlayDeathAnimation_) {
+		// 重力
+		velocity_ += Gravity::Execute();
+		// 速度制限
+		velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+		// 位置更新
+		worldTransform_.transform_.translate += velocity_;
+		// 位置制限
+		PositionLimit();
+		worldTransform_.transform_.scale = oridinalScale_;
+	}
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
@@ -159,7 +163,13 @@ void Enemy::ImGuiDraw()
 void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner)) {
+		if (std::get<Block*>(colliderPartner)->GetIsAttack() && !isPlayDeathAnimation_) {
+			//死亡
+			isPlayDeathAnimation_ = true;
+			state_ = std::bind(&Enemy::Dead, this);
+			countUp_ = 0;
+		}
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
@@ -218,7 +228,7 @@ void Enemy::AnimationUpdate()
 void Enemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<Block*>(colliderPartner);
 
 	OBB* myOBB = &std::get<OBB>(*collider_);
 	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());
@@ -265,7 +275,9 @@ void Enemy::ApplyGlobalVariables()
 
 	initHp_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "initHp"));
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
-	worldTransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "scale");
+	oridinalScale_ = globalVariables->GetVector3Value(groupName, "scale");
+	shotFrame_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotFrame"));
+	threewayRotate_ = globalVariables->GetFloatValue(groupName, "threewayRotate");
 
 }
 
@@ -279,6 +291,8 @@ void Enemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "initHp", static_cast<int32_t>(initHp_));
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
+	globalVariables->AddItem(groupName, "shotFrame", static_cast<int32_t>(shotFrame_));
+	globalVariables->AddItem(groupName, "threewayRotate", threewayRotate_);
 }
 
 
@@ -296,22 +310,29 @@ void Enemy::Rush() {
 	countUp_ = shotStart_;
 }
 
-
-void Enemy::RushStart() {
-
-}
-
 void Enemy::Shot() {
 	RotateToPlayer();
+	if (countUp_ == shotFrame_) {
+		CreateBullet(0);
+		CreateBullet(threewayRotate_);
+		CreateBullet(-threewayRotate_);
+	}
+	currentMotionNo_ = kEnemyMotionAttack;
 	if (countUp_ >= shotEnd) {
-		CreateBullet();
 		countUp_=0;
+		currentMotionNo_ = kEnemyMotionIdle;
 	}
 	countUp_++;
 }
 
-void Enemy::ShotStart() {
-
+void Enemy::Dead() {
+	currentMotionNo_ = kEnemyMotionDead;
+	worldTransform_.transform_.scale = Ease::Easing(Ease::EaseName::EaseInBack, oridinalScale_, {0,0,0},float(countUp_) / float(deadEnd_));
+	if (countUp_ >= deadEnd_) {
+		isDead_ = true;
+		countUp_ = 0;
+	}
+	countUp_++;
 }
 
 void Enemy::RotateToPlayer() {
@@ -345,7 +366,7 @@ void Enemy::CheckFloorConect() {
 	}
 }
 
-void Enemy::CreateBullet() {
+void Enemy::CreateBullet(float rotateY) {
 
 	LevelData::ObjectData data;
 
@@ -358,6 +379,6 @@ void Enemy::CreateBullet() {
 	bullet.transform.translate.z += worldTransform_.direction_.z * 0.5f;
 	bullet.transform.translate.y += 4.0f;
 	pointer = objectManager_->AddObject(data);
-	static_cast<Bullet*>(pointer)->SetVelocity(Vector3::Normalize(worldTransform_.direction_));
+	static_cast<Bullet*>(pointer)->SetVelocity(Matrix4x4::TransformNormal(Vector3::Normalize(worldTransform_.direction_),Matrix4x4::MakeRotateYMatrix(rotateY)));
 	
 }

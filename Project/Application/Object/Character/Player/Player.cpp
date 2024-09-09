@@ -185,7 +185,7 @@ void Player::ImGuiDraw()
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
@@ -286,7 +286,7 @@ void Player::AnimationUpdate()
 void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<Block*>(colliderPartner);
 
 	OBB* myOBB = &std::get<OBB>(*collider_);
 	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());

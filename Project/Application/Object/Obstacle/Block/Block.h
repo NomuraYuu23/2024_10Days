@@ -137,6 +137,9 @@ public: //アクセッサ
 
 	bool GetIsMove() { return isMove_; };
 
+	//攻撃判定が出ているか
+	bool GetIsAttack() { return isAttack_ || isShockWave_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号

@@ -916,6 +916,9 @@
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
       <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1583,6 +1586,9 @@
     </ClInclude>
     <ClInclude Include="Application\UI\ButtonAUI.h">
       <Filter>Application\UI\ButtonA</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Bullet.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
