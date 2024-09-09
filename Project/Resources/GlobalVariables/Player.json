@@ -1,5 +1,6 @@
 {
     "Player": {
+        "airborneMultiplier": 0.5,
         "initHp": 3,
         "jumpCheckpointFrame": 12,
         "jumpInitialSpeed": 1.399999976158142,
