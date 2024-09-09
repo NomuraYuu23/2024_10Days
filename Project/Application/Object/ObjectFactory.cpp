@@ -7,6 +7,7 @@
 #include "../Object/Character/Player/Horn/PlayerHorn.h"
 #include "../Object/Character/Enemy/Enemy.h"
 #include "../Object/Character/Enemy/Bullet.h"
+#include "../Object/Character/Enemy/Egg.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -47,6 +48,9 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexBullet].first = "Bullet";
 	createObjectFunctions_[kCreateObjectIndexBullet].second = ObjectFactory::CreateObjectBullet;
+
+	createObjectFunctions_[kCreateObjectIndexEgg].first = "Egg";
+	createObjectFunctions_[kCreateObjectIndexEgg].second = ObjectFactory::CreateObjectEgg;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -122,6 +126,15 @@ IObject* ObjectFactory::CreateObjectBullet(LevelData::ObjectData& objectData)
 {
 	// インスタンス生成
 	IObject* object = new Bullet();
+	// 初期化
+	static_cast<Bullet*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectEgg(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Egg();
 	// 初期化
 	static_cast<Bullet*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;

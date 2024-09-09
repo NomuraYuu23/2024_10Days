@@ -16,7 +16,7 @@
 #include "../../../Engine/Physics/Gravity.h"
 #include "../../Object/Character/Player/Horn/PlayerHorn.h"
 #include "../../Object/Character/Enemy/Enemy.h"
-
+#include "../../Object/Character/Enemy/Egg.h"
 GameScene::~GameScene()
 {
 
@@ -418,13 +418,13 @@ void GameScene::CreateEnemy()
 
 	IObject* pointer = nullptr;
 
-	data = Enemy::EnemyCreate();
+	data = Egg::EggCreate();
 	LevelData::MeshData& enemy = std::get<LevelData::MeshData>(data);
 	enemy.transform.translate.x = -8.0f;
-
+	enemy.transform.translate.y = 16.0f;
 	pointer = objectManager_->AddObject(data);
-	static_cast<Enemy*>(pointer)->SetPlayer(player_);
-	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_.get());
-	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_.get());
+	static_cast<Egg*>(pointer)->SetPlayer(player_);
+	static_cast<Egg*>(pointer)->SetBlockManager(blockManager_.get());
+	static_cast<Egg*>(pointer)->SetObjectManager(objectManager_.get());
 	
 }

@@ -110,7 +110,7 @@ void Enemy::Update()
 
 	MeshObject::Update();
 	if (!isPlayDeathAnimation_) {
-		//CheckFloorConect();
+		CheckFloorConect();
 	}
 
 	state_();

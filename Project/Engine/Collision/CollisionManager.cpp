@@ -8,6 +8,7 @@
 #include "../../Application/Object/Obstacle/Block/Block.h"
 #include "../../Application/Object/Character/Enemy/Enemy.h"
 #include "../../Application/Object/Character/Enemy/Bullet.h"
+#include "../../Application/Object/Character/Enemy/Egg.h"
 void CollisionManager::Initialize()
 {
 
