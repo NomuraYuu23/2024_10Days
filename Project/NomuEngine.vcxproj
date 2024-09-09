@@ -336,6 +336,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Camera\GameCamera.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Bullet.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Egg.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Enemy.h" />
