@@ -183,7 +183,10 @@ private: //	変数
 	size_t countUp_ = 0;
 
 	//仮パラメータ、射撃終了
-	size_t shotEnd = 180;
+	size_t shotEnd = 65;
+
+	// 射撃開始
+	size_t shotStart_ = 10;
 
 public: // アクセッサ
 

@@ -293,7 +293,7 @@ void Enemy::Rush() {
 	move.y = 0;
 	move *= runningSpeed_;
 	worldTransform_.transform_.translate += move;
-	countUp_ = 0;
+	countUp_ = shotStart_;
 }
 
 
