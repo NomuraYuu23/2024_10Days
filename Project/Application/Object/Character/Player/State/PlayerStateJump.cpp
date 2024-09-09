@@ -14,16 +14,14 @@ void PlayerStateJump::Initialize()
 
 	playerStateNo_ = kPlayerStateJump;
 
-	player_->SetVelocity(Vector3{0.0f, player_->GetJumpInitialSpeed() , 0.0f});
-
 	// ジャンプしてからの時間
 	jumpElapsedTime_ = 0.0f;
 
-	// チェックポイント
-	checkpointFlg_ = false;
-
 	// アニメーションを止めるフラグ
 	animStop_ = true;
+
+	// 踏み込み中か
+	steppingIn_ = true;
 
 }
 
@@ -39,19 +37,21 @@ void PlayerStateJump::Update()
 	double animTimer = 0.0f;
 
 	//移動
-	if (input_->GetJoystickConnected()) {
+	if (!steppingIn_) {
+		if (input_->GetJoystickConnected()) {
 
-		const float kThresholdRunning = 0.9f;
+			const float kThresholdRunning = 0.9f;
 
-		// 移動量
-		Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
-		if (Vector3::Length(move) > kThresholdRunning) {
-			//ランニング
-			Move(move, worldTransform, player_->GetRunningSpeed());
+			// 移動量
+			Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
+			if (Vector3::Length(move) > kThresholdRunning) {
+				//ランニング
+				Move(move, worldTransform, player_->GetRunningSpeed());
+			}
+
+			// 角度補間
+			worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
 		}
-
-		// 角度補間
-		worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
 	}
 
 	player_->SetReceiveCommand(false);
@@ -59,21 +59,24 @@ void PlayerStateJump::Update()
 	// 終了確認
 	jumpElapsedTime_ += kDeltaTime_;
 
-	if (!checkpointFlg_ && jumpElapsedTime_ > kDeltaTime_ * static_cast<float>(player_->GetJumpCheckpointFrame())) {
-		checkpointFlg_ = true;
+	if (steppingIn_ && jumpElapsedTime_ > kDeltaTime_ * static_cast<float>(player_->GetJumpCheckpointFrame())) {
+
+		steppingIn_ = false;
 		if (input_->NoPushJoystick(JoystickButton::kJoystickButtonA)) {
-			Vector3 velocityTmp = player_->GetVelocity();
-			velocityTmp.y *= player_->GetSmallJumpMultiplier();
-			player_->SetVelocity(velocityTmp);
+			animStop_ = false;
+			animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+			animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+			player_->SetVelocity(Vector3{ 0.0f, player_->GetSmallJumpInitialSpeed(), 0.0f });
 		}
 		else {
 			animStop_ = false;
 			animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
 			animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+			player_->SetVelocity(Vector3{ 0.0f, player_->GetJumpInitialSpeed() , 0.0f });
 		}
 	}
 
-	if (player_->GetVelocity().y <= 0.0f) {
+	if (player_->GetVelocity().y <= 0.0f && !steppingIn_) {
 		
 		// 高く飛んでいる && 下の足場がひくい位置にあるならドロップ
 

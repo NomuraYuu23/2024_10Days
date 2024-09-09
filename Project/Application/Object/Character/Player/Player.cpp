@@ -93,8 +93,8 @@ void Player::Initialize(LevelData::MeshData* data)
 	// ジャンプチェックポイント
 	jumpCheckpointFrame_ = 8;
 
-	// 小ジャンプ倍率
-	smallJumpMultiplier_ = 0.5f;
+	// 小ジャンプ初速
+	smallJumpInitialSpeed_ = 1.0f;
 
 	// 滞空時倍率
 	airborneMultiplier_ = 0.5f;
@@ -351,7 +351,7 @@ void Player::ApplyGlobalVariables()
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
 	jumpInitialSpeed_ = globalVariables->GetFloatValue(groupName, "jumpInitialSpeed");
 	jumpCheckpointFrame_ = globalVariables->GetIntValue(groupName, "jumpCheckpointFrame");
-	smallJumpMultiplier_ = globalVariables->GetFloatValue(groupName, "smallJumpMultiplier");
+	smallJumpInitialSpeed_ = globalVariables->GetFloatValue(groupName, "smallJumpInitialSpeed");
 	airborneMultiplier_ = globalVariables->GetFloatValue(groupName, "airborneMultiplier");
 
 }
@@ -367,7 +367,7 @@ void Player::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 	globalVariables->AddItem(groupName, "jumpInitialSpeed", jumpInitialSpeed_);
 	globalVariables->AddItem(groupName, "jumpCheckpointFrame", jumpCheckpointFrame_);
-	globalVariables->AddItem(groupName, "smallJumpMultiplier", smallJumpMultiplier_);
+	globalVariables->AddItem(groupName, "smallJumpInitialSpeed", smallJumpInitialSpeed_);
 	globalVariables->AddItem(groupName, "airborneMultiplier", airborneMultiplier_);
 
 }
