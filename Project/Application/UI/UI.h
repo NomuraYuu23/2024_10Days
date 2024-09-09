@@ -26,7 +26,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-private: // メンバ関数
+protected: // メンバ関数
 
 	/// <summary>
 	/// 外部変数登録

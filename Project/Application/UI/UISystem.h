@@ -5,18 +5,22 @@
 
 enum UITextureHandleIndex {
 	kUITextureHandleIndexLeftStick, // 左スティック
-	kUITextureHandleIndexLeftStickBG, // 左スティック背景
-	kUITextureHandleIndexButtonA, // Aボタン
-	kUITextureHandleIndexHP,// HP
+	//kUITextureHandleIndexLeftStickBG, // 左スティック背景
+	//kUITextureHandleIndexLeftStickStr, // 左スティック文字
+	//kUITextureHandleIndexButtonA, // Aボタン
+	//kUITextureHandleIndexButtonAStr, // Aボタン文字
+	//kUITextureHandleIndexHP,// HP
 
 	kUITextureHandleIndexOfCount
 };
 
 enum UIIndex {
 	kUIIndexLeftStick, // 左スティック
-	kUIIndexLeftStickBG, // 左スティック背景
-	kUIIndexButtonA, // Aボタン
-	kUIIndexHP,// HP
+	//kUIIndexLeftStickBG, // 左スティック背景
+	//kUIIndexLeftStickStr, // 左スティック文字
+	//kUIIndexButtonA, // Aボタン
+	//kUIIndexButtonAStr, // Aボタン文字
+	//kUIIndexHP,// HP
 	kUIIndexOfCount
 };
 
@@ -43,9 +47,6 @@ public: // メンバ関数
 
 private:
 
-	// 操作情報
-	Input* input_;
-
 	// プレイヤー
 	Player* player_;
 
@@ -61,9 +62,11 @@ private:
 	// テクスチャのパス
 	const std::array<std::string, UITextureHandleIndex::kUITextureHandleIndexOfCount> textureNames_ = {
 		"",
-		"",
-		"",
-		"",
+		//"",
+		//"",
+		//"",
+		//"",
+		//"",
 	};
 
 };

@@ -391,6 +391,9 @@
     <Filter Include="Application\System\Cloud">
       <UniqueIdentifier>{34c0fb68-80b6-486c-b9cb-c5c7633f8a3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\LeftStick">
+      <UniqueIdentifier>{78fb7cbf-3edb-4c6a-a9cc-74449fd60a33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -888,6 +891,9 @@
     </ClCompile>
     <ClCompile Include="Application\UI\UISystem.cpp">
       <Filter>Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\LeftStickUI.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1541,6 +1547,9 @@
     </ClInclude>
     <ClInclude Include="Application\UI\UI.h">
       <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\LeftStickUI.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

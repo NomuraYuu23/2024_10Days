@@ -195,6 +195,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\System\Shadow\Shadow.cpp" />
     <ClCompile Include="Application\System\Shadow\ShadowManager.cpp" />
     <ClCompile Include="Application\GPUParticle\CloudParticle\CloudParticle.cpp" />
+    <ClCompile Include="Application\UI\LeftStickUI.cpp" />
     <ClCompile Include="Application\UI\UI.cpp" />
     <ClCompile Include="Application\UI\UISystem.cpp" />
     <ClCompile Include="Engine\2D\ImGuiManager.cpp" />
@@ -366,6 +367,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\System\Shadow\Shadow.h" />
     <ClInclude Include="Application\System\Shadow\ShadowManager.h" />
     <ClInclude Include="Application\GPUParticle\CloudParticle\CloudParticle.h" />
+    <ClInclude Include="Application\UI\LeftStickUI.h" />
     <ClInclude Include="Application\UI\UI.h" />
     <ClInclude Include="Application\UI\UISystem.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
