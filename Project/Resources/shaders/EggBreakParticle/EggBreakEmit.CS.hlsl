@@ -61,6 +61,29 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 
 				gParticles[particleIndex].currentTime = 0.0f;
 
+				gParticles[particleIndex].rotate = float32_t3(0.0f, 0.0f, 0.0f);
+				gParticles[particleIndex].rotateVelocity = float32_t3(0.0f, 0.0f, 0.0f);
+
+				gParticles[particleIndex].rotateMatrix[0][0] = 1.0f;
+				gParticles[particleIndex].rotateMatrix[0][1] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[0][2] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[0][3] = 0.0f;
+
+				gParticles[particleIndex].rotateMatrix[1][0] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[1][1] = 1.0f;
+				gParticles[particleIndex].rotateMatrix[1][2] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[1][3] = 0.0f;
+
+				gParticles[particleIndex].rotateMatrix[2][0] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[2][1] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[2][2] = 1.0f;
+				gParticles[particleIndex].rotateMatrix[2][3] = 0.0f;
+
+				gParticles[particleIndex].rotateMatrix[3][0] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[3][1] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[3][2] = 0.0f;
+				gParticles[particleIndex].rotateMatrix[3][3] = 1.0f;
+
 			}
 			else {
 
