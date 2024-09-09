@@ -182,7 +182,10 @@ private: //	変数
 	float airborneMultiplier_ = 0.5f;
 
 	// 滞空フラグ
-	float airborneCheck_ = false;
+	bool airborneCheck_ = false;
+
+	//ブロックを叩いたか
+	bool isKnockBlock_ = false;
 
 public: // アクセッサ
 
@@ -224,6 +227,8 @@ public: // アクセッサ
 
 	Animation* GetAnimationAdress() { return &animation_; }
 
+	void SetIsKnockBlock(bool is) { isKnockBlock_ = is; };
+	bool GetIsKnockBlock() { return isKnockBlock_; };
 private: // グローバル変数
 
 	/// <summary>

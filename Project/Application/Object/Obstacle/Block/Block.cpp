@@ -186,9 +186,10 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 			//state_ = std::bind(&Block::ShockWaveCenter, this);
 			//isShockWave_ = true;
 		}
-		else if(velocity < 1.0f && !isMove_){//プレイヤーが下からぶつかったら攻撃
+		else if(velocity < 1.0f && !isMove_ && !std::get<Player*>(colliderPartner)->GetIsKnockBlock()){//プレイヤーが下からぶつかったら攻撃
 			AttackStart();
 			isMove_ = false;
+			std::get<Player*>(colliderPartner)->SetIsKnockBlock(true);
 		}
 		
 	}
