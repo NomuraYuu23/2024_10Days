@@ -7,6 +7,7 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/Particle/BillBoardMatrix.h"
 #include "../../../Engine/Math/DeltaTime.h"
+#include "../../../Engine/3D/ModelManager.h"
 
 void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
 {
@@ -24,6 +25,8 @@ void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 	emitter.emit = 0;
 
 	SetEmitter(emitter);
+
+	eggModel_ = ModelManager::GetInstance()->GetModel("Resources/Model/Enemy/", "Spino.gltf");
 
 }
 
@@ -60,7 +63,7 @@ void EggBreakParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& 
 	commandList->SetGraphicsRootSignature(rootSignature_);
 
 	// 頂点データ
-	commandList->IASetVertexBuffers(0, 1, model_->GetMesh()->GetVbView());
+	commandList->IASetVertexBuffers(0, 1, eggModel_->GetMesh()->GetVbView());
 
 	// GPUパーティクル用
 	commandList->SetGraphicsRootDescriptorTable(0, srvHandleGPU_);
@@ -70,12 +73,12 @@ void EggBreakParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& 
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(
 		commandList,
 		2,
-		textureHandle_);
+		eggModel_->GetTextureHandles()[0]);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 
 	// 描画
-	commandList->DrawInstanced(6, kParticleMax, 0, 0);
+	commandList->DrawInstanced(UINT(eggModel_->GetModelData().vertices.size()), kParticleMax, 0, 0);
 
 	// リソースバリア
 	ResouseBarrierToUnorderedAccess(commandList);

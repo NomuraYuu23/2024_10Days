@@ -23,6 +23,9 @@
 #include "../../System/CloudSystem/CloudSystem.h"
 #include "../../UI/UISystem.h"
 
+// デバッグ
+#include "../../GPUParticle/EggBreakParticle/EggBreakParticle.h"
+
 class GameScene : public IScene
 {
 
@@ -133,5 +136,8 @@ private:
 
 	// UIシステム
 	std::unique_ptr<UISystem> UISystem_;
+
+	// デバッグ用
+	std::unique_ptr<EggBreakParticle> eggBreakParticle_;
 
 };
