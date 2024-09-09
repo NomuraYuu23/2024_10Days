@@ -96,6 +96,12 @@ void Player::Initialize(LevelData::MeshData* data)
 	// 小ジャンプ倍率
 	smallJumpMultiplier_ = 0.5f;
 
+	// 滞空時倍率
+	airborneMultiplier_ = 0.5f;
+
+	// 滞空フラグ
+	airborneCheck_ = false;
+
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
@@ -127,6 +133,9 @@ void Player::Update()
 	if (receiveCommand_) {
 		nextStateNo_ = playerCommand_->Command();
 	}
+
+	// 滞空フラグ
+	airborneCheck_ = false;
 
 	// ステート
 	StateUpdate();
@@ -185,7 +194,7 @@ void Player::ImGuiDraw()
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
@@ -286,7 +295,7 @@ void Player::AnimationUpdate()
 void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<Block*>(colliderPartner);
 
 	OBB* myOBB = &std::get<OBB>(*collider_);
 	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());
@@ -305,6 +314,13 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 
 	if (extrusion.y > 0.0f) {
 		velocity_.y = 0.0f;
+	}
+
+	// 下からたたいた時、滞空
+	if (extrusion.y < 0.0f && velocity_.y > 0.0f && !airborneCheck_) {
+		velocity_.y += Gravity::Execute().y * -airborneMultiplier_;
+		// 滞空フラグ
+		airborneCheck_ = true;
 	}
 
 	worldTransform_.transform_.translate += extrusion;
@@ -336,6 +352,7 @@ void Player::ApplyGlobalVariables()
 	jumpInitialSpeed_ = globalVariables->GetFloatValue(groupName, "jumpInitialSpeed");
 	jumpCheckpointFrame_ = globalVariables->GetIntValue(groupName, "jumpCheckpointFrame");
 	smallJumpMultiplier_ = globalVariables->GetFloatValue(groupName, "smallJumpMultiplier");
+	airborneMultiplier_ = globalVariables->GetFloatValue(groupName, "airborneMultiplier");
 
 }
 
@@ -351,5 +368,6 @@ void Player::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "jumpInitialSpeed", jumpInitialSpeed_);
 	globalVariables->AddItem(groupName, "jumpCheckpointFrame", jumpCheckpointFrame_);
 	globalVariables->AddItem(groupName, "smallJumpMultiplier", smallJumpMultiplier_);
+	globalVariables->AddItem(groupName, "airborneMultiplier", airborneMultiplier_);
 
 }

@@ -922,6 +922,12 @@
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp">
       <Filter>Application\Object\Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -1592,9 +1598,6 @@
     </ClInclude>
     <ClInclude Include="Application\UI\ButtonAUI.h">
       <Filter>Application\UI\ButtonA</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

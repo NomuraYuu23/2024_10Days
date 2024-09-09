@@ -178,6 +178,12 @@ private: //	変数
 	// 小ジャンプ倍率
 	float smallJumpMultiplier_ = 0.5f;
 
+	// 滞空時倍率
+	float airborneMultiplier_ = 0.5f;
+
+	// 滞空フラグ
+	float airborneCheck_ = false;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

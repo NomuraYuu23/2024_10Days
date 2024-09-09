@@ -7,18 +7,7 @@
 
 class BaseObjectManager;
 
-/// <summary>
-/// エネミーのモーション一覧
-/// </summary>
-enum EnemyMotionIndex {
-	kEnemyMotionIdle, // 通常時
-	kEnemyMotionMove, // 移動時
-	kEnemyMotionAttack, // 攻撃時
-	kEnemyMotionDead, // 死亡時
-	kEnemyMotionIndexOfCount // 数
-};
-
-class Enemy :
+class Egg :
 	public MeshObject
 {
 
@@ -28,9 +17,9 @@ public: // 静的メンバ関数
 	/// プレイヤーの生成
 	/// </summary>
 	/// <returns></returns>
-	static LevelData::MeshData EnemyCreate();
+	static LevelData::MeshData EggCreate();
 
-	
+
 public: // ベースのメンバ関数
 
 	/// <summary>
@@ -69,32 +58,10 @@ public: // ベースのメンバ関数
 
 private: // ベースのメンバ変数
 
-	
+
 
 private: // ステート関数
 
-	/// <summary>
-	/// 移動状態
-	/// </summary>
-	void Rush();
-
-	/// <summary>
-	/// 射撃状態
-	/// </summary>
-	void Shot();
-
-	/// <summary>
-	/// 死亡状態
-	/// </summary>
-	void Dead();
-
-	/// <summary>
-	/// 状態チェック
-	/// </summary>
-	void CheckFloorConect();
-
-	//プレイヤーの方を向く
-	void RotateToPlayer();
 
 private: // ステート変数
 
@@ -102,34 +69,10 @@ private: // ステート変数
 private: // パーツ構成関数
 
 	/// <summary>
-	/// パーツ初期化
-	/// </summary>
-	void PartInitialize();
-
-	/// <summary>
 	/// コライダー更新
 	/// </summary>
 	void ColliderUpdate();
 
-	/// <summary>
-	/// アニメーション更新
-	/// </summary>
-	void AnimationUpdate();
-
-private: // パーツ,アニメーション変数
-
-	// 現在のモーション番号
-	uint32_t currentMotionNo_;
-
-	// 前のモーション番号
-	uint32_t prevMotionNo_;
-
-	//ノードアニメーション
-	Animation animation_;
-
-	// ローカル行列
-	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
-	
 private: // 衝突処理
 
 	/// <summary>
@@ -141,104 +84,45 @@ private: // 衝突処理
 
 private: // 関数
 
-	/// <summary>
-	/// ポジション修正
-	/// </summary>
-	void PositionLimit();
-
-	//発射処理
-	void CreateBullet(float rotateY);
+	void CreateEnemy();
 
 private: //	変数
-
-	//hp
-	int32_t hp_;
-
-	// 初期HP
-	uint32_t initHp_;
 
 	// 速度
 	Vector3 velocity_ = {};
 
-	// 速度
-	float runningSpeed_ = 0.3f;
 
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
+	Player* target_ = nullptr;
+
 	//オブジェクトマネージャー
 	BaseObjectManager* objectManager_ = nullptr;
 
-	Player* target_ = nullptr;
-	
-	//ステート
-	std::function<void(void)> state_;
-
 	//カウント用
 	size_t countUp_ = 0;
-
-	//仮パラメータ、射撃終了
-	size_t shotEnd = 65;
-
-
-	// 射撃開始
-	size_t shotStart_ = 10;
-
-	//実際に射撃を行うフレーム
-	size_t shotFrame_ = 30;
-
-	//死亡アニメーション終了
-	size_t deadEnd_ = 40;
-
-	//基準のスケール
-	Vector3 oridinalScale_;
-
-	//3Wayの左右の角度(rad)
-	float threewayRotate_ = 0.5f;
-
-	//フラグ
-
-	bool isPlayDeathAnimation_ = false;
 
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
-	int32_t GetHp() { return hp_; }
-
-	uint32_t GetInitHp() { return initHp_; }
-
 	//LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
-
-	void SetHP(uint32_t hp) { hp_ = hp; }
 
 	Vector3 GetVelocity() { return velocity_; }
 
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 
-	float GetRunningSpeed() { return runningSpeed_; }
-
+	
 	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
 
 	BlockManager* GetBlockManager() { return blockManager_; }
 
 	void SetObjectManager(BaseObjectManager* manager) { objectManager_ = manager; }
-
-	//Animation* GetAnimationAdress() { return &animation_; }
-
 	void SetPlayer(Player* player) { target_ = player; };
 
 private: // グローバル変数
 
-	/// <summary>
-	/// 調整項目の適用
-	/// </summary>
-	void ApplyGlobalVariables();
-
-	/// <summary>
-	/// 調整項目の登録
-	/// </summary>
-	void RegistrationGlobalVariables();
 
 };
 

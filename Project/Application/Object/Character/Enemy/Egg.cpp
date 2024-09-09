@@ -1,4 +1,4 @@
-#include "Bullet.h"
+#include "Egg.h"
 #include "../../../../Engine/Collision/Extrusion.h"
 
 #include "../../Obstacle/BaseObstacle.h"
@@ -7,13 +7,19 @@
 #include "../../../../externals/imgui/imgui.h"
 #include "../../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Obstacle/Block/Block.h"
-LevelData::MeshData Bullet::BulletCreate()
+
+#include "../../../Engine/Object/BaseObjectManager.h"
+#include "Bullet.h"
+#include "Enemy.h"
+#include "../../../Engine/Math/Ease.h"
+
+LevelData::MeshData Egg::EggCreate()
 {
 
 	LevelData::MeshData data;
 	static size_t id;
 	// 名前
-	data.name = "Bullet" + std::to_string(id++);
+	data.name = "Egg" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
 		1.0f,1.0f,1.0f,
@@ -22,11 +28,11 @@ LevelData::MeshData Bullet::BulletCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "bullet.obj";
+	data.flieName = "Egg.obj";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Enemy/";
 	// クラスの名前
-	data.className = "Bullet";
+	data.className = "Egg";
 	// 親の名前
 	data.parentName = "";
 
@@ -39,17 +45,17 @@ LevelData::MeshData Bullet::BulletCreate()
 
 }
 
-void Bullet::Initialize(LevelData::MeshData* data)
+void Egg::Initialize(LevelData::MeshData* data)
 {
 
 
 	MeshObject::Initialize(data);
 
 	//衝突属性(自分)
-	collisionAttribute_ = 0x00000200;
+	collisionAttribute_ = 0x00000100;
 
 	// 衝突マスク(相手)
-	collisionMask_ = 0xfffffdff;
+	collisionMask_ = 0xfffffeff;
 
 	OBB obb = std::get<OBB>(*collider_.get());
 	obb.SetParentObject(this);
@@ -59,6 +65,7 @@ void Bullet::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
+	
 	isDead_ = false;
 
 	prePosition_ = worldTransform_.GetWorldPosition();
@@ -67,21 +74,17 @@ void Bullet::Initialize(LevelData::MeshData* data)
 	material_->SetEnableLighting(BlinnPhongReflection);
 
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-
-	worldTransform_.direction_ = velocity_;
-	worldTransform_.usedDirection_ = true;
-
 }
 
-void Bullet::Update()
+void Egg::Update()
 {
 	MeshObject::Update();
-
-	// 位置制限
-	PositionLimit();
-	worldTransform_.direction_ = velocity_;
-	worldTransform_.transform_.translate += velocity_ * speed_;
-
+	// 重力
+	velocity_ += Gravity::Execute();
+	// 速度制限
+	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+	// 位置更新
+	worldTransform_.transform_.translate += velocity_;
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
@@ -92,26 +95,33 @@ void Bullet::Update()
 
 }
 
-void Bullet::Draw(BaseCamera& camera)
+void Egg::Draw(BaseCamera& camera)
 {
 	MeshObject::Draw(camera);
 }
 
-void Bullet::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void Egg::ImGuiDraw()
+{
+
+}
+
+void Egg::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
+		CreateEnemy();
+		isDead_ = true;
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
 }
 
-void Bullet::ParticleDraw(BaseCamera& camera)
+void Egg::ParticleDraw(BaseCamera& camera)
 {
-
 }
 
-void Bullet::ColliderUpdate()
+
+void Egg::ColliderUpdate()
 {
 
 	OBB obb = std::get<OBB>(*collider_.get());
@@ -131,22 +141,47 @@ void Bullet::ColliderUpdate()
 }
 
 
-void Bullet::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void Egg::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	//BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<Block*>(colliderPartner);
 
-	isDead_ = true;
+	OBB* myOBB = &std::get<OBB>(*collider_);
+	OBB* partnerOBB = &std::get<OBB>(*obstacle->GetCollider());
+
+	float myY = myOBB->center_.y - myOBB->size_.y;
+	float partnerY = partnerOBB->center_.y + partnerOBB->size_.y;
+
+	Vector3 extrusion = {};
+
+	if (partnerY - myY <= fabsf(Gravity::Execute().y) + 0.01f) {
+		extrusion.y = partnerY - myY;
+	}
+	else {
+		extrusion = Extrusion::OBBAndOBB(myOBB, partnerOBB);
+	}
+
+	if (extrusion.y > 0.0f) {
+		velocity_.y = 0.0f;
+	}
+
+	worldTransform_.transform_.translate += extrusion;
+	worldTransform_.UpdateMatrix();
+	// コライダー
+	ColliderUpdate();
 }
 
-void Bullet::PositionLimit()
-{
+void Egg::CreateEnemy() {
 
-	Vector3 Max = { 18.0f,1000.0f, 18.0f };
-	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+	LevelData::ObjectData data;
 
-	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
-		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
-		isDead_ = true;
-	}
+	IObject* pointer = nullptr;
+
+	data = Enemy::EnemyCreate();
+	LevelData::MeshData& bullet = std::get<LevelData::MeshData>(data);
+	bullet.transform.translate = worldTransform_.GetWorldPosition();
+	pointer = objectManager_->AddObject(data);
+	static_cast<Enemy*>(pointer)->SetPlayer(target_);
+	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_);
+	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_);
 }
