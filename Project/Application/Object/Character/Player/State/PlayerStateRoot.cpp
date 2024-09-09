@@ -46,6 +46,9 @@ void PlayerStateRoot::Update()
 
 	player_->SetReceiveCommand(true);
 
+	//ブロックを叩いたかどうかの値をリセット
+	player_->SetIsKnockBlock(false);
+
 }
 
 void PlayerStateRoot::Move(Vector3& move, WorldTransform* worldTransform, float speed)

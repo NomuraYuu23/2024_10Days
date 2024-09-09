@@ -4,7 +4,7 @@
 #include "../../Obstacle/Block/BlockManager.h"
 #include "../Player/Player.h"
 //#include "../../../Engine/Object/BaseObjectManager.h"
-
+#include "BaseEnemy.h"
 class BaseObjectManager;
 
 /// <summary>
@@ -19,7 +19,7 @@ enum EnemyMotionIndex {
 };
 
 class Enemy :
-	public MeshObject
+	public BaseEnemy
 {
 
 public: // 静的メンバ関数
@@ -195,10 +195,6 @@ private: //	変数
 
 	//3Wayの左右の角度(rad)
 	float threewayRotate_ = 0.5f;
-
-	//フラグ
-
-	bool isPlayDeathAnimation_ = false;
 
 public: // アクセッサ
 
