@@ -409,6 +409,9 @@
     <Filter Include="shaders\GPUParticle\EggBreakParticle">
       <UniqueIdentifier>{c8df2e67-1b8d-43c0-9593-cf8ece7e2565}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Character\Enemy\EggBreakParticle">
+      <UniqueIdentifier>{0005be55-2d4d-4c63-bcfb-6ea944f2f149}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -936,6 +939,9 @@
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\EnemyManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\EggBreakParticleManager.cpp">
+      <Filter>Application\Object\Character\Enemy\EggBreakParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1619,6 +1625,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\EnemyManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\EggBreakParticleManager.h">
+      <Filter>Application\Object\Character\Enemy\EggBreakParticle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

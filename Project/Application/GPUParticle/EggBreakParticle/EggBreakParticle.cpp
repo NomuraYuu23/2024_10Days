@@ -16,17 +16,28 @@ void EggBreakParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 
-	EmitterCS emitter;
-	emitter.count = 30;
-	emitter.frequency = 1.0f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-	SetEmitter(emitter);
-
 	eggModel_ = ModelManager::GetInstance()->GetModel("Resources/Model/Enemy/", "EggDebris.obj");
+
+}
+
+void EggBreakParticle::Update()
+{
+
+	// 時間加算
+	emitBlendNormalMap_->frequencyTime += kDeltaTime_;
+
+	// 射出間隔を上回ったら射出許可を出して時間を調整
+	if (emitBlendNormalMap_->frequency <= emitBlendNormalMap_->frequencyTime) {
+		emitBlendNormalMap_->frequencyTime -= emitBlendNormalMap_->frequency;
+		emitBlendNormalMap_->emit = 1;
+	}
+	// 射出間隔を上回っていないので、射出許可は出ない
+	else {
+		emitBlendNormalMap_->emit = 0;
+	}
+
+	// 時間経過
+	perFrameMap_->time_ += perFrameMap_->deltaTime_;
 
 }
 
@@ -180,6 +191,46 @@ void EggBreakParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsC
 
 }
 
+void EggBreakParticle::ConstantBufferInitialzie(ID3D12Device* device)
+{
+
+	//GPUParticleViewを作る
+	gpuParticleViewBuff_ = BufferResource::CreateBufferResource(device, (sizeof(GPUParticleView) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	gpuParticleViewBuff_->Map(0, nullptr, reinterpret_cast<void**>(&gpuParticleViewMap_));
+
+	// マッピング
+	gpuParticleViewMap_->billboardMatrix = Matrix4x4::MakeIdentity4x4();
+	gpuParticleViewMap_->viewProjection = Matrix4x4::MakeIdentity4x4();
+
+	//エミッタを作る
+	emitterBuff_ = BufferResource::CreateBufferResource(device, (sizeof(EmitBlendNormalCS) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	emitterBuff_->Map(0, nullptr, reinterpret_cast<void**>(&emitBlendNormalMap_));
+
+	// マッピング
+	emitBlendNormalMap_->count = 10;
+	emitBlendNormalMap_->frequency = 0.5f;
+	emitBlendNormalMap_->frequencyTime = 0.0f;
+	emitBlendNormalMap_->translate0 = Vector3(0.0f, 0.0f, 0.0f);
+	emitBlendNormalMap_->translate1 = Vector3(0.0f, 0.0f, 0.0f);
+	emitBlendNormalMap_->translate2 = Vector3(0.0f, 0.0f, 0.0f);
+	emitBlendNormalMap_->translate3 = Vector3(0.0f, 0.0f, 0.0f);
+	emitBlendNormalMap_->num = 0;
+	emitBlendNormalMap_->radius = 1.0f;
+	emitBlendNormalMap_->emit = 0;
+
+	// 時間バッファ
+	perFrameBuff_ = BufferResource::CreateBufferResource(device, (sizeof(PerFrame) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	perFrameBuff_->Map(0, nullptr, reinterpret_cast<void**>(&perFrameMap_));
+
+	// 時間マップ
+	perFrameMap_->deltaTime_ = kDeltaTime_;
+	perFrameMap_->time_ = 0.0f;
+
+}
+
 void EggBreakParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
@@ -243,6 +294,30 @@ void EggBreakParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
+
+}
+
+void EggBreakParticle::SetEmitter(const EmitBlendNormalCS& emitter, bool isEmitSet)
+{
+
+	// マッピング
+	emitBlendNormalMap_->count = emitter.count;
+	emitBlendNormalMap_->frequency = emitter.frequency;
+	emitBlendNormalMap_->translate0 = emitter.translate0;
+	emitBlendNormalMap_->translate1 = emitter.translate1;
+	emitBlendNormalMap_->translate2 = emitter.translate2;
+	emitBlendNormalMap_->translate3 = emitter.translate3;
+	emitBlendNormalMap_->num = emitter.num;
+	emitBlendNormalMap_->radius = emitter.radius;
+
+	emitBlendNormalMap_->pad0 = 0.0f;
+	emitBlendNormalMap_->pad1 = 0.0f;
+	emitBlendNormalMap_->pad2 = 0.0f;
+
+	if (isEmitSet) {
+		emitBlendNormalMap_->emit = emitter.emit;
+		emitBlendNormalMap_->frequencyTime = emitter.frequencyTime;
+	}
 
 }
 

@@ -198,6 +198,9 @@ void GameScene::Update() {
 	// 雲
 	cloudSystem_->Update(directionalLightSystem_->GetDirectionalLightData().color);
 
+	// エネミーマネージャー後処理
+	enemyManager_->PostUpdate();
+
 	// UI
 	UISystem_->Update();
 
@@ -257,6 +260,9 @@ void GameScene::Draw() {
 
 	// 雲
 	cloudSystem_->Draw(dxCommon_->GetCommadList(), camera_);
+
+	// エネミー
+	enemyManager_->ParticleDraw(camera_);
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

@@ -166,6 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp" />
+    <ClCompile Include="Application\Object\Character\Enemy\EggBreakParticleManager.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\FlyEnemy.cpp" />
@@ -342,6 +343,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Bullet.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Egg.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\EggBreakParticleManager.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Enemy.h" />
     <ClInclude Include="Application\Object\Character\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\Object\Character\Enemy\FlyEnemy.h" />

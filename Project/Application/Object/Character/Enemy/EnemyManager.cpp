@@ -51,9 +51,17 @@ void EnemyManager::Initialize() {
 	datas.push_back(data);
 
 	spownDatas_.push_back(datas);
+
+	eggBreakParticleManager_ = std::make_unique<EggBreakParticleManager>();
+	eggBreakParticleManager_->Initialize();
+
 }
 
 void EnemyManager::Update() {
+
+
+	// エフェクトのリセット
+	eggBreakParticleManager_->PositionClear();
 
 	enemys_.remove_if([](BaseEnemy* enemy) {
 		if (enemy->GetIsPlayDeathAnimation_()) {
@@ -78,6 +86,21 @@ void EnemyManager::Update() {
 			frameCount_ = 0;
 		}
 	}
+
+}
+
+void EnemyManager::PostUpdate()
+{
+
+	// エフェクトの更新
+	eggBreakParticleManager_->Update();
+
+}
+
+void EnemyManager::ParticleDraw(BaseCamera& camera)
+{
+
+	eggBreakParticleManager_->Draw(camera);
 
 }
 
@@ -116,6 +139,9 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	enemys_.push_back(enemy);
+
+	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
+}
 }
 
 void EnemyManager::RemoveEgg(Egg* in) {
