@@ -1,6 +1,7 @@
 #pragma once
 #include "../BaseObstacle.h"
 #include "../../../../Engine/Animation/Animation.h"
+#include "../../../AudioManager/GameAudioManager.h"
 
 class ShockWave
 {
@@ -140,6 +141,8 @@ public: //アクセッサ
 	//攻撃判定が出ているか
 	bool GetIsAttack() { return isAttack_ || isShockWave_; };
 
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -197,5 +200,8 @@ private: // パーツ,アニメーション変数
 
 	//衝撃波用判定を出すか
 	bool isShockWaveCollision_ = false;
+
+	GameAudioManager* audioManager_;
+
 };
 

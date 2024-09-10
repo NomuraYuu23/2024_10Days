@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Block.h"
+#include "../../../AudioManager/GameAudioManager.h"
 
 class BlockManager
 {
@@ -41,6 +42,9 @@ public:
 	//平面上で二点間のブロックが全て繋がっているか
 	bool IsConnectRoad(Vector3 from,Vector3 to,bool hight);
 
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	GameAudioManager* GetAudioManager() { return audioManager_; }
+
 private:
 
 	// ブロック
@@ -48,5 +52,8 @@ private:
 	
 	//ブロックの高さの状態(0:下 1:上 -1:移動中)
 	size_t heights_[Block::kNumOnece_][Block::kNumOnece_] = {0};
+
+	GameAudioManager* audioManager_;
+
 };
 

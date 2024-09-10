@@ -10,6 +10,7 @@ void BlockManager::Initialize()
 void BlockManager::AddBlock(Block* block)
 {
 
+	block->SetAudioManager(audioManager_);
 	blocks_.push_back(block);
 
 }

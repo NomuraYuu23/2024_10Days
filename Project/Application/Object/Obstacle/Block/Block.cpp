@@ -212,6 +212,7 @@ void Block::Idle() {
 void Block::MoveStart() {
 	countUp_ = 0;
 	state_ = std::bind(&Block::Move, this);
+	audioManager_->PlayWave(kGameBlockSE);
 }
 
 void Block::Move() {

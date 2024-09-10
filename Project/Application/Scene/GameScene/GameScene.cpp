@@ -355,6 +355,8 @@ void GameScene::CreateBlocks() {
 	
 	IObject* pointer = nullptr;
 	
+	blockManager_->SetAudioManager(audioManager_.get());
+
 	for (size_t z = 0; z < Block::kNumOnece_; z++) {
 		for (size_t x = 0; x < Block::kNumOnece_;x++) {
 			data = Block::BlockCreate();

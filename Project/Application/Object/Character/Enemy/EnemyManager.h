@@ -65,6 +65,9 @@ public:
 	std::list<BaseEnemy*>* GetEnemys() { return &enemys_; }
 	std::list<Egg*>* GetEggs() { return &eggs_; }
 
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	GameAudioManager* GetAudioManager() { return audioManager_; }
+
 	//入ってきたポインタをリストから排除する
 	void RemoveEgg(Egg* in);
 
@@ -94,6 +97,8 @@ private:
 
 	// 卵割れるエフェクト
 	std::unique_ptr<EggBreakParticleManager> eggBreakParticleManager_;
+
+	GameAudioManager* audioManager_;
 
 };
 
