@@ -36,68 +36,77 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 
 		generator.seed = (DTid + gPerFrame.time) * gPerFrame.time;
 
-		for (uint32_t conutIndex = 0; conutIndex < gEmitter.count; ++conutIndex) {
+		float32_t3 pos[4];
+		pos[0] = gEmitter.translate0;
+		pos[1] = gEmitter.translate1;
+		pos[2] = gEmitter.translate2;
+		pos[3] = gEmitter.translate3;
 
-			int32_t freeListIndex;
+		for (uint32_t i = 0; i < gEmitter.num; ++i) {
 
-			InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
+			for (uint32_t conutIndex = 0; conutIndex < gEmitter.count; ++conutIndex) {
 
-			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
+				int32_t freeListIndex;
 
-				int32_t particleIndex = gFreeList[freeListIndex];
+				InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
 
-				float32_t size = generator.Generate1d() + 0.1f;
-				gParticles[particleIndex].scale = float32_t3(size, size, size);
+				if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
 
-				gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + gEmitter.translate0;
+					int32_t particleIndex = gFreeList[freeListIndex];
 
-				gParticles[particleIndex].color.rgb = float32_t3(0.5f, 0.5f, 0.5f);
-				gParticles[particleIndex].color.a = 1.0f;
-				gParticles[particleIndex].lifeTime = generator.Generate1d() * 0.2f + 0.2f;
+					float32_t size = generator.Generate1d() + 0.1f;
+					gParticles[particleIndex].scale = float32_t3(size, size, size);
 
-				float32_t velocityMax = 1.6f;
+					gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + pos[i];
 
-				gParticles[particleIndex].velocity =
-					float32_t3(
-						generator.Generate1d() * velocityMax - velocityMax * 0.5f,
-						generator.Generate1d() * velocityMax * 0.5f,
-						generator.Generate1d() * velocityMax - velocityMax * 0.5f);
+					gParticles[particleIndex].color.rgb = float32_t3(0.5f, 0.5f, 0.5f);
+					gParticles[particleIndex].color.a = 1.0f;
+					gParticles[particleIndex].lifeTime = generator.Generate1d() * 0.2f + 0.2f;
 
-				gParticles[particleIndex].velocity *= 0.5f;
+					float32_t velocityMax = 1.6f;
 
-				gParticles[particleIndex].currentTime = 0.0f;
+					gParticles[particleIndex].velocity =
+						float32_t3(
+							generator.Generate1d() * velocityMax - velocityMax * 0.5f,
+							generator.Generate1d() * velocityMax * 0.5f,
+							generator.Generate1d() * velocityMax - velocityMax * 0.5f);
 
-				gParticles[particleIndex].rotate = generator.Generate3d() * 6.28f - 3.14f;
-				gParticles[particleIndex].rotateVelocity = float32_t3(0.0f, 0.0f, 0.0f);
+					gParticles[particleIndex].velocity *= 0.5f;
 
-				gParticles[particleIndex].rotateMatrix[0][0] = 1.0f;
-				gParticles[particleIndex].rotateMatrix[0][1] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[0][2] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[0][3] = 0.0f;
+					gParticles[particleIndex].currentTime = 0.0f;
 
-				gParticles[particleIndex].rotateMatrix[1][0] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[1][1] = 1.0f;
-				gParticles[particleIndex].rotateMatrix[1][2] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[1][3] = 0.0f;
+					gParticles[particleIndex].rotate = generator.Generate3d() * 6.28f - 3.14f;
+					gParticles[particleIndex].rotateVelocity = float32_t3(0.0f, 0.0f, 0.0f);
 
-				gParticles[particleIndex].rotateMatrix[2][0] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[2][1] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[2][2] = 1.0f;
-				gParticles[particleIndex].rotateMatrix[2][3] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[0][0] = 1.0f;
+					gParticles[particleIndex].rotateMatrix[0][1] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[0][2] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[0][3] = 0.0f;
 
-				gParticles[particleIndex].rotateMatrix[3][0] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[3][1] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[3][2] = 0.0f;
-				gParticles[particleIndex].rotateMatrix[3][3] = 1.0f;
+					gParticles[particleIndex].rotateMatrix[1][0] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[1][1] = 1.0f;
+					gParticles[particleIndex].rotateMatrix[1][2] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[1][3] = 0.0f;
+
+					gParticles[particleIndex].rotateMatrix[2][0] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[2][1] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[2][2] = 1.0f;
+					gParticles[particleIndex].rotateMatrix[2][3] = 0.0f;
+
+					gParticles[particleIndex].rotateMatrix[3][0] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[3][1] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[3][2] = 0.0f;
+					gParticles[particleIndex].rotateMatrix[3][3] = 1.0f;
+
+				}
+				else {
+
+					InterlockedAdd(gFreeListIndex[0], 1);
+					break;
+
+				}
 
 			}
-			else {
-
-				InterlockedAdd(gFreeListIndex[0], 1);
-				break;
-
-			}
-
 		}
 	}
 
