@@ -5,6 +5,7 @@
 #include "State/IPlayerState.h"
 #include "State/PlayerStateFactory.h"
 #include "../../Obstacle/Block/BlockManager.h"
+#include "../../../AudioManager/GameAudioManager.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -193,6 +194,8 @@ private: //	変数
 	// 落下検索速度倍率
 	float fallSearchSpeedCorrection_;
 
+	GameAudioManager* audioManager_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -240,6 +243,9 @@ public: // アクセッサ
 	Vector3 GetFallingPosition() { return fallingPosition_; }
 
 	float GetFallSearchSpeedCorrection() { return fallSearchSpeedCorrection_; }
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	GameAudioManager* GetAudioManager() { return audioManager_; }
 
 private: // グローバル変数
 

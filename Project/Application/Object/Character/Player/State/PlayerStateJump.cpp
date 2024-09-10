@@ -23,6 +23,8 @@ void PlayerStateJump::Initialize()
 	// 踏み込み中か
 	steppingIn_ = true;
 
+	player_->GetAudioManager()->PlayWave(kGamejumpSE);
+
 }
 
 void PlayerStateJump::Update()
