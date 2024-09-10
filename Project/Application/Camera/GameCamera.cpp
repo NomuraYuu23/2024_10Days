@@ -62,6 +62,8 @@ void GameCamera::Initialize()
 
 	input_ = Input::GetInstance();
 
+	upsideDown_ = false;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -74,6 +76,16 @@ void GameCamera::Update(float elapsedTime)
 
 #ifdef _DEMO
 	ApplyGlobalVariables();
+
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonY)) {
+		if (upsideDown_) {
+			upsideDown_ = false;
+		}
+		else {
+			upsideDown_ = true;
+		}
+	}
+
 #endif // _DEMO
 
 	// モード
@@ -234,8 +246,14 @@ void GameCamera::Manual()
 
 	const float RotateSpeed = 0.000003f;
 
+	float upsideDownValue = 1.0f;
+
+	if (upsideDown_) {
+		upsideDownValue = -1.0f;
+	}
+
 	destinationAngleY_ += input_->GetRightAnalogstick().x * RotateSpeed;
-	manualDestinationAngleX_ += input_->GetRightAnalogstick().y * RotateSpeed;
+	manualDestinationAngleX_ += input_->GetRightAnalogstick().y * RotateSpeed * upsideDownValue;
 
 	// xに制限
 	float limit = 3.14f / 4.0f;
