@@ -2,6 +2,9 @@
 #include "../../../../Engine/Collision/Extrusion.h"
 
 #include "../../Obstacle/BaseObstacle.h"
+#include "../Enemy/Enemy.h"
+#include "../Enemy/FlyEnemy.h"
+#include "../Enemy/Bullet.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
@@ -74,6 +77,8 @@ void Player::Initialize(LevelData::MeshData* data)
 	// コマンドを受け取るか
 	receiveCommand_ = true;
 
+	changeStatedirectly = false;
+
 	// ステート
 	StateInitialize();
 
@@ -106,6 +111,10 @@ void Player::Initialize(LevelData::MeshData* data)
 	fallingPosition_ = { 0.0f,0.0f,0.0f };
 
 	fallSearchSpeedCorrection_ = 3.0f;
+
+	knockbackDirection_ = {0.0f,0.0f,1.0f};
+
+	receiveDamage_ = false;
 
 	prePosition_ = worldTransform_.GetWorldPosition();
 
@@ -141,6 +150,8 @@ void Player::Update()
 
 	// 滞空フラグ
 	airborneCheck_ = false;
+
+	receiveDamage_ = false;
 
 	// ステート
 	StateUpdate();
@@ -202,6 +213,15 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
+	else if (std::holds_alternative<Enemy*>(colliderPartner)) {
+		OnCollisionDamage(std::get<Enemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+	}
+	else if (std::holds_alternative<FlyEnemy*>(colliderPartner)) {
+		OnCollisionDamage(std::get<FlyEnemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+	}
+	else if (std::holds_alternative<Bullet*>(colliderPartner)) {
+		OnCollisionDamage(std::get<Bullet*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+	}
 
 }
 
@@ -232,12 +252,15 @@ void Player::StateUpdate()
 
 	// ステートのチェック
 	prevStateNo_ = currentStateNo_;
-	if (receiveCommand_) {
+	if (receiveCommand_ || changeStatedirectly) {
 		currentStateNo_ = nextStateNo_;
 	}
+
 	else {
 		currentStateNo_ = playerState_->GetPlaryerStateNo();
 	}
+
+	changeStatedirectly = false;
 
 	// ステートが変わったか
 	if (prevStateNo_ != currentStateNo_) {
@@ -332,6 +355,23 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 	worldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
+}
+
+void Player::OnCollisionDamage(const Vector3& position)
+{
+
+	if (receiveDamage_ = currentStateNo_ == kPlayerStateKnockback) {
+		return;
+	}
+	
+	Vector3 playerPos = worldTransform_.GetWorldPosition();
+	playerPos.y = position.y;
+
+	knockbackDirection_ = Vector3::Normalize(playerPos - position);
+	nextStateNo_ = kPlayerStateKnockback;
+	receiveDamage_ = true;
+	receiveCommand_ = false;
+	changeStatedirectly = true;
 }
 
 void Player::PositionLimit()

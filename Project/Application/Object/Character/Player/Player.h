@@ -73,6 +73,9 @@ private: // ベースのメンバ変数
 
 	// コマンドを受け取るか
 	bool receiveCommand_;
+	
+	// 状態を直接変える
+	bool changeStatedirectly;
 
 private: // ステート関数
 
@@ -143,6 +146,12 @@ private: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+	/// <summary>
+	/// ダメージを食らうオブジェクトとの衝突処理
+	/// </summary>
+	/// <param name="position">位置</param>
+	void OnCollisionDamage(const Vector3& position);
+
 private: // 関数
 
 	/// <summary>
@@ -194,6 +203,13 @@ private: //	変数
 	// 落下検索速度倍率
 	float fallSearchSpeedCorrection_;
 
+	// ノックバック方向
+	Vector3 knockbackDirection_;
+
+	//ダメージを受けたか
+	bool receiveDamage_;
+
+	// オーディオマネージャー
 	GameAudioManager* audioManager_;
 
 public: // アクセッサ
@@ -243,6 +259,8 @@ public: // アクセッサ
 	Vector3 GetFallingPosition() { return fallingPosition_; }
 
 	float GetFallSearchSpeedCorrection() { return fallSearchSpeedCorrection_; }
+
+	Vector3 GetKnockbackDirection() { return knockbackDirection_; }
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 	GameAudioManager* GetAudioManager() { return audioManager_; }
