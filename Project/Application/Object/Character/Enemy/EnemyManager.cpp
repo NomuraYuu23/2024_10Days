@@ -142,7 +142,7 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy){
 
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
 }
-}
+
 
 void EnemyManager::RemoveEgg(Egg* in) {
 	eggs_.remove_if([&](Egg* egg) {
