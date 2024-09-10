@@ -10,6 +10,8 @@
 #include "../../Application/Object/Character/Enemy/Bullet.h"
 #include "../../Application/Object/Character/Enemy/Egg.h"
 #include "../../Application/Object/Character/Enemy/FlyEnemy.h"
+#include "../../Application/Object/Character/Enemy/Boss/Boss.h"
+#include "../../Application/Object/Character/Enemy/Boss/Hand.h"
 void CollisionManager::Initialize()
 {
 

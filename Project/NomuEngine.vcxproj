@@ -164,6 +164,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Camera\GameCamera.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
     <ClCompile Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.cpp" />
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Hand.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Bullet.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\Egg.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\EggBreakParticleManager.cpp" />
@@ -341,6 +343,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
     <ClInclude Include="Application\Object\Character\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\GPUParticle\EggBreakParticle\EggBreakParticle.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Boss.h" />
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Hand.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Bullet.h" />
     <ClInclude Include="Application\Object\Character\Enemy\Egg.h" />
     <ClInclude Include="Application\Object\Character\Enemy\EggBreakParticleManager.h" />
