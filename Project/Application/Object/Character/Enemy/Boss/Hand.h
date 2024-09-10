@@ -6,6 +6,8 @@
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
 
+class Boss;
+
 class Hand :
 	public MeshObject
 {
@@ -103,6 +105,9 @@ private: // ステート関数
 	/// </summary>
 	//void Damage();
 
+public:
+	void Stamp();
+
 private: //	変数
 
 	//hp
@@ -134,11 +139,19 @@ private: //	変数
 
 	bool isCollision_ = false;
 
+	//スタンプ攻撃のプレイヤー追跡時間
+	size_t stampChaseLength_ = 120;
+
+	//親
+	Boss* parent_ = nullptr;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetParent(Boss* parent) { parent_ = parent; };
 
 private: // グローバル変数
 

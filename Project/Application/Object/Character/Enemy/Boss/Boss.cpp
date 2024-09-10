@@ -216,7 +216,40 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
-	worldTransform_.transform_.translate = { 0,0,0 };
+	worldTransform_.transform_.translate = { 0,0,32.0f };
+	if (countUp_ == 60) {
+		state_ = std::bind(&Boss::RightStampAttack, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
+void Boss::RightStampAttack() {
+	if (rightHand_) {
+		if (countUp_ == 0) {
+			rightHand_->Stamp();
+		}
+		countUp_=1;
+	}
+	
+}
+
+void Boss::CreateHand() {
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Hand::HandCreate(1);
+	LevelData::MeshData& bullet = std::get<LevelData::MeshData>(data);
+	pointer = objectManager_->AddObject(data);
+	static_cast<Hand*>(pointer)->SetPlayer(target_);
+	static_cast<Hand*>(pointer)->SetParent(this);
+	rightHand_ = static_cast<Hand*>(pointer);
 
 }
 
+void Boss::EndAttack() {
+	state_ = std::bind(&Boss::Root, this);
+	countUp_ = 0;
+}

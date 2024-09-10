@@ -100,6 +100,11 @@ private:
 	/// </summary>
 	void ShadowUpdate();
 
+	/// <summary>
+	/// ボス作成(仮)
+	/// </summary>
+	void CreateBoss();
+
 private:
 
 	// オーディオマネージャー

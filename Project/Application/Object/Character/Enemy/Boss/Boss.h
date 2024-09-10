@@ -5,7 +5,7 @@
 #include "../BaseEnemy.h"
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
-
+#include "Hand.h"
 class Boss :
 	public MeshObject
 {
@@ -108,7 +108,7 @@ private: // ステート関数
 	/// <summary>
 	/// 右手回転攻撃
 	/// </summary>
-	void RightRoundAttack();
+	//void RightRoundAttack();
 
 	/// <summary>
 	/// 右手叩きつけ攻撃
@@ -118,7 +118,13 @@ private: // ステート関数
 	/// <summary>
 	/// 死亡状態
 	/// </summary>
-	void Dead();
+	//void Dead();
+
+public:
+	void CreateHand();
+
+	//攻撃が終了したときに子が実行する
+	void EndAttack();
 
 private: //	変数
 
@@ -128,7 +134,7 @@ private: //	変数
 	//死亡アニメーションの終了フレーム
 	size_t deathAnimationLength = 15;
 
-	size_t countUp=0;
+	size_t countUp_=0;
 
 	//ステート
 	std::function<void(void)> state_;
@@ -144,9 +150,21 @@ private: //	変数
 
 	Player* target_ = nullptr;
 
+	Hand* rightHand_ = nullptr;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
+
+	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
+
+	BlockManager* GetBlockManager() { return blockManager_; }
+
+	void SetObjectManager(BaseObjectManager* manager) { objectManager_ = manager; }
+
+	//Animation* GetAnimationAdress() { return &animation_; }
+
+	void SetPlayer(Player* player) { target_ = player; };
 
 private: // グローバル変数
 

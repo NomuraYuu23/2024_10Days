@@ -17,6 +17,8 @@
 #include "../../Object/Character/Player/Horn/PlayerHorn.h"
 #include "../../Object/Character/Enemy/Enemy.h"
 #include "../../Object/Character/Enemy/Egg.h"
+#include "../../Object/Character/Enemy/Boss/boss.h"
+
 GameScene::~GameScene()
 {
 
@@ -136,6 +138,8 @@ void GameScene::Initialize() {
 	// ブロック
 	CreateBlocks();
 
+	//ボス作成(仮)
+	CreateBoss();
 
 	// 雲
 	cloudSystem_ = std::make_unique<CloudSystem>();
@@ -441,4 +445,18 @@ void GameScene::CreateEnemy()
 	static_cast<Egg*>(pointer)->SetBlockManager(blockManager_.get());
 	static_cast<Egg*>(pointer)->SetObjectManager(objectManager_.get());
 	
+}
+
+void GameScene::CreateBoss() {
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Boss::BossCreate();
+	LevelData::MeshData& enemy = std::get<LevelData::MeshData>(data);
+	pointer = objectManager_->AddObject(data);
+	static_cast<Boss*>(pointer)->SetPlayer(player_);
+	static_cast<Boss*>(pointer)->SetBlockManager(blockManager_.get());
+	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
+	static_cast<Boss*>(pointer)->CreateHand();
 }

@@ -1,4 +1,5 @@
 #include "Hand.h"
+#include "Boss.h"
 #include "../../../../../Engine/Collision/Extrusion.h"
 
 #include "../../../Obstacle/BaseObstacle.h"
@@ -220,15 +221,45 @@ void Hand::RegistrationGlobalVariables()
 */
 
 void Hand::Root() {
-	worldTransform_.transform_.translate = {0,0,0};
+	worldTransform_.transform_.translate = {6.0f,0.0f,32.0f};
 
 }
 
 void Hand::StampStand() {
 
+	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0,0};
+	velocity_ = {0,0,0};
+	if (countUp_< stampChaseLength_) {
+		Vector3 target = target_->GetWorldTransformAdress()->GetWorldPosition();
+		target.y = 32.0f;
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, target, 0.05f);
+	}
+	if (countUp_ == stampChaseLength_) {
+		state_ = std::bind(&Hand::StampAttack, this);
+		isCollision_ = false;
+		countUp_=0;
+	}
+	countUp_++;
 }
 
 
 void Hand::StampAttack() {
+	// 重力
+	velocity_ += Gravity::Execute()*2.0f;
+	// 速度制限
+	//velocity_.y = std::fmaxf(velocity_.y, -1.0f);
+	// 位置更新
+	worldTransform_.transform_.translate += velocity_;
+	if (isCollision_){
+		if (countUp_ > 60){//仮
+			state_ = std::bind(&Hand::Root, this);
+			parent_->EndAttack();
+		}
+		countUp_++;
+	}
+}
 
+void Hand::Stamp() {
+	state_ = std::bind(&Hand::StampStand, this);
+	countUp_ = 0;
 }
