@@ -62,6 +62,9 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; };
 
+	std::list<BaseEnemy*>* GetEnemys() { return &enemys_; }
+	std::list<Egg*>* GetEggs() { return &eggs_; }
+
 	//入ってきたポインタをリストから排除する
 	void RemoveEgg(Egg* in);
 
