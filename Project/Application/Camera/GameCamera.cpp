@@ -56,6 +56,14 @@ void GameCamera::Initialize()
 	// 目指すFOVが切り替わる位置
 	fovYChangeLine_ = 30.0f;
 
+	isAutomatic_ = true;
+
+	manualDestinationAngleX_ = 0.0f;
+
+	input_ = Input::GetInstance();
+
+	upsideDown_ = false;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -68,52 +76,37 @@ void GameCamera::Update(float elapsedTime)
 
 #ifdef _DEMO
 	ApplyGlobalVariables();
-#endif // _DEBUG
 
-	// プレイヤーの位置
-	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
-	
-	// ステージ中心からプレイヤー
-	Vector2 toPlayer = { playerPos.x - stageCenter_.x, playerPos.z - stageCenter_.z };
-	// 正規化
-	toPlayer = Vector2::Normalize(toPlayer);
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonY)) {
+		if (upsideDown_) {
+			upsideDown_ = false;
+		}
+		else {
+			upsideDown_ = true;
+		}
+	}
 
-	// 手前左
-	if (toPlayer.x <= 0.0f && toPlayer.y <= 0.0f) {
-		destinationAngleY_ = Math::LerpShortAngle(0.0f, 1.57f, fabsf(toPlayer.x));
-		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+#endif // _DEMO
+
+	// モード
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonRST)) {
+		if (isAutomatic_) {
+			isAutomatic_ = false;
+		}
+		else {
+			isAutomatic_ = true;
+		}
 	}
-	// 奥左
-	else if (toPlayer.x <= 0.0f && toPlayer.y > 0.0f) {
-		destinationAngleY_ = Math::LerpShortAngle(3.14f, 1.57f, fabsf(toPlayer.x));
-		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	else if ((Vector2::Length(input_->GetRightAnalogstick()) != 0.0f) && isAutomatic_) {
+		isAutomatic_ = false;
 	}
-	// 手前右
-	else if (toPlayer.x > 0.0f && toPlayer.y <= 0.0f) {
-		destinationAngleY_ = Math::LerpShortAngle(0.0f, -1.57f, fabsf(toPlayer.x));
-		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+
+	if (isAutomatic_) {
+		Automatic();
 	}
-	// 奥右
 	else {
-		destinationAngleY_ = Math::LerpShortAngle(3.14f, -1.57f, fabsf(toPlayer.x));
-		transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+		Manual();
 	}
-
-	//X
-	
-	// プレイヤーの高さ確認
-	float destinationAngleXAdd = 0.0f;
-
-	float addRateNumerator = playerPos.y - fieldDown_; // 分子
-	float addRateDenominator = fieldTop_ - fieldDown_;// 分母
-
-	float addRate = addRateNumerator / addRateDenominator;
-	addRate = std::fmaxf(addRate, 0.0f);
-	addRate = std::fminf(addRate, 1.0f);
-
-	destinationAngleXAdd = Ease::Easing(Ease::EaseName::Lerp, 0.0f, destinationAngleXAddMax_, addRate);
-
-	transform_.rotate.x = destinationAngleX_ + destinationAngleXAdd;
 
 	// 追従対象がいれば
 	// 追従座標の補間
@@ -196,5 +189,77 @@ void GameCamera::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "targetFovYMax", targetFovYMax_);
 	globalVariables->AddItem(groupName, "targetFovYMin", targetFovYMin_);
 	globalVariables->AddItem(groupName, "fovYChangeLine", fovYChangeLine_);
+
+}
+
+void GameCamera::Automatic()
+{
+
+	// プレイヤーの位置
+	Vector3 playerPos = player_->GetWorldTransformAdress()->GetWorldPosition();
+
+	// ステージ中心からプレイヤー
+	Vector2 toPlayer = { playerPos.x - stageCenter_.x, playerPos.z - stageCenter_.z };
+	// 正規化
+	toPlayer = Vector2::Normalize(toPlayer);
+
+	// 手前左
+	if (toPlayer.x <= 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, 1.57f, fabsf(toPlayer.x));
+	}
+	// 奥左
+	else if (toPlayer.x <= 0.0f && toPlayer.y > 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, 1.57f, fabsf(toPlayer.x));
+	}
+	// 手前右
+	else if (toPlayer.x > 0.0f && toPlayer.y <= 0.0f) {
+		destinationAngleY_ = Math::LerpShortAngle(0.0f, -1.57f, fabsf(toPlayer.x));
+	}
+	// 奥右
+	else {
+		destinationAngleY_ = Math::LerpShortAngle(3.14f, -1.57f, fabsf(toPlayer.x));
+	}
+	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+
+	//X
+
+	// プレイヤーの高さ確認
+	float destinationAngleXAdd = 0.0f;
+
+	float addRateNumerator = playerPos.y - fieldDown_; // 分子
+	float addRateDenominator = fieldTop_ - fieldDown_;// 分母
+
+	float addRate = addRateNumerator / addRateDenominator;
+	addRate = std::fmaxf(addRate, 0.0f);
+	addRate = std::fminf(addRate, 1.0f);
+
+	destinationAngleXAdd = Ease::Easing(Ease::EaseName::Lerp, 0.0f, destinationAngleXAddMax_, addRate);
+
+	transform_.rotate.x = destinationAngleX_ + destinationAngleXAdd;
+
+}
+
+void GameCamera::Manual()
+{
+
+	// スティック入力で角度を変更処理
+
+	const float RotateSpeed = 0.000003f;
+
+	float upsideDownValue = 1.0f;
+
+	if (upsideDown_) {
+		upsideDownValue = -1.0f;
+	}
+
+	destinationAngleY_ += input_->GetRightAnalogstick().x * RotateSpeed;
+	manualDestinationAngleX_ += input_->GetRightAnalogstick().y * RotateSpeed * upsideDownValue;
+
+	// xに制限
+	float limit = 3.14f / 4.0f;
+	manualDestinationAngleX_ = std::clamp(manualDestinationAngleX_, 0.0f, limit);
+
+	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
+	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, manualDestinationAngleX_, rotateRate_);
 
 }

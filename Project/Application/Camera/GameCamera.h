@@ -40,6 +40,16 @@ private: // メンバ関数
 	/// </summary>
 	void RegistrationGlobalVariables();
 
+	/// <summary>
+	/// 
+	/// </summary>
+	void Automatic();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	void Manual();
+
 private:
 
 	// プレイヤー
@@ -87,6 +97,18 @@ private:
 
 	// 目指すFOVが切り替わる位置
 	float fovYChangeLine_ = 30.0f;
+
+	// 自動モードか
+	bool isAutomatic_ = true;
+
+	// インプット
+	Input* input_;
+
+	// 手動用目指すアングルX
+	float manualDestinationAngleX_;
+
+	// 上下移動フラグ
+	bool upsideDown_;
 
 };
 
