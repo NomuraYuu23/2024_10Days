@@ -23,16 +23,25 @@ void PlayerStateFloating::Update()
 	worldTransform->usedDirection_ = true;
 	targetDirection_ = worldTransform->direction_;
 
-	float tmpY = worldTransform->transform_.translate.y;
+	Vector3 fallPosition = player_->GetFallingPosition();
 
-	worldTransform->transform_.translate =  Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.2f);
+	if (fallPosition.x != 1000.0f &&
+		fallPosition.y != 1000.0f &&
+		fallPosition.z != 1000.0f) {
 
-	worldTransform->transform_.translate.y = tmpY;
+		float tmpY = worldTransform->transform_.translate.y;
+
+		worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.2f);
+
+		worldTransform->transform_.translate.y = tmpY;
+
+	}
 
 	player_->SetReceiveCommand(false);
 
 	if (player_->GetVelocity().y >= 0.0f) {
 		playerStateNo_ = kPlayerStateRoot;
+		player_->SetFallingPosition(Vector3{1000.0f, 1000.0f , 1000.0f });
 	}
 
 
