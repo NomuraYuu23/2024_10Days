@@ -19,18 +19,13 @@ void EnemyManager::Initialize() {
 	data.velocity = {0,0,0};
 	datas.push_back(data);
 
+	/*
 	data.className = "FlyEnemy";
 	data.spownFrame = 60;
 	data.position = { -32.0f,4.0f,0.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
-
-
-	data.className = "FlyEnemy";
-	data.spownFrame = 250;
-	data.position = { -32.0f,4.0f,0.0f };
-	data.velocity = { 1.0f,0,0 };
-	datas.push_back(data);
+	*/
 
 	spownDatas_.push_back(datas);
 
@@ -77,7 +72,7 @@ void EnemyManager::Update() {
 
 	frameCount_++;
 
-	if (spownDatas_[waveNum].empty() && enemys_.empty()) {
+	if (spownDatas_[waveNum].empty() && enemys_.empty() && eggs_.empty()) {
 		if (waveNum<kWaveNum-1) {
 			waveNum++;
 			frameCount_ = 0;
@@ -102,6 +97,7 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		static_cast<Egg*>(pointer)->SetObjectManager(objectManager_);
 		//enemys_.push_back(pointer);
 		static_cast<Egg*>(pointer)->SetEnemyManager(this);
+		eggs_.push_back(static_cast<Egg*>(pointer));
 	}
 	else if (data.className == "FlyEnemy") {
 		LevelData::ObjectData odata;
@@ -120,4 +116,13 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	enemys_.push_back(enemy);
+}
+
+void EnemyManager::RemoveEgg(Egg* in) {
+	eggs_.remove_if([&](Egg* egg) {
+		if (egg == in) {
+			return true;
+		}
+		return false;
+		});
 }

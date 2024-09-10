@@ -7,6 +7,7 @@
 class BlockManager;
 class BaseObjectManager;
 class Player;
+class Egg;
 
 struct EnemyData {
 	std::string className;
@@ -56,10 +57,15 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; };
 
+	//入ってきたポインタをリストから排除する
+	void RemoveEgg(Egg* in);
+
 private:
 
 	// 
 	std::list<BaseEnemy*> enemys_;
+
+	std::list<Egg*> eggs_;
 
 	std::vector<std::list<EnemyData>> spownDatas_;
 

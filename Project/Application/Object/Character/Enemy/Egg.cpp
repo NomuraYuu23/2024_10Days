@@ -185,4 +185,7 @@ void Egg::CreateEnemy() {
 	static_cast<Enemy*>(pointer)->SetBlockManager(blockManager_);
 	static_cast<Enemy*>(pointer)->SetObjectManager(objectManager_);
 	enemyManager_->AddEnemy(static_cast<BaseEnemy*>(pointer));
+
+	//自分自身をリストから除外する
+	enemyManager_->RemoveEgg(this);
 }
