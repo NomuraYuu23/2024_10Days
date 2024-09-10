@@ -190,6 +190,9 @@ private: //	変数
 	// 落下位置
 	Vector3 fallingPosition_{};
 
+	// 落下検索速度倍率
+	float fallSearchSpeedCorrection_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -235,6 +238,8 @@ public: // アクセッサ
 
 	void SetFallingPosition(const Vector3& fallingPosition) { fallingPosition_ = fallingPosition; }
 	Vector3 GetFallingPosition() { return fallingPosition_; }
+
+	float GetFallSearchSpeedCorrection() { return fallSearchSpeedCorrection_; }
 
 private: // グローバル変数
 

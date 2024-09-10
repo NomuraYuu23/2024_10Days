@@ -77,7 +77,7 @@ void PlayerStateJump::Update()
 	}
 
 	if (player_->GetVelocity().y <= 0.0f && !steppingIn_) {
-		
+
 		// 高く飛んでいる && 下の足場がひくい位置にあるならドロップ
 
 		// プレイヤーの位置は高いか
@@ -91,6 +91,42 @@ void PlayerStateJump::Update()
 
 		// プレイヤーの位置
 		Vector3 playerPos = worldTransform->GetWorldPosition();
+		
+		/// 補正
+		
+		// 速度補正倍率
+		float speedCorrection = player_->GetFallSearchSpeedCorrection();
+
+		BaseCamera* camera = player_->GetCamera();
+		Vector3 velocity = { 0.0f, 0.0f, 0.0f };
+
+		// 移動量に速さを反映
+		Vector3 move = Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+
+		// カメラの角度から回転行列を計算する
+		Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(camera->GetRotate());
+
+		// 移動ベクトルをカメラの角度だけ回転する
+		move = Matrix4x4::TransformNormal(move, rotateMatrix);
+
+		//　親がいれば
+		if (worldTransform->parent_) {
+			rotateMatrix = Matrix4x4::Inverse(worldTransform->parent_->rotateMatrix_);
+			move = Matrix4x4::TransformNormal(move, rotateMatrix);
+		}
+
+		// 移動
+		velocity.x = move.x;
+		velocity.z = move.z;
+
+		Vector2 velocityDir = { velocity.x, velocity.z };
+		velocityDir = Vector2::Normalize(velocityDir);
+
+		playerPos.x += velocityDir.x * speedCorrection;
+		playerPos.z += velocityDir.y * speedCorrection;
+
+		/// 補正ここまで
+
 		// ブロックまでの距離
 		Vector2 distanceToBlock{};
 		// 範囲内距離
