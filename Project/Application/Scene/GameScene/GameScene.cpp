@@ -414,6 +414,24 @@ void GameScene::ShadowUpdate()
 	// プレイヤー
 	shadowManager_->CastsShadowObjListRegister(player_);
 
+	// エネミー
+	std::list<BaseEnemy*>::iterator itrEnemy = enemyManager_->GetEnemys()->begin();
+	for (; itrEnemy != enemyManager_->GetEnemys()->end(); ++itrEnemy) {
+		
+		BaseEnemy* enemy = *itrEnemy;
+		shadowManager_->CastsShadowObjListRegister(enemy);
+
+	}
+
+	// 卵
+	std::list<Egg*>::iterator itrEgg = enemyManager_->GetEggs()->begin();
+	for (; itrEgg != enemyManager_->GetEggs()->end(); ++itrEgg) {
+
+		Egg* egg = *itrEgg;
+		shadowManager_->CastsShadowObjListRegister(egg);
+
+	}
+
 	// 影が現れるオブジェクト
 	// ブロック
 	for (uint32_t i = 0; i < blockManager_->GetBlockNum(); ++i) {
