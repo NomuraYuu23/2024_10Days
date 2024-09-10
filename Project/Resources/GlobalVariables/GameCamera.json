@@ -1,13 +1,13 @@
 {
     "GameCamera": {
-        "destinationAngleX": 0.30000001192092896,
-        "destinationAngleXAddMax": 0.10000000149011612,
+        "destinationAngleX": 0.20000000298023224,
+        "destinationAngleXAddMax": 0.25,
         "fieldDown": -2.0,
         "fieldTop": 10.0,
         "fovYChangeLine": 33.0,
         "moveRate": 0.20000000298023224,
         "offsetHeight": 9.800000190734863,
-        "offsetLength": -88.87999725341797,
+        "offsetLength": -100.0,
         "offsetSide": -10.0,
         "rotateRate": 0.10000000149011612,
         "targetFovYMax": 1.0,
