@@ -9,7 +9,7 @@ void PlayerStateRoot::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerMotionNo_ = kPlayerMotionRun;
+	playerMotionNo_ = kPlayerMotionWait;
 
 	playerStateNo_ = kPlayerStateRoot;
 

@@ -10,6 +10,7 @@ enum PlayerState {
 	kPlayerStateJump, // ジャンプ、おしてある状態
 	kPlayerStateFloating, // 浮いてる状態
 	kPlayerStateHeadDrop, // ヘッドドロップ状態
+	kPlayerStateKnockback, // ノックバック状態
 	kPlayerStateOfCount // 数
 };
 

@@ -4,6 +4,7 @@
 #include "PlayerStateJump.h"
 #include "PlayerStateFloating.h"
 #include "PlayerStateHeadDrop.h"
+#include "PlayerStateKnockback.h"
 
 PlayerStateFactory* PlayerStateFactory::GetInstance()
 {
@@ -28,6 +29,10 @@ IPlayerState* PlayerStateFactory::CreatePlayerState(uint32_t playerStateName)
 		break;
 	case kPlayerStateHeadDrop: // ヘッドドロップ状態
 		newPlayerState = new PlayerStateHeadDrop();
+		break;
+		break;
+	case kPlayerStateKnockback: // ヘッドドロップ状態
+		newPlayerState = new PlayerStateKnockback();
 		break;
 	case kPlayerStateOfCount: // 使用不可
 	default:

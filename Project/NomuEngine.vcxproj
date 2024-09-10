@@ -177,6 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateFloating.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateJump.cpp" />
+    <ClCompile Include="Application\Object\Character\Player\State\PlayerStateKnockback.cpp" />
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateRoot.cpp" />
     <ClCompile Include="Application\Object\Character\Player\System\PlayerCommand.cpp" />
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp" />
@@ -354,6 +355,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateFloating.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateHeadDrop.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateJump.h" />
+    <ClInclude Include="Application\Object\Character\Player\State\PlayerStateKnockback.h" />
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateRoot.h" />
     <ClInclude Include="Application\Object\Character\Player\System\PlayerCommand.h" />
     <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h" />
