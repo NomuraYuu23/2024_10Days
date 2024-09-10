@@ -41,6 +41,15 @@ void PlayerStateHeadDrop::Update()
 	WorldTransform* worldTransform = player_->GetWorldTransformAdress();
 	worldTransform->usedDirection_ = true;
 
+	float tmpY = startPos_.y;
+
+	startPos_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.2f);
+
+	startPos_.y = tmpY;
+
+	endPos_ = startPos_;
+	endPos_.y = 0.0f;
+
 	worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::EaseInCirc, startPos_, endPos_, fminf(t, 1.0f));
 
 	// コマンドは受け付けない

@@ -102,6 +102,11 @@ void Player::Initialize(LevelData::MeshData* data)
 	// 滞空フラグ
 	airborneCheck_ = false;
 
+	//
+	fallingPosition_ = { 0.0f,0.0f,0.0f };
+
+	fallSearchSpeedCorrection_ = 3.0f;
+
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
@@ -353,6 +358,7 @@ void Player::ApplyGlobalVariables()
 	jumpCheckpointFrame_ = globalVariables->GetIntValue(groupName, "jumpCheckpointFrame");
 	smallJumpInitialSpeed_ = globalVariables->GetFloatValue(groupName, "smallJumpInitialSpeed");
 	airborneMultiplier_ = globalVariables->GetFloatValue(groupName, "airborneMultiplier");
+	fallSearchSpeedCorrection_ = globalVariables->GetFloatValue(groupName, "fallSearchSpeedCorrection");
 
 }
 
@@ -369,5 +375,6 @@ void Player::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "jumpCheckpointFrame", jumpCheckpointFrame_);
 	globalVariables->AddItem(groupName, "smallJumpInitialSpeed", smallJumpInitialSpeed_);
 	globalVariables->AddItem(groupName, "airborneMultiplier", airborneMultiplier_);
+	globalVariables->AddItem(groupName, "fallSearchSpeedCorrection", fallSearchSpeedCorrection_);
 
 }

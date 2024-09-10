@@ -77,51 +77,94 @@ void PlayerStateJump::Update()
 	}
 
 	if (player_->GetVelocity().y <= 0.0f && !steppingIn_) {
-		
+
 		// 高く飛んでいる && 下の足場がひくい位置にあるならドロップ
 
 		// プレイヤーの位置は高いか
-		if (worldTransform->GetWorldPosition().y < 40.0f) {
-			playerStateNo_ = kPlayerStateFloating;
+
+		bool positionedHigh = (worldTransform->GetWorldPosition().y >= 40.0f);
+
+		// ブロック情報
+		BlockManager* blockManager = player_->GetBlockManager();
+		std::vector<Block*>* blocks = blockManager->GetBlocks();
+		Vector3 blockPos{};
+
+		// プレイヤーの位置
+		Vector3 playerPos = worldTransform->GetWorldPosition();
+		
+		/// 補正
+		
+		// 速度補正倍率
+		float speedCorrection = player_->GetFallSearchSpeedCorrection();
+
+		BaseCamera* camera = player_->GetCamera();
+		Vector3 velocity = { 0.0f, 0.0f, 0.0f };
+
+		// 移動量に速さを反映
+		Vector3 move = Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+
+		// カメラの角度から回転行列を計算する
+		Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(camera->GetRotate());
+
+		// 移動ベクトルをカメラの角度だけ回転する
+		move = Matrix4x4::TransformNormal(move, rotateMatrix);
+
+		//　親がいれば
+		if (worldTransform->parent_) {
+			rotateMatrix = Matrix4x4::Inverse(worldTransform->parent_->rotateMatrix_);
+			move = Matrix4x4::TransformNormal(move, rotateMatrix);
 		}
-		else {
 
-			// ブロック情報
-			BlockManager* blockManager = player_->GetBlockManager();
-			std::vector<Block*>* blocks = blockManager->GetBlocks();
-			Vector3 blockPos{};
-			
-			// プレイヤーの位置
-			Vector3 playerPos = worldTransform->GetWorldPosition();
-			// ブロックまでの距離
-			Vector2 distanceToBlock{};
-			// 範囲内距離
-			float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
-			// フラグ
-			bool dropFlg = false;
+		// 移動
+		velocity.x = move.x;
+		velocity.z = move.z;
 
-			for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
+		Vector2 velocityDir = { velocity.x, velocity.z };
+		velocityDir = Vector2::Normalize(velocityDir);
 
-				blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
-				distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
+		playerPos.x += velocityDir.x * speedCorrection;
+		playerPos.z += velocityDir.y * speedCorrection;
 
-				// 範囲内確認
-				if ((distance >= distanceToBlock.x && distance >= distanceToBlock.y) &&
-					blockPos.y == -2.0f) {
+		/// 補正ここまで
+
+		// ブロックまでの距離
+		Vector2 distanceToBlock{};
+		// 範囲内距離
+		float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
+		// フラグ
+		bool dropFlg = false;
+
+		for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
+
+			blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
+			distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
+
+			// 範囲内確認
+			if ((distance >= Vector2::Length(distanceToBlock)) && blockPos.y < playerPos.y) {
+				// ドロップになる
+				if (blockPos.y == -2.0f && positionedHigh) {
 					dropFlg = true;
-					break;
+				}
+				else {
+					dropFlg = false;
 				}
 
+				distance = Vector2::Length(distanceToBlock);
+				
+				Vector3 fallingPosition = { blockPos.x,  0.0f ,blockPos.z };
+
+				player_->SetFallingPosition(fallingPosition);
+
 			}
 
-			// フラグが立っていればドロップ
-			if (dropFlg) {
-				playerStateNo_ = kPlayerStateHeadDrop;
-			}
-			else {
-				playerStateNo_ = kPlayerStateFloating;
-			}
+		}
 
+		// フラグが立っていればドロップ
+		if (dropFlg) {
+			playerStateNo_ = kPlayerStateHeadDrop;
+		}
+		else {
+			playerStateNo_ = kPlayerStateFloating;
 		}
 
 	}
