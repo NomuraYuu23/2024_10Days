@@ -197,12 +197,6 @@ private: //	変数
 	//3Wayの左右の角度(rad)
 	float threewayRotate_ = 0.5f;
 
-	// パーティクル
-	std::unique_ptr<EggBreakParticle> eggBreakParticle_;
-
-	// パーティクルフラグ
-	bool emit_ = false;
-
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

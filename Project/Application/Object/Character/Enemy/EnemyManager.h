@@ -3,6 +3,7 @@
 #include "BaseEnemy.h"
 #include "../Player/Player.h"
 #include "../../Obstacle/Block/BlockManager.h"
+#include "EggBreakParticleManager.h"
 
 class BlockManager;
 class BaseObjectManager;
@@ -26,6 +27,10 @@ public:
 	void Initialize();
 
 	void Update();
+
+	void PostUpdate();
+
+	void ParticleDraw(BaseCamera& camera);
 
 	/// <summary>
 	/// 追加
@@ -77,6 +82,9 @@ private:
 	BaseObjectManager* objectManager_ = nullptr;
 
 	Player* player_ = nullptr;
+
+	// 卵割れるエフェクト
+	std::unique_ptr<EggBreakParticleManager> eggBreakParticleManager_;
 
 };
 
