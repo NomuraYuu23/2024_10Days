@@ -35,6 +35,7 @@ void EnemyManager::Initialize() {
 	spownDatas_.push_back(datas);
 
 	//wave2
+	datas.clear();
 
 	data.className = "Enemy";
 	data.spownFrame = 60;

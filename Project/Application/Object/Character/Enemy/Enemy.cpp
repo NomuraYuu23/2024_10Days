@@ -298,6 +298,16 @@ void Enemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const Coll
 
 void Enemy::PositionLimit()
 {
+	//落下
+	if (worldTransform_.transform_.translate.y <= -10.0f) {
+		if (!isPlayDeathAnimation_) {
+			//死亡
+			isPlayDeathAnimation_ = true;
+			state_ = std::bind(&Enemy::Dead, this);
+			countUp_ = 0;
+		}
+	}
+
 
 	Vector3 Max = { 18.0f,1000.0f, 18.0f };
 	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
