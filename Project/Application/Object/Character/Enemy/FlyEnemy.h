@@ -81,6 +81,31 @@ private: // 関数
 	/// </summary>
 	void PositionLimit();
 
+	// 攻撃範囲内か
+	bool IsInnerAttackArea();
+
+private: // ステート関数
+
+	/// <summary>
+	/// 通常移動状態
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// 回転予備動作
+	/// </summary>
+	void RushIdle();
+
+	/// <summary>
+	/// 回転突進状態
+	/// </summary>
+	void Rush();
+
+	/// <summary>
+	/// 死亡状態
+	/// </summary>
+	void Dead();
+
 private: //	変数
 
 	// 速度
@@ -89,7 +114,19 @@ private: //	変数
 	// 速度
 	float speed_ = 0.3f;
 
+	//攻撃時の速度
+	float attackSpeed_ = 0.5f;
+
+	//予備動作の終了フレーム
+	size_t rushIdleLength = 60;
+
+	//死亡アニメーションの終了フレーム
+	size_t deathAnimationLength = 15;
+
 	size_t countUp=0;
+
+	//ステート
+	std::function<void(void)> state_;
 
 public: // アクセッサ
 
@@ -98,6 +135,18 @@ public: // アクセッサ
 	Vector3 GetVelocity() { return velocity_; }
 
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+
+private: // グローバル変数
+
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
+
+	/// <summary>
+	/// 調整項目の登録
+	/// </summary>
+	void RegistrationGlobalVariables();
 
 };
 

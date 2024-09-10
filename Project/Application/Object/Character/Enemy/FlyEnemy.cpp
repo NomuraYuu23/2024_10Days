@@ -71,16 +71,29 @@ void FlyEnemy::Initialize(LevelData::MeshData* data)
 	worldTransform_.direction_ = velocity_;
 	worldTransform_.usedDirection_ = true;
 
+
+	RegistrationGlobalVariables();
+	ApplyGlobalVariables();
+
+	//初期ステート
+	state_ = std::bind(&FlyEnemy::Move, this);
 }
 
 void FlyEnemy::Update()
 {
+#ifdef _DEMO
+	ApplyGlobalVariables();
+
+
+#endif // _DEBUG
+
 	MeshObject::Update();
 
 	// 位置制限
 	PositionLimit();
-	worldTransform_.direction_ = velocity_;
-	worldTransform_.transform_.translate += velocity_ * speed_;
+	
+	//ステート固有処理
+	state_();
 
 	worldTransform_.UpdateMatrix();
 
@@ -90,12 +103,43 @@ void FlyEnemy::Update()
 	// 速度保存
 	SaveVelocityUpdate();
 
-	if (isPlayDeathAnimation_) {
-		if (countUp > 15) {
-			isDead_ = true;
-		}
-		countUp++;
+}
+
+void FlyEnemy::Move() {
+	worldTransform_.direction_ = velocity_;
+	worldTransform_.transform_.translate += velocity_ * speed_;
+	if (IsInnerAttackArea()) {
+		//攻撃に移行
+		state_ = std::bind(&FlyEnemy::RushIdle, this);
+		countUp = 0;
 	}
+}
+
+void FlyEnemy::RushIdle() {
+	if (countUp > rushIdleLength) {
+		//攻撃に移行
+		state_ = std::bind(&FlyEnemy::Rush, this);
+		countUp = 0;
+	}
+	countUp++;
+}
+
+void FlyEnemy::Rush() {
+	worldTransform_.direction_ = velocity_;
+	worldTransform_.transform_.translate += velocity_ * attackSpeed_;
+	if (!IsInnerAttackArea()) {
+		//通常移動に移行
+		state_ = std::bind(&FlyEnemy::Move, this);
+		countUp = 0;
+	}
+}
+
+void FlyEnemy::Dead() {
+	isPlayDeathAnimation_ = true;
+	if (countUp > deathAnimationLength) {
+		isDead_ = true;
+	}
+	countUp++;
 }
 
 void FlyEnemy::Draw(BaseCamera& camera)
@@ -149,12 +193,55 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 void FlyEnemy::PositionLimit()
 {
 
+	Vector3 Max = { 64.0f,1000.0f, 64.0f };
+	Vector3 Min = { -64.0f,-1000.0f, -64.0f };
+
+	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
+		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
+		//isDead_ = true;
+		if (!isPlayDeathAnimation_) {
+			countUp = 0;
+		}
+		state_ = std::bind(&FlyEnemy::Dead, this);
+	}
+}
+
+bool FlyEnemy::IsInnerAttackArea()
+{
+
 	Vector3 Max = { 18.0f,1000.0f, 18.0f };
 	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
-		//isDead_ = true;
-		isPlayDeathAnimation_ = true;
+		return false;
 	}
+	return true;
+}
+
+void FlyEnemy::ApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "FlyEnemy";
+
+	rushIdleLength = static_cast<size_t>(globalVariables->GetIntValue(groupName, "rushIdleLength"));
+	deathAnimationLength = static_cast<size_t>(globalVariables->GetIntValue(groupName, "deathAnimationLength"));
+	speed_ = globalVariables->GetFloatValue(groupName, "speed");
+	attackSpeed_ = globalVariables->GetFloatValue(groupName, "attackSpeed");
+
+}
+
+void FlyEnemy::RegistrationGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "FlyEnemy";
+
+	
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "rushIdleLength", static_cast<int32_t>(rushIdleLength));
+	globalVariables->AddItem(groupName, "deathAnimationLength", static_cast<int32_t>(deathAnimationLength));
+	globalVariables->AddItem(groupName, "speed", speed_);
+	globalVariables->AddItem(groupName, "attackSpeed", attackSpeed_);
 }
