@@ -19,13 +19,13 @@ void EnemyManager::Initialize() {
 	data.velocity = {0,0,0};
 	datas.push_back(data);
 
-	/*
+	
 	data.className = "FlyEnemy";
 	data.spownFrame = 60;
 	data.position = { -32.0f,4.0f,0.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
-	*/
+	
 
 	spownDatas_.push_back(datas);
 

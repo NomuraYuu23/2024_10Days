@@ -165,13 +165,15 @@ void FlyEnemy::Dead() {
 
 void FlyEnemy::Draw(BaseCamera& camera)
 {
-	ModelDraw::AnimObjectDesc desc;
+	/*ModelDraw::AnimObjectDesc desc;
 	desc.camera = &camera;
 	desc.localMatrixManager = localMatrixManager_.get();
 	desc.material = material_.get();
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
+	*/
+	MeshObject::Draw(camera);
 }
 
 void FlyEnemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)

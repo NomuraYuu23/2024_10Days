@@ -149,6 +149,6 @@ IObject* ObjectFactory::CreateObjectFlyEnemy(LevelData::ObjectData& objectData)
 	// インスタンス生成
 	IObject* object = new FlyEnemy();
 	// 初期化
-	static_cast<Enemy*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	static_cast<FlyEnemy*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }
