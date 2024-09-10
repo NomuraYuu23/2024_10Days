@@ -5,6 +5,8 @@ class EggBreakParticle :
     public GPUParticle
 {
 
+public:
+
 	struct ParticleBlendNormalCS
 	{
 
@@ -17,6 +19,27 @@ class EggBreakParticle :
 		Vector3 rotate;
 		Vector3 rotateVelocity;
 		Matrix4x4 rotateMatrix;
+	};
+
+	struct EmitBlendNormalCS
+	{
+
+		Vector3 translate0; // 位置
+		float pad0;
+		Vector3 translate1; // 位置
+		float pad1;
+		Vector3 translate2; // 位置
+		float pad2;
+		Vector3 translate3; // 位置
+
+		uint32_t num;
+
+		float radius; // 射出半径
+		uint32_t count; // 射出数
+		float frequency; // 射出間隔
+		float frequencyTime; // 射出間隔調整時間
+		uint32_t emit; // 射出許可
+
 	};
 
 public:
@@ -35,6 +58,11 @@ public:
 		ID3D12PipelineState* pipelineState) override;
 
 	/// <summary>
+	/// 
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
@@ -42,6 +70,13 @@ public:
 	void Draw(
 		ID3D12GraphicsCommandList* commandList,
 		BaseCamera& camera) override;
+
+	/// <summary>
+	/// エミッタ情報設定
+	/// </summary>
+	/// <param name="emitter">エミッター</param>
+	/// <param name="isEmitSet">エミッター情報をセットするか</param>
+	void SetEmitter(const EmitBlendNormalCS& emitter, bool isEmitSet = true);
 
 private:
 
@@ -51,6 +86,12 @@ private:
 	/// <param name="device"></param>
 	void UAVBufferInitialize(ID3D12Device* device,
 		ID3D12GraphicsCommandList* commandList) override;
+
+	/// <summary>
+	/// 定数バッファ初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	void ConstantBufferInitialzie(ID3D12Device* device) override;
 
 	/// <summary>
 	/// 初期化
@@ -94,6 +135,9 @@ private:
 
 	// 卵モデル
 	Model* eggModel_;
+
+	// 
+	EmitBlendNormalCS* emitBlendNormalMap_;
 
 };
 

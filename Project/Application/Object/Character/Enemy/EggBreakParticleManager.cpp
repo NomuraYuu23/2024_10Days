@@ -24,22 +24,29 @@ void EggBreakParticleManager::Initialize()
 void EggBreakParticleManager::Update()
 {
 
-	EmitterCS emitter;
+	EggBreakParticle::EmitBlendNormalCS emitter;
 	emitter.count = 30;
 	emitter.frequency = 1.0f;
 	emitter.radius = 1.0f;
+	emitter.num = emitNum_;
 
 	// 生成しない
 	if (emitNum_ == 0) {
 		emitter.frequencyTime = 0.0f;
-		emitter.translate = { 0.0f,0.0f,0.0f };
+		emitter.translate0 = { 0.0f,0.0f,0.0f };
+		emitter.translate1 = { 0.0f,0.0f,0.0f };
+		emitter.translate2 = { 0.0f,0.0f,0.0f };
+		emitter.translate3 = { 0.0f,0.0f,0.0f };
+
 		emitter.emit = 0;
 		eggBreakParticle_->SetEmitter(emitter, true);
 	}
 	else {
 		emitter.frequencyTime = 1.0f;
-		emitter.translate = emitPositions_[0];
-		emitter.translate.y += 3.0f;
+		emitter.translate0 = emitPositions_[0];
+		emitter.translate1 = emitPositions_[1];
+		emitter.translate2 = emitPositions_[2];
+		emitter.translate3 = emitPositions_[3];
 		emitter.emit = 1;
 
 		eggBreakParticle_->SetEmitter(emitter, true);
@@ -63,6 +70,8 @@ void EggBreakParticleManager::PositionRegister(const Vector3& position)
 	}
 
 	emitPositions_[emitNum_] = position;
+	// 追加分
+	emitPositions_[emitNum_].y += 3.0f;
 
 	emitNum_++;
 

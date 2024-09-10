@@ -2,7 +2,13 @@
 #include "../RandomGenerator/RandomGenerator.hlsli"
 
 struct Emitter {
-	float32_t3 translate; // 位置
+
+	float32_t3 translate0; // 位置
+	float32_t3 translate1; // 位置
+	float32_t3 translate2; // 位置
+	float32_t3 translate3; // 位置
+
+	uint32_t num;
 	float32_t radius; // 射出半径
 	uint32_t count; // 射出数
 	float32_t frequency; // 射出間隔
@@ -43,7 +49,7 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 				float32_t size = generator.Generate1d() + 0.1f;
 				gParticles[particleIndex].scale = float32_t3(size, size, size);
 
-				gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + gEmitter.translate;
+				gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + gEmitter.translate0;
 
 				gParticles[particleIndex].color.rgb = float32_t3(0.5f, 0.5f, 0.5f);
 				gParticles[particleIndex].color.a = 1.0f;

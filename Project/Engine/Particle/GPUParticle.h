@@ -71,7 +71,7 @@ public:
 	/// </summary>
 	/// <param name="emitter">エミッター</param>
 	/// <param name="isEmitSet">エミッター情報をセットするか</param>
-	void SetEmitter(const EmitterCS& emitter, bool isEmitSet = true);
+	virtual void SetEmitter(const EmitterCS& emitter, bool isEmitSet = true);
 
 protected:
 
@@ -96,7 +96,7 @@ protected:
 	/// 定数バッファ初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>
-	void ConstantBufferInitialzie(ID3D12Device* device);
+	virtual void ConstantBufferInitialzie(ID3D12Device* device);
 
 	/// <summary>
 	/// GPUParticleViewマッピング
