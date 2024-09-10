@@ -81,47 +81,53 @@ void PlayerStateJump::Update()
 		// 高く飛んでいる && 下の足場がひくい位置にあるならドロップ
 
 		// プレイヤーの位置は高いか
-		if (worldTransform->GetWorldPosition().y < 40.0f) {
-			playerStateNo_ = kPlayerStateFloating;
-		}
-		else {
 
-			// ブロック情報
-			BlockManager* blockManager = player_->GetBlockManager();
-			std::vector<Block*>* blocks = blockManager->GetBlocks();
-			Vector3 blockPos{};
-			
-			// プレイヤーの位置
-			Vector3 playerPos = worldTransform->GetWorldPosition();
-			// ブロックまでの距離
-			Vector2 distanceToBlock{};
-			// 範囲内距離
-			float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
-			// フラグ
-			bool dropFlg = false;
+		bool positionedHigh = (worldTransform->GetWorldPosition().y >= 40.0f);
 
-			for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
+		// ブロック情報
+		BlockManager* blockManager = player_->GetBlockManager();
+		std::vector<Block*>* blocks = blockManager->GetBlocks();
+		Vector3 blockPos{};
 
-				blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
-				distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
+		// プレイヤーの位置
+		Vector3 playerPos = worldTransform->GetWorldPosition();
+		// ブロックまでの距離
+		Vector2 distanceToBlock{};
+		// 範囲内距離
+		float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
+		// フラグ
+		bool dropFlg = false;
 
-				// 範囲内確認
-				if ((distance >= distanceToBlock.x && distance >= distanceToBlock.y) &&
-					blockPos.y == -2.0f) {
+		for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
+
+			blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
+			distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
+
+			// 範囲内確認
+			if ((distance >= Vector2::Length(distanceToBlock))) {
+				// ドロップになる
+				if (blockPos.y == -2.0f && positionedHigh) {
 					dropFlg = true;
-					break;
+				}
+				else {
+					dropFlg = false;
 				}
 
+				distance = Vector2::Length(distanceToBlock);
+
+				worldTransform->transform_.translate.x = blockPos.x;
+				worldTransform->transform_.translate.z = blockPos.z;
+
 			}
 
-			// フラグが立っていればドロップ
-			if (dropFlg) {
-				playerStateNo_ = kPlayerStateHeadDrop;
-			}
-			else {
-				playerStateNo_ = kPlayerStateFloating;
-			}
+		}
 
+		// フラグが立っていればドロップ
+		if (dropFlg) {
+			playerStateNo_ = kPlayerStateHeadDrop;
+		}
+		else {
+			playerStateNo_ = kPlayerStateFloating;
 		}
 
 	}
