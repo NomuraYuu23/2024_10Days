@@ -21,14 +21,14 @@ void EnemyManager::Initialize() {
 
 	data.className = "FlyEnemy";
 	data.spownFrame = 60;
-	data.position = { -8.0f,4.0f,0.0f };
+	data.position = { -32.0f,4.0f,0.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
 
 
 	data.className = "FlyEnemy";
 	data.spownFrame = 250;
-	data.position = { -8.0f,4.0f,0.0f };
+	data.position = { -32.0f,4.0f,0.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
 

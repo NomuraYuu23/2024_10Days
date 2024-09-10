@@ -5,6 +5,17 @@
 #include "../Player/Player.h"
 #include "BaseEnemy.h"
 
+/// <summary>
+/// エネミーのモーション一覧
+/// </summary>
+enum FlyEnemyMotionIndex {
+	kFlyEnemyMotionMove, // 移動時
+	kFlyEnemyMotionAttackIdle, // 攻撃予備動作時
+	kFlyEnemyMotionAttack, // 攻撃時
+	kFlyEnemyMotionDead, // 死亡時
+	kFlyEnemyMotionIndexOfCount // 数
+};
+
 class FlyEnemy :
 	public BaseEnemy
 {
@@ -61,9 +72,29 @@ private: // パーツ構成関数
 	/// </summary>
 	void ColliderUpdate();
 
+	/// <summary>
+	/// パーツ初期化
+	/// </summary>
+	void PartInitialize();
 
+	/// <summary>
+	/// アニメーション更新
+	/// </summary>
+	void AnimationUpdate();
 
 private: // パーツ,アニメーション変数
+
+	// 現在のモーション番号
+	uint32_t currentMotionNo_;
+
+	// 前のモーション番号
+	uint32_t prevMotionNo_;
+
+	//ノードアニメーション
+	Animation animation_;
+
+	// ローカル行列
+	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 private: // 衝突処理
 

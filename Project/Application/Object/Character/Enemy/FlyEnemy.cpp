@@ -22,7 +22,7 @@ LevelData::MeshData FlyEnemy::FlyEnemyCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "bullet.obj";
+	data.flieName = "Ptera.gltf";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Enemy/";
 	// クラスの名前
@@ -70,7 +70,17 @@ void FlyEnemy::Initialize(LevelData::MeshData* data)
 
 	worldTransform_.direction_ = velocity_;
 	worldTransform_.usedDirection_ = true;
+	
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(model_->GetRootNode());
 
+	animation_.Initialize(
+		model_->GetNodeAnimationData(),
+		localMatrixManager_->GetInitTransform(),
+		localMatrixManager_->GetNodeNames());
+
+	// パーツ
+	PartInitialize();
 
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
@@ -95,6 +105,13 @@ void FlyEnemy::Update()
 	//ステート固有処理
 	state_();
 
+	// アニメーション
+	AnimationUpdate();
+
+	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+
+	localMatrixManager_->Map();
+
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
@@ -106,6 +123,7 @@ void FlyEnemy::Update()
 }
 
 void FlyEnemy::Move() {
+	currentMotionNo_ = kFlyEnemyMotionMove;
 	worldTransform_.direction_ = velocity_;
 	worldTransform_.transform_.translate += velocity_ * speed_;
 	if (IsInnerAttackArea()) {
@@ -116,6 +134,7 @@ void FlyEnemy::Move() {
 }
 
 void FlyEnemy::RushIdle() {
+	currentMotionNo_ = kFlyEnemyMotionAttackIdle;
 	if (countUp > rushIdleLength) {
 		//攻撃に移行
 		state_ = std::bind(&FlyEnemy::Rush, this);
@@ -125,6 +144,7 @@ void FlyEnemy::RushIdle() {
 }
 
 void FlyEnemy::Rush() {
+	currentMotionNo_ = kFlyEnemyMotionAttack;
 	worldTransform_.direction_ = velocity_;
 	worldTransform_.transform_.translate += velocity_ * attackSpeed_;
 	if (!IsInnerAttackArea()) {
@@ -136,6 +156,7 @@ void FlyEnemy::Rush() {
 
 void FlyEnemy::Dead() {
 	isPlayDeathAnimation_ = true;
+	currentMotionNo_ = kFlyEnemyMotionDead;
 	if (countUp > deathAnimationLength) {
 		isDead_ = true;
 	}
@@ -144,7 +165,13 @@ void FlyEnemy::Dead() {
 
 void FlyEnemy::Draw(BaseCamera& camera)
 {
-	MeshObject::Draw(camera);
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 }
 
 void FlyEnemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -244,4 +271,30 @@ void FlyEnemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "deathAnimationLength", static_cast<int32_t>(deathAnimationLength));
 	globalVariables->AddItem(groupName, "speed", speed_);
 	globalVariables->AddItem(groupName, "attackSpeed", attackSpeed_);
+}
+
+void FlyEnemy::PartInitialize()
+{
+
+	// 現在のモーション番号
+	currentMotionNo_ = FlyEnemyMotionIndex::kFlyEnemyMotionMove;
+
+	// 前のモーション番号
+	prevMotionNo_ = FlyEnemyMotionIndex::kFlyEnemyMotionMove;
+
+	// 待ちアニメーション
+	animation_.StartAnimation(kFlyEnemyMotionMove, true);
+
+}
+
+void FlyEnemy::AnimationUpdate()
+{
+
+	if (currentMotionNo_ != prevMotionNo_) {
+		animation_.StopAnimation(prevMotionNo_);
+		animation_.StartAnimation(currentMotionNo_, true);
+	}
+
+	prevMotionNo_ = currentMotionNo_;
+
 }
