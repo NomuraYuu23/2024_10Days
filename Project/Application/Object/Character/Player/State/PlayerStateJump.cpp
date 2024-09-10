@@ -104,7 +104,7 @@ void PlayerStateJump::Update()
 			distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
 
 			// 範囲内確認
-			if ((distance >= Vector2::Length(distanceToBlock))) {
+			if ((distance >= Vector2::Length(distanceToBlock)) && blockPos.y < playerPos.y) {
 				// ドロップになる
 				if (blockPos.y == -2.0f && positionedHigh) {
 					dropFlg = true;
@@ -114,9 +114,10 @@ void PlayerStateJump::Update()
 				}
 
 				distance = Vector2::Length(distanceToBlock);
+				
+				Vector3 fallingPosition = { blockPos.x,  0.0f ,blockPos.z };
 
-				worldTransform->transform_.translate.x = blockPos.x;
-				worldTransform->transform_.translate.z = blockPos.z;
+				player_->SetFallingPosition(fallingPosition);
 
 			}
 

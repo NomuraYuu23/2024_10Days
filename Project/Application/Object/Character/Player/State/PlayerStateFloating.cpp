@@ -23,21 +23,11 @@ void PlayerStateFloating::Update()
 	worldTransform->usedDirection_ = true;
 	targetDirection_ = worldTransform->direction_;
 
-	////移動
-	//if (input_->GetJoystickConnected()) {
+	float tmpY = worldTransform->transform_.translate.y;
 
-	//	const float kThresholdRunning = 0.9f;
+	worldTransform->transform_.translate =  Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.2f);
 
-	//	// 移動量
-	//	Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
-	//	if (Vector3::Length(move) > kThresholdRunning) {
-	//		//ランニング
-	//		Move(move, worldTransform, player_->GetRunningSpeed());
-	//	}
-
-	//	// 角度補間
-	//	worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
-	//}
+	worldTransform->transform_.translate.y = tmpY;
 
 	player_->SetReceiveCommand(false);
 

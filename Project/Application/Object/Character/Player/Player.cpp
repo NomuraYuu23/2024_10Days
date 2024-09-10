@@ -102,6 +102,9 @@ void Player::Initialize(LevelData::MeshData* data)
 	// 滞空フラグ
 	airborneCheck_ = false;
 
+	//
+	fallingPosition_ = { 0.0f,0.0f,0.0f };
+
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
