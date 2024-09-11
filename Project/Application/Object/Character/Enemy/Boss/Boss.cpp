@@ -260,7 +260,9 @@ void Boss::RightRoundAttack() {
 		if (countUp_ <= kRightHandRoundMoveLength_) {
 			float t = float(countUp_) / float(kRightHandRoundMoveLength_);
 			Vector3 targetPos = rightHandRoundPos_;
-			targetPos.z += 38.0f;//仮固定値、最終的にはプレイヤーの位置によって変える
+			//プレイヤーのボス座標系でのローカル位置を取ってくる		
+			Vector3 targetRocalPos_ = Matrix4x4::Transform(target_->GetWorldTransformAdress()->GetWorldPosition(),Matrix4x4::Inverse(worldTransform_.worldMatrix_));
+			targetPos.z = targetRocalPos_.z;
 			rightArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad,rightHandRootPos_,targetPos,t);
 		}
 		if (countUp_ == kRightHandRoundMoveLength_) {
