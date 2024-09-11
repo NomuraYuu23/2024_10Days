@@ -312,6 +312,7 @@ void Enemy::ApplyGlobalVariables()
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
 	oridinalScale_ = globalVariables->GetVector3Value(groupName, "scale");
 	shotFrame_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotFrame"));
+	shotEnd = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotEnd"));
 	threewayRotate_ = globalVariables->GetFloatValue(groupName, "threewayRotate");
 
 }
@@ -327,6 +328,7 @@ void Enemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
 	globalVariables->AddItem(groupName, "shotFrame", static_cast<int32_t>(shotFrame_));
+	globalVariables->AddItem(groupName, "shotEnd", static_cast<int32_t>(shotEnd));
 	globalVariables->AddItem(groupName, "threewayRotate", threewayRotate_);
 }
 
