@@ -215,6 +215,7 @@ void Block::MoveStart() {
 }
 
 void Block::Move() {
+	isMoveNow_ = true;
 	//イージングで移動
 	float t = float(countUp_) / float(moveAnimationLength_);
 	Vector3 to = initialPosition_;
@@ -225,6 +226,7 @@ void Block::Move() {
 	
 	//移動終了したら待機状態にもどる
 	if (countUp_ >= moveAnimationLength_) {
+		isMoveNow_ = false;
 		isMove_ = false;
 		countUp_ = 0;
 		hight_ = !hight_;

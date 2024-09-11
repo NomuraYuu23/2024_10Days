@@ -101,6 +101,8 @@ void Hand::Update()
 
 	MeshObject::Update();
 	
+	isCollisionObstacle_ = false;
+	isAttack_ = false;
 	state_();
 
 	worldTransform_.UpdateMatrix();
@@ -122,12 +124,21 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
-		if (std::get<Block*>(colliderPartner)->GetIsAttack() && !isHitCoolTime_) {
-			hp_--;
-			//state_ = std::bind(&Hand::Damage, this);
-			countUp_ = 0;
-		}
 		OnCollisionObstacle(colliderPartner, collisionData);
+		if (isCollisionObstacle_){
+			if (std::get<Block*>(colliderPartner)->GetIsAttack() || std::get<Block*>(colliderPartner)->GetIsMoveNow()) {
+				hp_--;
+				state_ = std::bind(&Hand::Damage, this);
+				//isHitCoolTime_ = true;
+				countUp_ = 0;
+				if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+					velocity_ = {0.0f,5.0f,0.0f};
+				}
+				else {
+					velocity_ = Vector3::Normalize(worldTransform_.GetWorldPosition() - std::get<Block*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition()) * 5.0f;
+				}
+			}
+		}
 	}
 
 }
@@ -244,6 +255,8 @@ void Hand::StampStand() {
 
 
 void Hand::StampAttack() {
+	isCollisionObstacle_ = true;
+	isAttack_ = true;
 	// 重力
 	velocity_ += Gravity::Execute()*2.0f;
 	// 速度制限
@@ -251,6 +264,7 @@ void Hand::StampAttack() {
 	// 位置更新
 	worldTransform_.transform_.translate += velocity_;
 	if (isCollision_){
+		isAttack_ = false;
 		if (countUp_ > 60){//仮
 			state_ = std::bind(&Hand::Root, this);
 			parent_->EndAttack();
@@ -264,10 +278,29 @@ void Hand::RoundStand() {
 }
 
 void Hand::RoundAttack() {
+	isCollisionObstacle_ = true;
+	isAttack_ = true;
 	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
 	float t = float(countUp_) / float(kRoundAnimationLength_);
 	worldTransform_.transform_.translate.x = Ease::Easing(Ease::EaseName::EaseInBack,0, -direction_* roundAttackWidth_, t);
 	if (countUp_ > kRoundAnimationLength_) {//仮
+		state_ = std::bind(&Hand::Root, this);
+		parent_->EndAttack();
+	}
+	countUp_++;
+}
+
+void Hand::Damage() {
+	
+	//float t = float(countUp_) / float(damageAnimationLength);
+	material_->SetColor({1.0f,0.2f,0.2f,1.0f});
+	if (countUp_ < damageAnimationLength / 2) {
+		//velocity_ += acceleration_;
+		worldTransform_.transform_.translate += velocity_;
+		velocity_ *= 0.8f;
+	}
+	if (countUp_ > damageAnimationLength) {
+		material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		state_ = std::bind(&Hand::Root, this);
 		parent_->EndAttack();
 	}

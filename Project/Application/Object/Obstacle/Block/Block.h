@@ -140,6 +140,8 @@ public: //アクセッサ
 	//攻撃判定が出ているか
 	bool GetIsAttack() { return isAttack_ || isShockWave_; };
 
+	bool GetIsMoveNow() { return isMoveNow_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -164,6 +166,8 @@ private: // パーツ,アニメーション変数
 	bool isMove_ = false;
 	bool isAttack_ = false;
 	bool isShockWave_ = false;
+	bool isMoveNow_ = false;
+
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;

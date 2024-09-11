@@ -108,7 +108,7 @@ private: // ステート関数
 	/// <summary>
 	/// 被弾
 	/// </summary>
-	//void Damage();
+	void Damage();
 
 public:
 	//本体からの命令
@@ -155,13 +155,24 @@ private: //	変数
 	//スタンプ攻撃のプレイヤー追跡時間
 	size_t stampChaseLength_ = 120;
 
+	//被弾アニメーションの終了フレーム
+	size_t damageAnimationLength = 30;
+
+	static const size_t kRoundAnimationLength_ = 90;
+
 	//薙ぎ払い攻撃の移動幅
 	float roundAttackWidth_ = 48.0f;
 
 	//親
 	Boss* parent_ = nullptr;
 
-	static const size_t kRoundAnimationLength_ = 90;
+	//物理的に障害物と当たるか
+	bool isCollisionObstacle_ = false;
+
+	Vector3 acceleration_;
+
+	//攻撃判定があるか
+	bool isAttack_ = false;
 
 public: // アクセッサ
 
@@ -170,6 +181,8 @@ public: // アクセッサ
 	void SetPlayer(Player* player) { target_ = player; };
 
 	void SetParent(Boss* parent) { parent_ = parent; };
+
+	bool IsAttack() { return isAttack_; };
 
 private: // グローバル変数
 
