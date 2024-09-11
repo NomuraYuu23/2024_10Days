@@ -26,6 +26,7 @@
 
 // デバッグ
 #include "../../GPUParticle/EggBreakParticle/EggBreakParticle.h"
+#include "../../System/PostEffect/PostEffectSystem.h"
 
 class GameScene : public IScene
 {
@@ -145,5 +146,8 @@ private:
 
 	// UIシステム
 	std::unique_ptr<UISystem> UISystem_;
+
+	// ポストエフェクト
+	std::unique_ptr<PostEffectSystem> postEffectSystem_;
 
 };

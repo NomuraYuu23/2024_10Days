@@ -154,6 +154,9 @@ void GameScene::Initialize() {
 	UISystem_ = std::make_unique<UISystem>();
 	UISystem_->Initialize(dxCommon_, player_);
 
+	postEffectSystem_ = std::make_unique<PostEffectSystem>();
+	postEffectSystem_->Initialize(player_);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -207,6 +210,9 @@ void GameScene::Update() {
 
 	// UI
 	UISystem_->Update();
+
+	// ポストエフェクト
+	postEffectSystem_->Update();
 
 	ImguiDraw();
 
@@ -269,14 +275,7 @@ void GameScene::Draw() {
 	enemyManager_->ParticleDraw(camera_);
 
 	// ポストエフェクト
-
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexDOROKERA
-	);
-
-	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+	postEffectSystem_->Draw(dxCommon_, renderTargetTexture_);
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

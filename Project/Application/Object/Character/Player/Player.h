@@ -274,6 +274,9 @@ public: // アクセッサ
 
 	Block* GetLastToutchBlock() { return lastToutchBlock_; };
 
+	//ダメージを受けたか
+	bool GetReceiveDamage() { return receiveDamage_; }
+
 private: // グローバル変数
 
 	/// <summary>
