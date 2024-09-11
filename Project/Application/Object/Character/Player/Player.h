@@ -209,8 +209,6 @@ private: //	変数
 	//ダメージを受けたか
 	bool receiveDamage_;
 
-
-
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
 

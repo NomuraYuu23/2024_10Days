@@ -370,6 +370,7 @@ void Player::OnCollisionDamage(const Vector3& position)
 		return;
 	}
 	
+	// ノックバック処理
 	Vector3 playerPos = worldTransform_.GetWorldPosition();
 	playerPos.y = position.y;
 
@@ -378,6 +379,16 @@ void Player::OnCollisionDamage(const Vector3& position)
 	receiveDamage_ = true;
 	receiveCommand_ = false;
 	changeStatedirectly = true;
+
+	// HP処理
+	hp_--;
+	if (hp_ <= 0) {
+		hp_ = 0;
+		// 死んだ判定
+
+	}
+
+
 }
 
 void Player::PositionLimit()
