@@ -235,7 +235,7 @@ void Boss::Root() {
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
-	rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	if (countUp_ == 60) {
 		state_ = std::bind(&Boss::RightRoundAttack, this);
 		countUp_ = 0;
@@ -290,5 +290,6 @@ void Boss::CreateHand() {
 
 void Boss::EndAttack() {
 	state_ = std::bind(&Boss::Root, this);
+	rightArmJointWorldTransform_.transform_.translate = rightHand_->GetWorldTransformAdress()->transform_.translate;
 	countUp_ = 0;
 }
