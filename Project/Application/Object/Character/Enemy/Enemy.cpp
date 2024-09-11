@@ -113,6 +113,9 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	// ノックバック現在のフレーム
 	knockbackCountFrame_ = 0;
 
+	// ノックバック上昇速度
+	knockbackClimbSpeed_ = 0.8f;
+
 }
 
 void Enemy::Update()
@@ -454,6 +457,8 @@ void Enemy::KnockbackInitialize()
 	baseVelocity = Matrix4x4::TransformNormal(baseVelocity, worldTransform_.rotateMatrix_);
 	knockbackVelocity_.x = -baseVelocity.x;
 	knockbackVelocity_.z = -baseVelocity.z;
+
+	knockbackVelocity_.y = knockbackClimbSpeed_;
 
 	// 加速度設定
 	knockbackAcceleration_ = { baseVelocity.x / static_cast<float>(knockbackEndFrame_), 0.0f, baseVelocity.z / static_cast<float>(knockbackEndFrame_) };

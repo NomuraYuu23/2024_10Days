@@ -224,6 +224,9 @@ private: //	変数
 	// ノックバック現在のフレーム
 	uint32_t knockbackCountFrame_;
 
+	// ノックバック上昇速度
+	float knockbackClimbSpeed_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
