@@ -211,6 +211,7 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
+		lastToutchBlock_ = std::get<Block*>(colliderPartner);
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 	else if (std::holds_alternative<Enemy*>(colliderPartner)) {
