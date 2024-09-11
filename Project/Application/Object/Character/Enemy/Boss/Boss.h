@@ -108,7 +108,7 @@ private: // ステート関数
 	/// <summary>
 	/// 右手回転攻撃
 	/// </summary>
-	//void RightRoundAttack();
+	void RightRoundAttack();
 
 	/// <summary>
 	/// 右手叩きつけ攻撃
@@ -152,6 +152,9 @@ private: //	変数
 
 	Hand* rightHand_ = nullptr;
 
+	//右手薙ぎ払いの準備時間
+	static const size_t kRightHandRoundMoveLength_ = 30;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -178,5 +181,11 @@ private: // グローバル変数
 	/// </summary>
 	//void RegistrationGlobalVariables();
 
+
+private: //各動作の腕の位置
+
+	Vector3 rightHandRootPos_ = {8.0f,0.0f,2.0f} ;
+
+	Vector3 rightHandRoundPos_ = {24.0f,4.0f,0.0f} ;
 };
 

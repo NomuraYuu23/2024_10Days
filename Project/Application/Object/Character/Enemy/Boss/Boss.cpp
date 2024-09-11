@@ -83,6 +83,15 @@ void Boss::Initialize(LevelData::MeshData* data)
 	//初期ステート
 	state_ = std::bind(&Boss::Root, this);
 
+	worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+	worldTransform_.UpdateMatrix();
+
+	rightArmJointWorldTransform_.Initialize();
+	rightArmJointWorldTransform_.SetParent(&worldTransform_);
+
+	leftArmJointWorldTransform_.Initialize();
+	leftArmJointWorldTransform_.SetParent(&worldTransform_);
 }
 
 void Boss::Update()
@@ -99,6 +108,9 @@ void Boss::Update()
 	state_();
 
 	worldTransform_.UpdateMatrix();
+
+	rightArmJointWorldTransform_.UpdateMatrix();
+	leftArmJointWorldTransform_.UpdateMatrix();
 
 	// コライダー
 	ColliderUpdate();
@@ -179,6 +191,10 @@ void Boss::OnCollisionObstacle(ColliderParentObject colliderPartner, const Colli
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();
+
+	rightArmJointWorldTransform_.UpdateMatrix();
+	leftArmJointWorldTransform_.UpdateMatrix();
+
 	// コライダー
 	ColliderUpdate();
 
@@ -216,9 +232,12 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
-	worldTransform_.transform_.translate = { 0,0,32.0f };
+	//worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
+	rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 	if (countUp_ == 60) {
-		state_ = std::bind(&Boss::RightStampAttack, this);
+		state_ = std::bind(&Boss::RightRoundAttack, this);
 		countUp_ = 0;
 		return;
 	}
@@ -228,11 +247,27 @@ void Boss::Root() {
 void Boss::RightStampAttack() {
 	if (rightHand_) {
 		if (countUp_ == 0) {
+			rightHand_->ConnectJoint(nullptr);
 			rightHand_->Stamp();
 		}
 		countUp_=1;
 	}
 	
+}
+
+void Boss::RightRoundAttack() {
+	if (rightHand_) {
+		if (countUp_ <= kRightHandRoundMoveLength_) {
+			float t = float(countUp_) / float(kRightHandRoundMoveLength_);
+			Vector3 targetPos = rightHandRoundPos_;
+			targetPos.z += 38.0f;//仮固定値、最終的にはプレイヤーの位置によって変える
+			rightArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad,rightHandRootPos_,targetPos,t);
+		}
+		if (countUp_ == kRightHandRoundMoveLength_) {
+			rightHand_->Round();
+		}
+		countUp_++;
+	}
 }
 
 void Boss::CreateHand() {
@@ -246,7 +281,9 @@ void Boss::CreateHand() {
 	static_cast<Hand*>(pointer)->SetPlayer(target_);
 	static_cast<Hand*>(pointer)->SetParent(this);
 	rightHand_ = static_cast<Hand*>(pointer);
-
+	rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+	rightArmJointWorldTransform_.UpdateMatrix();
+	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
 }
 
 void Boss::EndAttack() {

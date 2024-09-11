@@ -86,9 +86,14 @@ private: // ステート関数
 	void Root();
 
 	/// <summary>
-	/// 回転攻撃
+	/// 薙ぎ払い攻撃構え
 	/// </summary>
-	//void RightRoundAttack();
+	void RoundStand();
+
+	/// <summary>
+	/// 薙ぎ払い攻撃
+	/// </summary>
+	void RoundAttack();
 
 	/// <summary>
 	/// 叩きつけ構え
@@ -106,7 +111,15 @@ private: // ステート関数
 	//void Damage();
 
 public:
+	//本体からの命令
+
+	//叩きつけ
 	void Stamp();
+
+	//薙ぎ払い
+	void Round();
+
+	void ConnectJoint(WorldTransform * pointer);
 
 private: //	変数
 
@@ -127,7 +140,7 @@ private: //	変数
 	size_t countUp_ = 0;
 
 	//手の向き(右:1 左:-1)
-	size_t direction_=0;
+	float direction_=0;
 
 	//ステート
 	std::function<void(void)> state_;
@@ -142,8 +155,13 @@ private: //	変数
 	//スタンプ攻撃のプレイヤー追跡時間
 	size_t stampChaseLength_ = 120;
 
+	//薙ぎ払い攻撃の移動幅
+	float roundAttackWidth_ = 48.0f;
+
 	//親
 	Boss* parent_ = nullptr;
+
+	static const size_t kRoundAnimationLength_ = 90;
 
 public: // アクセッサ
 

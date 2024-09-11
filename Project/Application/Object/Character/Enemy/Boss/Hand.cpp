@@ -72,7 +72,7 @@ void Hand::Initialize(LevelData::MeshData* data)
 
 	isDead_ = false;
 
-	direction_ = size_t(worldTransform_.transform_.rotate.x);
+	direction_ = (worldTransform_.transform_.rotate.x);
 	worldTransform_.transform_.rotate.x = 0;
 
 	prePosition_ = worldTransform_.GetWorldPosition();
@@ -221,8 +221,8 @@ void Hand::RegistrationGlobalVariables()
 */
 
 void Hand::Root() {
-	worldTransform_.transform_.translate = {6.0f,0.0f,32.0f};
-
+	worldTransform_.transform_.translate = {0.0f,0.0f,0.0f};
+	worldTransform_.transform_.rotate = { 0.0f,0.0f,0.0f };
 }
 
 void Hand::StampStand() {
@@ -231,7 +231,7 @@ void Hand::StampStand() {
 	velocity_ = {0,0,0};
 	if (countUp_< stampChaseLength_) {
 		Vector3 target = target_->GetWorldTransformAdress()->GetWorldPosition();
-		target.y = 32.0f;
+		target.y = 48.0f;
 		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, target, 0.05f);
 	}
 	if (countUp_ == stampChaseLength_) {
@@ -259,7 +259,37 @@ void Hand::StampAttack() {
 	}
 }
 
+void Hand::RoundStand() {
+	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0,3.141592f * 0.5f * direction_ };
+}
+
+void Hand::RoundAttack() {
+	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
+	float t = float(countUp_) / float(kRoundAnimationLength_);
+	worldTransform_.transform_.translate.x = Ease::Easing(Ease::EaseName::EaseInBack,0, -direction_* roundAttackWidth_, t);
+	if (countUp_ > kRoundAnimationLength_) {//仮
+		state_ = std::bind(&Hand::Root, this);
+		parent_->EndAttack();
+	}
+	countUp_++;
+}
+
 void Hand::Stamp() {
 	state_ = std::bind(&Hand::StampStand, this);
 	countUp_ = 0;
+}
+
+void Hand::Round() {
+	state_ = std::bind(&Hand::RoundAttack , this);
+	countUp_ = 0;
+}
+
+void Hand::ConnectJoint(WorldTransform* pointer) {
+	if (pointer!= worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.SetParent(pointer);
+	}
+	//else {
+
+	//}
 }
