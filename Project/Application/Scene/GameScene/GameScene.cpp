@@ -157,6 +157,9 @@ void GameScene::Initialize() {
 	postEffectSystem_ = std::make_unique<PostEffectSystem>();
 	postEffectSystem_->Initialize(player_);
 
+	titleSystem_ = std::make_unique<TitleSystem>();
+	titleSystem_->Initialize(dxCommon_);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -175,6 +178,9 @@ void GameScene::Update() {
 	}
 
 #endif // _DEMO
+
+	// タイトルシステム
+	titleSystem_->Update();
 
 	enemyManager_->Update();
 
@@ -229,6 +235,9 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon_->GetCommadList());
 
 	backGround_->Draw();
+
+	// タイトルシステム
+	titleSystem_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

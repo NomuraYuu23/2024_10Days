@@ -436,6 +436,9 @@
     <Filter Include="Application\System\PostEffect">
       <UniqueIdentifier>{3a2e5a87-074c-49c8-8f21-11108e08ab11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\TitleSystem">
+      <UniqueIdentifier>{aa38794a-eeb5-46d5-86b3-84b632078c55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -992,6 +995,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\PostEffect\PostEffectSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TitleSystem\TitleSystem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1705,6 +1711,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\PostEffect\PostEffectSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TitleSystem\TitleSystem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

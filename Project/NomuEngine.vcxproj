@@ -208,6 +208,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\System\Shadow\Shadow.cpp" />
     <ClCompile Include="Application\System\Shadow\ShadowManager.cpp" />
     <ClCompile Include="Application\GPUParticle\CloudParticle\CloudParticle.cpp" />
+    <ClCompile Include="Application\System\TitleSystem\TitleSystem.cpp" />
     <ClCompile Include="Application\UI\ButtonAUI.cpp" />
     <ClCompile Include="Application\UI\HPUI.cpp" />
     <ClCompile Include="Application\UI\LeftStickBG.cpp" />
@@ -399,6 +400,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\System\Shadow\Shadow.h" />
     <ClInclude Include="Application\System\Shadow\ShadowManager.h" />
     <ClInclude Include="Application\GPUParticle\CloudParticle\CloudParticle.h" />
+    <ClInclude Include="Application\System\TitleSystem\TitleSystem.h" />
     <ClInclude Include="Application\UI\ButtonAUI.h" />
     <ClInclude Include="Application\UI\HPUI.h" />
     <ClInclude Include="Application\UI\LeftStickBG.h" />
