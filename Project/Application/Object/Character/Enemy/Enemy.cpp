@@ -96,6 +96,23 @@ void Enemy::Initialize(LevelData::MeshData* data)
 	//初期ステート
 	state_ = std::bind(&Enemy::Shot, this);
 
+	isKnockback_ = false;
+
+	// ノックバック初めの速さ
+	knockbackInitSpeed_ = 1.0f;
+
+	// ノックバック速度
+	knockbackVelocity_ = {0.0f,0.0f,0.0f};
+
+	// ノックバック加速度
+	knockbackAcceleration_ = { 0.0f,0.0f,0.0f };
+
+	// ノックバック終了フレーム
+	knockbackEndFrame_ = 10;
+
+	// ノックバック現在のフレーム
+	knockbackCountFrame_ = 0;
+
 }
 
 void Enemy::Update()
@@ -170,6 +187,11 @@ void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 			countUp_ = 0;
 		}
 		OnCollisionObstacle(colliderPartner, collisionData);
+	}
+	else if (std::holds_alternative<Player*>(colliderPartner)) {
+		if (!isKnockback_) {
+			KnockbackInitialize();
+		}
 	}
 
 }
@@ -345,6 +367,20 @@ void Enemy::Dead() {
 	countUp_++;
 }
 
+void Enemy::Knockback()
+{
+
+	// 減速する
+	knockbackVelocity_ += knockbackAcceleration_;
+
+	// 移動
+	worldTransform_.transform_.translate = Vector3::Add(worldTransform_.transform_.translate, knockbackVelocity_);
+
+	// 時間経過確認
+	knockbackCountFrame_++;
+
+}
+
 void Enemy::RotateToPlayer() {
 	Vector3 from = worldTransform_.GetWorldPosition();
 	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
@@ -357,6 +393,14 @@ void Enemy::RotateToPlayer() {
 }
 
 void Enemy::CheckFloorConect() {
+
+	// ノックバック
+	// 終了確認
+	if (isKnockback_ && (knockbackEndFrame_ != knockbackCountFrame_)) {
+		return;
+	}
+	isKnockback_ = false;
+
 	bool hight = false;
 	if (worldTransform_.GetWorldPosition().y > Block::kFloatHight) {
 		hight = true;
@@ -391,4 +435,27 @@ void Enemy::CreateBullet(float rotateY) {
 	pointer = objectManager_->AddObject(data);
 	static_cast<Bullet*>(pointer)->SetVelocity(Matrix4x4::TransformNormal(Vector3::Normalize(worldTransform_.direction_),Matrix4x4::MakeRotateYMatrix(rotateY)));
 	
+}
+
+void Enemy::KnockbackInitialize()
+{
+
+	state_ = std::bind(&Enemy::Knockback, this);
+	countUp_ = 0;
+	isKnockback_ = true;
+
+	// 現在のフレーム
+	knockbackCountFrame_ = 0;
+
+	// 初速度設定
+	Vector3 baseVelocity = { 0.0f,0.0f,knockbackInitSpeed_ };
+
+	// 移動ベクトルをプレイヤーの角度だけ回転する
+	baseVelocity = Matrix4x4::TransformNormal(baseVelocity, worldTransform_.rotateMatrix_);
+	knockbackVelocity_.x = -baseVelocity.x;
+	knockbackVelocity_.z = -baseVelocity.z;
+
+	// 加速度設定
+	knockbackAcceleration_ = { baseVelocity.x / static_cast<float>(knockbackEndFrame_), 0.0f, baseVelocity.z / static_cast<float>(knockbackEndFrame_) };
+
 }

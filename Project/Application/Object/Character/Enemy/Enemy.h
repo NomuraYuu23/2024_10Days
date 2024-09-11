@@ -90,6 +90,11 @@ private: // ステート関数
 	void Dead();
 
 	/// <summary>
+	/// ノックバック状態
+	/// </summary>
+	void Knockback();
+
+	/// <summary>
 	/// 状態チェック
 	/// </summary>
 	void CheckFloorConect();
@@ -99,6 +104,8 @@ private: // ステート関数
 
 private: // ステート変数
 
+	// ノックバックしている
+	bool isKnockback_;
 
 private: // パーツ構成関数
 
@@ -150,6 +157,11 @@ private: // 関数
 	//発射処理
 	void CreateBullet(float rotateY);
 
+	/// <summary>
+	/// ノックバック初期化
+	/// </summary>
+	void KnockbackInitialize();
+
 private: //	変数
 
 	//hp
@@ -196,6 +208,21 @@ private: //	変数
 
 	//3Wayの左右の角度(rad)
 	float threewayRotate_ = 0.5f;
+
+	// ノックバック初めの速さ
+	float knockbackInitSpeed_;
+
+	// ノックバック速度
+	Vector3 knockbackVelocity_;
+
+	// ノックバック加速度
+	Vector3 knockbackAcceleration_;
+
+	// ノックバック終了フレーム
+	uint32_t knockbackEndFrame_;
+
+	// ノックバック現在のフレーム
+	uint32_t knockbackCountFrame_;
 
 public: // アクセッサ
 
