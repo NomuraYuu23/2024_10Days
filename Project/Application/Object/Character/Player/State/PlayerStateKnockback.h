@@ -35,5 +35,8 @@ private:
 	// 現在のフレーム
 	uint32_t countFrame_;
 
+	// 上昇速度
+	float climbSpeed_;
+
 };
 
