@@ -193,9 +193,11 @@ private: // グローバル変数
 
 private: //各動作の腕の位置
 
+	Vector3 rightHandInitPos_ = { 0.0f,-32.0f,0.0f };
 	Vector3 rightHandRootPos_ = {8.0f,0.0f,2.0f} ;
 	Vector3 rightHandRoundPos_ = {24.0f,4.0f,0.0f} ;
 
+	Vector3 leftHandInitPos_ = { 0.0f,-32.0f,0.0f };
 	Vector3 leftHandRootPos_ = { -8.0f,0.0f,2.0f };
 	Vector3 leftHandRoundPos_ = { -24.0f,4.0f,0.0f };
 };

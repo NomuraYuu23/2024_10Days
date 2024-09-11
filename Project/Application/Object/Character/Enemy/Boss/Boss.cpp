@@ -263,6 +263,11 @@ void Boss::Root() {
 		countUp_ = 0;
 		return;
 	}
+
+	if (!rightHand_ && !leftHand_) {//両手ともなかったら
+		CreateHand();
+	}
+
 	countUp_++;
 }
 
@@ -332,7 +337,7 @@ void Boss::CreateHand() {
 	static_cast<Hand*>(pointer)->SetPlayer(target_);
 	static_cast<Hand*>(pointer)->SetParent(this);
 	rightHand_ = static_cast<Hand*>(pointer);
-	rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+	rightArmJointWorldTransform_.transform_.translate = rightHandInitPos_;
 	rightArmJointWorldTransform_.UpdateMatrix();
 	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
 	
@@ -341,7 +346,7 @@ void Boss::CreateHand() {
 	static_cast<Hand*>(pointer)->SetPlayer(target_);
 	static_cast<Hand*>(pointer)->SetParent(this);
 	leftHand_ = static_cast<Hand*>(pointer);
-	leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
+	leftArmJointWorldTransform_.transform_.translate = leftHandInitPos_;
 	leftArmJointWorldTransform_.UpdateMatrix();
 	leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
 	
