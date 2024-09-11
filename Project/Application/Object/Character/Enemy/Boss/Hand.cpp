@@ -283,6 +283,10 @@ void Hand::StampAttack() {
 		}
 		countUp_++;
 	}
+	if (worldTransform_.transform_.translate.y <= -100.0f) {
+		state_ = std::bind(&Hand::Root, this);
+		parent_->EndAttack();
+	}
 }
 
 void Hand::RoundStand() {
