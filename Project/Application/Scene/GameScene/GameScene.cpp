@@ -268,6 +268,16 @@ void GameScene::Draw() {
 	// エネミー
 	enemyManager_->ParticleDraw(camera_);
 
+	// ポストエフェクト
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexDOROKERA
+	);
+
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());
 
@@ -291,6 +301,8 @@ void GameScene::ImguiDraw(){
 
 	// オブジェクトマネージャー
 	objectManager_->ImGuiDraw();
+
+	PostEffect::GetInstance()->ImGuiDraw();
 
 }
 

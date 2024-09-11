@@ -430,6 +430,9 @@
     <Filter Include="shaders\GPUParticle\RunDustParticle">
       <UniqueIdentifier>{b3edccc4-95c8-4fc1-bc60-9d0e232cd4c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\DOROKERA">
+      <UniqueIdentifier>{301a1e36-9bb6-40d3-b241-f440a7f5cb5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1947,6 +1950,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\RunDustParticle\RunDustUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\RunDustParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\DOROKERA.CS.hlsl">
+      <Filter>shaders\PostEffect\DOROKERA</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
