@@ -103,6 +103,9 @@ void Bullet::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
+	else if (std::holds_alternative<Player*>(colliderPartner)) {
+		isDead_ = true;
+	}
 
 }
 
