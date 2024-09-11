@@ -1,6 +1,7 @@
 #include "PlayerStateKnockback.h"
 #include "../Player.h"
 #include "../../../../../Engine/Math/Ease.h"
+#include "../../../../../Engine/Physics/Gravity.h"
 
 void PlayerStateKnockback::Initialize()
 {
@@ -23,15 +24,22 @@ void PlayerStateKnockback::Initialize()
 
 	// 初速度設定
 
-	// 移動ベクトルをプレイヤーの角度だけ回転する
-	Vector3 baseVelocity = player_->GetKnockbackDirection() * initSpeed_;
-	velocity_.x = -baseVelocity.x;
-	velocity_.z = -baseVelocity.z;
-	
-	velocity_.y = climbSpeed_;
+	if (player_->GetVelocity().y == 0.0f) {
+		// 移動ベクトルをプレイヤーの角度だけ回転する
+		Vector3 baseVelocity = player_->GetKnockbackDirection() * initSpeed_;
+		velocity_.x = -baseVelocity.x;
+		velocity_.z = -baseVelocity.z;
 
-	// 加速度設定
-	acceleration_ = { baseVelocity.x / static_cast<float>(endFrame_), 0.0f, baseVelocity.z / static_cast<float>(endFrame_) };
+		velocity_.y = climbSpeed_;
+
+		// 加速度設定
+		acceleration_ = { baseVelocity.x / static_cast<float>(endFrame_), 0.0f, baseVelocity.z / static_cast<float>(endFrame_) };
+	}
+	else {
+		velocity_ = { 0.0f,0.0f,0.0f };
+		acceleration_ = { 0.0f,0.0f,0.0f };
+	}
+
 }
 
 void PlayerStateKnockback::Update()
