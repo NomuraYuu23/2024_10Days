@@ -3,6 +3,7 @@
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../Engine/Math/DeltaTime.h"
+#include "../../externals/imgui/imgui.h"
 
 void GameCamera::Initialize()
 {
@@ -63,6 +64,7 @@ void GameCamera::Initialize()
 	input_ = Input::GetInstance();
 
 	upsideDown_ = false;
+	leftRightFlip_ = false;
 
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
@@ -77,14 +79,8 @@ void GameCamera::Update(float elapsedTime)
 #ifdef _DEMO
 	ApplyGlobalVariables();
 
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonY)) {
-		if (upsideDown_) {
-			upsideDown_ = false;
-		}
-		else {
-			upsideDown_ = true;
-		}
-	}
+	// セッティング
+	Setting();
 
 #endif // _DEMO
 
@@ -128,6 +124,31 @@ void GameCamera::Update(float elapsedTime)
 
 	//ビュー更新
 	BaseCamera::Update(kDeltaTime_);
+
+}
+
+void GameCamera::ImGuiDraw()
+{
+
+	ImGui::Begin("GameCamera");
+	if (upsideDown_) {
+		ImGui::Text("上下反転あり  Y");
+	}
+	else {
+		ImGui::Text("上下反転なし  Y");
+	}
+
+	if (leftRightFlip_) {
+		ImGui::Text("左右反転あり  X");
+	}
+	else {
+		ImGui::Text("左右反転なし  X");
+	}
+
+	ImGui::Text("カメラ速度 %f", rotateSpeed_);
+	ImGui::Text("LBで-  RBで+");
+
+	ImGui::End();
 
 }
 
@@ -244,16 +265,21 @@ void GameCamera::Manual()
 
 	// スティック入力で角度を変更処理
 
-	const float RotateSpeed = 0.000003f;
+	float speed = baseRotateSpeed_ * rotateSpeed_;
 
 	float upsideDownValue = 1.0f;
-
 	if (upsideDown_) {
 		upsideDownValue = -1.0f;
 	}
 
-	destinationAngleY_ += input_->GetRightAnalogstick().x * RotateSpeed;
-	manualDestinationAngleX_ += input_->GetRightAnalogstick().y * RotateSpeed * upsideDownValue;
+	float leftRightFlipValue = 1.0f;
+
+	if (leftRightFlip_) {
+		leftRightFlipValue = -1.0f;
+	}
+
+	destinationAngleY_ += input_->GetRightAnalogstick().x * speed * leftRightFlipValue;
+	manualDestinationAngleX_ += input_->GetRightAnalogstick().y * speed * upsideDownValue;
 
 	// xに制限
 	float limit = 3.14f / 4.0f;
@@ -261,5 +287,41 @@ void GameCamera::Manual()
 
 	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngleY_, rotateRate_);
 	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, manualDestinationAngleX_, rotateRate_);
+
+}
+
+void GameCamera::Setting()
+{
+
+	// 上下反転
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonY)) {
+		if (upsideDown_) {
+			upsideDown_ = false;
+		}
+		else {
+			upsideDown_ = true;
+		}
+	}
+	// 左右反転
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonX)) {
+		if (leftRightFlip_) {
+			leftRightFlip_ = false;
+		}
+		else {
+			leftRightFlip_ = true;
+		}
+	}
+
+	// カメラ感度調整
+
+	float rotateSpeedAdd = 0.0f;
+	if(input_->PushJoystick(JoystickButton::kJoystickButtonRB)){
+		rotateSpeedAdd += 0.01f;
+	}
+	if (input_->PushJoystick(JoystickButton::kJoystickButtonLB)) {
+		rotateSpeedAdd -= 0.01f;
+	}
+
+	rotateSpeed_ = std::clamp(rotateSpeed_ + rotateSpeedAdd, 0.5f, 7.0f);
 
 }

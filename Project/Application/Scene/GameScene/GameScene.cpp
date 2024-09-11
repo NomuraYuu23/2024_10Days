@@ -283,6 +283,8 @@ void GameScene::ImguiDraw(){
 
 	debugCamera_->ImGuiDraw();
 
+	gameCamera_->ImGuiDraw();
+
 	// オブジェクトマネージャー
 	objectManager_->ImGuiDraw();
 

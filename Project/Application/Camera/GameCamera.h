@@ -25,6 +25,11 @@ public:
 	/// <param name="player">プレイヤー</param>
 	void SetPlayer(Player* player) { player_ = player; }
 
+	/// <summary>
+	/// ImGui
+	/// </summary>
+	void ImGuiDraw();
+
 private: // メンバ関数
 
 	// 追従対象からのオフセットを計算する
@@ -41,14 +46,19 @@ private: // メンバ関数
 	void RegistrationGlobalVariables();
 
 	/// <summary>
-	/// 
+	/// 自動
 	/// </summary>
 	void Automatic();
 
 	/// <summary>
-	/// 
+	/// 手動
 	/// </summary>
 	void Manual();
+
+	/// <summary>
+	/// 設定
+	/// </summary>
+	void Setting();
 
 private:
 
@@ -107,8 +117,15 @@ private:
 	// 手動用目指すアングルX
 	float manualDestinationAngleX_;
 
-	// 上下移動フラグ
+	// 上下反転フラグ
 	bool upsideDown_;
+
+	// 左右反転フラグ
+	bool leftRightFlip_;
+
+	// スティック感度
+	float rotateSpeed_ = 1.0f;
+	float baseRotateSpeed_ = 0.000001f;
 
 };
 
