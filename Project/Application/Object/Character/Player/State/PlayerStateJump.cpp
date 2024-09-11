@@ -138,11 +138,13 @@ void PlayerStateJump::Update()
 
 		for (uint32_t i = 0; i < blockManager->GetBlockNum(); ++i) {
 
-			blockPos = blocks->at(i)->GetWorldTransformAdress()->GetWorldPosition();
+			Block* block = blocks->at(i);
+
+			blockPos = block->GetWorldTransformAdress()->GetWorldPosition();
 			distanceToBlock = { fabsf(playerPos.x - blockPos.x), fabsf(playerPos.z - blockPos.z) };
 
-			// 範囲内確認
-			if ((distance >= Vector2::Length(distanceToBlock)) && blockPos.y < playerPos.y) {
+			// 範囲内確認 高さ確認 上昇確認
+			if ((distance >= Vector2::Length(distanceToBlock)) && (blockPos.y < playerPos.y) && !(block->GetIsMoveNow() && !block->GetHight()) ) {
 				// ドロップになる
 				if (blockPos.y == -2.0f && positionedHigh) {
 					dropFlg = true;
