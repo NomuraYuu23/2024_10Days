@@ -18,9 +18,7 @@ void PlayerStateKnockback::Initialize()
 	// 現在のフレーム
 	countFrame_ = 0;
 
-
 	// 初速度設定
-	//Vector3 baseVelocity = { 0.0f,0.0f,initSpeed_ };
 
 	// 移動ベクトルをプレイヤーの角度だけ回転する
 	Vector3 baseVelocity = player_->GetKnockbackDirection() * initSpeed_;
