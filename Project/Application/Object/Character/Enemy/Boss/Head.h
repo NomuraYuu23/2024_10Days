@@ -117,7 +117,10 @@ private: // ステート関数
 	/// </summary>
 	void Root();
 
-	
+	/// <summary>
+	/// 頭突き
+	/// </summary>
+	void Attack();
 
 	/// <summary>
 	/// 被弾
@@ -132,8 +135,8 @@ private: // ステート関数
 public:
 	//本体からの命令
 
-	//叩きつけ
-	//void Stamp();
+	//頭突き
+	void AttackCall();
 
 	//薙ぎ払い
 	//void Round();
@@ -158,6 +161,14 @@ private: //	変数
 
 	size_t countUp_ = 0;
 
+	//頭突きの全体フレーム
+	static const size_t kAttackAnimationLength_ = 120;
+
+	//頭突きの移動完了までのフレーム
+	static const size_t kAttackMoveLength_ = 90;
+
+	//薙ぎ払い攻撃の移動幅
+	float attackWidth_ = 38.0f;
 
 	//ステート
 	std::function<void(void)> state_;

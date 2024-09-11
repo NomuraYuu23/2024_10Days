@@ -108,6 +108,10 @@ private: // ステート関数
 	/// </summary>
 	void RightStampAttack();
 	void LeftStampAttack();
+
+	//頭突き攻撃
+	void HeadButtAttack();
+
 	/// <summary>
 	/// 死亡状態
 	/// </summary>

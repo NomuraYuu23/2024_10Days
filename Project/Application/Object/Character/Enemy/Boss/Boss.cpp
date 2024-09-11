@@ -248,7 +248,7 @@ void Boss::Root() {
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
 	if (countUp_ == 60) {
-		if (executeAction_==1) {
+		/*if (executeAction_ == 1) {
 			if (rightHand_) {
 				state_ = std::bind(&Boss::RightStampAttack, this);
 			}
@@ -263,7 +263,8 @@ void Boss::Root() {
 			else if (leftHand_) {
 				state_ = std::bind(&Boss::LeftRoundAttack, this);
 			}
-		}
+		}*/
+		state_ = std::bind(&Boss::HeadButtAttack, this);
 		executeAction_ *= -1;
 		countUp_ = 0;
 		return;
@@ -292,6 +293,16 @@ void Boss::LeftStampAttack() {
 		if (countUp_ == 0) {
 			leftHand_->ConnectJoint(nullptr);
 			leftHand_->Stamp();
+		}
+		countUp_ = 1;
+	}
+
+}
+
+void Boss::HeadButtAttack() {
+	if (head_) {
+		if (countUp_ == 0) {
+			head_->AttackCall();
 		}
 		countUp_ = 1;
 	}
