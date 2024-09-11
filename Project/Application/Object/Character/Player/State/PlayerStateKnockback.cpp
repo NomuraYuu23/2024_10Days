@@ -18,12 +18,17 @@ void PlayerStateKnockback::Initialize()
 	// 現在のフレーム
 	countFrame_ = 0;
 
+	// 上昇速度
+	climbSpeed_ = 0.8f;
+
 	// 初速度設定
 
 	// 移動ベクトルをプレイヤーの角度だけ回転する
 	Vector3 baseVelocity = player_->GetKnockbackDirection() * initSpeed_;
 	velocity_.x = -baseVelocity.x;
 	velocity_.z = -baseVelocity.z;
+	
+	velocity_.y = climbSpeed_;
 
 	// 加速度設定
 	acceleration_ = { baseVelocity.x / static_cast<float>(endFrame_), 0.0f, baseVelocity.z / static_cast<float>(endFrame_) };
