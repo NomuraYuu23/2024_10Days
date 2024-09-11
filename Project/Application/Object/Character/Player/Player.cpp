@@ -45,7 +45,6 @@ LevelData::MeshData Player::PlayerCreate()
 void Player::Initialize(LevelData::MeshData* data)
 {
 
-
 	MeshObject::Initialize(data);
 
 	//衝突属性(自分)
@@ -128,6 +127,24 @@ void Player::Initialize(LevelData::MeshData* data)
 	
 	hp_ = initHp_;
 
+	runDustParticle_ = std::make_unique<RunDustParticle>();
+
+	runDustParticle_->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
+
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+	runDustParticle_->SetEmitter(emitter);
+
 }
 
 void Player::Update()
@@ -179,6 +196,9 @@ void Player::Update()
 
 	// 速度保存
 	SaveVelocityUpdate();
+
+	// 砂ぼこり
+	runDustParticle_->Update();
 
 }
 
@@ -234,6 +254,9 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 
 void Player::ParticleDraw(BaseCamera& camera)
 {
+
+	runDustParticle_->Draw(DirectXCommon::GetInstance()->GetCommadList(), camera);
+
 }
 
 void Player::StateInitialize()

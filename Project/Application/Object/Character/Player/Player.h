@@ -6,6 +6,7 @@
 #include "State/PlayerStateFactory.h"
 #include "../../Obstacle/Block/BlockManager.h"
 #include "../../../AudioManager/GameAudioManager.h"
+#include "../../../GPUParticle/RunDustParticle/RunDustParticle.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -214,6 +215,10 @@ private: //	変数
 
 	//最後に触れたブロック
 	Block* lastToutchBlock_ = nullptr;
+
+	// 砂ぼこり
+	std::unique_ptr<RunDustParticle> runDustParticle_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

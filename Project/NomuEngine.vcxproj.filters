@@ -424,6 +424,12 @@
     <Filter Include="Application\UI\RightStickBG">
       <UniqueIdentifier>{04377161-56ec-47e0-89c0-8586fdb74c27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\GPUParticle\RunDustParticle">
+      <UniqueIdentifier>{00ef1579-50e3-4f58-b7aa-25a74d8bf6d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\RunDustParticle">
+      <UniqueIdentifier>{b3edccc4-95c8-4fc1-bc60-9d0e232cd4c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -972,6 +978,9 @@
     </ClCompile>
     <ClCompile Include="Application\UI\RightStickUI.cpp">
       <Filter>Application\UI\RightStick</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\RunDustParticle\RunDustParticle.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1677,6 +1686,9 @@
     <ClInclude Include="Application\UI\RightStickBG.h">
       <Filter>Application\UI\RightStickBG</Filter>
     </ClInclude>
+    <ClInclude Include="Application\GPUParticle\RunDustParticle\RunDustParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1733,6 +1745,9 @@
     </None>
     <None Include="Resources\shaders\EggBreakParticle\EggBreak.CS.hlsli">
       <Filter>shaders\GPUParticle\EggBreakParticle</Filter>
+    </None>
+    <None Include="Resources\shaders\RunDustParticle\RunDust.CS.hlsli">
+      <Filter>shaders\GPUParticle\RunDustParticle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1917,6 +1932,15 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleBlendNormal.VS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\RunDustParticle\RunDustEmit.CS.hlsl">
+      <Filter>shaders\GPUParticle\RunDustParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\RunDustParticle\RunDustInitialize.CS.hlsl">
+      <Filter>shaders\GPUParticle\RunDustParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\RunDustParticle\RunDustUpdate.CS.hlsl">
+      <Filter>shaders\GPUParticle\RunDustParticle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
