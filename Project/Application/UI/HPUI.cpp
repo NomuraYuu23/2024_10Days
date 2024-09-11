@@ -2,10 +2,6 @@
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../Object/Character/Player/Player.h"
 
-Vector2 HPUI::basePosition_ = { 0.0f,0.0f };
-
-float HPUI::space_ = 0.0f;
-
 void HPUI::Initialize(Player* player, uint32_t displayValue, uint32_t textureHandle, const std::string& groupName, const std::string& jsonName)
 {
 
@@ -55,9 +51,8 @@ void HPUI::RegisteringGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	globalVariables->AddItem(jsonName_, groupName_  + "basePosition", basePosition_);
-	globalVariables->AddItem(jsonName_, groupName_ + "space", space_);
-	globalVariables->AddItem(jsonName_, groupName_ + "size", size_);
+	globalVariables->AddItem(jsonName_, groupName_ + std::to_string(displayValue_) + "position", position_);
+	globalVariables->AddItem(jsonName_, groupName_ + std::to_string(displayValue_) + "size", size_);
 
 }
 
@@ -66,17 +61,11 @@ void HPUI::ApplyGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	basePosition_ = globalVariables->GetVector2Value(jsonName_, groupName_ + "basePosition");
-	space_ = globalVariables->GetFloatValue(jsonName_, groupName_ + "space");
-	size_ = globalVariables->GetVector2Value(jsonName_, groupName_ + "size");
-
 	if (!isDead_) {
-		position_ = basePosition_;
-		position_.x += space_ * static_cast<float>(displayValue_ - 1);
+		position_ = globalVariables->GetVector2Value(jsonName_, groupName_ + std::to_string(displayValue_) + "position");
+		size_ = globalVariables->GetVector2Value(jsonName_, groupName_ + std::to_string(displayValue_) + "size");
 		sprite_->SetPosition(position_);
-
 		sprite_->SetSize(size_);
-
 	}
 
 }

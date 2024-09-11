@@ -40,15 +40,18 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	UIs_[kUIIndexButtonAStr] = std::make_unique<UI>();
 	UIs_[kUIIndexButtonAStr]->Initialize(textureHandles_[kUITextureHandleIndexButtonAStr], "ButtonAString");
 
-	// HP0
-	UIs_[kUIIndexHP0] = std::make_unique<HPUI>();
-	static_cast<HPUI*>(UIs_[kUIIndexHP0].get())->Initialize(player_, 1, textureHandles_[kUITextureHandleIndexHP], "HP");
+
 	// HP1
 	UIs_[kUIIndexHP1] = std::make_unique<HPUI>();
-	static_cast<HPUI*>(UIs_[kUIIndexHP1].get())->Initialize(player_, 2, textureHandles_[kUITextureHandleIndexHP], "HP");
+	static_cast<HPUI*>(UIs_[kUIIndexHP1].get())->Initialize(player_, 2, textureHandles_[kUITextureHandleIndexHPHorn], "HP");
+
+	// HP0
+	UIs_[kUIIndexHP0] = std::make_unique<HPUI>();
+	static_cast<HPUI*>(UIs_[kUIIndexHP0].get())->Initialize(player_, 1, textureHandles_[kUITextureHandleIndexHPHead], "HP");
+
 	// HP2
 	UIs_[kUIIndexHP2] = std::make_unique<HPUI>();
-	static_cast<HPUI*>(UIs_[kUIIndexHP2].get())->Initialize(player_, 3, textureHandles_[kUITextureHandleIndexHP], "HP");
+	static_cast<HPUI*>(UIs_[kUIIndexHP2].get())->Initialize(player_, 3, textureHandles_[kUITextureHandleIndexHPHorn], "HP");
 
 
 	// 右スティック

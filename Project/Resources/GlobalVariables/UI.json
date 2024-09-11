@@ -29,15 +29,30 @@
             64.0,
             64.0
         ],
-        "HPbasePosition": [
-            64.0,
-            64.0
-        ],
-        "HPsize": [
+        "HP1position": [
             96.0,
             96.0
         ],
-        "HPspace": 96.0,
+        "HP1size": [
+            180.0,
+            180.0
+        ],
+        "HP2position": [
+            145.0,
+            50.0
+        ],
+        "HP2size": [
+            115.0,
+            50.0
+        ],
+        "HP3position": [
+            125.0,
+            50.0
+        ],
+        "HP3size": [
+            115.0,
+            50.0
+        ],
         "LeftStickStringposition": [
             230.0,
             450.0

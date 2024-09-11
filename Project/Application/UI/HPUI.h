@@ -49,12 +49,6 @@ private:
 	// 表示する体力
 	int32_t displayValue_;
 
-	// ベース位置
-	static Vector2 basePosition_;
-
-	// 間隔
-	static float space_;
-
 	// 消えるフラグ
 	bool isDead_;
 
