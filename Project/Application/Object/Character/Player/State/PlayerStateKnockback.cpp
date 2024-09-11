@@ -20,10 +20,10 @@ void PlayerStateKnockback::Initialize()
 
 
 	// 初速度設定
-	Vector3 baseVelocity = { 0.0f,0.0f,initSpeed_ };
+	//Vector3 baseVelocity = { 0.0f,0.0f,initSpeed_ };
 
 	// 移動ベクトルをプレイヤーの角度だけ回転する
-	baseVelocity = Matrix4x4::TransformNormal(baseVelocity, player_->GetWorldTransformAdress()->rotateMatrix_);
+	Vector3 baseVelocity = player_->GetKnockbackDirection() * initSpeed_;
 	velocity_.x = -baseVelocity.x;
 	velocity_.z = -baseVelocity.z;
 
