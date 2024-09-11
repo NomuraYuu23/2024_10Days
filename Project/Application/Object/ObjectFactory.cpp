@@ -9,6 +9,8 @@
 #include "../Object/Character/Enemy/Bullet.h"
 #include "../Object/Character/Enemy/Egg.h"
 #include "../Object/Character/Enemy/FlyEnemy.h"
+#include "../Object/Character/Enemy/Boss/Boss.h"
+#include "../Object/Character/Enemy/Boss/Hand.h"
 
 // オブジェクト作成でそれぞれのタイプを作成するための関数群
 // 返り値 無し
@@ -55,6 +57,12 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexFlyEnemy].first = "FlyEnemy";
 	createObjectFunctions_[kCreateObjectIndexFlyEnemy].second = ObjectFactory::CreateObjectFlyEnemy;
+
+	createObjectFunctions_[kCreateObjectIndexBoss].first = "Boss";
+	createObjectFunctions_[kCreateObjectIndexBoss].second = ObjectFactory::CreateObjectBoss;
+
+	createObjectFunctions_[kCreateObjectIndexBossHand].first = "Hand";
+	createObjectFunctions_[kCreateObjectIndexBossHand].second = ObjectFactory::CreateObjectBossHand;
 }
 
 IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
@@ -150,5 +158,23 @@ IObject* ObjectFactory::CreateObjectFlyEnemy(LevelData::ObjectData& objectData)
 	IObject* object = new FlyEnemy();
 	// 初期化
 	static_cast<FlyEnemy*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBoss(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Boss();
+	// 初期化
+	static_cast<Boss*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBossHand(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Hand();
+	// 初期化
+	static_cast<Hand*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

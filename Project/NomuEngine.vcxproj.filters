@@ -955,6 +955,12 @@
     <ClCompile Include="Application\Object\Character\Enemy\EggBreakParticleManager.cpp">
       <Filter>Application\Object\Character\Enemy\EggBreakParticle</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Hand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Boss.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateKnockback.cpp">
       <Filter>Application\Object\Character\Player\State\Knockback</Filter>
     </ClCompile>
@@ -1652,6 +1658,12 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\EggBreakParticleManager.h">
       <Filter>Application\Object\Character\Enemy\EggBreakParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Boss.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Hand.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateKnockback.h">
       <Filter>Application\Object\Character\Player\State\Knockback</Filter>

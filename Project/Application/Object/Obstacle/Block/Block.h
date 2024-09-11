@@ -143,6 +143,8 @@ public: //アクセッサ
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
+	bool GetIsMoveNow() { return isMoveNow_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -167,6 +169,8 @@ private: // パーツ,アニメーション変数
 	bool isMove_ = false;
 	bool isAttack_ = false;
 	bool isShockWave_ = false;
+	bool isMoveNow_ = false;
+
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;

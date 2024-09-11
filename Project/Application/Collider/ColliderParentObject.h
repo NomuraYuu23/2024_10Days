@@ -12,8 +12,10 @@ class Bullet;
 class Block;
 class Egg;
 class FlyEnemy;
+class Boss;
+class Hand;
 
-using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*,ShockWave*,Enemy*,Bullet*,Block*,Egg*,FlyEnemy*>;
+using ColliderParentObject = std::variant<Null*, BaseObstacle*, BaseRigidBodyObject*, Player*,ShockWave*,Enemy*,Bullet*,Block*,Egg*,FlyEnemy*,Boss*,Hand*>;
 
 // 親がないもの用
 class Null {
