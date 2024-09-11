@@ -63,7 +63,7 @@ void Head::Initialize(LevelData::MeshData* data)
 	ColliderShape* colliderShape = new ColliderShape();
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
-
+	
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
 
@@ -71,8 +71,9 @@ void Head::Initialize(LevelData::MeshData* data)
 		model_->GetNodeAnimationData(),
 		localMatrixManager_->GetInitTransform(),
 		localMatrixManager_->GetNodeNames());
-
+		
 	// パーツ
+
 	PartInitialize();
 
 
@@ -132,7 +133,7 @@ void Head::Update()
 
 void Head::Draw(BaseCamera& camera)
 {
-
+	
 	ModelDraw::AnimObjectDesc desc;
 	desc.camera = &camera;
 	desc.localMatrixManager = localMatrixManager_.get();
@@ -140,7 +141,7 @@ void Head::Draw(BaseCamera& camera)
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
-
+	
 }
 
 void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -277,7 +278,6 @@ void Head::Damage() {
 	if (countUp_ > damageAnimationLength) {
 		material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		state_ = std::bind(&Head::Root, this);
-		parent_->EndAttack();
 	}
 	countUp_++;
 }
@@ -314,8 +314,8 @@ void Head::AnimationUpdate()
 {
 
 	if (currentMotionNo_ != prevMotionNo_) {
-		animation_.StopAnimation(prevMotionNo_);
-		animation_.StartAnimation(currentMotionNo_, true);
+		//animation_.StopAnimation(prevMotionNo_);
+		//animation_.StartAnimation(currentMotionNo_, true);
 	}
 
 	prevMotionNo_ = currentMotionNo_;
@@ -326,12 +326,12 @@ void Head::PartInitialize()
 {
 
 	// 現在のモーション番号
-	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 
 	// 前のモーション番号
-	prevMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
+	prevMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kHeadMotionNormal, true);
+	animation_.StartAnimation(kHeadMotionRoar, true);
 
 }
