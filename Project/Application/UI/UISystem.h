@@ -54,6 +54,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// タイトルの追加位置設定
+	/// </summary>
+	/// <param name="titlePosAddY"></param>
+	void SetTitlePosAddX(float titlePosAddX) { titlePosAddX_ = titlePosAddX; }
+
 private:
 
 	// プレイヤー
@@ -64,6 +70,9 @@ private:
 
 	// UI
 	std::array<std::unique_ptr<UI>, UIIndex::kUIIndexOfCount> UIs_;
+
+	// タイトルの追加位置
+	float titlePosAddX_;
 
 private: 
 

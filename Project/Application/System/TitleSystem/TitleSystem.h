@@ -5,6 +5,7 @@
 #include "../../../Engine/base/DirectXCommon.h"
 
 class GameCamera;
+class UISystem;
 
 class TitleSystem
 {
@@ -15,7 +16,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="dxCommon"></param>
-	void Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera);
+	void Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera, UISystem* UISystem);
 
 	/// <summary>
 	/// 更新
@@ -62,6 +63,19 @@ private:
 
 private:
 
+	/// <summary>
+	/// UI初期化
+	/// </summary>
+	/// <param name="UISystem"></param>
+	void UISystemInitialize(UISystem* UISystem);
+
+	/// <summary>
+	/// UI更新
+	/// </summary>
+	void UISystemUpdate();
+
+private:
+
 	// 実行中か
 	bool isRun_;
 
@@ -80,6 +94,9 @@ private:
 
 	// ゲームカメラ
 	GameCamera* gameCamera_;
+
+	// UI
+	UISystem* UISystem_;
 
 };
 

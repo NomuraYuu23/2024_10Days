@@ -4,8 +4,9 @@
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../Camera/GameCamera.h"
+#include "../../UI/UISystem.h"
 
-void TitleSystem::Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera)
+void TitleSystem::Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera, UISystem* UISystem)
 {
 
 	// 実行中か
@@ -23,6 +24,8 @@ void TitleSystem::Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera)
 	LogoInitialize(dxCommon);
 
 	GameCameraInitialize(gameCamera);
+
+	UISystemInitialize(UISystem);
 
 }
 
@@ -47,6 +50,8 @@ void TitleSystem::Update()
 	LogoUpdate();
 
 	GameCameraUpdate();
+
+	UISystemUpdate();
 
 }
 
@@ -119,6 +124,23 @@ void TitleSystem::GameCameraUpdate()
 	if (endSystem_) {
 		float t = currentEndSystemTime_ / endSystemTime_;
 		gameCamera_->SetTitleCameraOffsetSide(Ease::Easing(Ease::EaseName::EaseInCubic, 0.0f, 1.0f, t));
+	}
+
+}
+
+void TitleSystem::UISystemInitialize(UISystem* UISystem)
+{
+
+	UISystem_ = UISystem;
+
+}
+
+void TitleSystem::UISystemUpdate()
+{
+
+	if (endSystem_) {
+		float t = currentEndSystemTime_ / endSystemTime_;
+		UISystem_->SetTitlePosAddX(Ease::Easing(Ease::EaseName::EaseInCubic, -640.0f, 0.0f, t));
 	}
 
 }
