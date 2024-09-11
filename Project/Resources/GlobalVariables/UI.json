@@ -2,7 +2,7 @@
     "UI": {
         "ButtonAStringposition": [
             270.0,
-            600.0
+            650.0
         ],
         "ButtonAStringrotate": 0.0,
         "ButtonAStringsize": [
@@ -22,7 +22,7 @@
         ],
         "ButtonAposition": [
             100.0,
-            600.0
+            650.0
         ],
         "ButtonArotate": 0.0,
         "ButtonAsize": [
@@ -40,7 +40,7 @@
         "HPspace": 96.0,
         "LeftStickStringposition": [
             230.0,
-            500.0
+            450.0
         ],
         "LeftStickStringrotate": 0.0,
         "LeftStickStringsize": [
@@ -61,10 +61,40 @@
         ],
         "LeftStickposition": [
             100.0,
-            500.0
+            450.0
         ],
         "LeftStickrotate": 0.0,
         "LeftSticksize": [
+            64.0,
+            64.0
+        ],
+        "RightStickStringposition": [
+            300.0,
+            540.5
+        ],
+        "RightStickStringrotate": 0.0,
+        "RightStickStringsize": [
+            294.3999938964844,
+            160.0
+        ],
+        "RightStickalpha": 1.0,
+        "RightStickinputColor": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "RightStickmovingRange": 5.0,
+        "RightSticknotInputColor": [
+            0.5,
+            0.5,
+            0.5
+        ],
+        "RightStickposition": [
+            100.0,
+            550.0
+        ],
+        "RightStickrotate": 0.0,
+        "RightSticksize": [
             64.0,
             64.0
         ]

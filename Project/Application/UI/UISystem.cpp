@@ -4,6 +4,8 @@
 #include "LeftStickBG.h"
 #include "ButtonAUI.h"
 #include "HPUI.h"
+#include "RightStickBG.h"
+#include "RightStickUI.h"
 
 void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 {
@@ -47,6 +49,21 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	// HP2
 	UIs_[kUIIndexHP2] = std::make_unique<HPUI>();
 	static_cast<HPUI*>(UIs_[kUIIndexHP2].get())->Initialize(player_, 3, textureHandles_[kUITextureHandleIndexHP], "HP");
+
+
+	// 右スティック
+	UIs_[kUIIndexRightStick] = std::make_unique<RightStickUI>();
+	UIs_[kUIIndexRightStick]->Initialize(textureHandles_[kUITextureHandleIndexRightStick], "RightStick");
+
+	// 右スティック背景
+	UIs_[kUIIndexRightStickBG] = std::make_unique<RightStickBG>();
+	UIs_[kUIIndexRightStickBG]->Initialize(textureHandles_[kUITextureHandleIndexStickBG], "RightStick");
+	static_cast<RightStickBG*>(UIs_[kUIIndexRightStickBG].get())->SetParent(static_cast<RightStickUI*>(UIs_[kUIIndexRightStick].get()));
+
+	// 右スティック文字
+	UIs_[kUIIndexRightStickStr] = std::make_unique<UI>();
+	UIs_[kUIIndexRightStickStr]->Initialize(textureHandles_[kUITextureHandleIndexRightStickStr], "RightStickString");
+
 
 }
 

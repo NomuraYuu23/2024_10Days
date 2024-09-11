@@ -4,12 +4,14 @@
 #include "UI.h"
 
 enum UITextureHandleIndex {
-	kUITextureHandleIndexStickBG, // 左スティック背景
+	kUITextureHandleIndexStickBG, // スティック背景
 	kUITextureHandleIndexLeftStick, // 左スティック
 	kUITextureHandleIndexLeftStickStr, // 左スティック文字
 	kUITextureHandleIndexButtonA, // Aボタン
 	kUITextureHandleIndexButtonAStr, // Aボタン文字
 	kUITextureHandleIndexHP,// HP
+	kUITextureHandleIndexRightStick, // 右スティック
+	kUITextureHandleIndexRightStickStr, // 右スティック文字
 
 	kUITextureHandleIndexOfCount
 };
@@ -23,6 +25,9 @@ enum UIIndex {
 	kUIIndexHP0,// HP0
 	kUIIndexHP1,// HP1
 	kUIIndexHP2,// HP2
+	kUIIndexRightStickBG, // 右スティック背景
+	kUIIndexRightStick, // 右スティック
+	kUIIndexRightStickStr, // 右スティック文字
 	kUIIndexOfCount
 };
 
@@ -69,6 +74,8 @@ private:
 		"Resources/UI/buttonA.png",
 		"Resources/UI/jumpUI.png",
 		"Resources/UI/HP.png",
+		"Resources/UI/joystick_R.png",
+		"Resources/UI/cameraUI.png",
 	};
 
 };
