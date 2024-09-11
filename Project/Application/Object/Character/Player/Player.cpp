@@ -367,7 +367,7 @@ void Player::OnCollisionDamage(const Vector3& position)
 	Vector3 playerPos = worldTransform_.GetWorldPosition();
 	playerPos.y = position.y;
 
-	knockbackDirection_ = Vector3::Normalize(playerPos - position);
+	knockbackDirection_ = Vector3::Normalize(Vector3::Subtract(position,playerPos));
 	nextStateNo_ = kPlayerStateKnockback;
 	receiveDamage_ = true;
 	receiveCommand_ = false;

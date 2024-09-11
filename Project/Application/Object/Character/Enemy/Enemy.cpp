@@ -189,7 +189,7 @@ void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 	else if (std::holds_alternative<Player*>(colliderPartner)) {
-		if (!isKnockback_) {
+		if (!isKnockback_ && !isPlayDeathAnimation_) {
 			KnockbackInitialize();
 		}
 	}
