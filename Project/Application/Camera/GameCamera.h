@@ -127,5 +127,12 @@ private:
 	float rotateSpeed_ = 1.0f;
 	float baseRotateSpeed_ = 0.000001f;
 
+	// タイトル時のオフセット
+	float titleCameraOffsetSide_ = 0.0f;
+
+public:
+
+	void SetTitleCameraOffsetSide(float titleCameraOffsetSide) { titleCameraOffsetSide_ = titleCameraOffsetSide; }
+
 };
 

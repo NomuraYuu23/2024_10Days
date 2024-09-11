@@ -158,7 +158,7 @@ void GameScene::Initialize() {
 	postEffectSystem_->Initialize(player_);
 
 	titleSystem_ = std::make_unique<TitleSystem>();
-	titleSystem_->Initialize(dxCommon_);
+	titleSystem_->Initialize(dxCommon_, gameCamera_.get());
 
 	IScene::InitilaizeCheck();
 

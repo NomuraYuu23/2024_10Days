@@ -982,23 +982,23 @@
     <ClCompile Include="Application\UI\HPUI.cpp">
       <Filter>Application\UI\HP</Filter>
     </ClCompile>
-    <ClCompile Include="Application\UI\RightStickBG.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\UI\RightStickUI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Boss\Head.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GPUParticle\RunDustParticle\RunDustParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\System\TitleSystem\TitleSystem.cpp">
+      <Filter>Application\System\TitleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\PostEffect\PostEffectSystem.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\System\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\TitleSystem\TitleSystem.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GPUParticle\RunDustParticle\RunDustParticle.cpp">
+      <Filter>Application\GPUParticle\RunDustParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\RightStickUI.cpp">
+      <Filter>Application\UI\RightStick</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\RightStickBG.cpp">
+      <Filter>Application\UI\RightStickBG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1698,23 +1698,23 @@
     <ClInclude Include="Application\UI\HPUI.h">
       <Filter>Application\UI\HP</Filter>
     </ClInclude>
-    <ClInclude Include="Application\UI\RightStickBG.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\RightStickUI.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\Boss\Head.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GPUParticle\RunDustParticle\RunDustParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\System\TitleSystem\TitleSystem.h">
+      <Filter>Application\System\TitleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\PostEffect\PostEffectSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\System\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\TitleSystem\TitleSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GPUParticle\RunDustParticle\RunDustParticle.h">
+      <Filter>Application\GPUParticle\RunDustParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\RightStickBG.h">
+      <Filter>Application\UI\RightStickBG</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\RightStickUI.h">
+      <Filter>Application\UI\RightStick</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

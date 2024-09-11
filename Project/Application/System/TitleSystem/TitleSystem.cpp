@@ -3,8 +3,9 @@
 #include "../../../Engine/Input/Input.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/Math/DeltaTime.h"
+#include "../../Camera/GameCamera.h"
 
-void TitleSystem::Initialize(DirectXCommon* dxCommon)
+void TitleSystem::Initialize(DirectXCommon* dxCommon, GameCamera* gameCamera)
 {
 
 	// 実行中か
@@ -14,12 +15,14 @@ void TitleSystem::Initialize(DirectXCommon* dxCommon)
 	endSystem_ = false;
 
 	// 終了するまでの時間
-	endSystemTime_ = 3.0f;
+	endSystemTime_ = 1.0f;
 
 	// 終了するまでの時間 計測用
 	currentEndSystemTime_ = 0.0f;
 
 	LogoInitialize(dxCommon);
+
+	GameCameraInitialize(gameCamera);
 
 }
 
@@ -42,6 +45,8 @@ void TitleSystem::Update()
 	EndSystem();
 
 	LogoUpdate();
+
+	GameCameraUpdate();
 
 }
 
@@ -75,7 +80,7 @@ void TitleSystem::LogoInitialize(DirectXCommon* dxCommon)
 {
 
 	// 
-	Vector2 positon = {640.0f,200.0f};
+	Vector2 positon = { 640.0f, 200.0f };
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	// テクスチャハンドル
@@ -97,6 +102,23 @@ void TitleSystem::LogoUpdate()
 
 		titleLogoSprite_->SetColor(color);
 
+	}
+
+}
+
+void TitleSystem::GameCameraInitialize(GameCamera* gameCamera)
+{
+
+	gameCamera_ = gameCamera;
+
+}
+
+void TitleSystem::GameCameraUpdate()
+{
+
+	if (endSystem_) {
+		float t = currentEndSystemTime_ / endSystemTime_;
+		gameCamera_->SetTitleCameraOffsetSide(Ease::Easing(Ease::EaseName::EaseInCubic, 0.0f, 1.0f, t));
 	}
 
 }

@@ -66,6 +66,9 @@ void GameCamera::Initialize()
 	upsideDown_ = false;
 	leftRightFlip_ = false;
 
+	// タイトル時のオフセット
+	titleCameraOffsetSide_ = 0.0f;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -156,7 +159,7 @@ Vector3 GameCamera::OffsetCalc() const
 {
 
 	//追従対象からカメラまでのオフセット
-	Vector3 offset = { offsetSide_, offsetHeight_, offsetLength_ };
+	Vector3 offset = { offsetSide_ * titleCameraOffsetSide_, offsetHeight_, offsetLength_ };
 
 	Matrix4x4 rotateMatrix;
 
