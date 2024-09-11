@@ -435,6 +435,7 @@ void Player::OnCollisionDamage(const Vector3& position)
 
 	}
 
+	camera_->ShakeStart(1.0f,1.0f);
 
 }
 
