@@ -12,7 +12,7 @@
 
 #include "../../../Engine/Math/Ease.h"
 
-LevelData::MeshData Hand::HandCreate(size_t direction)
+LevelData::MeshData Hand::HandCreate(int32_t direction)
 {
 
 	LevelData::MeshData data;
@@ -128,7 +128,18 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		if (isCollisionObstacle_){
 			if (std::get<Block*>(colliderPartner)->GetIsAttack() || std::get<Block*>(colliderPartner)->GetIsMoveNow()) {
 				hp_--;
-				state_ = std::bind(&Hand::Damage, this);
+				if (hp_>0) {
+					state_ = std::bind(&Hand::Damage, this);
+				}
+				else {
+					state_ = std::bind(&Hand::Dead, this);
+					if (direction_ == 1.0f) {
+						parent_->DeathRightHand();
+					}
+					else {
+						parent_->DeathLeftHand();
+					}
+				}
 				//isHitCoolTime_ = true;
 				countUp_ = 0;
 				if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
@@ -307,6 +318,22 @@ void Hand::Damage() {
 	countUp_++;
 }
 
+void Hand::Dead() {
+
+	//float t = float(countUp_) / float(damageAnimationLength);
+	material_->SetColor({ 1.0f,0.2f,0.2f,1.0f });
+	//velocity_ += acceleration_;
+	worldTransform_.transform_.translate += velocity_;
+	worldTransform_.transform_.rotate.x += 0.5f;
+	worldTransform_.transform_.rotate.y += 0.5f;
+	worldTransform_.transform_.rotate.z += 0.5f;
+	velocity_ *= 0.9f;
+	if (countUp_ > deathAnimationLength) {
+		isDead_ = true;
+	}
+	countUp_++;
+}
+
 void Hand::Stamp() {
 	state_ = std::bind(&Hand::StampStand, this);
 	countUp_ = 0;
@@ -321,6 +348,7 @@ void Hand::ConnectJoint(WorldTransform* pointer) {
 	if (pointer!= worldTransform_.parent_) {
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransform_.SetParent(pointer);
+		worldTransform_.UpdateMatrix();
 	}
 	//else {
 

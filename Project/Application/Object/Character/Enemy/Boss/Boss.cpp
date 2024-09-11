@@ -234,10 +234,32 @@ void Boss::RegistrationGlobalVariables()
 void Boss::Root() {
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
-	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
+	if (rightHand_) {
+		rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
+	}
+	if (leftHand_) {
+		leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
+	}
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
+	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
 	if (countUp_ == 60) {
-		state_ = std::bind(&Boss::RightStampAttack, this);
+		if (executeAction_==1) {
+			if (rightHand_) {
+				state_ = std::bind(&Boss::RightStampAttack, this);
+			}
+			else if(leftHand_){
+				state_ = std::bind(&Boss::LeftStampAttack, this);
+			}
+		}
+		else {
+			if (rightHand_) {
+				state_ = std::bind(&Boss::RightRoundAttack, this);
+			}
+			else if (leftHand_) {
+				state_ = std::bind(&Boss::LeftRoundAttack, this);
+			}
+		}
+		executeAction_ *= -1;
 		countUp_ = 0;
 		return;
 	}
@@ -253,6 +275,17 @@ void Boss::RightStampAttack() {
 		countUp_=1;
 	}
 	
+}
+
+void Boss::LeftStampAttack() {
+	if (leftHand_) {
+		if (countUp_ == 0) {
+			leftHand_->ConnectJoint(nullptr);
+			leftHand_->Stamp();
+		}
+		countUp_ = 1;
+	}
+
 }
 
 void Boss::RightRoundAttack() {
@@ -272,13 +305,29 @@ void Boss::RightRoundAttack() {
 	}
 }
 
+void Boss::LeftRoundAttack() {
+	if (leftHand_) {
+		if (countUp_ <= kRightHandRoundMoveLength_) {
+			float t = float(countUp_) / float(kRightHandRoundMoveLength_);
+			Vector3 targetPos = leftHandRoundPos_;
+			//プレイヤーのボス座標系でのローカル位置を取ってくる		
+			Vector3 targetRocalPos_ = Matrix4x4::Transform(target_->GetWorldTransformAdress()->GetWorldPosition(), Matrix4x4::Inverse(worldTransform_.worldMatrix_));
+			targetPos.z = targetRocalPos_.z;
+			leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutQuad, leftHandRootPos_, targetPos, t);
+		}
+		if (countUp_ == kRightHandRoundMoveLength_) {
+			leftHand_->Round();
+		}
+		countUp_++;
+	}
+}
+
 void Boss::CreateHand() {
 	LevelData::ObjectData data;
 
 	IObject* pointer = nullptr;
 
 	data = Hand::HandCreate(1);
-	LevelData::MeshData& bullet = std::get<LevelData::MeshData>(data);
 	pointer = objectManager_->AddObject(data);
 	static_cast<Hand*>(pointer)->SetPlayer(target_);
 	static_cast<Hand*>(pointer)->SetParent(this);
@@ -286,10 +335,39 @@ void Boss::CreateHand() {
 	rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 	rightArmJointWorldTransform_.UpdateMatrix();
 	rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
+	
+	data = Hand::HandCreate(-1);
+	pointer = objectManager_->AddObject(data);
+	static_cast<Hand*>(pointer)->SetPlayer(target_);
+	static_cast<Hand*>(pointer)->SetParent(this);
+	leftHand_ = static_cast<Hand*>(pointer);
+	leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
+	leftArmJointWorldTransform_.UpdateMatrix();
+	leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
+	
 }
 
 void Boss::EndAttack() {
 	state_ = std::bind(&Boss::Root, this);
-	rightArmJointWorldTransform_.transform_.translate = Matrix4x4::Transform(rightHand_->GetWorldTransformAdress()->GetWorldPosition(),Matrix4x4::Inverse(worldTransform_.worldMatrix_));
+	if (rightHand_) {
+		rightArmJointWorldTransform_.transform_.translate = Matrix4x4::Transform(rightHand_->GetWorldTransformAdress()->GetWorldPosition(), Matrix4x4::Inverse(worldTransform_.worldMatrix_));
+	}
+	if (leftHand_) {
+		leftArmJointWorldTransform_.transform_.translate = Matrix4x4::Transform(leftHand_->GetWorldTransformAdress()->GetWorldPosition(), Matrix4x4::Inverse(worldTransform_.worldMatrix_));
+	}
+	countUp_ = 0;
+}
+
+void Boss::DeathRightHand() {
+	state_ = std::bind(&Boss::Root, this);
+	//rightHand_->ConnectJoint(nullptr);
+	rightHand_ = nullptr;
+	countUp_ = 0;
+}
+
+void Boss::DeathLeftHand() {
+	state_ = std::bind(&Boss::Root, this);
+	//leftHand_->ConnectJoint(nullptr);
+	leftHand_ = nullptr;
 	countUp_ = 0;
 }

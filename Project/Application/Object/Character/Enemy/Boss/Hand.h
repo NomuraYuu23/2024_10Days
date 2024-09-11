@@ -18,7 +18,7 @@ public: // 静的メンバ関数
 	/// 手の生成
 	/// </summary>
 	/// <returns></returns>
-	static LevelData::MeshData HandCreate(size_t direction);
+	static LevelData::MeshData HandCreate(int32_t direction);
 
 
 public: // ベースのメンバ関数
@@ -110,6 +110,11 @@ private: // ステート関数
 	/// </summary>
 	void Damage();
 
+	/// <summary>
+	/// 死亡
+	/// </summary>
+	void Dead();
+
 public:
 	//本体からの命令
 
@@ -135,7 +140,7 @@ private: //	変数
 	size_t rushIdleLength = 60;
 
 	//死亡アニメーションの終了フレーム
-	size_t deathAnimationLength = 15;
+	size_t deathAnimationLength = 120;
 
 	size_t countUp_ = 0;
 
