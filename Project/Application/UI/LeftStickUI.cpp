@@ -9,13 +9,13 @@ void LeftStickUI::Initialize(uint32_t textureHandle, const std::string& groupNam
 	movingRange_ = 5.0f;
 
 	// 入力があるときの色
-	inputColor_ = { 1.0f, 1.0f, 1.0f};
+	inputColor_ = { 0.5f, 0.5f, 0.5f };
 
 	// 入力がないときの色
-	notInputColor_ = { 0.75f, 0.75f, 0.75f };
+	notInputColor_ = { 0.375f, 0.375f, 0.375f };
 
 	// 透明度
-	alpha_ = 0.75f;
+	alpha_ = 1.0f;
 
 	// 色
 	color_ = { notInputColor_.x, notInputColor_.y, notInputColor_.z, alpha_ };
