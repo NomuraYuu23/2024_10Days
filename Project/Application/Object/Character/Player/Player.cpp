@@ -214,10 +214,16 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 	else if (std::holds_alternative<Enemy*>(colliderPartner)) {
-		OnCollisionDamage(std::get<Enemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		// 死亡アニメーションに入ってない
+		if (!std::get<Enemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
+			OnCollisionDamage(std::get<Enemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
 	}
 	else if (std::holds_alternative<FlyEnemy*>(colliderPartner)) {
-		OnCollisionDamage(std::get<FlyEnemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		// 死亡アニメーションに入ってない
+		if (!std::get<FlyEnemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
+			OnCollisionDamage(std::get<FlyEnemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
 	}
 	else if (std::holds_alternative<Bullet*>(colliderPartner)) {
 		OnCollisionDamage(std::get<Bullet*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
