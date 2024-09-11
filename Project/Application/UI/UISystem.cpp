@@ -3,12 +3,15 @@
 #include "LeftStickUI.h"
 #include "LeftStickBG.h"
 #include "ButtonAUI.h"
+#include "HPUI.h"
 
-void UISystem::Initialize(DirectXCommon* dxCommon)
+void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 {
 
+	player_ = player;
+
 	// テクスチャハンドル
-	for (uint32_t i = 0; i < kUIIndexOfCount; ++i) {
+	for (uint32_t i = 0; i < kUITextureHandleIndexOfCount; ++i) {
 		textureHandles_[i] = TextureManager::Load(textureNames_[i], dxCommon);
 	}
 
@@ -34,6 +37,16 @@ void UISystem::Initialize(DirectXCommon* dxCommon)
 	// Aボタン文字
 	UIs_[kUIIndexButtonAStr] = std::make_unique<UI>();
 	UIs_[kUIIndexButtonAStr]->Initialize(textureHandles_[kUITextureHandleIndexButtonAStr], "ButtonAString");
+
+	// HP0
+	UIs_[kUIIndexHP0] = std::make_unique<HPUI>();
+	static_cast<HPUI*>(UIs_[kUIIndexHP0].get())->Initialize(player_, 1, textureHandles_[kUITextureHandleIndexHP], "HP");
+	// HP1
+	UIs_[kUIIndexHP1] = std::make_unique<HPUI>();
+	static_cast<HPUI*>(UIs_[kUIIndexHP1].get())->Initialize(player_, 2, textureHandles_[kUITextureHandleIndexHP], "HP");
+	// HP2
+	UIs_[kUIIndexHP2] = std::make_unique<HPUI>();
+	static_cast<HPUI*>(UIs_[kUIIndexHP2].get())->Initialize(player_, 3, textureHandles_[kUITextureHandleIndexHP], "HP");
 
 }
 

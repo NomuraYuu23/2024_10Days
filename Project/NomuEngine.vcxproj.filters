@@ -415,6 +415,9 @@
     <Filter Include="Application\Object\Character\Player\State\Knockback">
       <UniqueIdentifier>{b86b80f3-83c6-4b9a-b7d3-4054816d764a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\HP">
+      <UniqueIdentifier>{da57df77-bcfd-4afc-8afc-0e450d10a271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -948,6 +951,9 @@
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\State\PlayerStateKnockback.cpp">
       <Filter>Application\Object\Character\Player\State\Knockback</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\HPUI.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1637,6 +1643,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\State\PlayerStateKnockback.h">
       <Filter>Application\Object\Character\Player\State\Knockback</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\HPUI.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -148,7 +148,7 @@ void GameScene::Initialize() {
 
 	// UIシステム
 	UISystem_ = std::make_unique<UISystem>();
-	UISystem_->Initialize(dxCommon_);
+	UISystem_->Initialize(dxCommon_, player_);
 
 	IScene::InitilaizeCheck();
 

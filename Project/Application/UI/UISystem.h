@@ -9,7 +9,7 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexLeftStickStr, // 左スティック文字
 	kUITextureHandleIndexButtonA, // Aボタン
 	kUITextureHandleIndexButtonAStr, // Aボタン文字
-	//kUITextureHandleIndexHP,// HP
+	kUITextureHandleIndexHP,// HP
 
 	kUITextureHandleIndexOfCount
 };
@@ -20,7 +20,9 @@ enum UIIndex {
 	kUIIndexLeftStickStr, // 左スティック文字
 	kUIIndexButtonA, // Aボタン
 	kUIIndexButtonAStr, // Aボタン文字
-	//kUIIndexHP,// HP
+	kUIIndexHP0,// HP0
+	kUIIndexHP1,// HP1
+	kUIIndexHP2,// HP2
 	kUIIndexOfCount
 };
 
@@ -33,7 +35,8 @@ public: // メンバ関数
 	/// 初期化
 	/// </summary>
 	/// <param name="dxCommon"></param>
-	void Initialize(DirectXCommon* dxCommon);
+	/// <param name="player"></param>
+	void Initialize(DirectXCommon* dxCommon, Player* player);
 
 	/// <summary>
 	/// 更新
@@ -65,7 +68,7 @@ private:
 		"Resources/UI/moveUI.png",
 		"Resources/UI/buttonA.png",
 		"Resources/UI/jumpUI.png",
-		//"",
+		"Resources/UI/HP.png",
 	};
 
 };
