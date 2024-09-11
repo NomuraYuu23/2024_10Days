@@ -968,10 +968,13 @@
       <Filter>Application\UI\HP</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\RightStickBG.cpp">
-      <Filter>Application\UI\RightStickBG</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\RightStickUI.cpp">
-      <Filter>Application\UI\RightStick</Filter>
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Head.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1671,11 +1674,14 @@
     <ClInclude Include="Application\UI\HPUI.h">
       <Filter>Application\UI\HP</Filter>
     </ClInclude>
-    <ClInclude Include="Application\UI\RightStickUI.h">
-      <Filter>Application\UI\RightStick</Filter>
-    </ClInclude>
     <ClInclude Include="Application\UI\RightStickBG.h">
-      <Filter>Application\UI\RightStickBG</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\RightStickUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Head.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

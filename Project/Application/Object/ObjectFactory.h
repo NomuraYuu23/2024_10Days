@@ -20,6 +20,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexFlyEnemy,//飛ぶ敵
 		kCreateObjectIndexBoss,//ボス
 		kCreateObjectIndexBossHand,//ボスの手
+		kCreateObjectIndexBossHead,//ボスの頭
 		kCreateObjectIndexOfCount, // 数数える用
 	};
 
@@ -125,6 +126,12 @@ private: // メンバ関数
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectBossHand(LevelData::ObjectData& objectData);
 
+	/// <summary>
+	/// ボスの頭
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectBossHead(LevelData::ObjectData& objectData);
 
 private:
 

@@ -12,6 +12,7 @@
 #include "../../Application/Object/Character/Enemy/FlyEnemy.h"
 #include "../../Application/Object/Character/Enemy/Boss/Boss.h"
 #include "../../Application/Object/Character/Enemy/Boss/Hand.h"
+#include "../../Application/Object/Character/Enemy/Boss/Head.h"
 void CollisionManager::Initialize()
 {
 

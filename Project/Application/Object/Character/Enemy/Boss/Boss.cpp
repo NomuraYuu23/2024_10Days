@@ -92,6 +92,7 @@ void Boss::Initialize(LevelData::MeshData* data)
 
 	leftArmJointWorldTransform_.Initialize();
 	leftArmJointWorldTransform_.SetParent(&worldTransform_);
+
 }
 
 void Boss::Update()
@@ -350,6 +351,21 @@ void Boss::CreateHand() {
 	leftArmJointWorldTransform_.UpdateMatrix();
 	leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
 	
+}
+
+void Boss::CreateHead() {
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Head::HeadCreate();
+	pointer = objectManager_->AddObject(data);
+	static_cast<Head*>(pointer)->SetPlayer(target_);
+	static_cast<Hand*>(pointer)->SetParent(this);
+	head_ = static_cast<Head*>(pointer);
+	headJointWorldTransform_.transform_.translate = HeadInitPos_;
+	headJointWorldTransform_.UpdateMatrix();
+	head_->ConnectJoint(&headJointWorldTransform_);
 }
 
 void Boss::EndAttack() {

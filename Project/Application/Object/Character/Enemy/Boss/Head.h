@@ -5,19 +5,20 @@
 #include "../BaseEnemy.h"
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
-#include "Hand.h"
-#include "Head.h"
-class Boss :
+
+class Boss;
+
+class Head :
 	public MeshObject
 {
 
 public: // 静的メンバ関数
 
 	/// <summary>
-	/// 弾の生成
+	/// 頭の生成
 	/// </summary>
 	/// <returns></returns>
-	static LevelData::MeshData BossCreate();
+	static LevelData::MeshData HeadCreate();
 
 
 public: // ベースのメンバ関数
@@ -48,7 +49,7 @@ public: // ベースのメンバ関数
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
-	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) ;
+	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 	/// <summary>
 	/// パーティクル描画
@@ -63,20 +64,17 @@ private: // パーツ構成関数
 	/// </summary>
 	void ColliderUpdate();
 
+	/// <summary>
+	/// パーツ初期化
+	/// </summary>
+	void PartInitialize();
+
+	/// <summary>
+	/// アニメーション更新
+	/// </summary>
+	void AnimationUpdate();
 
 private: // パーツ,アニメーション変数
-
-	// 現在のモーション番号
-	uint32_t currentMotionNo_;
-
-	// 前のモーション番号
-	uint32_t prevMotionNo_;
-
-	//ノードアニメーション
-	//Animation animation_;
-
-	// ローカル行列
-	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 private: // 衝突処理
 
@@ -97,84 +95,84 @@ private: // ステート関数
 	/// </summary>
 	void Root();
 
-	/// <summary>
-	/// 回転攻撃
-	/// </summary>
-	void RightRoundAttack();
-	void LeftRoundAttack();
+	
 
 	/// <summary>
-	/// 叩きつけ攻撃
+	/// 被弾
 	/// </summary>
-	void RightStampAttack();
-	void LeftStampAttack();
+	void Damage();
+
 	/// <summary>
-	/// 死亡状態
+	/// 死亡
 	/// </summary>
-	//void Dead();
+	void Dead();
 
 public:
-	void CreateHand();
+	//本体からの命令
 
-	void CreateHead();
+	//叩きつけ
+	//void Stamp();
 
-	//攻撃が終了したときに子が実行する
-	void EndAttack();
+	//薙ぎ払い
+	//void Round();
 
-	void DeathRightHand();
-
-	void DeathLeftHand();
+	void ConnectJoint(WorldTransform* pointer);
 
 private: //	変数
+
+	//hp
+	int32_t hp_;
+
+	// 初期HP
+	uint32_t initHp_ = 3;
+
+	Vector3 velocity_;
 
 	//予備動作の終了フレーム
 	size_t rushIdleLength = 60;
 
 	//死亡アニメーションの終了フレーム
-	size_t deathAnimationLength = 15;
+	size_t deathAnimationLength = 120;
 
-	size_t countUp_=0;
+	size_t countUp_ = 0;
+
 
 	//ステート
 	std::function<void(void)> state_;
 
-	WorldTransform rightArmJointWorldTransform_;
-	WorldTransform leftArmJointWorldTransform_;
-
-	WorldTransform headJointWorldTransform_;
-
-	// ブロックマネージャー
-	BlockManager* blockManager_ = nullptr;
-
-	//オブジェクトマネージャー
-	BaseObjectManager* objectManager_ = nullptr;
-
 	Player* target_ = nullptr;
 
-	Hand* rightHand_ = nullptr;
-	Hand* leftHand_ = nullptr;
+	//被弾後の無敵時間か
+	bool isHitCoolTime_ = false;
 
-	Head* head_ = nullptr;
+	bool isCollision_ = false;
 
-	//薙ぎ払いの準備時間
-	static const size_t kRightHandRoundMoveLength_ = 30;
+	//被弾アニメーションの終了フレーム
+	size_t damageAnimationLength = 30;
 
-	//仮行動制御
-	int32_t executeAction_ = 1;
+	//親
+	Boss* parent_ = nullptr;
+
+	//物理的に障害物と当たるか
+	bool isCollisionObstacle_ = false;
+
+	Vector3 acceleration_;
+
+	//攻撃判定があるか
+	bool isAttack_ = false;
+
+	//動いてるブロックでダメージを受けるか
+	bool isDamageMovingBlock_ = false;
 
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
-	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
-
-	BlockManager* GetBlockManager() { return blockManager_; }
-
-	void SetObjectManager(BaseObjectManager* manager) { objectManager_ = manager; }
-
-	//Animation* GetAnimationAdress() { return &animation_; }
-
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetParent(Boss* parent) { parent_ = parent; };
+
+	bool IsAttack() { return isAttack_; };
 
 private: // グローバル変数
 
@@ -188,17 +186,5 @@ private: // グローバル変数
 	/// </summary>
 	//void RegistrationGlobalVariables();
 
-
-private: //各動作の腕の位置
-
-	Vector3 rightHandInitPos_ = { 0.0f,-32.0f,0.0f };
-	Vector3 rightHandRootPos_ = {8.0f,0.0f,2.0f} ;
-	Vector3 rightHandRoundPos_ = {24.0f,4.0f,0.0f} ;
-
-	Vector3 leftHandInitPos_ = { 0.0f,-32.0f,0.0f };
-	Vector3 leftHandRootPos_ = { -8.0f,0.0f,2.0f };
-	Vector3 leftHandRoundPos_ = { -24.0f,4.0f,0.0f };
-
-	Vector3 HeadInitPos_ = { 0.0f,16.0f,0.0f };
 };
 
