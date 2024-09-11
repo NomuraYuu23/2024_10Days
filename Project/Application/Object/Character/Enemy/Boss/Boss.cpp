@@ -93,6 +93,9 @@ void Boss::Initialize(LevelData::MeshData* data)
 	leftArmJointWorldTransform_.Initialize();
 	leftArmJointWorldTransform_.SetParent(&worldTransform_);
 
+	headJointWorldTransform_.Initialize();
+	headJointWorldTransform_.SetParent(&worldTransform_);
+
 }
 
 void Boss::Update()
@@ -195,6 +198,7 @@ void Boss::OnCollisionObstacle(ColliderParentObject colliderPartner, const Colli
 
 	rightArmJointWorldTransform_.UpdateMatrix();
 	leftArmJointWorldTransform_.UpdateMatrix();
+	headJointWorldTransform_.UpdateMatrix();
 
 	// コライダー
 	ColliderUpdate();
