@@ -8,6 +8,16 @@
 
 class Boss;
 
+
+/// <summary>
+/// 頭のモーション一覧
+/// </summary>
+enum HeadMotionIndex {
+	kHeadMotionNormal, // 通常時
+	kHeadMotionRoar, // 噛みつき時
+	kHeadMotionIndexOfCount // 数
+};
+
 class Head :
 	public MeshObject
 {
@@ -75,6 +85,18 @@ private: // パーツ構成関数
 	void AnimationUpdate();
 
 private: // パーツ,アニメーション変数
+
+	// 現在のモーション番号
+	uint32_t currentMotionNo_;
+
+	// 前のモーション番号
+	uint32_t prevMotionNo_;
+
+	//ノードアニメーション
+	Animation animation_;
+
+	// ローカル行列
+	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 private: // 衝突処理
 
