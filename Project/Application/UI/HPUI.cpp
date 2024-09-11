@@ -13,6 +13,8 @@ void HPUI::Initialize(Player* player, uint32_t displayValue, uint32_t textureHan
 
 	displayValue_ = displayValue;
 
+	isDead_ = false;
+
 	UI::Initialize(textureHandle, groupName, jsonName);
 
 }
@@ -22,8 +24,28 @@ void HPUI::Update()
 
 	UI::Update();
 
-	if (displayValue_ > player_->GetHp()) {
-		sprite_->SetIsInvisible(true);
+	if(sprite_->GetIsInvisible()){
+		return;
+	}
+
+	if (displayValue_ > player_->GetHp() && !isDead_) {
+		isDead_ = true;
+		acceleration_ = { 0.0f, 1.0f };
+		velocity_ = { 2.0f, -10.0f };
+	}
+
+	if (isDead_) {
+
+		rotate_ += 0.4f;
+		sprite_->SetRotate(rotate_);
+
+		velocity_ += acceleration_;
+		position_ += velocity_;
+		sprite_->SetPosition(position_);
+		if (position_.y > 800.0f) {
+			sprite_->SetIsInvisible(true);
+		}
+
 	}
 
 }
@@ -48,10 +70,13 @@ void HPUI::ApplyGlobalVariables()
 	space_ = globalVariables->GetFloatValue(jsonName_, groupName_ + "space");
 	size_ = globalVariables->GetVector2Value(jsonName_, groupName_ + "size");
 
-	Vector2 pos = basePosition_;
-	pos.x += space_ * static_cast<float>(displayValue_ - 1);
-	sprite_->SetPosition(pos);
+	if (!isDead_) {
+		position_ = basePosition_;
+		position_.x += space_ * static_cast<float>(displayValue_ - 1);
+		sprite_->SetPosition(position_);
 
-	sprite_->SetSize(size_);
+		sprite_->SetSize(size_);
+
+	}
 
 }

@@ -55,5 +55,17 @@ private:
 	// 間隔
 	static float space_;
 
+	// 消えるフラグ
+	bool isDead_;
+
+	// 速度
+	Vector2 velocity_;
+
+	// 加速度
+	Vector2 acceleration_;
+
+	// 初速度
+	Vector2 initVelocity_;
+
 };
 
