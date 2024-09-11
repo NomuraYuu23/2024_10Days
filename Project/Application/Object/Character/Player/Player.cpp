@@ -367,7 +367,7 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 void Player::OnCollisionDamage(const Vector3& position)
 {
 
-	if (receiveDamage_ = currentStateNo_ == kPlayerStateKnockback) {
+	if (receiveDamage_ || currentStateNo_ == kPlayerStateKnockback) {
 		return;
 	}
 	
