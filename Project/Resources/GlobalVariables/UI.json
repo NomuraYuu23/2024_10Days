@@ -49,15 +49,15 @@
         ],
         "LeftStickalpha": 1.0,
         "LeftStickinputColor": [
-            0.8999999761581421,
-            0.8999999761581421,
-            0.8999999761581421
+            1.0,
+            1.0,
+            1.0
         ],
         "LeftStickmovingRange": 20.0,
         "LeftSticknotInputColor": [
-            0.20000000298023224,
-            0.20000000298023224,
-            0.20000000298023224
+            0.5,
+            0.5,
+            0.5
         ],
         "LeftStickposition": [
             100.0,

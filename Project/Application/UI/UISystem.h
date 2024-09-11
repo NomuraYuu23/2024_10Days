@@ -4,7 +4,7 @@
 #include "UI.h"
 
 enum UITextureHandleIndex {
-	kUITextureHandleIndexLeftStickBG, // 左スティック背景
+	kUITextureHandleIndexStickBG, // 左スティック背景
 	kUITextureHandleIndexLeftStick, // 左スティック
 	kUITextureHandleIndexLeftStickStr, // 左スティック文字
 	kUITextureHandleIndexButtonA, // Aボタン
@@ -63,7 +63,7 @@ private:
 
 	// テクスチャのパス
 	const std::array<std::string, UITextureHandleIndex::kUITextureHandleIndexOfCount> textureNames_ = {
-		"Resources/UI/joystick_L_BG.png",
+		"Resources/UI/joystick_BG.png",
 		"Resources/UI/joystick_L.png",
 		"Resources/UI/moveUI.png",
 		"Resources/UI/buttonA.png",

@@ -23,7 +23,7 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	// 左スティック背景
 	UIs_[kUIIndexLeftStickBG] = std::make_unique<LeftStickBG>();
-	UIs_[kUIIndexLeftStickBG]->Initialize(textureHandles_[kUITextureHandleIndexLeftStickBG], "LeftStick");
+	UIs_[kUIIndexLeftStickBG]->Initialize(textureHandles_[kUITextureHandleIndexStickBG], "LeftStick");
 	static_cast<LeftStickBG*>(UIs_[kUIIndexLeftStickBG].get())->SetParent(static_cast<LeftStickUI*>(UIs_[kUIIndexLeftStick].get()));
 
 	// 左スティック文字
