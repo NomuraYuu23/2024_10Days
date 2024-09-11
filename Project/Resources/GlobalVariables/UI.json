@@ -98,7 +98,7 @@
             1.0,
             1.0
         ],
-        "RightStickmovingRange": 5.0,
+        "RightStickmovingRange": 20.0,
         "RightSticknotInputColor": [
             0.5,
             0.5,
