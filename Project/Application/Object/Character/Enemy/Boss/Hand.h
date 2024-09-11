@@ -179,6 +179,9 @@ private: //	変数
 	//攻撃判定があるか
 	bool isAttack_ = false;
 
+	//動いてるブロックでダメージを受けるか
+	bool isDamageMovingBlock_ = false;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

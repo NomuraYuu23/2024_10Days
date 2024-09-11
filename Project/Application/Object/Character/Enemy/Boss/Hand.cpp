@@ -103,6 +103,7 @@ void Hand::Update()
 	
 	isCollisionObstacle_ = false;
 	isAttack_ = false;
+	isDamageMovingBlock_ = false;
 	state_();
 
 	worldTransform_.UpdateMatrix();
@@ -126,7 +127,7 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_){
-			if (std::get<Block*>(colliderPartner)->GetIsAttack() || std::get<Block*>(colliderPartner)->GetIsMoveNow()) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
 				hp_--;
 				if (hp_>0) {
 					state_ = std::bind(&Hand::Damage, this);
@@ -291,6 +292,7 @@ void Hand::RoundStand() {
 void Hand::RoundAttack() {
 	isCollisionObstacle_ = true;
 	isAttack_ = true;
+	isDamageMovingBlock_ = true;
 	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
 	float t = float(countUp_) / float(kRoundAnimationLength_);
 	worldTransform_.transform_.translate.x = Ease::Easing(Ease::EaseName::EaseInBack,0, -direction_* roundAttackWidth_, t);
