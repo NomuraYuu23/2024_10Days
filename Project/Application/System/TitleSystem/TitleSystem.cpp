@@ -1,5 +1,8 @@
 #include "TitleSystem.h"
 #include "../../../Engine/base/TextureManager.h"
+#include "../../../Engine/Input/Input.h"
+#include "../../../Engine/Math/Ease.h"
+#include "../../../Engine/Math/DeltaTime.h"
 
 void TitleSystem::Initialize(DirectXCommon* dxCommon)
 {
@@ -23,6 +26,21 @@ void TitleSystem::Initialize(DirectXCommon* dxCommon)
 void TitleSystem::Update()
 {
 
+	if (!isRun_) {
+		return;
+	}
+
+#ifdef _DEMO
+
+	// デバッグ
+	if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonSTART)) {
+		endSystem_ = true;
+	}
+
+#endif // _DEMO
+
+	EndSystem();
+
 	LogoUpdate();
 
 }
@@ -35,6 +53,21 @@ void TitleSystem::Draw()
 	}
 
 	titleLogoSprite_->Draw();
+
+}
+
+void TitleSystem::EndSystem()
+{
+
+	if (!endSystem_) {
+		return;
+	}
+
+	currentEndSystemTime_ += kDeltaTime_;
+
+	if (endSystemTime_ <= currentEndSystemTime_) {
+		isRun_ = false;
+	}
 
 }
 
@@ -57,6 +90,12 @@ void TitleSystem::LogoUpdate()
 {
 
 	if (endSystem_) {
+		Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+
+		float t = currentEndSystemTime_ / endSystemTime_;
+		color.w = Ease::Easing(Ease::EaseName::Lerp, 1.0f, 0.0f, t);
+
+		titleLogoSprite_->SetColor(color);
 
 	}
 

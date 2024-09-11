@@ -17,6 +17,11 @@ public:
 
 private:
 
+
+	void EndSystem();
+
+private:
+
 	void LogoInitialize(DirectXCommon* dxCommon);
 
 	void LogoUpdate();
@@ -38,8 +43,6 @@ private:
 	// ロゴ
 	std::unique_ptr<Sprite> titleLogoSprite_;
 	uint32_t titleLogoTextureHandle_;
-
-
 
 };
 
