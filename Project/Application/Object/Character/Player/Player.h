@@ -212,6 +212,8 @@ private: //	変数
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
 
+	//最後に触れたブロック
+	Block* lastToutchBlock_ = nullptr;
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -264,6 +266,8 @@ public: // アクセッサ
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 	GameAudioManager* GetAudioManager() { return audioManager_; }
+
+	Block* GetLastToutchBlock() { return lastToutchBlock_; };
 
 private: // グローバル変数
 

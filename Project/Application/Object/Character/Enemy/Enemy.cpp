@@ -334,7 +334,7 @@ void Enemy::RegistrationGlobalVariables()
 void Enemy::Rush() {
 	RotateToPlayer();
 	Vector3 from = worldTransform_.GetWorldPosition();
-	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	Vector3 to = target_->GetLastToutchBlock()->GetWorldTransformAdress()->GetWorldPosition();
 	from.y = 0;
 	to.y = 0;
 	Vector3 move = Vector3::Normalize(to-from);
@@ -409,10 +409,11 @@ void Enemy::CheckFloorConect() {
 		hight = true;
 	}
 	Vector3 from = worldTransform_.GetWorldPosition();
-	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	Vector3 to = target_->GetLastToutchBlock()->GetWorldTransformAdress()->GetWorldPosition();
+	float lengthY = from.y - to.y;
 	from.y = 0;
 	to.y = 0;
-	if (blockManager_->IsConnectRoad(from, to, hight)) {
+	if (lengthY > 0 && std::fabsf(lengthY) <= 4.0f && blockManager_->IsConnectRoad(from, to, hight)) {
 		//突進に移行
 		state_ = std::bind(&Enemy::Rush, this);
 		currentMotionNo_ = kEnemyMotionMove;
