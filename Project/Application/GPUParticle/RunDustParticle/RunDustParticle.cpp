@@ -11,7 +11,7 @@
 void RunDustParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
 {
 
-	textureFilename_ = "circle.png";
+	textureFilename_ = "cloud.png";
 
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 

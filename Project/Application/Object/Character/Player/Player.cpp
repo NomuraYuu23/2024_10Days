@@ -198,7 +198,30 @@ void Player::Update()
 	SaveVelocityUpdate();
 
 	// 砂ぼこり
-	runDustParticle_->Update();
+	if (currentMotionNo_ == kPlayerMotionRun && velocity_.y == Gravity::Execute().y) {
+		EmitterCS emitter;
+		emitter.count = 2;
+		emitter.frequency = 0.1f;
+		emitter.frequencyTime = 0.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.radius = 1.0f;
+		emitter.emit = 0;
+
+		runDustParticle_->SetEmitter(emitter, false);
+		runDustParticle_->Update();
+	}
+	else {
+		EmitterCS emitter;
+		emitter.count = 2;
+		emitter.frequency = 0.1f;
+		emitter.frequencyTime = 0.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.radius = 1.0f;
+		emitter.emit = 0;
+
+		runDustParticle_->SetEmitter(emitter, true);
+		runDustParticle_->Update();
+	}
 
 }
 
