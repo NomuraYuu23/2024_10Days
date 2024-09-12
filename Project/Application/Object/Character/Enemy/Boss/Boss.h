@@ -196,6 +196,9 @@ private: //	変数
 	//仮行動制御
 	int32_t executeAction_ = 1;
 
+	//頭突きが連続で出る確率、0で交互、1で頭突きしかしなくなる
+	float headButtProbability_ = 0.7f;
+
 	size_t headButtMoveLength_ = 60;
 
 	//ダメージ受けた時に下に沈むまでの時間

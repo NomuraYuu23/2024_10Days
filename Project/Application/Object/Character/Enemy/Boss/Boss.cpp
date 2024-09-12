@@ -10,7 +10,7 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 
 #include "../../../Engine/Math/Ease.h"
-
+#include "../../../Engine/Math/RandomEngine.h"
 LevelData::MeshData Boss::BossCreate()
 {
 
@@ -262,30 +262,39 @@ void Boss::Root() {
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
 	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
 	if (countUp_ == 60) {
-		if (executeAction_ == 1) {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightStampAttack, this);
+		if (rightHand_ || leftHand_) {
+			if (executeAction_ == 1) {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightStampAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftStampAttack, this);
+				}
 			}
-			else if(leftHand_){
-				state_ = std::bind(&Boss::LeftStampAttack, this);
+			else {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightRoundAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftRoundAttack, this);
+				}
 			}
-			else{
-				state_ = std::bind(&Boss::HeadButtAttack, this);
-			}
+			executeAction_ *= -1;
 		}
 		else {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightRoundAttack, this);
-			}
-			else if (leftHand_) {
-				state_ = std::bind(&Boss::LeftRoundAttack, this);
+			float random = RandomEngine::GetRandom(0.0f, 1.0f);
+			if (random < headButtProbability_ || executeAction_ == 1) {
+				state_ = std::bind(&Boss::HeadButtAttack, this);
+				executeAction_ = -1;
 			}
 			else {
 				state_ = std::bind(&Boss::Summon, this);
+				executeAction_ = 1;
 			}
 		}
 		//state_ = std::bind(&Boss::HeadButtAttack, this);
-		executeAction_ *= -1;
 		countUp_ = 0;
 		return;
 	}
@@ -305,7 +314,12 @@ void Boss::RightStampAttack() {
 		}
 		countUp_=1;
 	}
-	
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftStampAttack() {
@@ -316,7 +330,12 @@ void Boss::LeftStampAttack() {
 		}
 		countUp_ = 1;
 	}
-
+	else if(rightHand_){
+		state_ = std::bind(&Boss::RightStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::HeadButtAttack() {
@@ -350,6 +369,12 @@ void Boss::RightRoundAttack() {
 		}
 		countUp_++;
 	}
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftRoundAttack() {
@@ -366,6 +391,12 @@ void Boss::LeftRoundAttack() {
 			leftHand_->Round();
 		}
 		countUp_++;
+	}
+	else if (rightHand_) {
+		state_ = std::bind(&Boss::RightRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
 	}
 }
 
@@ -420,23 +451,36 @@ void Boss::Summon() {
 void Boss::SummonPhaseOne() {
 	EnemyData data;
 
-	//wave1
-
 	data.className = "Enemy";
 	data.spownFrame = 180;
-	data.position = { -8.0f,8.0f,0.0f };
+	data.position = { -8.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	enemyManager_->AddEnemy(data);
 
 	data.className = "Enemy";
 	data.spownFrame = 180;
-	data.position = { 8.0f,8.0f,0.0f };
+	data.position = { 8.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	enemyManager_->AddEnemy(data);
 }
 
 void Boss::SummonPhaseTwo() {
+	EnemyData data;
+	float direction = RandomEngine::GetRandom(0.0f,1.0f);
+	if (direction < 0.5f) {
+		direction = 1.0f;
+	}
+	else {
+		direction = -1.0f;
+	}
 
+	for (int i = 0;i< Block::kNumOnece_; i++) {
+		data.className = "FlyEnemy";
+		data.spownFrame = 0;
+		data.position = { 48.0f * direction + direction * float(2 * Block::kSize_ * i),worldTransform_.GetWorldPosition().y,-float(Block::kNumOnece_)*Block::kSize_ + float(2 * Block::kSize_*i)};
+		data.velocity = { -direction,0,0 };
+		enemyManager_->AddEnemy(data);
+	}
 }
 
 void Boss::SummonPhaseThree() {
@@ -445,7 +489,7 @@ void Boss::SummonPhaseThree() {
 
 void Boss::Spawn() {
 	if (countUp_ == 0) {
-		//CreateHand();
+		CreateHand();
 		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
