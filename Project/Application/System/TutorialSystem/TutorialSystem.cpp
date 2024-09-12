@@ -216,6 +216,8 @@ void TutorialSystem::JumpCheck()
 			elapsedTime_ = 0.0f;
 			isEndFlow_ = false;
 			tutorialFlowNumber_ = kTutorialFlowUpperRowOccurrence;
+			blockManager_->GetBlocks()->at(43)->Up();
+			blockManager_->GetBlocks()->at(43)->SetIsRockMove(true);
 		}
 	}
 	else{
@@ -236,6 +238,27 @@ void TutorialSystem::JumpCheck()
 
 void TutorialSystem::KnockFromBelowCheck()
 {
+
+	// タイム
+	if (isEndFlow_) {
+		elapsedTime_ -= kDeltaTime_;
+		if (elapsedTime_ <= 0.0f) {
+			elapsedTime_ = 0.0f;
+			isEndFlow_ = false;
+			tutorialFlowNumber_ = kTutorialFlowLowerRowOccurrence;
+		}
+	}
+	else {
+		elapsedTime_ += kDeltaTime_;
+		if (elapsedTime_ >= timeMax_) {
+			elapsedTime_ = timeMax_;
+		}
+	}
+
+	// 位置変更
+	Vector2 position = { Ease::Easing(Ease::EaseName::EaseInOutCubic, notDrawPosX_, drawPosX_, elapsedTime_ / timeMax_), posY_ };
+	attack1Sprite_->SetPosition(position);
+
 }
 
 void TutorialSystem::FallingAttackCheck()
@@ -245,8 +268,13 @@ void TutorialSystem::FallingAttackCheck()
 void TutorialSystem::UpperRowOccurrence()
 {
 
-	blockManager_->GetBlocks()->at(5)->Down();
-	blockManager_->GetBlocks()->at(5)->SetIsRockMove(true);
+	// タイム
+	elapsedTime_ += kDeltaTime_;
+	if (elapsedTime_ >= timeMax_) {
+		elapsedTime_ = 0.0f;
+		tutorialFlowNumber_ = kTutorialFlowKnockFromBelowCheck;
+		isEndFlow_ = false;
+	}
 
 }
 
