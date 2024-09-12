@@ -119,6 +119,10 @@ void Egg::OnCollision(ColliderParentObject colliderPartner, const CollisionData&
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
+		if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+			isDead_ = true;
+			enemyManager_->RemoveEgg(this);
+		}
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
