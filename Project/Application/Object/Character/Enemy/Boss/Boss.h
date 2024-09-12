@@ -108,6 +108,10 @@ private: // ステート関数
 	/// </summary>
 	void RightStampAttack();
 	void LeftStampAttack();
+
+	//頭突き攻撃
+	void HeadButtAttack();
+
 	/// <summary>
 	/// 死亡状態
 	/// </summary>
@@ -121,9 +125,16 @@ public:
 	//攻撃が終了したときに子が実行する
 	void EndAttack();
 
+	void EndHeadAttack();
+
 	void DeathRightHand();
 
 	void DeathLeftHand();
+
+	void RotateToPlayer();
+
+	//プレイヤーの高さに移動する
+	void ChacePlayerY();
 
 private: //	変数
 
@@ -162,6 +173,8 @@ private: //	変数
 	//仮行動制御
 	int32_t executeAction_ = 1;
 
+	size_t headButtMoveLength_ = 60;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -199,6 +212,8 @@ private: //各動作の腕の位置
 	Vector3 leftHandRootPos_ = { -8.0f,0.0f,2.0f };
 	Vector3 leftHandRoundPos_ = { -24.0f,4.0f,0.0f };
 
-	Vector3 HeadInitPos_ = { 0.0f,16.0f,0.0f };
+	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
+
+	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
 };
 
