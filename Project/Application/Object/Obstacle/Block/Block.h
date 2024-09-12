@@ -82,6 +82,12 @@ public: // ベースのメンバ関数
 	/// </summary>
 	void ColliderUpdate();
 
+	//ブロックを押し上げる
+	void Up();
+
+	//ブロックを下げる
+	void Down();
+
 public: //衝撃波用インナークラス
 
 	std::unique_ptr<ShockWave> shockWave_;
@@ -132,12 +138,6 @@ private: // ステート処理
 	/// 衝撃波(外側)
 	/// </summary>
 	void ShockWaveAfter();
-
-	//ブロックを押し上げる
-	void Up();
-
-	//ブロックを下げる
-	void Down();
 
 public: //アクセッサ
 	bool GetHight() { return hight_; };
