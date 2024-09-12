@@ -389,7 +389,7 @@ void GameScene::CreateBlocks() {
 			LevelData::MeshData &block = std::get<LevelData::MeshData>(data);
 			block.transform.translate.x = (float(x) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.z = (float(z) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
-			block.transform.translate.y = -2.0f;
+			block.transform.translate.y = Block::kLowHight;
 			pointer = objectManager_->AddObject(data);
 			
 			// ブロックマネージャーに登録

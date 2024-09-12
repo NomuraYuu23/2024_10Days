@@ -194,6 +194,9 @@ private: //	変数
 	//出現の長さ
 	size_t spawnAnimationLength_ = 120;
 
+	float moveTargetY_;
+	float moveFromY_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

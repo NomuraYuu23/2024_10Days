@@ -238,7 +238,13 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
-	ChacePlayerY();
+	if (countUp_ == 0) {
+		ChacePlayerY();
+	}
+	if (countUp_ <= 60) {
+		float t = float(countUp_) / float(60);
+		worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, moveFromY_, moveTargetY_, t);
+	}
 	RotateToPlayer();
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
 	//worldTransform_.usedDirection_ = false;
@@ -315,7 +321,7 @@ void Boss::HeadButtAttack() {
 			float t = float(countUp_) / float(headButtMoveLength_);
 			headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, HeadInitPos_, HeadAttackPos_, t);
 			RotateToPlayer();
-			ChacePlayerY();
+			//ChacePlayerY();
 		}
 		if (countUp_ == headButtMoveLength_) {
 			head_->AttackCall();
@@ -500,5 +506,12 @@ void Boss::RotateToPlayer() {
 }
 
 void Boss::ChacePlayerY() {
-	worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target_->GetWorldTransformAdress()->GetWorldPosition().y,0.05f);
+	float playerY = target_->GetWorldTransformAdress()->GetWorldPosition().y;
+	float target = Block::kLowHight + 2.0f;
+	if (playerY > Block::kFloatHight) {
+		target += Block::kFloatHight;
+	}
+	moveTargetY_ = target;
+	moveFromY_ = worldTransform_.transform_.translate.y;
+	//worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target,0.05f);
 }

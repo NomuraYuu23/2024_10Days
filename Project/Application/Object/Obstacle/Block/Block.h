@@ -26,6 +26,9 @@ public: // パラメータ
 	//浮き沈みの高さ
 	static const float kFloatHight;
 
+	//下段の高さ
+	static const float kLowHight;
+
 public: // static関数
 
 	/// <summary>
