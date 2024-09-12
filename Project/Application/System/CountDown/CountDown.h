@@ -89,6 +89,8 @@ private:
 public:
 
 	void SetIsRun(bool isRun) { isRun_ = isRun; }
+
+	bool GetIsRun() { return isRun_; }
 	
 	bool GetIsGameStart(bool isGameStart) { isGameStart_ = isGameStart; }
 
