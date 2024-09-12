@@ -232,6 +232,10 @@ public: // アクセッサ
 
 	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
 
+	MeshObject* GetRightHand() { return rightHand_; };
+	MeshObject* GetLeftHand() { return leftHand_; };
+	MeshObject* GetHead() { return head_; };
+
 private: // グローバル変数
 
 	/// <summary>

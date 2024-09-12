@@ -108,6 +108,11 @@ private:
 	/// </summary>
 	void CreateBoss();
 
+	/// <summary>
+	/// ボスの影追加
+	/// </summary>
+	void AddBossShadows();
+
 private:
 
 	// オーディオマネージャー
@@ -135,6 +140,9 @@ private:
 
 	// プレイヤー
 	Player* player_;
+
+	//ボス
+	Boss* boss_;
 
 	// 平行光源システム
 	std::unique_ptr<DirectionalLightSystem> directionalLightSystem_;
