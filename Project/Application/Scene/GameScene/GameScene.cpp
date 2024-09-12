@@ -553,7 +553,6 @@ void GameScene::AddBossShadows() {
 		}
 	}
 }
-}
 
 void GameScene::PreGameUpdate()
 {
