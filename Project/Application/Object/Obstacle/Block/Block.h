@@ -133,6 +133,12 @@ private: // ステート処理
 	/// </summary>
 	void ShockWaveAfter();
 
+	//ブロックを押し上げる
+	void Up();
+
+	//ブロックを下げる
+	void Down();
+
 public: //アクセッサ
 	bool GetHight() { return hight_; };
 
@@ -144,6 +150,10 @@ public: //アクセッサ
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 	bool GetIsMoveNow() { return isMoveNow_; };
+
+	void SetIsRockMove(bool is) { isRockMove_ = is; };
+
+	bool GetIsRockMove() { return isRockMove_; };
 
 private: // パーツ,アニメーション変数
 
@@ -170,6 +180,9 @@ private: // パーツ,アニメーション変数
 	bool isAttack_ = false;
 	bool isShockWave_ = false;
 	bool isMoveNow_ = false;
+
+	//チュートリアル用
+	bool isRockMove_ = false;//移動を禁止するか
 
 
 	//プレイヤーが触れているか
