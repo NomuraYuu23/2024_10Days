@@ -149,7 +149,8 @@ void PlayerStateJump::Update()
 			// 範囲内確認 高さ確認 上昇確認
 			if ((distance >= Vector2::Length(distanceToBlock)) && (blockPos.y < playerPos.y) && !(block->GetIsMoveNow() && !block->GetHight()) ) {
 				// ドロップになる
-				if (blockPos.y == -2.0f && positionedHigh) {
+				if (((block->GetIsMoveNow() && block->GetHight()) || blockPos.y == -2.0f) 
+					&& positionedHigh) {
 					dropFlg = true;
 				}
 				else {
