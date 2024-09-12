@@ -190,6 +190,16 @@ void TutorialSystem::SpriteInitialize()
 
 }
 
+void TutorialSystem::ForcedTermination()
+{
+
+	isEnd_ = true;
+	isRun_ = false;
+
+	blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(false);
+
+}
+
 void TutorialSystem::SpriteDraw()
 {
 

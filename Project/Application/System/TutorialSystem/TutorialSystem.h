@@ -147,6 +147,11 @@ public: // アクセッサ
 	/// <returns></returns>
 	bool GetIsRun() { return isRun_; }
 
+	/// <summary>
+	/// 強制終了
+	/// </summary>
+	void ForcedTermination();
+
 private: // 変数
 
 	// オブジェクトマネージャー
