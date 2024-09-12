@@ -29,8 +29,8 @@ void TutorialSystem::Initialize(BaseObjectManager* objectManager, Player* player
 	tutorialFlowUpdates_[kTutorialFlowFallingAttackCheck] = std::bind(&TutorialSystem::FallingAttackCheck, this);
 	tutorialFlowUpdates_[kTutorialFlowEndSystem] = std::bind(&TutorialSystem::EndSystem, this);
 
-	startCheckStruct_.center_ = { 12.0f,6.0f,-12.0f };
-	startCheckStruct_.radius_ = 6.0f;
+	startCheckStruct_.center_ = { 15.0f,3.0f,-15.0f };
+	startCheckStruct_.radius_ = 3.0f;
 
 	jumpCheckStruct_.isJumpClear_ = false;
 	jumpCheckStruct_.isSmallJumpClear_ = false;
@@ -77,10 +77,7 @@ void TutorialSystem::StartCheck()
 	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
 	if (length <= startCheckStruct_.radius_) {
 		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
-		blockManager_->GetBlocks()->at(4)->SetIsRockMove(false);
 		blockManager_->GetBlocks()->at(5)->SetIsRockMove(false);
-		blockManager_->GetBlocks()->at(10)->SetIsRockMove(false);
-		blockManager_->GetBlocks()->at(11)->SetIsRockMove(false);
 	}
 
 	BaseCamera camera = *gameCamera_;
@@ -125,15 +122,8 @@ void TutorialSystem::StartPosObjectInitialize()
 	Vector4 color = { 0.8f, 0.0f, 0.0f, 0.5f };
 	startPosObject_->SetMaterialColor(color);
 
-	blockManager_->GetBlocks()->at(4)->Down();
-	blockManager_->GetBlocks()->at(4)->SetIsRockMove(true);
 	blockManager_->GetBlocks()->at(5)->Down();
 	blockManager_->GetBlocks()->at(5)->SetIsRockMove(true);
-
-	blockManager_->GetBlocks()->at(10)->Down();
-	blockManager_->GetBlocks()->at(10)->SetIsRockMove(true);
-	blockManager_->GetBlocks()->at(11)->Down();
-	blockManager_->GetBlocks()->at(11)->SetIsRockMove(true);
 
 }
 
@@ -149,7 +139,7 @@ void TutorialSystem::TutorialArrowObjectInitialize()
 	data.transform = {
 		startCheckStruct_.radius_,startCheckStruct_.radius_,startCheckStruct_.radius_,
 		0.0f,0.0f,0.0f,
-		startCheckStruct_.center_
+		startCheckStruct_.center_.x, startCheckStruct_.center_.y + startCheckStruct_.radius_ * 2, startCheckStruct_.center_.z
 	};
 
 	// ファイルの名前
