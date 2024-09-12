@@ -124,7 +124,7 @@ private: // ステート関数
 	/// <summary>
 	/// 死亡状態
 	/// </summary>
-	//void Dead();
+	void Dead();
 
 public:
 	void CreateHand();
@@ -141,6 +141,8 @@ public:
 	void DeathLeftHand();
 
 	void DamageHead();
+
+	void DeathHead();
 
 	void RotateToPlayer();
 
@@ -233,7 +235,7 @@ private: //各動作の腕の位置
 
 	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
 
-	Vector3 oridinSpownPos_ = {0.0f,-32.0f,0.0f};
+	Vector3 oridinSpownPos_ = {0.0f,-64.0f,0.0f};
 	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
 };
 

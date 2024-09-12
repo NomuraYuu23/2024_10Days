@@ -78,7 +78,7 @@ void Head::Initialize(LevelData::MeshData* data)
 
 
 	// hp
-	initHp_ = 3;
+	initHp_ = 1;
 
 	isDead_ = false;
 
@@ -152,14 +152,9 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		if (isCollisionObstacle_) {
 			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
 				hp_--;
-				if (hp_ > 0) {
-					state_ = std::bind(&Head::Damage, this);
-					velocity_ = { 0.0f,3.0f,0.0f };
-				}
-				else {
-					state_ = std::bind(&Head::Dead, this);
-					//parent_->DeathHead();
-				}
+				state_ = std::bind(&Head::Damage, this);
+				velocity_ = { 0.0f,3.0f,0.0f };
+				
 				//isHitCoolTime_ = true;
 				countUp_ = 0;
 			}
@@ -275,28 +270,41 @@ void Head::Damage() {
 	}
 	if (countUp_ > damageAnimationLength) {
 		material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
-		state_ = std::bind(&Head::Root, this);
-		parent_->DamageHead();
+		if (hp_ > 0) {
+			state_ = std::bind(&Head::Root, this);
+			parent_->DamageHead();
+		}
+		else {//死亡に派生
+			//親子関係切って向きをdirectionに置き換えて保存する
+			DisConnect();
+			parent_->DeathHead();
+			velocity_ = Vector3::Normalize( worldTransform_.direction_);
+			velocity_ *= 4.0f;
+			velocity_.y = 2.0f;
+			state_ = std::bind(&Head::Dead, this);
+		}
 	}
 	countUp_++;
 }
 
 void Head::Dead() {
 
-	//float t = float(countUp_) / float(damageAnimationLength);
-	material_->SetColor({ 1.0f,0.2f,0.2f,1.0f });
-	//velocity_ += acceleration_;
-	worldTransform_.transform_.translate += velocity_;
-	worldTransform_.transform_.rotate.x += 0.5f;
-	worldTransform_.transform_.rotate.y += 0.5f;
-	worldTransform_.transform_.rotate.z += 0.5f;
-	velocity_ *= 0.9f;
-	if (countUp_ > deathAnimationLength) {
-		isDead_ = true;
-	}
-	countUp_++;
-}
+	// 重力
+	velocity_ += Gravity::Execute();
+	// 速度制限
+	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
 
+	velocity_.x *= 0.9f;
+	velocity_.z *= 0.9f;
+
+	if (isCollision_) {
+		velocity_.x = 0;
+		velocity_.z = 0;
+	}
+
+	// 位置更新
+	worldTransform_.transform_.translate += velocity_;
+}
 
 void Head::ConnectJoint(WorldTransform* pointer) {
 	if (pointer != worldTransform_.parent_) {
@@ -307,6 +315,16 @@ void Head::ConnectJoint(WorldTransform* pointer) {
 	//else {
 
 	//}
+}
+
+void Head::DisConnect() {
+	if (worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},Matrix4x4::Inverse(worldTransform_.parentMatrix_));
+		worldTransform_.usedDirection_ = true;
+		worldTransform_.SetParent(nullptr);
+		worldTransform_.UpdateMatrix();
+	}
 }
 
 void Head::AnimationUpdate()

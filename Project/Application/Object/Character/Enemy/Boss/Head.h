@@ -132,6 +132,8 @@ private: // ステート関数
 	/// </summary>
 	void Dead();
 
+	void DisConnect();
+
 public:
 	//本体からの命令
 
