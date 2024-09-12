@@ -125,6 +125,12 @@ void Player::Initialize(LevelData::MeshData* data)
 	// 無敵経過時間
 	invincibilityElapsedTime_ = invincibilityTime_;
 
+	// 落下位置
+	fallingPositionY_ = -10.0f;
+
+	// リスポーン位置
+	respawnPosition_ = {0.0f,35.0f,0.0f};
+
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
@@ -164,7 +170,7 @@ void Player::Update()
 	ApplyGlobalVariables();
 
 	if (Input::GetInstance()->TriggerKey(DIK_P)) {
-		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+		worldTransform_.transform_.translate = respawnPosition_;
 	}
 
 #endif // _DEMO
@@ -232,6 +238,9 @@ void Player::Update()
 		runDustParticle_->SetEmitter(emitter, true);
 		runDustParticle_->Update();
 	}
+
+	// 落下とリスポーン
+	FallAndRespawn();
 
 	// 無敵処理
 	InvincibleUpdate();
@@ -441,16 +450,7 @@ void Player::OnCollisionDamage(const Vector3& position)
 	changeStatedirectly = true;
 
 	// HP処理
-	hp_--;
-	if (hp_ <= 0) {
-		hp_ = 0;
-		// 死んだ判定
-
-	}
-
-	// 無敵
-	isInvincible_ = true;
-	invincibilityElapsedTime_ = 0.0f;
+	Damage();
 
 	camera_->ShakeStart(1.0f, 0.5f);
 
@@ -482,8 +482,38 @@ void Player::InvincibleUpdate()
 
 	// マテリアル変更
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-	color.z = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, invincibilityElapsedTime_ / invincibilityTime_);
+	color.z = Ease::Easing(Ease::EaseName::EaseInQuad, 0.0f, 1.0f, invincibilityElapsedTime_ / invincibilityTime_);
 	material_->SetColor(color);
+
+
+}
+
+void Player::Damage()
+{
+
+	hp_--;
+	if (hp_ <= 0) {
+		hp_ = 0;
+		// 死んだ判定
+
+	}
+
+	// 無敵
+	isInvincible_ = true;
+	invincibilityElapsedTime_ = 0.0f;
+
+}
+
+void Player::FallAndRespawn()
+{
+
+	// 落下確認
+	if (worldTransform_.GetWorldPosition().y <= fallingPositionY_) {
+		// ダメージ
+		Damage();
+		// リスポーン
+		worldTransform_.transform_.translate = respawnPosition_;
+	}
 
 
 }

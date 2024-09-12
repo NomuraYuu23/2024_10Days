@@ -165,6 +165,16 @@ private: // 関数
 	/// </summary>
 	void InvincibleUpdate();
 
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
+	/// <summary>
+	/// 落下確認、リスポーン
+	/// </summary>
+	void FallAndRespawn();
+
 private: //	変数
 
 	//hp
@@ -232,6 +242,12 @@ private: //	変数
 
 	// 無敵時間
 	float invincibilityTime_;
+
+	// 落下位置
+	float fallingPositionY_;
+
+	// リスポーン位置
+	Vector3 respawnPosition_;
 
 public: // アクセッサ
 
