@@ -26,7 +26,7 @@ LevelData::MeshData Boss::BossCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "Hand.obj";
+	data.flieName = "BossBody.obj";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Boss/";
 	// クラスの名前

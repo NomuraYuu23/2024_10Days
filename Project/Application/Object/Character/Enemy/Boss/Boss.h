@@ -203,6 +203,6 @@ private: //各動作の腕の位置
 	Vector3 leftHandRootPos_ = { -8.0f,0.0f,2.0f };
 	Vector3 leftHandRoundPos_ = { -24.0f,4.0f,0.0f };
 
-	Vector3 HeadInitPos_ = { 0.0f,16.0f,0.0f };
+	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
 };
 
