@@ -32,7 +32,7 @@ LevelData::MeshData Bullet::BulletCreate()
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,2.5f,1.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,1.0f,1.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -122,7 +122,6 @@ void Bullet::ColliderUpdate()
 	float coliderAddY = 1.0f;
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	obb.center_.y += obb.size_.y / 2.0f + coliderAddY;
 	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 
 	ColliderShape* colliderShape = new ColliderShape();
