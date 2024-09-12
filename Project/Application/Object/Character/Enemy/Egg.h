@@ -57,6 +57,8 @@ public: // ベースのメンバ関数
 	/// <param name="camera">カメラ</param>
 	void ParticleDraw(BaseCamera& camera) override;
 
+	void Delete();
+
 private: // ベースのメンバ変数
 
 
