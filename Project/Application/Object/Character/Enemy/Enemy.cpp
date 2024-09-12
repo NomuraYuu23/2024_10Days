@@ -312,6 +312,7 @@ void Enemy::ApplyGlobalVariables()
 	runningSpeed_ = globalVariables->GetFloatValue(groupName, "runningSpeed");
 	oridinalScale_ = globalVariables->GetVector3Value(groupName, "scale");
 	shotFrame_ = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotFrame"));
+	shotEnd = static_cast<uint32_t>(globalVariables->GetIntValue(groupName, "shotEnd"));
 	threewayRotate_ = globalVariables->GetFloatValue(groupName, "threewayRotate");
 
 }
@@ -327,9 +328,14 @@ void Enemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "runningSpeed", runningSpeed_);
 	globalVariables->AddItem(groupName, "scale", worldTransform_.transform_.scale);
 	globalVariables->AddItem(groupName, "shotFrame", static_cast<int32_t>(shotFrame_));
+	globalVariables->AddItem(groupName, "shotEnd", static_cast<int32_t>(shotEnd));
 	globalVariables->AddItem(groupName, "threewayRotate", threewayRotate_);
 }
 
+void Enemy::Idle() {
+	RotateToPlayer();
+	currentMotionNo_ = kEnemyMotionIdle;
+}
 
 void Enemy::Rush() {
 	RotateToPlayer();
@@ -413,7 +419,13 @@ void Enemy::CheckFloorConect() {
 	float lengthY = from.y - to.y;
 	from.y = 0;
 	to.y = 0;
-	if (lengthY > 0 && std::fabsf(lengthY) <= 4.0f && blockManager_->IsConnectRoad(from, to, hight)) {
+	if (!(lengthY > 0 && std::fabsf(lengthY) <= 4.0f)) {
+		state_ = std::bind(&Enemy::Idle, this);
+		currentMotionNo_ = kEnemyMotionIdle;
+		return;
+	}
+
+	if (blockManager_->IsConnectRoad(from, to, hight)) {
 		//突進に移行
 		state_ = std::bind(&Enemy::Rush, this);
 		currentMotionNo_ = kEnemyMotionMove;

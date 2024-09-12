@@ -107,6 +107,11 @@ private: //	変数
 	//カウント用
 	size_t countUp_ = 0;
 
+	size_t enemyCreateTime_ = 180;
+
+	//敵を産むか
+	bool isCreateEnemy_ = true;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -126,6 +131,10 @@ public: // アクセッサ
 	void SetPlayer(Player* player) { target_ = player; };
 
 	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
+
+	void SetIsCreateEnemy(bool is) { isCreateEnemy_ = is; };
+
+	void SetEnemyCreateTime(size_t time) { enemyCreateTime_ = time; };
 
 private: // グローバル変数
 

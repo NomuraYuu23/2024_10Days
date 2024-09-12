@@ -1,13 +1,14 @@
 {
     "Enemy": {
         "initHp": 3,
-        "runningSpeed": 0.1599999964237213,
+        "runningSpeed": 0.15000000596046448,
         "scale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
         ],
-        "shotFrame": 62,
-        "threewayRotate": 0.5
+        "shotEnd": 120,
+        "shotFrame": 60,
+        "threewayRotate": 0.25
     }
 }

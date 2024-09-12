@@ -22,24 +22,38 @@ void DirectionalLightSystem::initialize(DirectionalLight* directionalLight)
 	directionalLight_ = directionalLight;
 
 	// 平行光源データ
-	directionalLightData_.color = { 1.0f,1.0f,1.0f,1.0f };
+	directionalLightData_.color = { daytimeColor_.x,daytimeColor_.y,daytimeColor_.z,1.0f };
 	directionalLightData_.direction = { 0.0f, -1.0f, 0.0f };
 	directionalLightData_.intencity = 1.0f;
 
+	// システム開始フラグ
+	isStart_ = false;
+
+	// カウントダウン中
+	countDownNow_ = false;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
+
+	// カウントダウンスピード
+	countDownSpeed_ = dailyCycleTime_ / 60.0f;
 
 }
 
 void DirectionalLightSystem::Update()
 {
 
-#ifdef _DEMO
-	ApplyGlobalVariables();
-#endif // _DEMO
+	if (!isStart_) {
+		return;
+	}
 
 	// タイマーを進める
-	timer_ = fmodf(timer_ + kDeltaTime_, dailyCycleTime_);
+	if (countDownNow_) {
+		timer_ = fmodf(timer_ + countDownSpeed_, dailyCycleTime_);
+	}
+	else {
+		timer_ = fmodf(timer_ + kDeltaTime_, dailyCycleTime_);
+	}
 
 	// 色の変更
 	Vector3 color{};
@@ -70,20 +84,8 @@ void DirectionalLightSystem::Update()
 		color = Ease::Easing(Ease::EaseName::EaseOutQuart, nightColor_, daytimeColor_, t);
 	}
 
-	// 方向の変更
+	// 方向
 	Vector3 direction = { 0.0f, -1.0f, 0.0f};
-	//if (t <= 0.5f) {
-	//	t *= 2.0f;
-	//	direction.y = Ease::Easing(Ease::EaseName::Lerp, 0.5f, -1.0f, t);
-	//	direction.x = Ease::Easing(Ease::EaseName::Lerp, 1.0f, 0.0f, t);
-	//}
-	//else {
-	//	t -= 0.5f;
-	//	t *= 2.0f;
-	//	direction.y = Ease::Easing(Ease::EaseName::Lerp, -1.0f, 0.5f, t);
-	//	direction.x = Ease::Easing(Ease::EaseName::Lerp, 0.0f, -1.0f, t);
-	//}
-	//direction = Vector3::Normalize(direction);
 
 	// 強さの変更
 

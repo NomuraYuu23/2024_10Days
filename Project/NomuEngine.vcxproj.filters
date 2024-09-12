@@ -430,6 +430,24 @@
     <Filter Include="shaders\GPUParticle\RunDustParticle">
       <UniqueIdentifier>{b3edccc4-95c8-4fc1-bc60-9d0e232cd4c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\DOROKERA">
+      <UniqueIdentifier>{301a1e36-9bb6-40d3-b241-f440a7f5cb5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\PostEffect">
+      <UniqueIdentifier>{3a2e5a87-074c-49c8-8f21-11108e08ab11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\TitleSystem">
+      <UniqueIdentifier>{aa38794a-eeb5-46d5-86b3-84b632078c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\TutorialSystem">
+      <UniqueIdentifier>{b4745681-a991-454e-9353-235364de4ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\CountDown">
+      <UniqueIdentifier>{c5724752-a9a4-44e1-8ab4-041697fb57c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\System\TutorialSkipSystem">
+      <UniqueIdentifier>{3f20140d-dff3-4f97-a80b-bbed21f0ebbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -973,13 +991,34 @@
     <ClCompile Include="Application\UI\HPUI.cpp">
       <Filter>Application\UI\HP</Filter>
     </ClCompile>
-    <ClCompile Include="Application\UI\RightStickBG.cpp">
-      <Filter>Application\UI\RightStickBG</Filter>
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\Head.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TitleSystem\TitleSystem.cpp">
+      <Filter>Application\System\TitleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\PostEffect\PostEffectSystem.cpp">
+      <Filter>Application\System\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\RunDustParticle\RunDustParticle.cpp">
+      <Filter>Application\GPUParticle\RunDustParticle</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\RightStickUI.cpp">
       <Filter>Application\UI\RightStick</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GPUParticle\RunDustParticle\RunDustParticle.cpp">
+    <ClCompile Include="Application\UI\RightStickBG.cpp">
+      <Filter>Application\UI\RightStickBG</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSystem\TutorialSystem.cpp">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSystem\TutorialArrowObject.cpp">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\CountDown\CountDown.cpp">
+      <Filter>Application\System\CountDown</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1680,13 +1719,34 @@
     <ClInclude Include="Application\UI\HPUI.h">
       <Filter>Application\UI\HP</Filter>
     </ClInclude>
-    <ClInclude Include="Application\UI\RightStickUI.h">
-      <Filter>Application\UI\RightStick</Filter>
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\Head.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TitleSystem\TitleSystem.h">
+      <Filter>Application\System\TitleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\PostEffect\PostEffectSystem.h">
+      <Filter>Application\System\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\RunDustParticle\RunDustParticle.h">
+      <Filter>Application\GPUParticle\RunDustParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\RightStickBG.h">
       <Filter>Application\UI\RightStickBG</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GPUParticle\RunDustParticle\RunDustParticle.h">
+    <ClInclude Include="Application\UI\RightStickUI.h">
+      <Filter>Application\UI\RightStick</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSystem\TutorialSystem.h">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSystem\TutorialArrowObject.h">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\CountDown\CountDown.h">
+      <Filter>Application\System\CountDown</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1941,6 +2001,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\RunDustParticle\RunDustUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\RunDustParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\DOROKERA.CS.hlsl">
+      <Filter>shaders\PostEffect\DOROKERA</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

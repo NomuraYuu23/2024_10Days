@@ -31,7 +31,7 @@ void PlayerStateFloating::Update()
 
 		float tmpY = worldTransform->transform_.translate.y;
 
-		worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.2f);
+		worldTransform->transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform->GetWorldPosition(), player_->GetFallingPosition(), 0.02f);
 
 		worldTransform->transform_.translate.y = tmpY;
 

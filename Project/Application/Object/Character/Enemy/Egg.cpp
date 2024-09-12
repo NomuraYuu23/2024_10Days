@@ -87,6 +87,16 @@ void Egg::Update()
 	worldTransform_.transform_.translate += velocity_;
 	worldTransform_.UpdateMatrix();
 
+	if (isCreateEnemy_) {
+		if (countUp_ < enemyCreateTime_) {
+			countUp_++;
+		}
+		if (countUp_ == enemyCreateTime_) {
+			CreateEnemy();
+			isDead_ = true;
+		}
+	}
+
 	// コライダー
 	ColliderUpdate();
 
@@ -109,8 +119,10 @@ void Egg::OnCollision(ColliderParentObject colliderPartner, const CollisionData&
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
-		CreateEnemy();
-		isDead_ = true;
+		if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+			isDead_ = true;
+			enemyManager_->RemoveEgg(this);
+		}
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 

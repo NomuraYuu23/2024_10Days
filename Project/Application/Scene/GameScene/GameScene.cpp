@@ -135,11 +135,13 @@ void GameScene::Initialize() {
 	enemyManager_->SetObjectManager(objectManager_.get());
 	enemyManager_->SetBlockManager(blockManager_.get());
 
+	isCreateBoss_ = false;
+
 	// ブロック
 	CreateBlocks();
 
 	//ボス作成(仮)
-	CreateBoss();
+	//CreateBoss();
 
 	// 雲
 	cloudSystem_ = std::make_unique<CloudSystem>();
@@ -154,6 +156,23 @@ void GameScene::Initialize() {
 	UISystem_ = std::make_unique<UISystem>();
 	UISystem_->Initialize(dxCommon_, player_);
 
+	postEffectSystem_ = std::make_unique<PostEffectSystem>();
+	postEffectSystem_->Initialize(player_);
+
+	titleSystem_ = std::make_unique<TitleSystem>();
+	titleSystem_->Initialize(dxCommon_, gameCamera_.get(), UISystem_.get());
+
+	tutorialSystem_ = std::make_unique<TutorialSystem>();
+	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get(), gameCamera_.get(), enemyManager_.get(), UISystem_.get());
+
+	titleSystem_->SetTutorialSystem(tutorialSystem_.get());
+
+	countDown_ = std::make_unique<CountDown>();
+	countDown_->Initialize();
+
+	tutorialSkipSystem_ = std::make_unique<TutorialSkipSystem>();
+	tutorialSkipSystem_->Initialize(blockManager_.get(), enemyManager_.get());
+ 
 	IScene::InitilaizeCheck();
 
 }
@@ -173,7 +192,14 @@ void GameScene::Update() {
 
 #endif // _DEMO
 
+	PreGameUpdate();
+
 	enemyManager_->Update();
+	if (enemyManager_->GetIsEndAllWave() && !isCreateBoss_) {
+		isCreateBoss_=true;
+		CreateBoss();
+	}
+
 
 	objectManager_->Update();
 
@@ -196,6 +222,7 @@ void GameScene::Update() {
 	ShadowUpdate();
 
 	// 平行光源
+	directionalLightSystem_->SetCountDownNow(countDown_->GetIsRun());
 	directionalLightSystem_->Update();
 	// 背景
 	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
@@ -207,6 +234,9 @@ void GameScene::Update() {
 
 	// UI
 	UISystem_->Update();
+
+	// ポストエフェクト
+	postEffectSystem_->Update();
 
 	ImguiDraw();
 
@@ -223,6 +253,9 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon_->GetCommadList());
 
 	backGround_->Draw();
+
+	// タイトルシステム
+	titleSystem_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -246,6 +279,9 @@ void GameScene::Draw() {
 
 	objectManager_->Draw(camera_, drawLine_);
 
+	// チュートリアル
+	tutorialSystem_->Draw(camera_);
+
 	// 影
 	shadowManager_->Draw(camera_);
 
@@ -268,11 +304,23 @@ void GameScene::Draw() {
 	// エネミー
 	enemyManager_->ParticleDraw(camera_);
 
+	// ポストエフェクト
+	postEffectSystem_->Draw(dxCommon_, renderTargetTexture_);
+
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());
 
 	// UI
 	UISystem_->Draw();
+
+	// チュートリアル
+	tutorialSystem_->SpriteDraw();
+
+	// カウントダウン
+	countDown_->Draw();
+
+	// チュートリアルスキップ
+	tutorialSkipSystem_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -291,6 +339,8 @@ void GameScene::ImguiDraw(){
 
 	// オブジェクトマネージャー
 	objectManager_->ImGuiDraw();
+
+	PostEffect::GetInstance()->ImGuiDraw();
 
 }
 
@@ -369,7 +419,7 @@ void GameScene::CreateBlocks() {
 			LevelData::MeshData &block = std::get<LevelData::MeshData>(data);
 			block.transform.translate.x = (float(x) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.z = (float(z) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
-			block.transform.translate.y = -2.0f;
+			block.transform.translate.y = Block::kLowHight;
 			pointer = objectManager_->AddObject(data);
 			
 			// ブロックマネージャーに登録
@@ -441,6 +491,9 @@ void GameScene::ShadowUpdate()
 
 	}
 
+	//ボス(出現してたら)
+	AddBossShadows();
+
 	// 影が現れるオブジェクト
 	// ブロック
 	for (uint32_t i = 0; i < blockManager_->GetBlockNum(); ++i) {
@@ -481,5 +534,56 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->SetPlayer(player_);
 	static_cast<Boss*>(pointer)->SetBlockManager(blockManager_.get());
 	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
-	static_cast<Boss*>(pointer)->CreateHand();
+	//static_cast<Boss*>(pointer)->CreateHand();
+	static_cast<Boss*>(pointer)->CreateHead();
+	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
+	boss_ = static_cast<Boss*>(pointer);
+}
+
+void GameScene::AddBossShadows() {
+	if (boss_) {
+		if (boss_->GetLeftHand()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetLeftHand());
+		}
+		if (boss_->GetRightHand()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetRightHand());
+		}
+		if (boss_->GetHead()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetHead());
+		}
+	}
+}
+
+void GameScene::PreGameUpdate()
+{
+
+	// タイトルシステム
+	titleSystem_->Update();
+
+	// チュートリアルシステム
+	tutorialSystem_->Update();
+
+	// チュートリアルスキップ
+	if (tutorialSystem_->GetIsRun()) {
+		tutorialSkipSystem_->ForcedTermination();
+	}
+	tutorialSkipSystem_->Update();
+
+	// カウントダウン
+	if (tutorialSkipSystem_->GetCountDownStart() || tutorialSystem_->GetIsEnd()) {
+		// 開始
+		countDown_->SetIsRun(true);
+		// 強制終了
+		tutorialSystem_->ForcedTermination();
+		// タイトルの終了
+		titleSystem_->SetEndSystem(true);
+
+		directionalLightSystem_->SetIsStart(true);
+
+		//プレイヤー
+		player_->SetIsPreGame(false);
+
+	}
+	countDown_->Update();
+
 }

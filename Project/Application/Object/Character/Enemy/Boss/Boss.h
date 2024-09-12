@@ -6,6 +6,8 @@
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
 #include "Hand.h"
+#include "Head.h"
+#include "../EnemyManager.h"
 class Boss :
 	public MeshObject
 {
@@ -62,15 +64,6 @@ private: // パーツ構成関数
 	/// </summary>
 	void ColliderUpdate();
 
-	/// <summary>
-	/// パーツ初期化
-	/// </summary>
-	void PartInitialize();
-
-	/// <summary>
-	/// アニメーション更新
-	/// </summary>
-	void AnimationUpdate();
 
 private: // パーツ,アニメーション変数
 
@@ -116,20 +109,55 @@ private: // ステート関数
 	/// </summary>
 	void RightStampAttack();
 	void LeftStampAttack();
+
+	//頭突き攻撃
+	void HeadButtAttack();
+
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
+
+	//出現
+	void Spawn();
+
 	/// <summary>
 	/// 死亡状態
 	/// </summary>
-	//void Dead();
+	void Dead();
+
+	/// <summary>
+	/// 雑魚敵召喚
+	/// </summary>
+	void Summon();
+
+	void SummonPhaseOne();
+	void SummonPhaseTwo();
+	void SummonPhaseThree();
 
 public:
 	void CreateHand();
 
+	void CreateHead();
+
 	//攻撃が終了したときに子が実行する
 	void EndAttack();
+
+	void EndHeadAttack();
 
 	void DeathRightHand();
 
 	void DeathLeftHand();
+
+	void DamageHead();
+
+	void DeathHead();
+
+	void RotateToPlayer();
+
+	//プレイヤーの高さに移動する
+	void ChacePlayerY();
 
 private: //	変数
 
@@ -147,6 +175,10 @@ private: //	変数
 	WorldTransform rightArmJointWorldTransform_;
 	WorldTransform leftArmJointWorldTransform_;
 
+	WorldTransform headJointWorldTransform_;
+
+	WorldTransform bodyJointWorldTransform_;
+
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
@@ -158,11 +190,31 @@ private: //	変数
 	Hand* rightHand_ = nullptr;
 	Hand* leftHand_ = nullptr;
 
+	Head* head_ = nullptr;
+
 	//薙ぎ払いの準備時間
-	static const size_t kRightHandRoundMoveLength_ = 30;
+	static const size_t kRightHandRoundMoveLength_ = 60;
 
 	//仮行動制御
 	int32_t executeAction_ = 1;
+
+	//頭突きが連続で出る確率、0で交互、1で頭突きしかしなくなる
+	float headButtProbability_ = 0.7f;
+
+	size_t headButtMoveLength_ = 60;
+
+	//ダメージ受けた時に下に沈むまでの時間
+	size_t damageAnimationlength_ = 60;
+
+	//出現の長さ
+	size_t spawnAnimationLength_ = 120;
+
+	size_t summonAnimationLength_ = 180;
+
+	float moveTargetY_;
+	float moveFromY_;
+
+	EnemyManager* enemyManager_;
 
 public: // アクセッサ
 
@@ -177,6 +229,12 @@ public: // アクセッサ
 	//Animation* GetAnimationAdress() { return &animation_; }
 
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
+
+	MeshObject* GetRightHand() { return rightHand_; };
+	MeshObject* GetLeftHand() { return leftHand_; };
+	MeshObject* GetHead() { return head_; };
 
 private: // グローバル変数
 
@@ -200,5 +258,16 @@ private: //各動作の腕の位置
 	Vector3 leftHandInitPos_ = { 0.0f,-32.0f,0.0f };
 	Vector3 leftHandRootPos_ = { -8.0f,0.0f,2.0f };
 	Vector3 leftHandRoundPos_ = { -24.0f,4.0f,0.0f };
+
+	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
+
+	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
+
+	Vector3 oridinSpownPos_ = {0.0f,-64.0f,0.0f};
+	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
+
+	Vector3 bodyRootPos_ = {0,0,0};
+	Vector3 bodyHeadButtPos_ = {0,2.0f,-8.0f};
+	Vector3 bodyHeadButRot_ = {3.141592f * 0.5f,0.0f,0.0f};
 };
 

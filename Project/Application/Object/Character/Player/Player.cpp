@@ -5,10 +5,13 @@
 #include "../Enemy/Enemy.h"
 #include "../Enemy/FlyEnemy.h"
 #include "../Enemy/Bullet.h"
+#include "../Enemy/Boss/Hand.h"
+#include "../Enemy/Boss/Head.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
 #include "../../../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../../../Engine/Math/Ease.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -107,7 +110,7 @@ void Player::Initialize(LevelData::MeshData* data)
 	airborneCheck_ = false;
 
 	//
-	fallingPosition_ = { 0.0f,0.0f,0.0f };
+	fallingPosition_ = { 1000.0f,1000.0f,1000.0f };
 
 	fallSearchSpeedCorrection_ = 3.0f;
 
@@ -115,7 +118,24 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	receiveDamage_ = false;
 
+	// 無敵
+	isInvincible_ = false;
+
+	// 無敵時間
+	invincibilityTime_ = 2.0f;
+
+	// 無敵経過時間
+	invincibilityElapsedTime_ = invincibilityTime_;
+
+	// 落下位置
+	fallingPositionY_ = -10.0f;
+
+	// リスポーン位置
+	respawnPosition_ = {0.01f,35.0f,0.0f};
+
 	prePosition_ = worldTransform_.GetWorldPosition();
+
+	isPreGame_ = true;
 
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
@@ -154,7 +174,7 @@ void Player::Update()
 	ApplyGlobalVariables();
 
 	if (Input::GetInstance()->TriggerKey(DIK_P)) {
-		worldTransform_.transform_.translate = { 0.0f,20.0f,0.0f };
+		worldTransform_.transform_.translate = respawnPosition_;
 	}
 
 #endif // _DEMO
@@ -223,6 +243,12 @@ void Player::Update()
 		runDustParticle_->Update();
 	}
 
+	// 落下とリスポーン
+	FallAndRespawn();
+
+	// 無敵処理
+	InvincibleUpdate();
+
 }
 
 void Player::Draw(BaseCamera& camera)
@@ -259,18 +285,30 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	}
 	else if (std::holds_alternative<Enemy*>(colliderPartner)) {
 		// 死亡アニメーションに入ってない
-		if (!std::get<Enemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
+		if (!std::get<Enemy*>(colliderPartner)->GetIsPlayDeathAnimation_() && !isInvincible_) {
 			OnCollisionDamage(std::get<Enemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
 		}
 	}
-	else if (std::holds_alternative<FlyEnemy*>(colliderPartner)) {
+	else if (std::holds_alternative<FlyEnemy*>(colliderPartner) && !isInvincible_) {
 		// 死亡アニメーションに入ってない
 		if (!std::get<FlyEnemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
 			OnCollisionDamage(std::get<FlyEnemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
 		}
 	}
-	else if (std::holds_alternative<Bullet*>(colliderPartner)) {
+	else if (std::holds_alternative<Bullet*>(colliderPartner) && !isInvincible_) {
 		OnCollisionDamage(std::get<Bullet*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+	}
+	else if (std::holds_alternative<Hand*>(colliderPartner) && !isInvincible_) {
+		//攻撃判定があるかどうか
+		if (std::get<Hand*>(colliderPartner)->IsAttack()) {
+			OnCollisionDamage(std::get<Hand*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
+	}
+	else if (std::holds_alternative<Head*>(colliderPartner) && !isInvincible_) {
+		//攻撃判定があるかどうか
+		if (std::get<Head*>(colliderPartner)->IsAttack()) {
+			OnCollisionDamage(std::get<Head*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
 	}
 
 }
@@ -428,12 +466,7 @@ void Player::OnCollisionDamage(const Vector3& position)
 	changeStatedirectly = true;
 
 	// HP処理
-	hp_--;
-	if (hp_ <= 0) {
-		hp_ = 0;
-		// 死んだ判定
-
-	}
+	Damage();
 
 	camera_->ShakeStart(1.0f, 0.5f);
 
@@ -442,12 +475,63 @@ void Player::OnCollisionDamage(const Vector3& position)
 void Player::PositionLimit()
 {
 
-	Vector3 Max = { 18.0f,1000.0f, 18.0f };
-	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Block::kMinRange_.x, Block::kMaxRange_.x);
+	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Block::kMinRange_.y, Block::kMaxRange_.y);
+	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Block::kMinRange_.z, Block::kMaxRange_.z);
 
-	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
-	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);
-	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Min.z, Max.z);
+}
+
+void Player::InvincibleUpdate()
+{
+
+	// 無敵タイマー処理
+	if (isInvincible_) {
+		invincibilityElapsedTime_ += kDeltaTime_;
+		if (invincibilityElapsedTime_ >= invincibilityTime_) {
+			isInvincible_ = false;
+			invincibilityElapsedTime_ = invincibilityTime_;
+		}
+	}
+
+	// マテリアル変更
+	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+	color.z = Ease::Easing(Ease::EaseName::EaseInQuad, 0.0f, 1.0f, invincibilityElapsedTime_ / invincibilityTime_);
+	material_->SetColor(color);
+
+
+}
+
+void Player::Damage()
+{
+
+	if (isPreGame_) {
+		return;
+	}
+
+	hp_--;
+	if (hp_ <= 0) {
+		hp_ = 0;
+		// 死んだ判定
+
+	}
+
+	// 無敵
+	isInvincible_ = true;
+	invincibilityElapsedTime_ = 0.0f;
+
+}
+
+void Player::FallAndRespawn()
+{
+
+	// 落下確認
+	if (worldTransform_.GetWorldPosition().y <= fallingPositionY_) {
+		// ダメージ
+		Damage();
+		// リスポーン
+		worldTransform_.transform_.translate = respawnPosition_;
+	}
+
 
 }
 

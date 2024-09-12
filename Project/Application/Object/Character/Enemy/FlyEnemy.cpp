@@ -216,14 +216,15 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 	//BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
 
 	//isDead_ = true;
+	state_ = std::bind(&FlyEnemy::Dead, this);
 	isPlayDeathAnimation_ = true;
 }
 
 void FlyEnemy::PositionLimit()
 {
 
-	Vector3 Max = { 64.0f,1000.0f, 64.0f };
-	Vector3 Min = { -64.0f,-1000.0f, -64.0f };
+	Vector3 Max = { 128.0f,1000.0f, 128.0f };
+	Vector3 Min = { -128.0f,-1000.0f, -128.0f };
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
@@ -238,8 +239,8 @@ void FlyEnemy::PositionLimit()
 bool FlyEnemy::IsInnerAttackArea()
 {
 
-	Vector3 Max = { 18.0f,1000.0f, 18.0f };
-	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+	Vector3 Max = { 24.0f,1000.0f, 24.0f };
+	Vector3 Min = { -24.0f,-1000.0f, -24.0f };
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {

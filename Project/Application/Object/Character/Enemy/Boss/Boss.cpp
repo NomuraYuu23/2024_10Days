@@ -10,7 +10,7 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 
 #include "../../../Engine/Math/Ease.h"
-
+#include "../../../Engine/Math/RandomEngine.h"
 LevelData::MeshData Boss::BossCreate()
 {
 
@@ -26,7 +26,7 @@ LevelData::MeshData Boss::BossCreate()
 	};
 
 	// ファイルの名前
-	data.flieName = "Hand.obj";
+	data.flieName = "BossBody.obj";
 	// ディレクトリパス
 	data.directoryPath = "Resources/Model/Boss/";
 	// クラスの名前
@@ -81,9 +81,9 @@ void Boss::Initialize(LevelData::MeshData* data)
 	//hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Boss::Root, this);
+	state_ = std::bind(&Boss::Spawn, this);
 
-	worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.transform_.translate = oridinSpownPos_;
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	worldTransform_.UpdateMatrix();
 
@@ -92,6 +92,12 @@ void Boss::Initialize(LevelData::MeshData* data)
 
 	leftArmJointWorldTransform_.Initialize();
 	leftArmJointWorldTransform_.SetParent(&worldTransform_);
+
+	headJointWorldTransform_.Initialize();
+	headJointWorldTransform_.SetParent(&worldTransform_);
+
+	bodyJointWorldTransform_.Initialize(model_->GetRootNode());
+	bodyJointWorldTransform_.SetParent(&worldTransform_);
 }
 
 void Boss::Update()
@@ -111,7 +117,8 @@ void Boss::Update()
 
 	rightArmJointWorldTransform_.UpdateMatrix();
 	leftArmJointWorldTransform_.UpdateMatrix();
-
+	headJointWorldTransform_.UpdateMatrix();
+	bodyJointWorldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
 
@@ -121,8 +128,20 @@ void Boss::Update()
 void Boss::Draw(BaseCamera& camera)
 {
 
-	MeshObject::Draw(camera);
+	if (material_->GetMaterialMap()->color.w == 0.0f) {
+		return;
+	}
 
+	//bodyJointWorldTransform_.Map(camera.GetViewProjectionMatrix());
+
+	ModelDraw::NormalObjectDesc desc;
+
+	desc.model = model_;
+	desc.material = material_.get();
+	desc.camera = &camera;
+	desc.worldTransform = &bodyJointWorldTransform_;
+
+	ModelDraw::NormalObjectDraw(desc);
 }
 
 void Boss::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -194,6 +213,7 @@ void Boss::OnCollisionObstacle(ColliderParentObject colliderPartner, const Colli
 
 	rightArmJointWorldTransform_.UpdateMatrix();
 	leftArmJointWorldTransform_.UpdateMatrix();
+	headJointWorldTransform_.UpdateMatrix();
 
 	// コライダー
 	ColliderUpdate();
@@ -232,40 +252,71 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
+	if (countUp_ == 0) {
+		ChacePlayerY();
+	}
+	if (countUp_ <= 60) {
+		float t = float(countUp_) / float(60);
+		worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, moveFromY_, moveTargetY_, t);
+	}
+	RotateToPlayer();
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
-	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+	//worldTransform_.usedDirection_ = false;
+	//worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	if (rightHand_) {
 		rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
 	}
 	if (leftHand_) {
 		leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
 	}
+	if (head_) {
+		head_->ConnectJoint(&headJointWorldTransform_);
+	}
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
+	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
+	bodyJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.translate, bodyRootPos_, 0.05f);
+	bodyJointWorldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.rotate.x, 0, 0.05f);
 	if (countUp_ == 60) {
-		if (executeAction_==1) {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightStampAttack, this);
+		if (rightHand_ || leftHand_) {
+			if (executeAction_ == 1) {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightStampAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftStampAttack, this);
+				}
 			}
-			else if(leftHand_){
-				state_ = std::bind(&Boss::LeftStampAttack, this);
+			else {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightRoundAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftRoundAttack, this);
+				}
 			}
+			executeAction_ *= -1;
 		}
 		else {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightRoundAttack, this);
+			float random = RandomEngine::GetRandom(0.0f, 1.0f);
+			if (random < headButtProbability_ || executeAction_ == 1) {
+				state_ = std::bind(&Boss::HeadButtAttack, this);
+				executeAction_ = -1;
 			}
-			else if (leftHand_) {
-				state_ = std::bind(&Boss::LeftRoundAttack, this);
+			else {
+				state_ = std::bind(&Boss::Summon, this);
+				executeAction_ = 1;
 			}
 		}
-		executeAction_ *= -1;
+		//state_ = std::bind(&Boss::HeadButtAttack, this);
 		countUp_ = 0;
 		return;
 	}
 
 	if (!rightHand_ && !leftHand_) {//両手ともなかったら
-		CreateHand();
+		//CreateHand();
 	}
 
 	countUp_++;
@@ -279,7 +330,12 @@ void Boss::RightStampAttack() {
 		}
 		countUp_=1;
 	}
-	
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftStampAttack() {
@@ -289,6 +345,29 @@ void Boss::LeftStampAttack() {
 			leftHand_->Stamp();
 		}
 		countUp_ = 1;
+	}
+	else if(rightHand_){
+		state_ = std::bind(&Boss::RightStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
+}
+
+void Boss::HeadButtAttack() {
+	if (head_) {
+		if (countUp_ <= headButtMoveLength_) {
+			float t = float(countUp_) / float(headButtMoveLength_);
+			headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, HeadInitPos_, HeadAttackPos_, t);
+			bodyJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp,bodyRootPos_, bodyHeadButtPos_,  t);
+			bodyJointWorldTransform_.transform_.rotate = Ease::Easing(Ease::EaseName::Lerp, {0,0,0}, bodyHeadButRot_, t);
+			RotateToPlayer();
+			//ChacePlayerY();
+		}
+		if (countUp_ == headButtMoveLength_) {
+			head_->AttackCall();
+		}
+		countUp_++;
 	}
 
 }
@@ -308,6 +387,12 @@ void Boss::RightRoundAttack() {
 		}
 		countUp_++;
 	}
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftRoundAttack() {
@@ -325,6 +410,120 @@ void Boss::LeftRoundAttack() {
 		}
 		countUp_++;
 	}
+	else if (rightHand_) {
+		state_ = std::bind(&Boss::RightRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
+}
+
+void Boss::Damage() {
+		if (countUp_ <= damageAnimationlength_) {
+			worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
+		}
+		if (countUp_ == damageAnimationlength_) {
+			state_ = std::bind(&Boss::Spawn, this);
+			countUp_ = 0;
+			return;
+		}
+		countUp_++;
+}
+
+void Boss::Dead() {
+	
+	if (countUp_ <= damageAnimationlength_) {
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
+	}
+	if (countUp_ == damageAnimationlength_) {
+		isDead_ = true;
+		countUp_ = damageAnimationlength_;
+		return;
+	}
+	countUp_++;
+}
+
+void Boss::Summon() {
+	if (countUp_ == 0) {
+		head_->Summon();
+		//敵召喚する
+		if (head_->GetHp() == 3) {
+			SummonPhaseOne();
+		}
+		else if (head_->GetHp() == 2) {
+			SummonPhaseTwo();
+		}
+		else {
+			SummonPhaseThree();
+		}
+	}
+	if (countUp_ == summonAnimationLength_) {
+		head_->SummonEnd();
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
+void Boss::SummonPhaseOne() {
+	EnemyData data;
+
+	data.className = "Enemy";
+	data.spownFrame = 180;
+	data.position = { -8.0f,28.0f,0.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 180;
+	data.position = { 8.0f,28.0f,0.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+}
+
+void Boss::SummonPhaseTwo() {
+	EnemyData data;
+	float direction = RandomEngine::GetRandom(0.0f,1.0f);
+	if (direction < 0.5f) {
+		direction = 1.0f;
+	}
+	else {
+		direction = -1.0f;
+	}
+
+	for (int i = 0;i< Block::kNumOnece_; i++) {
+		data.className = "FlyEnemy";
+		data.spownFrame = 0;
+		data.position = { 48.0f * direction + direction * float(2 * Block::kSize_ * i),worldTransform_.GetWorldPosition().y,-float(Block::kNumOnece_)*Block::kSize_ + float(2 * Block::kSize_*i)};
+		data.velocity = { -direction,0,0 };
+		enemyManager_->AddEnemy(data);
+	}
+}
+
+void Boss::SummonPhaseThree() {
+
+}
+
+void Boss::Spawn() {
+	if (countUp_ == 0) {
+		CreateHand();
+		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
+		headJointWorldTransform_.transform_.translate = HeadInitPos_;
+	}
+
+	if (countUp_ <= spawnAnimationLength_) {
+		float t = float(countUp_) / float(spawnAnimationLength_);
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutBack, oridinSpownPos_,oridinRootPos_, t);
+	}
+	if (countUp_ == spawnAnimationLength_) {
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
 }
 
 void Boss::CreateHand() {
@@ -352,6 +551,21 @@ void Boss::CreateHand() {
 	
 }
 
+void Boss::CreateHead() {
+	LevelData::ObjectData data;
+
+	IObject* pointer = nullptr;
+
+	data = Head::HeadCreate();
+	pointer = objectManager_->AddObject(data);
+	static_cast<Head*>(pointer)->SetPlayer(target_);
+	static_cast<Head*>(pointer)->SetParent(this);
+	head_ = static_cast<Head*>(pointer);
+	headJointWorldTransform_.transform_.translate = HeadInitPos_;
+	headJointWorldTransform_.UpdateMatrix();
+	head_->ConnectJoint(&headJointWorldTransform_);
+}
+
 void Boss::EndAttack() {
 	state_ = std::bind(&Boss::Root, this);
 	if (rightHand_) {
@@ -360,6 +574,12 @@ void Boss::EndAttack() {
 	if (leftHand_) {
 		leftArmJointWorldTransform_.transform_.translate = Matrix4x4::Transform(leftHand_->GetWorldTransformAdress()->GetWorldPosition(), Matrix4x4::Inverse(worldTransform_.worldMatrix_));
 	}
+	countUp_ = 0;
+}
+
+void Boss::EndHeadAttack() {
+	state_ = std::bind(&Boss::Root, this);
+	worldTransform_.usedDirection_ = false;
 	countUp_ = 0;
 }
 
@@ -375,4 +595,38 @@ void Boss::DeathLeftHand() {
 	//leftHand_->ConnectJoint(nullptr);
 	leftHand_ = nullptr;
 	countUp_ = 0;
+}
+
+void Boss::DamageHead() {
+	state_ = std::bind(&Boss::Damage, this);
+	countUp_ = 0;
+}
+
+void Boss::DeathHead() {
+	state_ = std::bind(&Boss::Dead, this);
+	countUp_ = 0;
+	head_ = nullptr;
+}
+
+void Boss::RotateToPlayer() {
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	//プレイヤーの方を向く
+	Matrix4x4 rotate = Matrix4x4::DirectionToDirection({ 0.0f,0.0f,1.0f }, to - from);
+	worldTransform_.direction_ = Matrix4x4::TransformNormal({ 0.0f,0.0f,1.0f }, rotate);
+	worldTransform_.usedDirection_ = true;
+	worldTransform_.UpdateMatrix();
+}
+
+void Boss::ChacePlayerY() {
+	float playerY = target_->GetWorldTransformAdress()->GetWorldPosition().y;
+	float target = Block::kLowHight + 2.0f;
+	if (playerY > Block::kFloatHight) {
+		target += Block::kFloatHight;
+	}
+	moveTargetY_ = target;
+	moveFromY_ = worldTransform_.transform_.translate.y;
+	//worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target,0.05f);
 }

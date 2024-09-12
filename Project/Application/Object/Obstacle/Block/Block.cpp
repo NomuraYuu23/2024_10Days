@@ -5,6 +5,11 @@
 #include <variant>
 const float Block::kSize_ = 3.0f;
 const float Block::kFloatHight = 21.0f;
+const float Block::kLowHight = -2.0f;
+
+const Vector3 Block::kMinRange_ = {-Block::kSize_ * float(Block::kNumOnece_),-1000,-Block::kSize_ * float(Block::kNumOnece_) };
+const Vector3 Block::kMaxRange_ = { Block::kSize_ * float(Block::kNumOnece_), 1000, Block::kSize_ * float(Block::kNumOnece_) };
+
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
@@ -186,7 +191,7 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 			//state_ = std::bind(&Block::ShockWaveCenter, this);
 			//isShockWave_ = true;
 		}
-		else if(velocity < 1.0f && !isMove_ && !std::get<Player*>(colliderPartner)->GetIsKnockBlock()){//プレイヤーが下からぶつかったら攻撃
+		else if(velocity < 1.0f && !isMoveNow_ && !std::get<Player*>(colliderPartner)->GetIsKnockBlock()){//プレイヤーが下からぶつかったら攻撃
 			AttackStart();
 			isMove_ = false;
 			std::get<Player*>(colliderPartner)->SetIsKnockBlock(true);
@@ -210,10 +215,33 @@ void Block::Idle() {
 }
 
 void Block::MoveStart() {
-	countUp_ = 0;
-	state_ = std::bind(&Block::Move, this);
-	audioManager_->PlayWave(kGameBlockSE);
+	if (!isRockMove_) {
+		countUp_ = 0;
+		state_ = std::bind(&Block::Move, this);
+		audioManager_->PlayWave(kGameBlockSE);
+	}
 }
+
+void Block::Up() {
+	if (!hight_) {
+		if (!isMoveNow_) {
+			countUp_ = 0;
+			audioManager_->PlayWave(kGameBlockSE);
+		}
+		state_ = std::bind(&Block::Move, this);
+	}
+}
+
+void Block::Down() {
+	if (hight_) {
+		if (!isMoveNow_) {
+			countUp_ = 0;
+			audioManager_->PlayWave(kGameBlockSE);
+		}
+		state_ = std::bind(&Block::Move, this);
+	}
+}
+
 
 void Block::Move() {
 	isMoveNow_ = true;

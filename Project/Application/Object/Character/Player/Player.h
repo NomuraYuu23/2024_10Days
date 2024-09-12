@@ -160,6 +160,21 @@ private: // 関数
 	/// </summary>
 	void PositionLimit();
 
+	/// <summary>
+	/// 無敵
+	/// </summary>
+	void InvincibleUpdate();
+
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
+	/// <summary>
+	/// 落下確認、リスポーン
+	/// </summary>
+	void FallAndRespawn();
+
 private: //	変数
 
 	//hp
@@ -219,6 +234,24 @@ private: //	変数
 	// 砂ぼこり
 	std::unique_ptr<RunDustParticle> runDustParticle_;
 
+	// 無敵
+	bool isInvincible_;
+
+	// 無敵経過時間
+	float invincibilityElapsedTime_;
+
+	// 無敵時間
+	float invincibilityTime_;
+
+	// 落下位置
+	float fallingPositionY_;
+
+	// リスポーン位置
+	Vector3 respawnPosition_;
+
+	// ゲーム開始前か
+	bool isPreGame_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -273,6 +306,12 @@ public: // アクセッサ
 	GameAudioManager* GetAudioManager() { return audioManager_; }
 
 	Block* GetLastToutchBlock() { return lastToutchBlock_; };
+
+	//ダメージを受けたか
+	bool GetReceiveDamage() { return receiveDamage_; }
+
+	// ゲーム開始前
+	void SetIsPreGame(bool isPreGame) { isPreGame_ = isPreGame; }
 
 private: // グローバル変数
 

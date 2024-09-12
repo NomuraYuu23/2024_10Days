@@ -23,6 +23,9 @@ void PlayerStateJump::Initialize()
 	// 踏み込み中か
 	steppingIn_ = true;
 
+	// ジャンプ移動倍率
+	moveMagnification_ = 1.5f;
+
 	player_->GetAudioManager()->PlayWave(kGamejumpSE);
 
 }
@@ -48,7 +51,7 @@ void PlayerStateJump::Update()
 			Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 			if (Vector3::Length(move) > kThresholdRunning) {
 				//ランニング
-				Move(move, worldTransform, player_->GetRunningSpeed());
+				Move(move, worldTransform, player_->GetRunningSpeed() * moveMagnification_);
 			}
 
 			// 角度補間
@@ -127,6 +130,9 @@ void PlayerStateJump::Update()
 		playerPos.x += velocityDir.x * speedCorrection;
 		playerPos.z += velocityDir.y * speedCorrection;
 
+		playerPos.x = std::clamp(playerPos.x, Block::kMinRange_.x, Block::kMaxRange_.x);
+		playerPos.z = std::clamp(playerPos.z, Block::kMinRange_.z, Block::kMaxRange_.z);
+
 		/// 補正ここまで
 
 		// ブロックまでの距離
@@ -146,7 +152,8 @@ void PlayerStateJump::Update()
 			// 範囲内確認 高さ確認 上昇確認
 			if ((distance >= Vector2::Length(distanceToBlock)) && (blockPos.y < playerPos.y) && !(block->GetIsMoveNow() && !block->GetHight()) ) {
 				// ドロップになる
-				if (blockPos.y == -2.0f && positionedHigh) {
+				if (((block->GetIsMoveNow() && block->GetHight()) || blockPos.y == -2.0f) 
+					&& positionedHigh) {
 					dropFlg = true;
 				}
 				else {

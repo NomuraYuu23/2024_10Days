@@ -26,6 +26,12 @@
 
 // デバッグ
 #include "../../GPUParticle/EggBreakParticle/EggBreakParticle.h"
+#include "../../System/PostEffect/PostEffectSystem.h"
+#include "../../System/TitleSystem/TitleSystem.h"
+#include "../../System/TutorialSystem/TutorialSystem.h"
+#include "../../System/CountDown/CountDown.h"
+#include "../../System/CountDown/CountDown.h"
+#include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
 
 class GameScene : public IScene
 {
@@ -105,6 +111,16 @@ private:
 	/// </summary>
 	void CreateBoss();
 
+	/// <summary>
+	/// ボスの影追加
+	/// </summary>
+	void AddBossShadows();
+
+	/// <summary>
+	/// ゲーム開始前処理
+	/// </summary>
+	void PreGameUpdate();
+
 private:
 
 	// オーディオマネージャー
@@ -133,6 +149,12 @@ private:
 	// プレイヤー
 	Player* player_;
 
+	//ボス
+	Boss* boss_;
+
+	//ボスを生成したか
+	bool isCreateBoss_ = false;
+
 	// 平行光源システム
 	std::unique_ptr<DirectionalLightSystem> directionalLightSystem_;
 
@@ -145,5 +167,20 @@ private:
 
 	// UIシステム
 	std::unique_ptr<UISystem> UISystem_;
+
+	// ポストエフェクト
+	std::unique_ptr<PostEffectSystem> postEffectSystem_;
+
+	// タイトルシステム
+	std::unique_ptr<TitleSystem> titleSystem_;
+
+	// チュートリアルシステム
+	std::unique_ptr<TutorialSystem> tutorialSystem_;
+
+	//CountDown
+	std::unique_ptr<CountDown> countDown_;
+
+	// チュートリアルスキップ
+	std::unique_ptr<TutorialSkipSystem> tutorialSkipSystem_;
 
 };

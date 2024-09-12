@@ -12,6 +12,11 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	player_ = player;
 
+	// タイトルの追加位置
+	titlePosAddX_ = -640.0f;
+
+	tutorialPosAddX_ = -640.0f;
+
 	// テクスチャハンドル
 	for (uint32_t i = 0; i < kUITextureHandleIndexOfCount; ++i) {
 		textureHandles_[i] = TextureManager::Load(textureNames_[i], dxCommon);
@@ -74,8 +79,21 @@ void UISystem::Update()
 {
 
 	// UI
+	Vector2 pos = { 0.0f,0.0f };
 	for (uint32_t i = 0; i < kUIIndexOfCount; ++i) {
 		UIs_[i]->Update();
+		if (titlePosAddX_ != 0.0f) {
+			pos = UIs_[i]->GetPosition();
+			pos.x += titlePosAddX_;
+			UIs_[i]->SetPosition(pos);
+		}
+		if (tutorialPosAddX_ != 0.0f) {
+			if (i == kUIIndexHP0 || i == kUIIndexHP1 || i == kUIIndexHP2) {
+				pos = UIs_[i]->GetPosition();
+				pos.x += tutorialPosAddX_;
+				UIs_[i]->SetPosition(pos);
+			}
+		}
 	}
 
 }

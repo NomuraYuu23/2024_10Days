@@ -66,6 +66,9 @@ void GameCamera::Initialize()
 	upsideDown_ = false;
 	leftRightFlip_ = false;
 
+	// タイトル時のオフセット
+	titleCameraOffsetSide_ = 0.0f;
+
 	RegistrationGlobalVariables();
 	ApplyGlobalVariables();
 
@@ -88,6 +91,7 @@ void GameCamera::Update(float elapsedTime)
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonRST)) {
 		if (isAutomatic_) {
 			isAutomatic_ = false;
+			manualDestinationAngleX_ = transform_.rotate.x;
 		}
 		else {
 			isAutomatic_ = true;
@@ -95,6 +99,7 @@ void GameCamera::Update(float elapsedTime)
 	}
 	else if ((Vector2::Length(input_->GetRightAnalogstick()) != 0.0f) && isAutomatic_) {
 		isAutomatic_ = false;
+		manualDestinationAngleX_ = transform_.rotate.x;
 	}
 
 	if (isAutomatic_) {
@@ -156,7 +161,7 @@ Vector3 GameCamera::OffsetCalc() const
 {
 
 	//追従対象からカメラまでのオフセット
-	Vector3 offset = { offsetSide_, offsetHeight_, offsetLength_ };
+	Vector3 offset = { offsetSide_ * titleCameraOffsetSide_, offsetHeight_, offsetLength_ };
 
 	Matrix4x4 rotateMatrix;
 

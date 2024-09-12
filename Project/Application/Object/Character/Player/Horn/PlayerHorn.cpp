@@ -58,7 +58,7 @@ void PlayerHorn::Initialize(LevelData::MeshData* data)
 	localPosition_ = { 0.0f, -0.2f, -0.02f };
 
 	// 大きさ
-	localScale_ = { 1.0f,1.0f,1.0f };
+	localScale_ = { 0.5f,0.5f,0.5f };
 
 }
 
@@ -112,6 +112,13 @@ void PlayerHorn::SetParent(Player* parent, const std::string& parentName)
 
 void PlayerHorn::WithParentsUpdate()
 {
+
+	if (parent_->GetCurrentStateNo() == kPlayerStateHeadDrop) {
+		localScale_ = { 3.0f,3.0f,3.0f };
+	}
+	else {
+		localScale_ = { 0.5f,0.5f,0.5f };
+	}
 
 	// ノード追従
 	NodeFollowing();

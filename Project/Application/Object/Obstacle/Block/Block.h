@@ -19,12 +19,18 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 6;
+	static const size_t kNumOnece_ = 8;
 
 	static const float kSize_;
 
 	//浮き沈みの高さ
 	static const float kFloatHight;
+
+	//下段の高さ
+	static const float kLowHight;
+
+	static const Vector3 kMinRange_;
+	static const Vector3 kMaxRange_;
 
 public: // static関数
 
@@ -81,6 +87,12 @@ public: // ベースのメンバ関数
 	/// コライダー更新
 	/// </summary>
 	void ColliderUpdate();
+
+	//ブロックを押し上げる
+	void Up();
+
+	//ブロックを下げる
+	void Down();
 
 public: //衝撃波用インナークラス
 
@@ -145,6 +157,10 @@ public: //アクセッサ
 
 	bool GetIsMoveNow() { return isMoveNow_; };
 
+	void SetIsRockMove(bool is) { isRockMove_ = is; };
+
+	bool GetIsRockMove() { return isRockMove_; };
+
 private: // パーツ,アニメーション変数
 
 	// 現在のモーション番号
@@ -171,6 +187,9 @@ private: // パーツ,アニメーション変数
 	bool isShockWave_ = false;
 	bool isMoveNow_ = false;
 
+	//チュートリアル用
+	bool isRockMove_ = false;//移動を禁止するか
+
 
 	//プレイヤーが触れているか
 	bool isCollision_ = false;
@@ -192,7 +211,7 @@ private: // パーツ,アニメーション変数
 	//浮き沈みの高さ
 	float floatHight_ = kFloatHight;
 	//攻撃時のブロックの浮き
-	float attackFloatStrength_ = 3.0f;
+	float attackFloatStrength_ = 6.0f;
 
 	//枯れた色
 	Vector3 blownColor_ = {200.0f/255.0f,160.0f/255.0f,300.0f/255.0f};

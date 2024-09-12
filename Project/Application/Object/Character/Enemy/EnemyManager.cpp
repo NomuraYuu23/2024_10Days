@@ -8,6 +8,7 @@ void EnemyManager::Initialize() {
 
 	frameCount_ = 0;
 	waveNum = 0;
+	isEndAllWave_ = false;
 	std::list<EnemyData> datas;
 	EnemyData data;
 
@@ -15,7 +16,7 @@ void EnemyManager::Initialize() {
 
 	data.className = "Enemy";
 	data.spownFrame = 180;
-	data.position = {-8.0f,8.0f,16.0f};
+	data.position = {-8.0f,28.0f,16.0f};
 	data.velocity = {0,0,0};
 	datas.push_back(data);
 
@@ -34,19 +35,19 @@ void EnemyManager::Initialize() {
 
 	data.className = "Enemy";
 	data.spownFrame = 60;
-	data.position = { -16.0f,16.0f,0.0f };
+	data.position = { -16.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
 	data.spownFrame = 60;
-	data.position = { 16.0f,16.0f,0.0f };
+	data.position = { 16.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
 	data.spownFrame = 60;
-	data.position = { 0.0f,16.0f,16.0f };
+	data.position = { 0.0f,28.0f,16.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
@@ -77,12 +78,17 @@ void EnemyManager::Update() {
 		}
 		return false;
 		});
-
-	frameCount_++;
-
+	//オーバーフロー防止
+	if (frameCount_ < 3600) {
+		frameCount_++;
+	}
 	if (spownDatas_[waveNum].empty() && enemys_.empty() && eggs_.empty()) {
 		if (waveNum<kWaveNum-1) {
 			waveNum++;
+			frameCount_ = 0;
+		}
+		else {
+			isEndAllWave_ = true;
 			frameCount_ = 0;
 		}
 	}
@@ -113,7 +119,7 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		odata = Egg::EggCreate();
 		LevelData::MeshData& enemy = std::get<LevelData::MeshData>(odata);
 		enemy.transform.translate = data.position;
-		enemy.transform.translate.y = 16.0f;
+		//enemy.transform.translate.y = 16.0f;
 		pointer = objectManager_->AddObject(odata);
 		static_cast<Egg*>(pointer)->SetPlayer(player_);
 		static_cast<Egg*>(pointer)->SetBlockManager(blockManager_);
@@ -130,7 +136,7 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		odata = FlyEnemy::FlyEnemyCreate();
 		LevelData::MeshData& enemy = std::get<LevelData::MeshData>(odata);
 		enemy.transform.translate = data.position;
-		enemy.transform.translate.y = 16.0f;
+		//enemy.transform.translate.y = 16.0f;
 		pointer = objectManager_->AddObject(odata);
 		static_cast<FlyEnemy*>(pointer)->SetVelocity(data.velocity);
 		enemys_.push_back(static_cast<BaseEnemy*>(pointer));
@@ -141,6 +147,26 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	enemys_.push_back(enemy);
 
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
+}
+
+void EnemyManager::AddEgg(const Vector3& position)
+{
+	LevelData::ObjectData odata;
+
+	IObject* pointer = nullptr;
+
+	odata = Egg::EggCreate();
+	LevelData::MeshData& enemy = std::get<LevelData::MeshData>(odata);
+	enemy.transform.translate = position;
+	enemy.transform.translate.y = 28.0f;
+	pointer = objectManager_->AddObject(odata);
+	static_cast<Egg*>(pointer)->SetPlayer(player_);
+	static_cast<Egg*>(pointer)->SetBlockManager(blockManager_);
+	static_cast<Egg*>(pointer)->SetObjectManager(objectManager_);
+	//enemys_.push_back(pointer);
+	static_cast<Egg*>(pointer)->SetEnemyManager(this);
+	static_cast<Egg*>(pointer)->SetIsCreateEnemy(false);
+	eggs_.push_back(static_cast<Egg*>(pointer));
 }
 
 
