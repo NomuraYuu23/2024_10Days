@@ -176,7 +176,7 @@ private: //	変数
 	static const size_t kPullBackLength_ = 120;
 
 	//攻撃の移動幅
-	float attackWidth_ = 38.0f;
+	float attackWidth_ = 44.0f;
 
 	//ステート
 	std::function<void(void)> state_;
