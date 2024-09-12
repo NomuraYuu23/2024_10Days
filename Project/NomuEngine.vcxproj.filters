@@ -1004,6 +1004,9 @@
       <Filter>Application\UI\RightStickBG</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\TutorialSystem\TutorialSystem.cpp">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSystem\TutorialArrowObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1723,6 +1726,9 @@
       <Filter>Application\UI\RightStick</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\TutorialSystem\TutorialSystem.h">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSystem\TutorialArrowObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

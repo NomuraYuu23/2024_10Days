@@ -1,11 +1,15 @@
 #pragma once
 #include "../../../Engine/Math/Vector3.h"
+#include "../../../Engine/Object/MeshObject.h"
+#include "TutorialArrowObject.h"
 
 class BaseObjectManager;
 
 class Player;
 
 class BlockManager;
+
+class GameCamera;
 
 class TutorialSystem
 {
@@ -43,7 +47,7 @@ class TutorialSystem
 
 public: 
 
-	void Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager);
+	void Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager, GameCamera* gameCamera);
 
 	/// <summary>
 	/// 更新
@@ -53,7 +57,12 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw(BaseCamera& camera);
+
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
+	void SpriteDraw();
 
 private: // 確認関数
 
@@ -96,6 +105,12 @@ private: // その他のながれ
 	/// </summary>
 	void EndSystem();
 
+private: // オブジェクト初期化
+
+	void StartPosObjectInitialize();
+
+	void TutorialArrowObjectInitialize();
+
 private: // 変数
 
 	// オブジェクトマネージャー
@@ -107,16 +122,24 @@ private: // 変数
 	// ブロックマネージャー
 	BlockManager* blockManager_;
 
+	// ゲームカメラ
+	GameCamera* gameCamera_;
+
 	// チュートリアル流れ
 	TutorialFlow tutorialFlowNumber_;
 
 	//ステート
 	std::array<std::function<void(void)>, TutorialFlow::kTutorialFlowOfCount> tutorialFlowUpdates_;
 
+	// 構造体たち
 	StartCheckStruct startCheckStruct_;
-
 	JumpCheckStruct jumpCheckStruct_;
 
+	// スタート位置オブジェクト
+	std::unique_ptr<MeshObject> startPosObject_;
+
+	// スタート位置矢印オブジェクト
+	std::unique_ptr<TutorialArrowObject> tutorialArrowObject_;
 
 };
 

@@ -161,7 +161,7 @@ void GameScene::Initialize() {
 	titleSystem_->Initialize(dxCommon_, gameCamera_.get(), UISystem_.get());
 
 	tutorialSystem_ = std::make_unique<TutorialSystem>();
-	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get());
+	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get(), gameCamera_.get());
 
 	IScene::InitilaizeCheck();
 
@@ -267,6 +267,9 @@ void GameScene::Draw() {
 
 	objectManager_->Draw(camera_, drawLine_);
 
+	// チュートリアル
+	tutorialSystem_->Draw(camera_);
+
 	// 影
 	shadowManager_->Draw(camera_);
 
@@ -299,7 +302,7 @@ void GameScene::Draw() {
 	UISystem_->Draw();
 
 	// チュートリアル
-	tutorialSystem_->Draw();
+	tutorialSystem_->SpriteDraw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -405,9 +408,6 @@ void GameScene::CreateBlocks() {
 			blockManager_->AddBlock(static_cast<Block*>(pointer));
 		}
 	}
-
-	blockManager_->GetBlocks()->at(0)->Up();
-	blockManager_->GetBlocks()->at(0)->SetIsRockMove(true);
 
 }
 
