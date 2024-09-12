@@ -160,6 +160,11 @@ private: // 関数
 	/// </summary>
 	void PositionLimit();
 
+	/// <summary>
+	/// 無敵
+	/// </summary>
+	void InvincibleUpdate();
+
 private: //	変数
 
 	//hp
@@ -218,6 +223,15 @@ private: //	変数
 
 	// 砂ぼこり
 	std::unique_ptr<RunDustParticle> runDustParticle_;
+
+	// 無敵
+	bool isInvincible_;
+
+	// 無敵経過時間
+	float invincibilityElapsedTime_;
+
+	// 無敵時間
+	float invincibilityTime_;
 
 public: // アクセッサ
 

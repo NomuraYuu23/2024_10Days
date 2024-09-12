@@ -9,6 +9,7 @@
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
 #include "../../../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../../../Engine/Math/Ease.h"
 
 LevelData::MeshData Player::PlayerCreate()
 {
@@ -114,6 +115,15 @@ void Player::Initialize(LevelData::MeshData* data)
 	knockbackDirection_ = {0.0f,0.0f,1.0f};
 
 	receiveDamage_ = false;
+
+	// 無敵
+	isInvincible_ = false;
+
+	// 無敵時間
+	invincibilityTime_ = 2.0f;
+
+	// 無敵経過時間
+	invincibilityElapsedTime_ = invincibilityTime_;
 
 	prePosition_ = worldTransform_.GetWorldPosition();
 
@@ -223,6 +233,9 @@ void Player::Update()
 		runDustParticle_->Update();
 	}
 
+	// 無敵処理
+	InvincibleUpdate();
+
 }
 
 void Player::Draw(BaseCamera& camera)
@@ -259,17 +272,17 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	}
 	else if (std::holds_alternative<Enemy*>(colliderPartner)) {
 		// 死亡アニメーションに入ってない
-		if (!std::get<Enemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
+		if (!std::get<Enemy*>(colliderPartner)->GetIsPlayDeathAnimation_() && !isInvincible_) {
 			OnCollisionDamage(std::get<Enemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
 		}
 	}
-	else if (std::holds_alternative<FlyEnemy*>(colliderPartner)) {
+	else if (std::holds_alternative<FlyEnemy*>(colliderPartner) && !isInvincible_) {
 		// 死亡アニメーションに入ってない
 		if (!std::get<FlyEnemy*>(colliderPartner)->GetIsPlayDeathAnimation_()) {
 			OnCollisionDamage(std::get<FlyEnemy*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
 		}
 	}
-	else if (std::holds_alternative<Bullet*>(colliderPartner)) {
+	else if (std::holds_alternative<Bullet*>(colliderPartner) && !isInvincible_) {
 		OnCollisionDamage(std::get<Bullet*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
 	}
 
@@ -435,6 +448,10 @@ void Player::OnCollisionDamage(const Vector3& position)
 
 	}
 
+	// 無敵
+	isInvincible_ = true;
+	invincibilityElapsedTime_ = 0.0f;
+
 	camera_->ShakeStart(1.0f, 0.5f);
 
 }
@@ -448,6 +465,26 @@ void Player::PositionLimit()
 	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
 	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);
 	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Min.z, Max.z);
+
+}
+
+void Player::InvincibleUpdate()
+{
+
+	// 無敵タイマー処理
+	if (isInvincible_) {
+		invincibilityElapsedTime_ += kDeltaTime_;
+		if (invincibilityElapsedTime_ >= invincibilityTime_) {
+			isInvincible_ = false;
+			invincibilityElapsedTime_ = invincibilityTime_;
+		}
+	}
+
+	// マテリアル変更
+	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+	color.z = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, invincibilityElapsedTime_ / invincibilityTime_);
+	material_->SetColor(color);
+
 
 }
 
