@@ -125,8 +125,10 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
-		OnCollisionObstacle(colliderPartner, collisionData);
-		if (isCollisionObstacle_){
+		if (isCollisionObstacle_) {
+			OnCollisionObstacle(colliderPartner, collisionData);
+		}
+		if (isCollisionObstacle_ || isAttack_){
 			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
 				hp_--;
 				if (hp_>0) {
@@ -294,7 +296,7 @@ void Hand::RoundStand() {
 }
 
 void Hand::RoundAttack() {
-	isCollisionObstacle_ = true;
+	//isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
 	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
