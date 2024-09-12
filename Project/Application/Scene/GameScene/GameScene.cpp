@@ -311,6 +311,9 @@ void GameScene::Draw() {
 	// カウントダウン
 	countDown_->Draw();
 
+	// チュートリアルスキップ
+	tutorialSkipSystem_->Draw();
+
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 

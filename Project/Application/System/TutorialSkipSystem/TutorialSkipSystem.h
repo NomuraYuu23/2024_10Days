@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "../../../Engine/2D/Sprite.h"
 
 class BlockManager;
 
@@ -10,9 +11,22 @@ class TutorialSkipSystem
 
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="blockManager"></param>
+	/// <param name="enemyManager"></param>
 	void Initialize(BlockManager* blockManager, EnemyManager* enemyManager);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
 
 	/// <summary>
 	/// 強制終了
@@ -36,6 +50,9 @@ private:
 
 	// カウントダウン発生フラグ
 	bool countDownStart_;
+
+	// スプライト
+	std::unique_ptr<Sprite> sprite_;
 
 };
 
