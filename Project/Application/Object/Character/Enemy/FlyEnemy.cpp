@@ -216,6 +216,7 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 	//BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
 
 	//isDead_ = true;
+	state_ = std::bind(&FlyEnemy::Dead, this);
 	isPlayDeathAnimation_ = true;
 }
 

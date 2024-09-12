@@ -129,7 +129,7 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 			OnCollisionObstacle(colliderPartner, collisionData);
 		}
 		if (isCollisionObstacle_ || isAttack_){
-			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
 				hp_--;
 				if (hp_>0) {
 					state_ = std::bind(&Hand::Damage, this);
