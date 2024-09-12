@@ -10,7 +10,7 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 
 #include "../../../Engine/Math/Ease.h"
-
+#include "../../../Engine/Math/RandomEngine.h"
 LevelData::MeshData Boss::BossCreate()
 {
 
@@ -263,22 +263,30 @@ void Boss::Root() {
 	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
 	if (countUp_ == 60) {
 		if (executeAction_ == 1) {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightStampAttack, this);
-			}
-			else if(leftHand_){
-				state_ = std::bind(&Boss::LeftStampAttack, this);
+			if (rightHand_ || leftHand_) {
+				float random = RandomEngine::GetRandom(0.0f,1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightStampAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftStampAttack, this);
+				}
+
 			}
 			else{
 				state_ = std::bind(&Boss::HeadButtAttack, this);
 			}
 		}
 		else {
-			if (rightHand_) {
-				state_ = std::bind(&Boss::RightRoundAttack, this);
-			}
-			else if (leftHand_) {
-				state_ = std::bind(&Boss::LeftRoundAttack, this);
+			if (rightHand_ || leftHand_) {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
+				if (random < 0.5f) {
+					state_ = std::bind(&Boss::RightRoundAttack, this);
+				}
+				else {
+					state_ = std::bind(&Boss::LeftRoundAttack, this);
+				}
+
 			}
 			else {
 				state_ = std::bind(&Boss::Summon, this);
@@ -305,7 +313,12 @@ void Boss::RightStampAttack() {
 		}
 		countUp_=1;
 	}
-	
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftStampAttack() {
@@ -316,7 +329,12 @@ void Boss::LeftStampAttack() {
 		}
 		countUp_ = 1;
 	}
-
+	else if(rightHand_){
+		state_ = std::bind(&Boss::RightStampAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::HeadButtAttack() {
@@ -350,6 +368,12 @@ void Boss::RightRoundAttack() {
 		}
 		countUp_++;
 	}
+	else if (leftHand_) {
+		state_ = std::bind(&Boss::LeftRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
+	}
 }
 
 void Boss::LeftRoundAttack() {
@@ -366,6 +390,12 @@ void Boss::LeftRoundAttack() {
 			leftHand_->Round();
 		}
 		countUp_++;
+	}
+	else if (rightHand_) {
+		state_ = std::bind(&Boss::RightRoundAttack, this);
+	}
+	else {
+		state_ = std::bind(&Boss::Root, this);
 	}
 }
 
@@ -445,7 +475,7 @@ void Boss::SummonPhaseThree() {
 
 void Boss::Spawn() {
 	if (countUp_ == 0) {
-		//CreateHand();
+		CreateHand();
 		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;

@@ -196,6 +196,8 @@ private: //	変数
 	//仮行動制御
 	int32_t executeAction_ = 1;
 
+
+
 	size_t headButtMoveLength_ = 60;
 
 	//ダメージ受けた時に下に沈むまでの時間
