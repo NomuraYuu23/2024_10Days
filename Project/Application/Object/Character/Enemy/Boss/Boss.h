@@ -177,6 +177,8 @@ private: //	変数
 
 	WorldTransform headJointWorldTransform_;
 
+	WorldTransform bodyJointWorldTransform_;
+
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
@@ -230,6 +232,10 @@ public: // アクセッサ
 
 	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
 
+	MeshObject* GetRightHand() { return rightHand_; };
+	MeshObject* GetLeftHand() { return leftHand_; };
+	MeshObject* GetHead() { return head_; };
+
 private: // グローバル変数
 
 	/// <summary>
@@ -259,5 +265,9 @@ private: //各動作の腕の位置
 
 	Vector3 oridinSpownPos_ = {0.0f,-64.0f,0.0f};
 	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
+
+	Vector3 bodyRootPos_ = {0,0,0};
+	Vector3 bodyHeadButtPos_ = {0,2.0f,-8.0f};
+	Vector3 bodyHeadButRot_ = {3.141592f * 0.5f,0.0f,0.0f};
 };
 

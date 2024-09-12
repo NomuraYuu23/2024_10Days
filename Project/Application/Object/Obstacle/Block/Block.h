@@ -29,6 +29,9 @@ public: // パラメータ
 	//下段の高さ
 	static const float kLowHight;
 
+	static const Vector3 kMinRange_;
+	static const Vector3 kMaxRange_;
+
 public: // static関数
 
 	/// <summary>

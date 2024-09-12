@@ -5,6 +5,8 @@
 #include "../Enemy/Enemy.h"
 #include "../Enemy/FlyEnemy.h"
 #include "../Enemy/Bullet.h"
+#include "../Enemy/Boss/Hand.h"
+#include "../Enemy/Boss/Head.h"
 #include "../../../../Engine/3D/ModelDraw.h"
 #include "../../../../Engine/Physics/Gravity.h"
 #include "../../../../externals/imgui/imgui.h"
@@ -293,6 +295,18 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	}
 	else if (std::holds_alternative<Bullet*>(colliderPartner) && !isInvincible_) {
 		OnCollisionDamage(std::get<Bullet*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+	}
+	else if (std::holds_alternative<Hand*>(colliderPartner) && !isInvincible_) {
+		//攻撃判定があるかどうか
+		if (std::get<Hand*>(colliderPartner)->IsAttack()) {
+			OnCollisionDamage(std::get<Hand*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
+	}
+	else if (std::holds_alternative<Head*>(colliderPartner) && !isInvincible_) {
+		//攻撃判定があるかどうか
+		if (std::get<Head*>(colliderPartner)->IsAttack()) {
+			OnCollisionDamage(std::get<Head*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition());
+		}
 	}
 
 }

@@ -77,6 +77,8 @@ public:
 	//入ってきたポインタをリストから排除する
 	void RemoveEgg(Egg* in);
 
+	bool GetIsEndAllWave() { return isEndAllWave_; };
+
 private:
 
 	// 
@@ -92,6 +94,9 @@ private:
 	size_t kWaveNum = 2;
 
 	size_t waveNum = 0;
+
+	//すべてのウェーブが終了したか
+	bool isEndAllWave_ = false;
 
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;

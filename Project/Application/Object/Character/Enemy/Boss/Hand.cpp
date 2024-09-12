@@ -40,7 +40,7 @@ LevelData::MeshData Hand::HandCreate(int32_t direction)
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 2.5f,3.0f,1.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 2.5f,5.0f,2.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -129,7 +129,7 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 			OnCollisionObstacle(colliderPartner, collisionData);
 		}
 		if (isCollisionObstacle_ || isAttack_){
-			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
 				hp_--;
 				if (hp_>0) {
 					state_ = std::bind(&Hand::Damage, this);
@@ -171,8 +171,11 @@ void Hand::ColliderUpdate()
 	float coliderAddY = 1.0f;
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	obb.center_.y += obb.size_.y / 2.0f + coliderAddY;
-	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+	Matrix4x4 rotate = worldTransform_.worldMatrix_;
+	rotate.m[3][0] = 0;
+	rotate.m[3][1] = 0;
+	rotate.m[3][2] = 0;
+	obb.SetOtientatuons(rotate);
 
 	ColliderShape* colliderShape = new ColliderShape();
 
@@ -298,7 +301,7 @@ void Hand::RoundStand() {
 void Hand::RoundAttack() {
 	//isCollisionObstacle_ = true;
 	isAttack_ = true;
-	isDamageMovingBlock_ = true;
+	//isDamageMovingBlock_ = true;
 	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
 	float t = float(countUp_) / float(kRoundAnimationLength_);
 	worldTransform_.transform_.translate.x = Ease::Easing(Ease::EaseName::EaseInBack,0, -direction_* roundAttackWidth_, t);

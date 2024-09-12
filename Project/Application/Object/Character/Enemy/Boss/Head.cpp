@@ -37,7 +37,7 @@ LevelData::MeshData Head::HeadCreate()
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 4.0f,3.0f,4.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 2.5f,3.0f,4.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -178,9 +178,11 @@ void Head::ColliderUpdate()
 	float coliderAddY = 1.0f;
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	obb.center_.y += obb.size_.y / 2.0f + coliderAddY;
-	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
-
+	Matrix4x4 rotate = worldTransform_.worldMatrix_;
+	rotate.m[3][0] = 0;
+	rotate.m[3][1] = 0;
+	rotate.m[3][2] = 0;
+	obb.SetOtientatuons(rotate);
 	ColliderShape* colliderShape = new ColliderShape();
 
 	*colliderShape = obb;

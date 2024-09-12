@@ -135,11 +135,13 @@ void GameScene::Initialize() {
 	enemyManager_->SetObjectManager(objectManager_.get());
 	enemyManager_->SetBlockManager(blockManager_.get());
 
+	isCreateBoss_ = false;
+
 	// ブロック
 	CreateBlocks();
 
 	//ボス作成(仮)
-	CreateBoss();
+	//CreateBoss();
 
 	// 雲
 	cloudSystem_ = std::make_unique<CloudSystem>();
@@ -193,6 +195,11 @@ void GameScene::Update() {
 	PreGameUpdate();
 
 	enemyManager_->Update();
+	if (enemyManager_->GetIsEndAllWave() && !isCreateBoss_) {
+		isCreateBoss_=true;
+		CreateBoss();
+	}
+
 
 	objectManager_->Update();
 
@@ -484,6 +491,9 @@ void GameScene::ShadowUpdate()
 
 	}
 
+	//ボス(出現してたら)
+	AddBossShadows();
+
 	// 影が現れるオブジェクト
 	// ブロック
 	for (uint32_t i = 0; i < blockManager_->GetBlockNum(); ++i) {
@@ -527,6 +537,22 @@ void GameScene::CreateBoss() {
 	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
+	boss_ = static_cast<Boss*>(pointer);
+}
+
+void GameScene::AddBossShadows() {
+	if (boss_) {
+		if (boss_->GetLeftHand()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetLeftHand());
+		}
+		if (boss_->GetRightHand()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetRightHand());
+		}
+		if (boss_->GetHead()) {
+			shadowManager_->CastsShadowObjListRegister(boss_->GetHead());
+		}
+	}
+}
 }
 
 void GameScene::PreGameUpdate()

@@ -96,6 +96,8 @@ void Boss::Initialize(LevelData::MeshData* data)
 	headJointWorldTransform_.Initialize();
 	headJointWorldTransform_.SetParent(&worldTransform_);
 
+	bodyJointWorldTransform_.Initialize(model_->GetRootNode());
+	bodyJointWorldTransform_.SetParent(&worldTransform_);
 }
 
 void Boss::Update()
@@ -116,7 +118,7 @@ void Boss::Update()
 	rightArmJointWorldTransform_.UpdateMatrix();
 	leftArmJointWorldTransform_.UpdateMatrix();
 	headJointWorldTransform_.UpdateMatrix();
-
+	bodyJointWorldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
 
@@ -126,8 +128,20 @@ void Boss::Update()
 void Boss::Draw(BaseCamera& camera)
 {
 
-	MeshObject::Draw(camera);
+	if (material_->GetMaterialMap()->color.w == 0.0f) {
+		return;
+	}
 
+	//bodyJointWorldTransform_.Map(camera.GetViewProjectionMatrix());
+
+	ModelDraw::NormalObjectDesc desc;
+
+	desc.model = model_;
+	desc.material = material_.get();
+	desc.camera = &camera;
+	desc.worldTransform = &bodyJointWorldTransform_;
+
+	ModelDraw::NormalObjectDraw(desc);
 }
 
 void Boss::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
@@ -261,6 +275,8 @@ void Boss::Root() {
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
 	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
+	bodyJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.translate, bodyRootPos_, 0.05f);
+	bodyJointWorldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.rotate.x, 0, 0.05f);
 	if (countUp_ == 60) {
 		if (rightHand_ || leftHand_) {
 			if (executeAction_ == 1) {
@@ -343,6 +359,8 @@ void Boss::HeadButtAttack() {
 		if (countUp_ <= headButtMoveLength_) {
 			float t = float(countUp_) / float(headButtMoveLength_);
 			headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, HeadInitPos_, HeadAttackPos_, t);
+			bodyJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp,bodyRootPos_, bodyHeadButtPos_,  t);
+			bodyJointWorldTransform_.transform_.rotate = Ease::Easing(Ease::EaseName::Lerp, {0,0,0}, bodyHeadButRot_, t);
 			RotateToPlayer();
 			//ChacePlayerY();
 		}

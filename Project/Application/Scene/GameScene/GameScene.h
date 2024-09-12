@@ -112,6 +112,11 @@ private:
 	void CreateBoss();
 
 	/// <summary>
+	/// ボスの影追加
+	/// </summary>
+	void AddBossShadows();
+
+	/// <summary>
 	/// ゲーム開始前処理
 	/// </summary>
 	void PreGameUpdate();
@@ -143,6 +148,12 @@ private:
 
 	// プレイヤー
 	Player* player_;
+
+	//ボス
+	Boss* boss_;
+
+	//ボスを生成したか
+	bool isCreateBoss_ = false;
 
 	// 平行光源システム
 	std::unique_ptr<DirectionalLightSystem> directionalLightSystem_;
