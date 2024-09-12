@@ -107,7 +107,7 @@ void Player::Initialize(LevelData::MeshData* data)
 	airborneCheck_ = false;
 
 	//
-	fallingPosition_ = { 0.0f,0.0f,0.0f };
+	fallingPosition_ = { 1000.0f,1000.0f,1000.0f };
 
 	fallSearchSpeedCorrection_ = 3.0f;
 
