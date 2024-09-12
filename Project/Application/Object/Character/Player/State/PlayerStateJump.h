@@ -42,5 +42,8 @@ private: // メンバ変数
 	// 踏み込み中か
 	bool steppingIn_ = true;
 
+	// ジャンプ移動倍率
+	float moveMagnification_ = 2.0f;
+
 };
 

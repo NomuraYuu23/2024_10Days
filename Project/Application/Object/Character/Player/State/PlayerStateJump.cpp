@@ -23,6 +23,9 @@ void PlayerStateJump::Initialize()
 	// 踏み込み中か
 	steppingIn_ = true;
 
+	// ジャンプ移動倍率
+	moveMagnification_ = 2.0f;
+
 	player_->GetAudioManager()->PlayWave(kGamejumpSE);
 
 }
@@ -48,7 +51,7 @@ void PlayerStateJump::Update()
 			Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 			if (Vector3::Length(move) > kThresholdRunning) {
 				//ランニング
-				Move(move, worldTransform, player_->GetRunningSpeed());
+				Move(move, worldTransform, player_->GetRunningSpeed() * moveMagnification_);
 			}
 
 			// 角度補間
