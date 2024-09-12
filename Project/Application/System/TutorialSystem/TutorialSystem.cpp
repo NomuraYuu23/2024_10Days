@@ -175,25 +175,26 @@ void TutorialSystem::SpriteInitialize()
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	Vector2 positon = { notDrawPosX_, posY_ };
-	Vector2 size = { 432.0f, 150.0f};
-
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	// ジャンプスプライト
 	uint32_t textureHandle = TextureManager::Load("Resources/Sprite/tutorial/tutorial_Jump.png", dxCommon);
 	jumpSprite1_.reset(Sprite::Create(textureHandle, positon, color));
-	jumpSprite1_->SetSize(size);
+	jumpSprite1_->SetSize(jumpSize_);
+	jumpSprite1_->SetTextureSize(jumpTextureSize_);
 	// ジャンプスプライト
 	jumpSprite2_.reset(Sprite::Create(textureHandle, positon, color));
-	jumpSprite2_->SetSize(size);
+	jumpSprite2_->SetSize(jumpSize_);
+	jumpSprite2_->SetTextureLeftTop(Vector2{ 0.0f, jump2TopY_ });
+	jumpSprite2_->SetTextureSize(jumpTextureSize_);
 	// 攻撃１スプライト
 	textureHandle = TextureManager::Load("Resources/Sprite/tutorial/tutorial_attack01.png", dxCommon);
 	attack1Sprite_.reset(Sprite::Create(textureHandle, positon, color));
-	attack1Sprite_->SetSize(size);
+	attack1Sprite_->SetSize(attackSize_);
 	// 攻撃２スプライト
 	textureHandle = TextureManager::Load("Resources/Sprite/tutorial/tutorial_attack02.png", dxCommon);
 	attack2Sprite_.reset(Sprite::Create(textureHandle, positon, color));
-	attack2Sprite_->SetSize(size);
+	attack2Sprite_->SetSize(attackSize_);
 
 }
 
@@ -256,7 +257,10 @@ void TutorialSystem::JumpCheck()
 
 	// 位置変更
 	Vector2 position = { Ease::Easing(Ease::EaseName::EaseInOutCubic, notDrawPosX_, drawPosX_, elapsedTime_ / timeMax_), posY_ };
+	position.y -= jump2TopY_ / 4.0f;
 	jumpSprite1_->SetPosition(position);
+	position.y += jump2TopY_ / 2.0f;
+	jumpSprite2_->SetPosition(position);
 
 }
 

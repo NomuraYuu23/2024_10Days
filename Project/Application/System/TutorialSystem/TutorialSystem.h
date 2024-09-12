@@ -164,7 +164,14 @@ private: // 変数
 
 	float timeMax_ = 1.0f;
 
-	bool isEndFlow_;
+	bool isEndFlow_ = false;
+
+	Vector2 jumpSize_ = { 432.0f, 75.0f };
+	Vector2 attackSize_ = { 432.0f, 150.0f};
+
+	Vector2 jumpTextureSize_ = { 1152.0f, 200.0f };
+
+	float jump2TopY_ = 200.0f;
 	
 };
 
