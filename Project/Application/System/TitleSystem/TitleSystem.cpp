@@ -76,6 +76,7 @@ void TitleSystem::EndSystem()
 	currentEndSystemTime_ += kDeltaTime_;
 
 	if (endSystemTime_ <= currentEndSystemTime_) {
+		currentEndSystemTime_ = endSystemTime_;
 		isRun_ = false;
 	}
 

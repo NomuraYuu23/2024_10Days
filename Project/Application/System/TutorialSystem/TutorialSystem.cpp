@@ -11,6 +11,7 @@
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../Object/Character/Enemy/EnemyManager.h"
+#include "../../UI/UISystem.h"
 
 #include "../../../externals/imgui/imgui.h"
 
@@ -19,7 +20,8 @@ void TutorialSystem::Initialize(
 	Player* player, 
 	BlockManager* blockManager, 
 	GameCamera* gameCamera,
-	EnemyManager* enemyManager)
+	EnemyManager* enemyManager,
+	UISystem* UISystem)
 {
 
 	objectManager_ = objectManager;
@@ -31,6 +33,8 @@ void TutorialSystem::Initialize(
 	gameCamera_ = gameCamera;
 
 	enemyManager_ = enemyManager;
+
+	UISystem_ = UISystem;
 
 	tutorialFlowNumber_ = kTutorialFlowStartCheck;
 
@@ -50,6 +54,9 @@ void TutorialSystem::Initialize(
 
 	isEndFlow_ = false;
 
+	// 終了フラグ
+	isEnd_ = false;
+
 	StartPosObjectInitialize();
 
 	TutorialArrowObjectInitialize();
@@ -60,6 +67,10 @@ void TutorialSystem::Initialize(
 
 void TutorialSystem::Update()
 {
+
+	if (isEnd_) {
+		return;
+	}
 
 	// 現在の更新処理
 	tutorialFlowUpdates_[tutorialFlowNumber_]();
@@ -351,4 +362,15 @@ void TutorialSystem::StartCheck()
 
 void TutorialSystem::EndSystem()
 {
+	// タイム
+	elapsedTime_ += kDeltaTime_;
+	if (elapsedTime_ >= timeMax_) {
+		elapsedTime_ = timeMax_;
+		isEndFlow_ = false;
+		isEnd_ = true;
+	}
+
+	float t = elapsedTime_ / timeMax_;
+	UISystem_->SetTutorialPosAddX(Ease::Easing(Ease::EaseName::EaseInCubic, -640.0f, 0.0f, t));
+
 }

@@ -14,6 +14,8 @@ class GameCamera;
 
 class EnemyManager;
 
+class UISystem;
+
 class TutorialSystem
 {
 
@@ -55,7 +57,8 @@ public:
 		Player* player, 
 		BlockManager* blockManager, 
 		GameCamera* gameCamera,
-		EnemyManager* enemyManager);
+		EnemyManager* enemyManager,
+		UISystem* UISystem);
 
 	/// <summary>
 	/// 更新
@@ -115,11 +118,28 @@ private: // その他のながれ
 
 private: // オブジェクト初期化
 
+	/// <summary>
+	/// エリア
+	/// </summary>
 	void StartPosObjectInitialize();
 
+	/// <summary>
+	/// 矢印
+	/// </summary>
 	void TutorialArrowObjectInitialize();
 
+	/// <summary>
+	/// スプライト
+	/// </summary>
 	void SpriteInitialize();
+
+public: // アクセッサ
+
+	/// <summary>
+	/// 終了フラグ
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsEnd() { return isEnd_; }
 
 private: // 変数
 
@@ -137,6 +157,9 @@ private: // 変数
 
 	// エネミーマネージャー
 	EnemyManager* enemyManager_;
+
+	// UIシステム
+	UISystem* UISystem_;
 
 	// チュートリアル流れ
 	TutorialFlow tutorialFlowNumber_;
@@ -197,6 +220,9 @@ private: // 変数
 	uint32_t blockNumStartCheck_ = 7; // 開始チェック
 	uint32_t blockNumKnockFromBelowCheck_ = 43; // 下からたたくチェック
 	uint32_t blockNumFallingAttackCheck_ = 36; // 落下攻撃チェック
+
+	// 終了フラグ
+	bool isEnd_;
 	
 };
 

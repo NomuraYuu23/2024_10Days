@@ -57,8 +57,14 @@ public: // メンバ関数
 	/// <summary>
 	/// タイトルの追加位置設定
 	/// </summary>
-	/// <param name="titlePosAddY"></param>
+	/// <param name="titlePosAddX"></param>
 	void SetTitlePosAddX(float titlePosAddX) { titlePosAddX_ = titlePosAddX; }
+
+	/// <summary>
+	///	チュートリアルの追加位置設定
+	/// </summary>
+	/// <param name="tutorialPosAddX"></param>
+	void SetTutorialPosAddX(float tutorialPosAddX) { tutorialPosAddX_ = tutorialPosAddX; }
 
 private:
 
@@ -73,6 +79,9 @@ private:
 
 	// タイトルの追加位置
 	float titlePosAddX_;
+
+	// チュートリアルの追加位置
+	float tutorialPosAddX_;
 
 private: 
 
