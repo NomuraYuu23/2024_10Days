@@ -29,6 +29,8 @@
 #include "../../System/PostEffect/PostEffectSystem.h"
 #include "../../System/TitleSystem/TitleSystem.h"
 #include "../../System/TutorialSystem/TutorialSystem.h"
+#include "../../System/CountDown/CountDown.h"
+#include "../../System/CountDown/CountDown.h"
 
 class GameScene : public IScene
 {
@@ -157,5 +159,8 @@ private:
 
 	// チュートリアルシステム
 	std::unique_ptr<TutorialSystem> tutorialSystem_;
+
+	//CountDown
+	std::unique_ptr<CountDown> countDown_;
 
 };

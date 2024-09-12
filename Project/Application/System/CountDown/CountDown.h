@@ -11,10 +11,8 @@ public:
 	/// チュートリアルの流れ
 	/// </summary>
 	enum CountDownFlow {
-		kCountDownFlowCome, // 来る
 		kCountDownFlowMain, // カウントダウン
 		kCountDownFlowGameStart, // ゲームスタート
-		kCountDownFlowGoHome, // 帰る
 		kCountDownFlowEndSystem, // エンドシステム
 		kCountDownFlowOfCount, // 数
 	};
@@ -37,11 +35,6 @@ private:
 private:
 
 	/// <summary>
-	/// 来る
-	/// </summary>
-	void Come();
-
-	/// <summary>
 	/// カウントダウン
 	/// </summary>
 	void Main();
@@ -52,30 +45,25 @@ private:
 	void GameStart();
 
 	/// <summary>
-	/// 帰る
-	/// </summary>
-	void GoHome();
-
-	/// <summary>
 	/// エンドシステム
 	/// </summary>
 	void EndSystem();
 
 private:
 
+	// カウントMAX
+	static const uint32_t kCountMax_ = 3;
+
 	// カウント数字
 	std::unique_ptr<Sprite> countNum_;
 	Vector2 countNumPos_;
 	Vector2 countNumSize_;
-	std::array<uint32_t, 3> numTextureHandles_;
+	std::array<uint32_t, kCountMax_> numTextureHandles_;
 
 	// ゲームスタート文字
 	std::unique_ptr<Sprite> gameStartString_;
 	Vector2 gameStartStringPos_;
 	Vector2 gameStartStringSize_;
-
-	// 描画しない時の位置Y
-	float notDrawPosY_ = -640.0f;
 
 	// 経過時間
 	float elapsedTime_ = 0.0f;
@@ -83,14 +71,8 @@ private:
 	// 時間最大
 	float timeMax_ = 1.0f;
 
-	// 流れが終了した
-	bool isEndFlow_ = false;
-
 	// 実行フラグ
 	bool isRun_;
-
-	// 終了フラグ
-	bool isEnd_;
 
 	// ゲーム開始フラグ
 	bool isGameStart_;
@@ -100,6 +82,15 @@ private:
 
 	// 番号
 	CountDownFlow countDownFlowNumber_;
+
+	// カウント
+	uint32_t count_;
+
+public:
+
+	void SetIsRun(bool isRun) { isRun_ = isRun; }
+	
+	bool GetIsGameStart(bool isGameStart) { isGameStart_ = isGameStart; }
 
 };
 

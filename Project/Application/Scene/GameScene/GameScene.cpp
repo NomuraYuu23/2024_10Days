@@ -165,6 +165,9 @@ void GameScene::Initialize() {
 
 	titleSystem_->SetTutorialSystem(tutorialSystem_.get());
 
+	countDown_ = std::make_unique<CountDown>();
+	countDown_->Initialize();
+
 	IScene::InitilaizeCheck();
 
 }
@@ -189,6 +192,9 @@ void GameScene::Update() {
 
 	// チュートリアルシステム
 	tutorialSystem_->Update();
+	
+	// カウントダウン
+	countDown_->Update();
 
 	enemyManager_->Update();
 
@@ -305,6 +311,9 @@ void GameScene::Draw() {
 
 	// チュートリアル
 	tutorialSystem_->SpriteDraw();
+
+	// カウントダウン
+	countDown_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
