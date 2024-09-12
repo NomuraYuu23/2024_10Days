@@ -279,8 +279,8 @@ void Head::Damage() {
 			DisConnect();
 			parent_->DeathHead();
 			velocity_ = Vector3::Normalize( worldTransform_.direction_);
-			velocity_ *= 4.0f;
-			velocity_.y = 2.0f;
+			velocity_ *= 2.0f;
+			velocity_.y = 1.5f;
 			state_ = std::bind(&Head::Dead, this);
 		}
 	}
@@ -320,7 +320,7 @@ void Head::ConnectJoint(WorldTransform* pointer) {
 void Head::DisConnect() {
 	if (worldTransform_.parent_) {
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
-		worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},Matrix4x4::Inverse(worldTransform_.parentMatrix_));
+		worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},(worldTransform_.parent_->worldMatrix_));
 		worldTransform_.usedDirection_ = true;
 		worldTransform_.SetParent(nullptr);
 		worldTransform_.UpdateMatrix();
