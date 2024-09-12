@@ -22,7 +22,7 @@ void BlockManager::Set2dArray() {
 		
 		heights_[y][x] = height;
 		x++;
-		if (x>=6) {
+		if (x>=8) {
 			x = 0;
 			y++;
 		}
@@ -30,6 +30,7 @@ void BlockManager::Set2dArray() {
 }
 
 bool BlockManager::IsConnectRoad(Vector3 from, Vector3 to, bool hight) {
+
 	Set2dArray();
 	Vector3 length{0,0,0};
 	length = Vector3::Subtract(to, from);
