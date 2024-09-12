@@ -10,10 +10,16 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/Math/DeltaTime.h"
+#include "../../Object/Character/Enemy/EnemyManager.h"
 
 #include "../../../externals/imgui/imgui.h"
 
-void TutorialSystem::Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager, GameCamera* gameCamera)
+void TutorialSystem::Initialize(
+	BaseObjectManager* objectManager, 
+	Player* player, 
+	BlockManager* blockManager, 
+	GameCamera* gameCamera,
+	EnemyManager* enemyManager)
 {
 
 	objectManager_ = objectManager;
@@ -23,6 +29,8 @@ void TutorialSystem::Initialize(BaseObjectManager* objectManager, Player* player
 	blockManager_ = blockManager;
 
 	gameCamera_ = gameCamera;
+
+	enemyManager_ = enemyManager;
 
 	tutorialFlowNumber_ = kTutorialFlowStartCheck;
 
@@ -101,8 +109,8 @@ void TutorialSystem::StartPosObjectInitialize()
 	Vector4 color = { 0.8f, 0.0f, 0.0f, 0.5f };
 	startPosObject_->SetMaterialColor(color);
 
-	blockManager_->GetBlocks()->at(7)->Down();
-	blockManager_->GetBlocks()->at(7)->SetIsRockMove(true);
+	blockManager_->GetBlocks()->at(blockNumStartCheck_)->Down();
+	blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(true);
 
 }
 
@@ -216,8 +224,8 @@ void TutorialSystem::JumpCheck()
 			elapsedTime_ = 0.0f;
 			isEndFlow_ = false;
 			tutorialFlowNumber_ = kTutorialFlowUpperRowOccurrence;
-			blockManager_->GetBlocks()->at(43)->Up();
-			blockManager_->GetBlocks()->at(43)->SetIsRockMove(true);
+			blockManager_->GetBlocks()->at(blockNumKnockFromBelowCheck_)->Up();
+			blockManager_->GetBlocks()->at(blockNumKnockFromBelowCheck_)->SetIsRockMove(true);
 		}
 	}
 	else{
@@ -239,6 +247,12 @@ void TutorialSystem::JumpCheck()
 void TutorialSystem::KnockFromBelowCheck()
 {
 
+	// 確認
+	if (blockManager_->GetBlocks()->at(blockNumKnockFromBelowCheck_)->GetIsAttack()) {
+		isEndFlow_ = true;
+		blockManager_->GetBlocks()->at(blockNumKnockFromBelowCheck_)->SetIsRockMove(false);
+	}
+
 	// タイム
 	if (isEndFlow_) {
 		elapsedTime_ -= kDeltaTime_;
@@ -246,6 +260,8 @@ void TutorialSystem::KnockFromBelowCheck()
 			elapsedTime_ = 0.0f;
 			isEndFlow_ = false;
 			tutorialFlowNumber_ = kTutorialFlowLowerRowOccurrence;
+			blockManager_->GetBlocks()->at(blockNumFallingAttackCheck_)->Down();
+			blockManager_->GetBlocks()->at(blockNumFallingAttackCheck_)->SetIsRockMove(true);
 		}
 	}
 	else {
@@ -263,6 +279,32 @@ void TutorialSystem::KnockFromBelowCheck()
 
 void TutorialSystem::FallingAttackCheck()
 {
+
+	// 確認
+	if (blockManager_->GetBlocks()->at(blockNumFallingAttackCheck_)->GetIsAttack()) {
+		isEndFlow_ = true;
+	}
+
+	// タイム
+	if (isEndFlow_) {
+		elapsedTime_ -= kDeltaTime_;
+		if (elapsedTime_ <= 0.0f) {
+			elapsedTime_ = 0.0f;
+			isEndFlow_ = false;
+			tutorialFlowNumber_ = kTutorialFlowEndSystem;
+		}
+	}
+	else {
+		elapsedTime_ += kDeltaTime_;
+		if (elapsedTime_ >= timeMax_) {
+			elapsedTime_ = timeMax_;
+		}
+	}
+
+	// 位置変更
+	Vector2 position = { Ease::Easing(Ease::EaseName::EaseInOutCubic, notDrawPosX_, drawPosX_, elapsedTime_ / timeMax_), posY_ };
+	attack2Sprite_->SetPosition(position);
+
 }
 
 void TutorialSystem::UpperRowOccurrence()
@@ -274,12 +316,23 @@ void TutorialSystem::UpperRowOccurrence()
 		elapsedTime_ = 0.0f;
 		tutorialFlowNumber_ = kTutorialFlowKnockFromBelowCheck;
 		isEndFlow_ = false;
+		enemyManager_->AddEgg(blockManager_->GetBlocks()->at(blockNumKnockFromBelowCheck_)->GetWorldTransformAdress()->GetWorldPosition());
 	}
 
 }
 
 void TutorialSystem::LowerRowOccurrence()
 {
+
+	// タイム
+	elapsedTime_ += kDeltaTime_;
+	if (elapsedTime_ >= timeMax_) {
+		elapsedTime_ = 0.0f;
+		tutorialFlowNumber_ = kTutorialFlowFallingAttackCheck;
+		isEndFlow_ = false;
+		enemyManager_->AddEgg(blockManager_->GetBlocks()->at(blockNumFallingAttackCheck_)->GetWorldTransformAdress()->GetWorldPosition());
+	}
+
 }
 
 void TutorialSystem::StartCheck()
@@ -288,7 +341,7 @@ void TutorialSystem::StartCheck()
 	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
 	if (length <= startCheckStruct_.radius_) {
 		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
-		blockManager_->GetBlocks()->at(7)->SetIsRockMove(false);
+		blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(false);
 	}
 
 	BaseCamera camera = *gameCamera_;

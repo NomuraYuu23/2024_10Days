@@ -43,6 +43,12 @@ public:
 	void AddEnemy(BaseEnemy* enemy);
 
 	/// <summary>
+	/// 卵生成
+	/// </summary>
+	/// <param name="position">位置</param>
+	void AddEgg(const Vector3& position);
+
+	/// <summary>
 	/// 取得
 	/// </summary>
 	/// <returns></returns>

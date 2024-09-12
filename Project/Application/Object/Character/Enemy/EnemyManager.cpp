@@ -144,6 +144,26 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
 }
 
+void EnemyManager::AddEgg(const Vector3& position)
+{
+	LevelData::ObjectData odata;
+
+	IObject* pointer = nullptr;
+
+	odata = Egg::EggCreate();
+	LevelData::MeshData& enemy = std::get<LevelData::MeshData>(odata);
+	enemy.transform.translate = position;
+	enemy.transform.translate.y = 28.0f;
+	pointer = objectManager_->AddObject(odata);
+	static_cast<Egg*>(pointer)->SetPlayer(player_);
+	static_cast<Egg*>(pointer)->SetBlockManager(blockManager_);
+	static_cast<Egg*>(pointer)->SetObjectManager(objectManager_);
+	//enemys_.push_back(pointer);
+	static_cast<Egg*>(pointer)->SetEnemyManager(this);
+	static_cast<Egg*>(pointer)->SetIsCreateEnemy(false);
+	eggs_.push_back(static_cast<Egg*>(pointer));
+}
+
 
 void EnemyManager::RemoveEgg(Egg* in) {
 	eggs_.remove_if([&](Egg* egg) {

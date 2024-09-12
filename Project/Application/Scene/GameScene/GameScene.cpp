@@ -161,7 +161,7 @@ void GameScene::Initialize() {
 	titleSystem_->Initialize(dxCommon_, gameCamera_.get(), UISystem_.get());
 
 	tutorialSystem_ = std::make_unique<TutorialSystem>();
-	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get(), gameCamera_.get());
+	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get(), gameCamera_.get(), enemyManager_.get());
 
 	IScene::InitilaizeCheck();
 

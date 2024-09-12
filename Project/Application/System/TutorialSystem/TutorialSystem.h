@@ -12,6 +12,8 @@ class BlockManager;
 
 class GameCamera;
 
+class EnemyManager;
+
 class TutorialSystem
 {
 
@@ -48,7 +50,12 @@ class TutorialSystem
 
 public: 
 
-	void Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager, GameCamera* gameCamera);
+	void Initialize(
+		BaseObjectManager* objectManager, 
+		Player* player, 
+		BlockManager* blockManager, 
+		GameCamera* gameCamera,
+		EnemyManager* enemyManager);
 
 	/// <summary>
 	/// 更新
@@ -128,6 +135,9 @@ private: // 変数
 	// ゲームカメラ
 	GameCamera* gameCamera_;
 
+	// エネミーマネージャー
+	EnemyManager* enemyManager_;
+
 	// チュートリアル流れ
 	TutorialFlow tutorialFlowNumber_;
 
@@ -153,25 +163,40 @@ private: // 変数
 	// 攻撃２スプライト
 	std::unique_ptr<Sprite> attack2Sprite_;
 
-	// 
+	// スプライト用変数
+
+	// 描画位置X
 	float drawPosX_ = 300.0f;
 
+	// 描画しない時の位置X
 	float notDrawPosX_ = -640.0f;
 
+	// 位置Y
 	float posY_ = 135.0f;
 
+	// 経過時間
 	float elapsedTime_ = 0.0f;
 
+	// 時間最大
 	float timeMax_ = 1.0f;
 
+	// 流れが終了した
 	bool isEndFlow_ = false;
 
+	// ジャンプ画像サイズ
 	Vector2 jumpSize_ = { 432.0f, 75.0f };
+	// 攻撃画像サイズ
 	Vector2 attackSize_ = { 432.0f, 150.0f};
 
+	// ジャンプのテクスチャサイズ
 	Vector2 jumpTextureSize_ = { 1152.0f, 200.0f };
 
+	// ジャンプ2位置上
 	float jump2TopY_ = 200.0f;
+
+	uint32_t blockNumStartCheck_ = 7; // 開始チェック
+	uint32_t blockNumKnockFromBelowCheck_ = 43; // 下からたたくチェック
+	uint32_t blockNumFallingAttackCheck_ = 36; // 落下攻撃チェック
 	
 };
 
