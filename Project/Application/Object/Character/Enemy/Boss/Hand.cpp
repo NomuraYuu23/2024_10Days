@@ -171,7 +171,6 @@ void Hand::ColliderUpdate()
 	float coliderAddY = 1.0f;
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	//obb.center_.y += obb.size_.y / 2.0f + coliderAddY;
 	Matrix4x4 rotate = worldTransform_.worldMatrix_;
 	rotate.m[3][0] = 0;
 	rotate.m[3][1] = 0;
