@@ -34,7 +34,7 @@ void TutorialSystem::Initialize(BaseObjectManager* objectManager, Player* player
 	tutorialFlowUpdates_[kTutorialFlowFallingAttackCheck] = std::bind(&TutorialSystem::FallingAttackCheck, this);
 	tutorialFlowUpdates_[kTutorialFlowEndSystem] = std::bind(&TutorialSystem::EndSystem, this);
 
-	startCheckStruct_.center_ = { 15.0f,3.0f,-15.0f };
+	startCheckStruct_.center_ = { 21.0f,3.0f,-21.0f };
 	startCheckStruct_.radius_ = 3.0f;
 
 	jumpCheckStruct_.isJumpClear_ = false;
@@ -66,36 +66,6 @@ void TutorialSystem::Draw(BaseCamera& camera)
 		startPosObject_->Draw(camera);
 	}
 
-}
-
-void TutorialSystem::FallingAttackCheck()
-{
-}
-
-void TutorialSystem::UpperRowOccurrence()
-{
-}
-
-void TutorialSystem::LowerRowOccurrence()
-{
-}
-
-void TutorialSystem::StartCheck()
-{
-	// 範囲内に入った
-	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
-	if (length <= startCheckStruct_.radius_) {
-		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
-		blockManager_->GetBlocks()->at(5)->SetIsRockMove(false);
-	}
-
-	BaseCamera camera = *gameCamera_;
-	tutorialArrowObject_->Update(BillBoardMatrix::GetBillBoardMatrixY(camera));
-
-}
-
-void TutorialSystem::EndSystem()
-{
 }
 
 void TutorialSystem::StartPosObjectInitialize()
@@ -131,8 +101,8 @@ void TutorialSystem::StartPosObjectInitialize()
 	Vector4 color = { 0.8f, 0.0f, 0.0f, 0.5f };
 	startPosObject_->SetMaterialColor(color);
 
-	blockManager_->GetBlocks()->at(5)->Down();
-	blockManager_->GetBlocks()->at(5)->SetIsRockMove(true);
+	blockManager_->GetBlocks()->at(7)->Down();
+	blockManager_->GetBlocks()->at(7)->SetIsRockMove(true);
 
 }
 
@@ -265,5 +235,39 @@ void TutorialSystem::JumpCheck()
 }
 
 void TutorialSystem::KnockFromBelowCheck()
+{
+}
+
+void TutorialSystem::FallingAttackCheck()
+{
+}
+
+void TutorialSystem::UpperRowOccurrence()
+{
+
+	blockManager_->GetBlocks()->at(5)->Down();
+	blockManager_->GetBlocks()->at(5)->SetIsRockMove(true);
+
+}
+
+void TutorialSystem::LowerRowOccurrence()
+{
+}
+
+void TutorialSystem::StartCheck()
+{
+	// 範囲内に入った
+	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
+	if (length <= startCheckStruct_.radius_) {
+		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
+		blockManager_->GetBlocks()->at(7)->SetIsRockMove(false);
+	}
+
+	BaseCamera camera = *gameCamera_;
+	tutorialArrowObject_->Update(BillBoardMatrix::GetBillBoardMatrixY(camera));
+
+}
+
+void TutorialSystem::EndSystem()
 {
 }
