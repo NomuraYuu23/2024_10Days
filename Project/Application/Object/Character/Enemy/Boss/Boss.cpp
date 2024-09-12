@@ -115,6 +115,7 @@ void Boss::Update()
 
 	rightArmJointWorldTransform_.UpdateMatrix();
 	leftArmJointWorldTransform_.UpdateMatrix();
+	headJointWorldTransform_.UpdateMatrix();
 
 	// コライダー
 	ColliderUpdate();
@@ -238,12 +239,16 @@ void Boss::RegistrationGlobalVariables()
 
 void Boss::Root() {
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.usedDirection_ = false;
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	if (rightHand_) {
 		rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
 	}
 	if (leftHand_) {
 		leftHand_->ConnectJoint(&leftArmJointWorldTransform_);
+	}
+	if (head_) {
+		head_->ConnectJoint(&headJointWorldTransform_);
 	}
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
@@ -301,10 +306,13 @@ void Boss::LeftStampAttack() {
 
 void Boss::HeadButtAttack() {
 	if (head_) {
-		if (countUp_ == 0) {
+		if (countUp_ <= headButtMoveLength_) {
+			RotateToPlayer();
+		}
+		if (countUp_ == headButtMoveLength_) {
 			head_->AttackCall();
 		}
-		countUp_ = 1;
+		countUp_++;
 	}
 
 }
@@ -394,6 +402,12 @@ void Boss::EndAttack() {
 	countUp_ = 0;
 }
 
+void Boss::EndHeadAttack() {
+	state_ = std::bind(&Boss::Root, this);
+	worldTransform_.usedDirection_ = false;
+	countUp_ = 0;
+}
+
 void Boss::DeathRightHand() {
 	state_ = std::bind(&Boss::Root, this);
 	//rightHand_->ConnectJoint(nullptr);
@@ -406,4 +420,16 @@ void Boss::DeathLeftHand() {
 	//leftHand_->ConnectJoint(nullptr);
 	leftHand_ = nullptr;
 	countUp_ = 0;
+}
+
+void Boss::RotateToPlayer() {
+	Vector3 from = worldTransform_.GetWorldPosition();
+	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
+	from.y = 0;
+	to.y = 0;
+	//プレイヤーの方を向く
+	Matrix4x4 rotate = Matrix4x4::DirectionToDirection({ 0.0f,0.0f,1.0f }, to - from);
+	worldTransform_.direction_ = Matrix4x4::TransformNormal({ 0.0f,0.0f,1.0f }, rotate);
+	worldTransform_.usedDirection_ = true;
+	worldTransform_.UpdateMatrix();
 }
