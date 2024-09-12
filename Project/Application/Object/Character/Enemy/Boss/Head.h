@@ -13,8 +13,8 @@ class Boss;
 /// 頭のモーション一覧
 /// </summary>
 enum HeadMotionIndex {
-	kHeadMotionNormal, // 通常時
 	kHeadMotionRoar, // 噛みつき時
+	kHeadMotionNormal, // 通常時
 	kHeadMotionIndexOfCount // 数
 };
 
@@ -122,6 +122,9 @@ private: // ステート関数
 	/// </summary>
 	void Attack();
 
+	//攻撃後の引き戻し
+	void PullBack();
+
 	/// <summary>
 	/// 被弾
 	/// </summary>
@@ -169,7 +172,10 @@ private: //	変数
 	//頭突きの移動完了までのフレーム
 	static const size_t kAttackMoveLength_ = 90;
 
-	//薙ぎ払い攻撃の移動幅
+	//引き戻しの全体フレーム
+	static const size_t kPullBackLength_ = 120;
+
+	//攻撃の移動幅
 	float attackWidth_ = 38.0f;
 
 	//ステート

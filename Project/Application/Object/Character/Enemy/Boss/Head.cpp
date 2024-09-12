@@ -148,9 +148,11 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 {
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
-		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_) {
-			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+			OnCollisionObstacle(colliderPartner, collisionData);
+		}
+		if (isCollisionObstacle_) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack() && hp_>0) {
 				hp_--;
 				state_ = std::bind(&Head::Damage, this);
 				velocity_ = { 0.0f,3.0f,0.0f };
@@ -288,7 +290,7 @@ void Head::Damage() {
 }
 
 void Head::Dead() {
-
+	isCollisionObstacle_ = true;
 	// 重力
 	velocity_ += Gravity::Execute();
 	// 速度制限
@@ -366,6 +368,24 @@ void Head::Attack() {
 		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
 	}
 	if (countUp_ > kAttackAnimationLength_) {//仮
+		state_ = std::bind(&Head::PullBack, this);
+		//parent_->EndHeadAttack();
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
+void Head::PullBack() {
+	isCollisionObstacle_ = true;
+	//worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
+	if (countUp_ <= kPullBackLength_) {
+		//currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
+		float t = float(countUp_) / float(kPullBackLength_);
+		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::Lerp, attackWidth_, 0, t);
+	}
+	if (countUp_ > kPullBackLength_) {//仮
 		state_ = std::bind(&Head::Root, this);
 		parent_->EndHeadAttack();
 	}
