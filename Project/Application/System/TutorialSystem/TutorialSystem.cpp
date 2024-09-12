@@ -1,15 +1,18 @@
 #include "TutorialSystem.h"
 
-#include "../../Object/Manager/GameSceneObjectManager.h"
+#include "../../../Engine/Object/BaseObjectManager.h"
 #include "../../Object/Character/Player/Player.h"
+#include "../../Object/Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Math/DeltaTime.h"
 
-void TutorialSystem::Initialize(GameSceneObjectManager* gameSceneObjectManager, Player* player)
+void TutorialSystem::Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager)
 {
 
-	gameSceneObjectManager_ = gameSceneObjectManager;
+	objectManager_ = objectManager;
 
 	player_ = player;
+
+	blockManager_ = blockManager;
 
 	tutorialFlowNumber_ = kTutorialFlowStartCheck;
 
@@ -21,8 +24,8 @@ void TutorialSystem::Initialize(GameSceneObjectManager* gameSceneObjectManager, 
 	tutorialFlowUpdates_[kTutorialFlowFallingAttackCheck] = std::bind(&TutorialSystem::FallingAttackCheck, this);
 	tutorialFlowUpdates_[kTutorialFlowEndSystem] = std::bind(&TutorialSystem::EndSystem, this);
 
-	startCheckStruct_.center_;
-	startCheckStruct_.radius_;
+	startCheckStruct_.center_ = blockManager_->GetBlocks()->at(5)->GetWorldTransformAdress()->GetWorldPosition();
+	startCheckStruct_.radius_ = 4.0f;
 
 	jumpCheckStruct_.isJumpClear_ = false;
 	jumpCheckStruct_.isSmallJumpClear_ = false;
@@ -57,7 +60,9 @@ void TutorialSystem::StartCheck()
 {
 
 	// 範囲内に入った
-	if (Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_) <= startCheckStruct_.radius_) {
+
+	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
+	if (length <= startCheckStruct_.radius_) {
 		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
 	}
 
@@ -76,10 +81,10 @@ void TutorialSystem::JumpCheck()
 		if (animTimer == static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame()) {
 			float playerVelocityY = player_->GetVelocity().y;
 
-			if (playerVelocityY == player_->GetSmallJumpInitialSpeed()) {
+			if (playerVelocityY <= player_->GetSmallJumpInitialSpeed()) {
 				jumpCheckStruct_.isSmallJumpClear_ = true;
 			}
-			else if(playerVelocityY == player_->GetJumpInitialSpeed()){
+			else{
 				jumpCheckStruct_.isJumpClear_ = true;
 			}
 

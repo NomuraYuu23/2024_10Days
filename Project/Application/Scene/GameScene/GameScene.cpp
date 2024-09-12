@@ -160,6 +160,9 @@ void GameScene::Initialize() {
 	titleSystem_ = std::make_unique<TitleSystem>();
 	titleSystem_->Initialize(dxCommon_, gameCamera_.get(), UISystem_.get());
 
+	tutorialSystem_ = std::make_unique<TutorialSystem>();
+	tutorialSystem_->Initialize(objectManager_.get(), player_, blockManager_.get());
+
 	IScene::InitilaizeCheck();
 
 }
@@ -181,6 +184,9 @@ void GameScene::Update() {
 
 	// タイトルシステム
 	titleSystem_->Update();
+
+	// チュートリアルシステム
+	tutorialSystem_->Update();
 
 	enemyManager_->Update();
 
@@ -291,6 +297,9 @@ void GameScene::Draw() {
 
 	// UI
 	UISystem_->Draw();
+
+	// チュートリアル
+	tutorialSystem_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();

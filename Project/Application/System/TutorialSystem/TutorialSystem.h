@@ -1,9 +1,11 @@
 #pragma once
 #include "../../../Engine/Math/Vector3.h"
 
-class GameSceneObjectManager;
+class BaseObjectManager;
 
 class Player;
+
+class BlockManager;
 
 class TutorialSystem
 {
@@ -41,7 +43,7 @@ class TutorialSystem
 
 public: 
 
-	void Initialize(GameSceneObjectManager* gameSceneObjectManager, Player* player);
+	void Initialize(BaseObjectManager* objectManager, Player* player, BlockManager* blockManager);
 
 	/// <summary>
 	/// 更新
@@ -97,10 +99,13 @@ private: // その他のながれ
 private: // 変数
 
 	// オブジェクトマネージャー
-	GameSceneObjectManager* gameSceneObjectManager_;
+	BaseObjectManager* objectManager_;
 
 	// プレイヤー
 	Player* player_;
+
+	// ブロックマネージャー
+	BlockManager* blockManager_;
 
 	// チュートリアル流れ
 	TutorialFlow tutorialFlowNumber_;

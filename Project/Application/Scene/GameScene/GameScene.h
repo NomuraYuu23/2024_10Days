@@ -28,6 +28,7 @@
 #include "../../GPUParticle/EggBreakParticle/EggBreakParticle.h"
 #include "../../System/PostEffect/PostEffectSystem.h"
 #include "../../System/TitleSystem/TitleSystem.h"
+#include "../../System/TutorialSystem/TutorialSystem.h"
 
 class GameScene : public IScene
 {
@@ -153,5 +154,8 @@ private:
 
 	// タイトルシステム
 	std::unique_ptr<TitleSystem> titleSystem_;
+
+	// チュートリアルシステム
+	std::unique_ptr<TutorialSystem> tutorialSystem_;
 
 };
