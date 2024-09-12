@@ -401,7 +401,7 @@ void GameScene::CreateBlocks() {
 			LevelData::MeshData &block = std::get<LevelData::MeshData>(data);
 			block.transform.translate.x = (float(x) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
 			block.transform.translate.z = (float(z) - float(Block::kNumOnece_-1)*0.5f)*2.0f * Block::kSize_;
-			block.transform.translate.y = -2.0f;
+			block.transform.translate.y = Block::kLowHight;
 			pointer = objectManager_->AddObject(data);
 			
 			// ブロックマネージャーに登録
@@ -513,6 +513,6 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->SetPlayer(player_);
 	static_cast<Boss*>(pointer)->SetBlockManager(blockManager_.get());
 	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
-	static_cast<Boss*>(pointer)->CreateHand();
+	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 }

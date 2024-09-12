@@ -37,7 +37,7 @@ LevelData::MeshData Head::HeadCreate()
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,2.5f,1.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 4.0f,3.0f,4.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -78,7 +78,7 @@ void Head::Initialize(LevelData::MeshData* data)
 
 
 	// hp
-	initHp_ = 3;
+	initHp_ = 1;
 
 	isDead_ = false;
 
@@ -107,7 +107,7 @@ void Head::Update()
 
 
 #endif // _DEBUG
-
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	MeshObject::Update();
 
 	isCollisionObstacle_ = false;
@@ -150,23 +150,13 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_) {
-			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
-				/*hp_--;
-				if (hp_ > 0) {
-					state_ = std::bind(&Head::Damage, this);
-				}
-				else {
-					state_ = std::bind(&Head::Dead, this);
-					//parent_->DeathLeftHead();
-				}
+			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
+				hp_--;
+				state_ = std::bind(&Head::Damage, this);
+				velocity_ = { 0.0f,3.0f,0.0f };
+				
 				//isHitCoolTime_ = true;
 				countUp_ = 0;
-				if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
-					velocity_ = { 0.0f,5.0f,0.0f };
-				}
-				else {
-					velocity_ = Vector3::Normalize(worldTransform_.GetWorldPosition() - std::get<Block*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition()) * 5.0f;
-				}*/
 			}
 		}
 	}
@@ -270,34 +260,51 @@ void Head::Damage() {
 
 	//float t = float(countUp_) / float(damageAnimationLength);
 	material_->SetColor({ 1.0f,0.2f,0.2f,1.0f });
+	worldTransform_.transform_.rotate.x -= 0.5f;
 	if (countUp_ < damageAnimationLength / 2) {
-		//velocity_ += acceleration_;
 		worldTransform_.transform_.translate += velocity_;
 		velocity_ *= 0.8f;
 	}
+	else {
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, { 0,0,0 }, 0.05f);
+	}
 	if (countUp_ > damageAnimationLength) {
 		material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
-		state_ = std::bind(&Head::Root, this);
+		if (hp_ > 0) {
+			state_ = std::bind(&Head::Root, this);
+			parent_->DamageHead();
+		}
+		else {//死亡に派生
+			//親子関係切って向きをdirectionに置き換えて保存する
+			DisConnect();
+			parent_->DeathHead();
+			velocity_ = Vector3::Normalize( worldTransform_.direction_);
+			velocity_ *= 2.0f;
+			velocity_.y = 1.5f;
+			state_ = std::bind(&Head::Dead, this);
+		}
 	}
 	countUp_++;
 }
 
 void Head::Dead() {
 
-	//float t = float(countUp_) / float(damageAnimationLength);
-	material_->SetColor({ 1.0f,0.2f,0.2f,1.0f });
-	//velocity_ += acceleration_;
-	worldTransform_.transform_.translate += velocity_;
-	worldTransform_.transform_.rotate.x += 0.5f;
-	worldTransform_.transform_.rotate.y += 0.5f;
-	worldTransform_.transform_.rotate.z += 0.5f;
-	velocity_ *= 0.9f;
-	if (countUp_ > deathAnimationLength) {
-		isDead_ = true;
-	}
-	countUp_++;
-}
+	// 重力
+	velocity_ += Gravity::Execute();
+	// 速度制限
+	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
 
+	velocity_.x *= 0.9f;
+	velocity_.z *= 0.9f;
+
+	if (isCollision_) {
+		velocity_.x = 0;
+		velocity_.z = 0;
+	}
+
+	// 位置更新
+	worldTransform_.transform_.translate += velocity_;
+}
 
 void Head::ConnectJoint(WorldTransform* pointer) {
 	if (pointer != worldTransform_.parent_) {
@@ -308,6 +315,16 @@ void Head::ConnectJoint(WorldTransform* pointer) {
 	//else {
 
 	//}
+}
+
+void Head::DisConnect() {
+	if (worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.direction_ = Matrix4x4::TransformNormal({0.0f,0.0f,1.0f},(worldTransform_.parent_->worldMatrix_));
+		worldTransform_.usedDirection_ = true;
+		worldTransform_.SetParent(nullptr);
+		worldTransform_.UpdateMatrix();
+	}
 }
 
 void Head::AnimationUpdate()
@@ -341,8 +358,10 @@ void Head::Attack() {
 	isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
-	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	//worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	if (countUp_ <=kAttackMoveLength_) {
+		//currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 		float t = float(countUp_) / float(kAttackMoveLength_);
 		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
 	}

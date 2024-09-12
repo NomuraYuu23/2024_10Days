@@ -40,7 +40,7 @@ LevelData::MeshData Hand::HandCreate(int32_t direction)
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,2.5f,1.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 2.5f,3.0f,1.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -68,7 +68,7 @@ void Hand::Initialize(LevelData::MeshData* data)
 	collider_.reset(colliderShape);
 
 	// hp
-	initHp_ = 3;
+	initHp_ = 1;
 
 	isDead_ = false;
 
@@ -127,7 +127,7 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_){
-			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
 				hp_--;
 				if (hp_>0) {
 					state_ = std::bind(&Hand::Damage, this);
@@ -277,7 +277,7 @@ void Hand::StampAttack() {
 	worldTransform_.transform_.translate += velocity_;
 	if (isCollision_){
 		isAttack_ = false;
-		if (countUp_ > 60){//仮
+		if (countUp_ > stampStiffnessLength){//仮
 			state_ = std::bind(&Hand::Root, this);
 			parent_->EndAttack();
 		}

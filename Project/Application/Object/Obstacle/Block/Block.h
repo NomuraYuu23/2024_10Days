@@ -19,12 +19,15 @@ class Block :
 public: // パラメータ
 
 	//一辺の数
-	static const size_t kNumOnece_ = 6;
+	static const size_t kNumOnece_ = 8;
 
 	static const float kSize_;
 
 	//浮き沈みの高さ
 	static const float kFloatHight;
+
+	//下段の高さ
+	static const float kLowHight;
 
 public: // static関数
 

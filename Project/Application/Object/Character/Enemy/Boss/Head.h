@@ -132,6 +132,8 @@ private: // ステート関数
 	/// </summary>
 	void Dead();
 
+	void DisConnect();
+
 public:
 	//本体からの命令
 
@@ -162,7 +164,7 @@ private: //	変数
 	size_t countUp_ = 0;
 
 	//頭突きの全体フレーム
-	static const size_t kAttackAnimationLength_ = 120;
+	static const size_t kAttackAnimationLength_ = 180;
 
 	//頭突きの移動完了までのフレーム
 	static const size_t kAttackMoveLength_ = 90;
@@ -181,7 +183,7 @@ private: //	変数
 	bool isCollision_ = false;
 
 	//被弾アニメーションの終了フレーム
-	size_t damageAnimationLength = 30;
+	size_t damageAnimationLength = 120;
 
 	//親
 	Boss* parent_ = nullptr;

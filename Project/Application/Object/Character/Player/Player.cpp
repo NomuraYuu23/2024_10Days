@@ -107,7 +107,7 @@ void Player::Initialize(LevelData::MeshData* data)
 	airborneCheck_ = false;
 
 	//
-	fallingPosition_ = { 0.0f,0.0f,0.0f };
+	fallingPosition_ = { 1000.0f,1000.0f,1000.0f };
 
 	fallSearchSpeedCorrection_ = 3.0f;
 
@@ -442,8 +442,8 @@ void Player::OnCollisionDamage(const Vector3& position)
 void Player::PositionLimit()
 {
 
-	Vector3 Max = { 18.0f,1000.0f, 18.0f };
-	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+	Vector3 Max = { 24.0f,1000.0f, 24.0f };
+	Vector3 Min = { -24.0f,-1000.0f, -24.0f };
 
 	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
 	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);
