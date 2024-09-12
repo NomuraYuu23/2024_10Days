@@ -28,12 +28,12 @@ enum UIIndex {
 	kUIIndexLeftStickStr, // 左スティック文字
 	kUIIndexButtonA, // Aボタン
 	kUIIndexButtonAStr, // Aボタン文字
-	kUIIndexHP1,// HP1
-	kUIIndexHP0,// HP0
-	kUIIndexHP2,// HP2
 	kUIIndexRightStickBG, // 右スティック背景
 	kUIIndexRightStick, // 右スティック
 	kUIIndexRightStickStr, // 右スティック文字
+	kUIIndexHP1,// HP1
+	kUIIndexHP0,// HP0
+	kUIIndexHP2,// HP2
 	kUIIndexHPStr, // HP文字
 	kUIIndexHPNum, // HP数字
 	kUIIndexOfCount
