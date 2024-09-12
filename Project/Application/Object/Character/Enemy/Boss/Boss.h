@@ -168,7 +168,7 @@ private: //	変数
 	Head* head_ = nullptr;
 
 	//薙ぎ払いの準備時間
-	static const size_t kRightHandRoundMoveLength_ = 30;
+	static const size_t kRightHandRoundMoveLength_ = 60;
 
 	//仮行動制御
 	int32_t executeAction_ = 1;

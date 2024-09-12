@@ -277,7 +277,7 @@ void Hand::StampAttack() {
 	worldTransform_.transform_.translate += velocity_;
 	if (isCollision_){
 		isAttack_ = false;
-		if (countUp_ > 60){//仮
+		if (countUp_ > stampStiffnessLength){//仮
 			state_ = std::bind(&Hand::Root, this);
 			parent_->EndAttack();
 		}

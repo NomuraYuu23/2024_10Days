@@ -162,7 +162,7 @@ private: //	変数
 	size_t countUp_ = 0;
 
 	//頭突きの全体フレーム
-	static const size_t kAttackAnimationLength_ = 120;
+	static const size_t kAttackAnimationLength_ = 180;
 
 	//頭突きの移動完了までのフレーム
 	static const size_t kAttackMoveLength_ = 90;

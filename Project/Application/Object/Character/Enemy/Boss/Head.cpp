@@ -107,7 +107,7 @@ void Head::Update()
 
 
 #endif // _DEBUG
-
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	MeshObject::Update();
 
 	isCollisionObstacle_ = false;
@@ -341,8 +341,10 @@ void Head::Attack() {
 	isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
-	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	//worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	if (countUp_ <=kAttackMoveLength_) {
+		//currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 		float t = float(countUp_) / float(kAttackMoveLength_);
 		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
 	}
