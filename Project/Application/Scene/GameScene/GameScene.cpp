@@ -397,6 +397,9 @@ void GameScene::CreateBlocks() {
 		}
 	}
 
+	blockManager_->GetBlocks()->at(0)->Up();
+	blockManager_->GetBlocks()->at(0)->SetIsRockMove(true);
+
 }
 
 void GameScene::CreatePlayer()

@@ -28,7 +28,7 @@ class TutorialSystem
 	};
 
 	// ジャンプチェック
-	struct StartCheckStruct
+	struct JumpCheckStruct
 	{
 		bool isClear_; // 達成した
 
