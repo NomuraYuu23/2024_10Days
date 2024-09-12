@@ -181,7 +181,7 @@ private: //	変数
 	bool isCollision_ = false;
 
 	//被弾アニメーションの終了フレーム
-	size_t damageAnimationLength = 30;
+	size_t damageAnimationLength = 120;
 
 	//親
 	Boss* parent_ = nullptr;

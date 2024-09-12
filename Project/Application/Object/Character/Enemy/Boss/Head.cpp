@@ -37,7 +37,7 @@ LevelData::MeshData Head::HeadCreate()
 
 	// コライダー(一時的なもの、親部分はヌルにしとく)
 	OBB obb;
-	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 1.0f,2.5f,1.0f }, static_cast<Null*>(nullptr));
+	obb.Initialize({ 0.0f,0.0f,0.0f }, Matrix4x4::MakeIdentity4x4(), { 4.0f,3.0f,4.0f }, static_cast<Null*>(nullptr));
 	data.collider = obb;
 
 	return data;
@@ -151,22 +151,17 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_) {
 			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
-				/*hp_--;
+				hp_--;
 				if (hp_ > 0) {
 					state_ = std::bind(&Head::Damage, this);
+					velocity_ = { 0.0f,3.0f,0.0f };
 				}
 				else {
 					state_ = std::bind(&Head::Dead, this);
-					//parent_->DeathLeftHead();
+					//parent_->DeathHead();
 				}
 				//isHitCoolTime_ = true;
 				countUp_ = 0;
-				if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
-					velocity_ = { 0.0f,5.0f,0.0f };
-				}
-				else {
-					velocity_ = Vector3::Normalize(worldTransform_.GetWorldPosition() - std::get<Block*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition()) * 5.0f;
-				}*/
 			}
 		}
 	}
@@ -270,14 +265,18 @@ void Head::Damage() {
 
 	//float t = float(countUp_) / float(damageAnimationLength);
 	material_->SetColor({ 1.0f,0.2f,0.2f,1.0f });
+	worldTransform_.transform_.rotate.x -= 0.5f;
 	if (countUp_ < damageAnimationLength / 2) {
-		//velocity_ += acceleration_;
 		worldTransform_.transform_.translate += velocity_;
 		velocity_ *= 0.8f;
+	}
+	else {
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, { 0,0,0 }, 0.05f);
 	}
 	if (countUp_ > damageAnimationLength) {
 		material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		state_ = std::bind(&Head::Root, this);
+		parent_->DamageHead();
 	}
 	countUp_++;
 }

@@ -113,6 +113,15 @@ private: // ステート関数
 	void HeadButtAttack();
 
 	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
+
+	//出現
+	void Spawn();
+
+	/// <summary>
 	/// 死亡状態
 	/// </summary>
 	//void Dead();
@@ -130,6 +139,8 @@ public:
 	void DeathRightHand();
 
 	void DeathLeftHand();
+
+	void DamageHead();
 
 	void RotateToPlayer();
 
@@ -175,6 +186,12 @@ private: //	変数
 
 	size_t headButtMoveLength_ = 60;
 
+	//ダメージ受けた時に下に沈むまでの時間
+	size_t damageAnimationlength_ = 60;
+
+	//出現の長さ
+	size_t spawnAnimationLength_ = 120;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -215,5 +232,8 @@ private: //各動作の腕の位置
 	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
 
 	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
+
+	Vector3 oridinSpownPos_ = {0.0f,-32.0f,0.0f};
+	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
 };
 

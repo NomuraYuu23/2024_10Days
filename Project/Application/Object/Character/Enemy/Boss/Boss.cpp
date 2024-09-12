@@ -81,9 +81,9 @@ void Boss::Initialize(LevelData::MeshData* data)
 	//hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Boss::Root, this);
+	state_ = std::bind(&Boss::Spawn, this);
 
-	worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.transform_.translate = oridinSpownPos_;
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	worldTransform_.UpdateMatrix();
 
@@ -358,6 +358,39 @@ void Boss::LeftRoundAttack() {
 	}
 }
 
+void Boss::Damage() {
+		if (countUp_ <= damageAnimationlength_) {
+			worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
+		}
+		if (countUp_ == damageAnimationlength_) {
+			state_ = std::bind(&Boss::Spawn, this);
+			countUp_ = 0;
+			return;
+		}
+		countUp_++;
+}
+
+void Boss::Spawn() {
+	if (countUp_ == 0) {
+		CreateHand();
+		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
+		headJointWorldTransform_.transform_.translate = HeadInitPos_;
+	}
+
+	if (countUp_ <= spawnAnimationLength_) {
+		float t = float(countUp_) / float(spawnAnimationLength_);
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutBack, oridinSpownPos_,oridinRootPos_, t);
+	}
+	if (countUp_ == spawnAnimationLength_) {
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
 void Boss::CreateHand() {
 	LevelData::ObjectData data;
 
@@ -426,6 +459,11 @@ void Boss::DeathLeftHand() {
 	state_ = std::bind(&Boss::Root, this);
 	//leftHand_->ConnectJoint(nullptr);
 	leftHand_ = nullptr;
+	countUp_ = 0;
+}
+
+void Boss::DamageHead() {
+	state_ = std::bind(&Boss::Damage, this);
 	countUp_ = 0;
 }
 

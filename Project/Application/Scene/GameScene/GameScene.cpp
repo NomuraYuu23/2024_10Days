@@ -501,6 +501,6 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->SetPlayer(player_);
 	static_cast<Boss*>(pointer)->SetBlockManager(blockManager_.get());
 	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
-	static_cast<Boss*>(pointer)->CreateHand();
+	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 }
