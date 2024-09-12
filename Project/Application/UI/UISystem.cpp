@@ -6,6 +6,7 @@
 #include "HPUI.h"
 #include "RightStickBG.h"
 #include "RightStickUI.h"
+#include "HPNumUI.h"
 
 void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 {
@@ -75,6 +76,16 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	//  HP文字
 	UIs_[kUIIndexHPStr] = std::make_unique<UI>();
 	UIs_[kUIIndexHPStr]->Initialize(textureHandles_[kUITextureHandleIndexHPStr], "HPString");
+
+	
+	//  HP文字
+	UIs_[kUIIndexHPNum] = std::make_unique<HPNumUI>();
+	std::array<uint32_t, 4> textureHandles;
+	textureHandles[0] = textureHandles_[kUITextureHandleIndexHP0];
+	textureHandles[1] = textureHandles_[kUITextureHandleIndexHP1];
+	textureHandles[2] = textureHandles_[kUITextureHandleIndexHP2];
+	textureHandles[3] = textureHandles_[kUITextureHandleIndexHP3];
+	static_cast<HPNumUI*>(UIs_[kUIIndexHPNum].get())->Initialize(player_, textureHandles, "HPNum");
 
 }
 

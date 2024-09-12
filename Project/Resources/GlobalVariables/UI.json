@@ -30,36 +30,45 @@
             64.0
         ],
         "HP1position": [
-            96.0,
-            146.0
+            116.0,
+            166.0
         ],
         "HP1size": [
             180.0,
             180.0
         ],
         "HP2position": [
-            145.0,
-            100.0
+            165.0,
+            120.0
         ],
         "HP2size": [
             115.0,
             50.0
         ],
         "HP3position": [
-            125.0,
-            100.0
+            165.0,
+            120.0
         ],
         "HP3size": [
             115.0,
             50.0
         ],
+        "HPNumposition": [
+            180.0,
+            55.0
+        ],
+        "HPNumrotate": 0.0,
+        "HPNumsize": [
+            50.0,
+            50.0
+        ],
         "HPStringposition": [
-            75.0,
-            35.0
+            95.0,
+            55.0
         ],
         "HPStringrotate": 0.0,
         "HPStringsize": [
-            115.0,
+            144.0,
             50.0
         ],
         "LeftStickStringposition": [

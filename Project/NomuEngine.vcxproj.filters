@@ -448,6 +448,9 @@
     <Filter Include="Application\System\TutorialSkipSystem">
       <UniqueIdentifier>{3f20140d-dff3-4f97-a80b-bbed21f0ebbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\HPNum">
+      <UniqueIdentifier>{0bfa9461-1508-41b6-8ea3-7dc9a88f9278}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1019,6 +1022,9 @@
       <Filter>Application\System\CountDown</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\HPNumUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1747,6 +1753,9 @@
       <Filter>Application\System\CountDown</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\HPNumUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

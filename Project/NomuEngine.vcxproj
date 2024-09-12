@@ -214,6 +214,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\System\TutorialSystem\TutorialArrowObject.cpp" />
     <ClCompile Include="Application\System\TutorialSystem\TutorialSystem.cpp" />
     <ClCompile Include="Application\UI\ButtonAUI.cpp" />
+    <ClCompile Include="Application\UI\HPNumUI.cpp" />
     <ClCompile Include="Application\UI\HPUI.cpp" />
     <ClCompile Include="Application\UI\LeftStickBG.cpp" />
     <ClCompile Include="Application\UI\LeftStickUI.cpp" />
@@ -410,6 +411,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\System\TutorialSystem\TutorialArrowObject.h" />
     <ClInclude Include="Application\System\TutorialSystem\TutorialSystem.h" />
     <ClInclude Include="Application\UI\ButtonAUI.h" />
+    <ClInclude Include="Application\UI\HPNumUI.h" />
     <ClInclude Include="Application\UI\HPUI.h" />
     <ClInclude Include="Application\UI\LeftStickBG.h" />
     <ClInclude Include="Application\UI\LeftStickUI.h" />
