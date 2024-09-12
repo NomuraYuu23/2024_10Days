@@ -13,6 +13,7 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexHPHorn,// HP角
 	kUITextureHandleIndexRightStick, // 右スティック
 	kUITextureHandleIndexRightStickStr, // 右スティック文字
+	kUITextureHandleIndexHPStr, // HP文字
 
 	kUITextureHandleIndexOfCount
 };
@@ -29,6 +30,7 @@ enum UIIndex {
 	kUIIndexRightStickBG, // 右スティック背景
 	kUIIndexRightStick, // 右スティック
 	kUIIndexRightStickStr, // 右スティック文字
+	kUIIndexHPStr, // HP文字
 	kUIIndexOfCount
 };
 
@@ -96,6 +98,7 @@ private:
 		"Resources/UI/HP_Horn.png",
 		"Resources/UI/joystick_R.png",
 		"Resources/UI/cameraUI.png",
+		"Resources/UI/HP_UI.png",
 	};
 
 };

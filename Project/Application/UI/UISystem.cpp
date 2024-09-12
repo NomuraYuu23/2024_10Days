@@ -72,6 +72,9 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	UIs_[kUIIndexRightStickStr] = std::make_unique<UI>();
 	UIs_[kUIIndexRightStickStr]->Initialize(textureHandles_[kUITextureHandleIndexRightStickStr], "RightStickString");
 
+	//  HP文字
+	UIs_[kUIIndexHPStr] = std::make_unique<UI>();
+	UIs_[kUIIndexHPStr]->Initialize(textureHandles_[kUITextureHandleIndexHPStr], "HPString");
 
 }
 
