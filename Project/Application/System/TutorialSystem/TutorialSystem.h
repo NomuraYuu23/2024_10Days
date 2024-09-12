@@ -1,5 +1,10 @@
 #pragma once
-#include "../../Object/Manager/GameSceneObjectManager.h"
+#include "../../../Engine/Math/Vector3.h"
+
+class GameSceneObjectManager;
+
+class Player;
+
 class TutorialSystem
 {
 
@@ -13,16 +18,15 @@ class TutorialSystem
 		kTutorialFlowKnockFromBelowCheck, // 下からたたくチェック
 		kTutorialFlowLowerRowOccurrence, // 下段オブジェクト発生
 		kTutorialFlowFallingAttackCheck, // 落下攻撃チェック
+		kTutorialFlowEndSystem, // エンドシステム
 		kTutorialFlowOfCount, // 数
 	};
 
 	// 開始チェック
 	struct StartCheckStruct
 	{
-		bool isClear_; // 達成した
 
 		Vector3 center_; // 中心座標
-
 		float radius_; // 半径
 
 	};
@@ -30,15 +34,14 @@ class TutorialSystem
 	// ジャンプチェック
 	struct JumpCheckStruct
 	{
-		bool isClear_; // 達成した
-
-		float checkTime_; // アニメーション時間の更新が始まるタイミング
+		bool isSmallJumpClear_; // 達成した
+		bool isJumpClear_; // 達成した
 
 	};
 
 public: 
 
-	void Initialize();
+	void Initialize(GameSceneObjectManager* gameSceneObjectManager, Player* player);
 
 	/// <summary>
 	/// 更新
@@ -99,9 +102,15 @@ private: // 変数
 	// プレイヤー
 	Player* player_;
 
+	// チュートリアル流れ
+	TutorialFlow tutorialFlowNumber_;
 
+	//ステート
+	std::array<std::function<void(void)>, TutorialFlow::kTutorialFlowOfCount> tutorialFlowUpdates_;
 
 	StartCheckStruct startCheckStruct_;
+
+	JumpCheckStruct jumpCheckStruct_;
 
 
 };
