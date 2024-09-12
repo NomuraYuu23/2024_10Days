@@ -133,6 +133,9 @@ public:
 
 	void RotateToPlayer();
 
+	//プレイヤーの高さに移動する
+	void ChacePlayerY();
+
 private: //	変数
 
 	//予備動作の終了フレーム
@@ -211,6 +214,6 @@ private: //各動作の腕の位置
 
 	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
 
-	Vector3 HeadAttackPos_ = { 0.0f,4.0f,0.0f };
+	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
 };
 

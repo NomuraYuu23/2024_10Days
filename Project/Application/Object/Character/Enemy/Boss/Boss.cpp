@@ -238,9 +238,11 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
+	ChacePlayerY();
+	RotateToPlayer();
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
-	worldTransform_.usedDirection_ = false;
-	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+	//worldTransform_.usedDirection_ = false;
+	//worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	if (rightHand_) {
 		rightHand_->ConnectJoint(&rightArmJointWorldTransform_);
 	}
@@ -307,7 +309,10 @@ void Boss::LeftStampAttack() {
 void Boss::HeadButtAttack() {
 	if (head_) {
 		if (countUp_ <= headButtMoveLength_) {
+			float t = float(countUp_) / float(headButtMoveLength_);
+			headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, HeadInitPos_, HeadAttackPos_, t);
 			RotateToPlayer();
+			ChacePlayerY();
 		}
 		if (countUp_ == headButtMoveLength_) {
 			head_->AttackCall();
@@ -432,4 +437,8 @@ void Boss::RotateToPlayer() {
 	worldTransform_.direction_ = Matrix4x4::TransformNormal({ 0.0f,0.0f,1.0f }, rotate);
 	worldTransform_.usedDirection_ = true;
 	worldTransform_.UpdateMatrix();
+}
+
+void Boss::ChacePlayerY() {
+	worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target_->GetWorldTransformAdress()->GetWorldPosition().y,0.05f);
 }
