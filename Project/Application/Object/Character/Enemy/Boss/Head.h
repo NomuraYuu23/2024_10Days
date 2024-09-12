@@ -122,10 +122,18 @@ private: // ステート関数
 	/// </summary>
 	void Attack();
 
+	//攻撃後の引き戻し
+	void PullBack();
+
 	/// <summary>
 	/// 被弾
 	/// </summary>
 	void Damage();
+
+	/// <summary>
+	/// 咆哮
+	/// </summary>
+	void Roar();
 
 	/// <summary>
 	/// 死亡
@@ -142,6 +150,10 @@ public:
 
 	//薙ぎ払い
 	//void Round();
+
+	//召喚
+	void Summon();
+	void SummonEnd();
 
 	void ConnectJoint(WorldTransform* pointer);
 
@@ -169,8 +181,11 @@ private: //	変数
 	//頭突きの移動完了までのフレーム
 	static const size_t kAttackMoveLength_ = 90;
 
-	//薙ぎ払い攻撃の移動幅
-	float attackWidth_ = 38.0f;
+	//引き戻しの全体フレーム
+	static const size_t kPullBackLength_ = 120;
+
+	//攻撃の移動幅
+	float attackWidth_ = 44.0f;
 
 	//ステート
 	std::function<void(void)> state_;
@@ -199,6 +214,8 @@ private: //	変数
 	//動いてるブロックでダメージを受けるか
 	bool isDamageMovingBlock_ = false;
 
+	Vector3 roarRotate_ = {-0.5f,0.0f,0.0f};
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -208,6 +225,8 @@ public: // アクセッサ
 	void SetParent(Boss* parent) { parent_ = parent; };
 
 	bool IsAttack() { return isAttack_; };
+
+	int32_t GetHp() { return hp_; };
 
 private: // グローバル変数
 

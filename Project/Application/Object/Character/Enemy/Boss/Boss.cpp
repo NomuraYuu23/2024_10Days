@@ -260,8 +260,9 @@ void Boss::Root() {
 	}
 	rightArmJointWorldTransform_.transform_.translate =Ease::Easing(Ease::EaseName::Lerp, rightArmJointWorldTransform_.transform_.translate,rightHandRootPos_,0.05f);
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
+	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
 	if (countUp_ == 60) {
-		/*if (executeAction_ == 1) {
+		if (executeAction_ == 1) {
 			if (rightHand_) {
 				state_ = std::bind(&Boss::RightStampAttack, this);
 			}
@@ -279,8 +280,11 @@ void Boss::Root() {
 			else if (leftHand_) {
 				state_ = std::bind(&Boss::LeftRoundAttack, this);
 			}
-		}*/
-		state_ = std::bind(&Boss::HeadButtAttack, this);
+			else {
+				state_ = std::bind(&Boss::Summon, this);
+			}
+		}
+		//state_ = std::bind(&Boss::HeadButtAttack, this);
 		executeAction_ *= -1;
 		countUp_ = 0;
 		return;
@@ -388,6 +392,55 @@ void Boss::Dead() {
 		return;
 	}
 	countUp_++;
+}
+
+void Boss::Summon() {
+	if (countUp_ == 0) {
+		head_->Summon();
+		//敵召喚する
+		if (head_->GetHp() == 3) {
+			SummonPhaseOne();
+		}
+		else if (head_->GetHp() == 2) {
+			SummonPhaseTwo();
+		}
+		else {
+			SummonPhaseThree();
+		}
+	}
+	if (countUp_ == summonAnimationLength_) {
+		head_->SummonEnd();
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
+void Boss::SummonPhaseOne() {
+	EnemyData data;
+
+	//wave1
+
+	data.className = "Enemy";
+	data.spownFrame = 180;
+	data.position = { -8.0f,8.0f,0.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 180;
+	data.position = { 8.0f,8.0f,0.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+}
+
+void Boss::SummonPhaseTwo() {
+
+}
+
+void Boss::SummonPhaseThree() {
+
 }
 
 void Boss::Spawn() {

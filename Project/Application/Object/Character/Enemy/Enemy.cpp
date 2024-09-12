@@ -332,6 +332,10 @@ void Enemy::RegistrationGlobalVariables()
 	globalVariables->AddItem(groupName, "threewayRotate", threewayRotate_);
 }
 
+void Enemy::Idle() {
+	RotateToPlayer();
+	currentMotionNo_ = kEnemyMotionIdle;
+}
 
 void Enemy::Rush() {
 	RotateToPlayer();
@@ -415,7 +419,13 @@ void Enemy::CheckFloorConect() {
 	float lengthY = from.y - to.y;
 	from.y = 0;
 	to.y = 0;
-	if (lengthY > 0 && std::fabsf(lengthY) <= 4.0f && blockManager_->IsConnectRoad(from, to, hight)) {
+	if (!(lengthY > 0 && std::fabsf(lengthY) <= 4.0f)) {
+		state_ = std::bind(&Enemy::Idle, this);
+		currentMotionNo_ = kEnemyMotionIdle;
+		return;
+	}
+
+	if (blockManager_->IsConnectRoad(from, to, hight)) {
 		//突進に移行
 		state_ = std::bind(&Enemy::Rush, this);
 		currentMotionNo_ = kEnemyMotionMove;

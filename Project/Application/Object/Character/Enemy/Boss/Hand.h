@@ -169,7 +169,7 @@ private: //	変数
 	size_t stampStiffnessLength = 240;
 
 	//薙ぎ払い攻撃の移動幅
-	float roundAttackWidth_ = 48.0f;
+	float roundAttackWidth_ = 56.0f;
 
 	//親
 	Boss* parent_ = nullptr;

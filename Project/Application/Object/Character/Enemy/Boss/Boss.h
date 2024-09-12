@@ -7,6 +7,7 @@
 #include "../../../Engine/Object/BaseObjectManager.h"
 #include "Hand.h"
 #include "Head.h"
+#include "../EnemyManager.h"
 class Boss :
 	public MeshObject
 {
@@ -126,6 +127,15 @@ private: // ステート関数
 	/// </summary>
 	void Dead();
 
+	/// <summary>
+	/// 雑魚敵召喚
+	/// </summary>
+	void Summon();
+
+	void SummonPhaseOne();
+	void SummonPhaseTwo();
+	void SummonPhaseThree();
+
 public:
 	void CreateHand();
 
@@ -194,8 +204,12 @@ private: //	変数
 	//出現の長さ
 	size_t spawnAnimationLength_ = 120;
 
+	size_t summonAnimationLength_ = 180;
+
 	float moveTargetY_;
 	float moveFromY_;
+
+	EnemyManager* enemyManager_;
 
 public: // アクセッサ
 
@@ -210,6 +224,8 @@ public: // アクセッサ
 	//Animation* GetAnimationAdress() { return &animation_; }
 
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetEnemyManager(EnemyManager* manager) { enemyManager_ = manager; };
 
 private: // グローバル変数
 
