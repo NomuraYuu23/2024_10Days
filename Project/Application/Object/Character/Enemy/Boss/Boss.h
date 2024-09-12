@@ -132,6 +132,10 @@ private: // ステート関数
 	/// </summary>
 	void Summon();
 
+	void SummonPhaseOne();
+	void SummonPhaseTwo();
+	void SummonPhaseThree();
+
 public:
 	void CreateHand();
 
@@ -199,6 +203,8 @@ private: //	変数
 
 	//出現の長さ
 	size_t spawnAnimationLength_ = 120;
+
+	size_t summonAnimationLength_ = 180;
 
 	float moveTargetY_;
 	float moveFromY_;

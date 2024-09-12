@@ -13,8 +13,8 @@ class Boss;
 /// 頭のモーション一覧
 /// </summary>
 enum HeadMotionIndex {
-	kHeadMotionRoar, // 噛みつき時
 	kHeadMotionNormal, // 通常時
+	kHeadMotionRoar, // 噛みつき時
 	kHeadMotionIndexOfCount // 数
 };
 
@@ -131,6 +131,11 @@ private: // ステート関数
 	void Damage();
 
 	/// <summary>
+	/// 咆哮
+	/// </summary>
+	void Roar();
+
+	/// <summary>
 	/// 死亡
 	/// </summary>
 	void Dead();
@@ -145,6 +150,10 @@ public:
 
 	//薙ぎ払い
 	//void Round();
+
+	//召喚
+	void Summon();
+	void SummonEnd();
 
 	void ConnectJoint(WorldTransform* pointer);
 
@@ -205,6 +214,8 @@ private: //	変数
 	//動いてるブロックでダメージを受けるか
 	bool isDamageMovingBlock_ = false;
 
+	Vector3 roarRotate_ = {-0.5f,0.0f,0.0f};
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -214,6 +225,8 @@ public: // アクセッサ
 	void SetParent(Boss* parent) { parent_ = parent; };
 
 	bool IsAttack() { return isAttack_; };
+
+	int32_t GetHp() { return hp_; };
 
 private: // グローバル変数
 

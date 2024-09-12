@@ -107,7 +107,6 @@ void Head::Update()
 
 
 #endif // _DEBUG
-	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	MeshObject::Update();
 
 	isCollisionObstacle_ = false;
@@ -254,8 +253,15 @@ void Head::RegistrationGlobalVariables()
 */
 
 void Head::Root() {
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, {0,0,0},0.05f);
-	worldTransform_.transform_.rotate = { 0.0f,0.0f,0.0f };
+	worldTransform_.transform_.rotate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.rotate, { 0,0,0 }, 0.05f);
+}
+
+void Head::Roar() {
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
+	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, { 0,1.0f,1.0f }, 0.05f);
+	worldTransform_.transform_.rotate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.rotate, roarRotate_, 0.05f);
 }
 
 void Head::Damage() {
@@ -333,8 +339,8 @@ void Head::AnimationUpdate()
 {
 
 	if (currentMotionNo_ != prevMotionNo_) {
-		//animation_.StopAnimation(prevMotionNo_);
-		//animation_.StartAnimation(currentMotionNo_, true);
+		animation_.StopAnimation(prevMotionNo_);
+		animation_.StartAnimation(currentMotionNo_, true);
 	}
 
 	prevMotionNo_ = currentMotionNo_;
@@ -345,25 +351,23 @@ void Head::PartInitialize()
 {
 
 	// 現在のモーション番号
-	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 
 	// 前のモーション番号
-	prevMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
+	prevMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kHeadMotionRoar, true);
+	animation_.StartAnimation(kHeadMotionNormal, true);
 
 }
 
 
 void Head::Attack() {
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 	isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
-	//worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
-	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	if (countUp_ <=kAttackMoveLength_) {
-		//currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 		float t = float(countUp_) / float(kAttackMoveLength_);
 		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
 	}
@@ -394,5 +398,17 @@ void Head::PullBack() {
 
 void Head::AttackCall() {
 	state_ = std::bind(&Head::Attack, this);
+	countUp_ = 0;
+}
+
+void Head::Summon() {
+	state_ = std::bind(&Head::Roar, this);
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
+	countUp_ = 0;
+}
+
+void Head::SummonEnd() {
+	state_ = std::bind(&Head::Root, this);
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	countUp_ = 0;
 }
