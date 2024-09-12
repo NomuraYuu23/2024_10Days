@@ -301,7 +301,7 @@ void Hand::RoundStand() {
 void Hand::RoundAttack() {
 	//isCollisionObstacle_ = true;
 	isAttack_ = true;
-	isDamageMovingBlock_ = true;
+	//isDamageMovingBlock_ = true;
 	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,3.141592f * 0.5f * -direction_ };
 	float t = float(countUp_) / float(kRoundAnimationLength_);
 	worldTransform_.transform_.translate.x = Ease::Easing(Ease::EaseName::EaseInBack,0, -direction_* roundAttackWidth_, t);
