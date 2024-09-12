@@ -2,6 +2,7 @@
 #include "../../../Engine/Math/Vector3.h"
 #include "../../../Engine/Object/MeshObject.h"
 #include "TutorialArrowObject.h"
+#include "../../../Engine/2D/Sprite.h"
 
 class BaseObjectManager;
 
@@ -111,6 +112,8 @@ private: // オブジェクト初期化
 
 	void TutorialArrowObjectInitialize();
 
+	void SpriteInitialize();
+
 private: // 変数
 
 	// オブジェクトマネージャー
@@ -141,5 +144,27 @@ private: // 変数
 	// スタート位置矢印オブジェクト
 	std::unique_ptr<TutorialArrowObject> tutorialArrowObject_;
 
+	// ジャンプスプライト1
+	std::unique_ptr<Sprite> jumpSprite1_;
+	// ジャンプスプライト2
+	std::unique_ptr<Sprite> jumpSprite2_;
+	// 攻撃１スプライト
+	std::unique_ptr<Sprite> attack1Sprite_;
+	// 攻撃２スプライト
+	std::unique_ptr<Sprite> attack2Sprite_;
+
+	// 
+	float drawPosX_ = 300.0f;
+
+	float notDrawPosX_ = -640.0f;
+
+	float posY_ = 135.0f;
+
+	float elapsedTime_ = 0.0f;
+
+	float timeMax_ = 1.0f;
+
+	bool isEndFlow_;
+	
 };
 
