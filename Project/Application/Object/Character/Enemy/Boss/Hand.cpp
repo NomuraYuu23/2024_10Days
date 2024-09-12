@@ -68,7 +68,7 @@ void Hand::Initialize(LevelData::MeshData* data)
 	collider_.reset(colliderShape);
 
 	// hp
-	initHp_ = 3;
+	initHp_ = 1;
 
 	isDead_ = false;
 
@@ -127,7 +127,7 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_){
-			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
 				hp_--;
 				if (hp_>0) {
 					state_ = std::bind(&Hand::Damage, this);

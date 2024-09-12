@@ -150,7 +150,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_) {
-			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
+			if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
 				/*hp_--;
 				if (hp_ > 0) {
 					state_ = std::bind(&Head::Damage, this);

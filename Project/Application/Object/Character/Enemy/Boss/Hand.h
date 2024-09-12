@@ -163,7 +163,7 @@ private: //	変数
 	//被弾アニメーションの終了フレーム
 	size_t damageAnimationLength = 30;
 
-	static const size_t kRoundAnimationLength_ = 90;
+	static const size_t kRoundAnimationLength_ = 120;
 
 	//薙ぎ払い攻撃の移動幅
 	float roundAttackWidth_ = 48.0f;
