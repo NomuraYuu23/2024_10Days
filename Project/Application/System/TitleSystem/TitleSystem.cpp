@@ -45,6 +45,10 @@ void TitleSystem::Update()
 
 #endif // _DEMO
 
+	if (tutorialSystem_->GetIsRun()) {
+		endSystem_ = true;
+	}
+
 	EndSystem();
 
 	LogoUpdate();

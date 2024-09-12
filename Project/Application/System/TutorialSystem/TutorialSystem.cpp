@@ -57,6 +57,9 @@ void TutorialSystem::Initialize(
 	// 終了フラグ
 	isEnd_ = false;
 
+	// 実行フラグ
+	isRun_ = false;
+
 	StartPosObjectInitialize();
 
 	TutorialArrowObjectInitialize();
@@ -350,9 +353,10 @@ void TutorialSystem::StartCheck()
 {
 	// 範囲内に入った
 	float length = Vector3::Length(player_->GetWorldTransformAdress()->GetWorldPosition() - startCheckStruct_.center_);
-	if (length <= startCheckStruct_.radius_) {
+	if (length <= startCheckStruct_.radius_ + 1.0f) {
 		tutorialFlowNumber_ = kTutorialFlowJumpCheck;
 		blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(false);
+		isRun_ = true;
 	}
 
 	BaseCamera camera = *gameCamera_;
@@ -368,6 +372,7 @@ void TutorialSystem::EndSystem()
 		elapsedTime_ = timeMax_;
 		isEndFlow_ = false;
 		isEnd_ = true;
+		isRun_ = false;
 	}
 
 	float t = elapsedTime_ / timeMax_;

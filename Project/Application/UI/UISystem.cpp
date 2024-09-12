@@ -87,8 +87,8 @@ void UISystem::Update()
 			pos.x += titlePosAddX_;
 			UIs_[i]->SetPosition(pos);
 		}
-		else if(tutorialPosAddX_ != 0.0f){
-			if(i == kUIIndexHP0 || i == kUIIndexHP1 || i == kUIIndexHP2){
+		if (tutorialPosAddX_ != 0.0f) {
+			if (i == kUIIndexHP0 || i == kUIIndexHP1 || i == kUIIndexHP2) {
 				pos = UIs_[i]->GetPosition();
 				pos.x += tutorialPosAddX_;
 				UIs_[i]->SetPosition(pos);

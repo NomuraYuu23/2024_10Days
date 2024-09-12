@@ -141,6 +141,12 @@ public: // アクセッサ
 	/// <returns></returns>
 	bool GetIsEnd() { return isEnd_; }
 
+	/// <summary>
+	/// 実行フラグ
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsRun() { return isRun_; }
+
 private: // 変数
 
 	// オブジェクトマネージャー
@@ -223,6 +229,9 @@ private: // 変数
 
 	// 終了フラグ
 	bool isEnd_;
+
+	// 実行フラグ
+	bool isRun_;
 	
 };
 

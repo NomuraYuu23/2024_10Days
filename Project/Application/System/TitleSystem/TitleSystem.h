@@ -3,6 +3,7 @@
 #include <memory>
 #include "../../../Engine/2D/Sprite.h"
 #include "../../../Engine/base/DirectXCommon.h"
+#include "../TutorialSystem/TutorialSystem.h"
 
 class GameCamera;
 class UISystem;
@@ -97,6 +98,13 @@ private:
 
 	// UI
 	UISystem* UISystem_;
+
+	// チュートリアルシステム
+	TutorialSystem* tutorialSystem_;
+
+public:
+
+	void SetTutorialSystem(TutorialSystem* tutorialSystem) { tutorialSystem_ = tutorialSystem; }
 
 };
 
