@@ -131,7 +131,7 @@ void Player::Initialize(LevelData::MeshData* data)
 	fallingPositionY_ = -10.0f;
 
 	// リスポーン位置
-	respawnPosition_ = {0.0f,35.0f,0.0f};
+	respawnPosition_ = {0.01f,35.0f,0.0f};
 
 	prePosition_ = worldTransform_.GetWorldPosition();
 
