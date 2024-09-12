@@ -144,6 +144,9 @@ private:
 	//ボス
 	Boss* boss_;
 
+	//ボスを生成したか
+	bool isCreateBoss_ = false;
+
 	// 平行光源システム
 	std::unique_ptr<DirectionalLightSystem> directionalLightSystem_;
 

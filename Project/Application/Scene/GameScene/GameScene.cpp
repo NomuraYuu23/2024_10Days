@@ -135,11 +135,13 @@ void GameScene::Initialize() {
 	enemyManager_->SetObjectManager(objectManager_.get());
 	enemyManager_->SetBlockManager(blockManager_.get());
 
+	isCreateBoss_ = false;
+
 	// ブロック
 	CreateBlocks();
 
 	//ボス作成(仮)
-	CreateBoss();
+	//CreateBoss();
 
 	// 雲
 	cloudSystem_ = std::make_unique<CloudSystem>();
@@ -191,6 +193,11 @@ void GameScene::Update() {
 	tutorialSystem_->Update();
 
 	enemyManager_->Update();
+	if (enemyManager_->GetIsEndAllWave() && !isCreateBoss_) {
+		isCreateBoss_=true;
+		CreateBoss();
+	}
+
 
 	objectManager_->Update();
 

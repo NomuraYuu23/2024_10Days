@@ -8,6 +8,7 @@ void EnemyManager::Initialize() {
 
 	frameCount_ = 0;
 	waveNum = 0;
+	isEndAllWave_ = false;
 	std::list<EnemyData> datas;
 	EnemyData data;
 
@@ -84,6 +85,10 @@ void EnemyManager::Update() {
 	if (spownDatas_[waveNum].empty() && enemys_.empty() && eggs_.empty()) {
 		if (waveNum<kWaveNum-1) {
 			waveNum++;
+			frameCount_ = 0;
+		}
+		else {
+			isEndAllWave_ = true;
 			frameCount_ = 0;
 		}
 	}
