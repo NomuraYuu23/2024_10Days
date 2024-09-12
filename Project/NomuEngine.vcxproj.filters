@@ -442,6 +442,9 @@
     <Filter Include="Application\System\TutorialSystem">
       <UniqueIdentifier>{b4745681-a991-454e-9353-235364de4ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\CountDown">
+      <UniqueIdentifier>{c5724752-a9a4-44e1-8ab4-041697fb57c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1007,6 +1010,9 @@
       <Filter>Application\System\TutorialSystem</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\TutorialSystem\TutorialArrowObject.cpp">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\CountDown\CountDown.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1729,6 +1735,9 @@
       <Filter>Application\System\TutorialSystem</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\TutorialSystem\TutorialArrowObject.h">
+      <Filter>Application\System\TutorialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\CountDown\CountDown.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
