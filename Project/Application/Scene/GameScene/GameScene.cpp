@@ -215,6 +215,7 @@ void GameScene::Update() {
 	ShadowUpdate();
 
 	// 平行光源
+	directionalLightSystem_->SetCountDownNow(countDown_->GetIsRun());
 	directionalLightSystem_->Update();
 	// 背景
 	backGround_->Update(directionalLightSystem_->GetDirectionalLightData().color);
@@ -549,10 +550,10 @@ void GameScene::PreGameUpdate()
 		countDown_->SetIsRun(true);
 		// 強制終了
 		tutorialSystem_->ForcedTermination();
-
-
 		// タイトルの終了
 		titleSystem_->SetEndSystem(true);
+
+		directionalLightSystem_->SetIsStart(true);
 
 	}
 	countDown_->Update();
