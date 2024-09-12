@@ -22,7 +22,7 @@ void BlockManager::Set2dArray() {
 		
 		heights_[y][x] = height;
 		x++;
-		if (x>=8) {
+		if (x>=Block::kNumOnece_) {
 			x = 0;
 			y++;
 		}
