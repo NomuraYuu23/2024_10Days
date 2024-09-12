@@ -78,7 +78,7 @@ void Head::Initialize(LevelData::MeshData* data)
 
 
 	// hp
-	initHp_ = 1;
+	initHp_ = 3;
 
 	isDead_ = false;
 
