@@ -177,6 +177,8 @@ private: //	変数
 
 	WorldTransform headJointWorldTransform_;
 
+	WorldTransform bodyJointWorldTransform_;
+
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
@@ -259,5 +261,9 @@ private: //各動作の腕の位置
 
 	Vector3 oridinSpownPos_ = {0.0f,-64.0f,0.0f};
 	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
+
+	Vector3 bodyRootPos_ = {0,0,0};
+	Vector3 bodyHeadButtPos_ = {0,2.0f,-8.0f};
+	Vector3 bodyHeadButRot_ = {3.141592f * 0.5f,0.0f,0.0f};
 };
 
