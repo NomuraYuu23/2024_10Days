@@ -144,8 +144,8 @@ void Bullet::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 void Bullet::PositionLimit()
 {
 
-	Vector3 Max = { 24.0f,1000.0f, 24.0f };
-	Vector3 Min = { -24.0f,-1000.0f, -24.0f };
+	Vector3 Max = Block::kMaxRange_;
+	Vector3 Min = Block::kMinRange_;
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {

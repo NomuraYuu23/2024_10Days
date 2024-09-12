@@ -6,6 +6,10 @@
 const float Block::kSize_ = 3.0f;
 const float Block::kFloatHight = 21.0f;
 const float Block::kLowHight = -2.0f;
+
+const Vector3 Block::kMinRange_ = {-Block::kSize_*float(Block::kNumOnece_/2),-1000,-Block::kSize_ * float(Block::kNumOnece_ / 2) };
+const Vector3 Block::kMaxRange_ = { Block::kSize_ * float(Block::kNumOnece_ / 2),-1000,Block::kSize_ * float(Block::kNumOnece_ / 2) };
+
 LevelData::MeshData Block::BlockCreate() {
 	LevelData::MeshData data;
 	static size_t id;
