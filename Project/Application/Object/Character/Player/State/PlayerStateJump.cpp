@@ -24,7 +24,7 @@ void PlayerStateJump::Initialize()
 	steppingIn_ = true;
 
 	// ジャンプ移動倍率
-	moveMagnification_ = 2.0f;
+	moveMagnification_ = 1.5f;
 
 	player_->GetAudioManager()->PlayWave(kGamejumpSE);
 

@@ -105,6 +105,7 @@ public: // サブクラス
 		kPipelineIndexDissolve, // ディゾルブ
 		kPipelineIndexHSVFilter, // HSVフィルター
 		kPipelineIndexDOROKERA, // ドロケラ
+		kPipelineIndexDOROKERA2, // ドロケラ2
 
 		kPipelineIndexOfCount // 数を数える用（穴埋め用）
 	};
@@ -179,6 +180,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/Dissolve.CS.hlsl", L"main"}, // ディゾルブ
 		std::pair{L"Resources/shaders/PostEffect/HSVFilter.CS.hlsl", L"main"}, // HSVフィルター
 		std::pair{L"Resources/shaders/PostEffect/DOROKERA.CS.hlsl", L"main"}, // ドロケラ
+		std::pair{L"Resources/shaders/PostEffect/DOROKERA2.CS.hlsl", L"main"}, // ドロケラ2
 	};
 
 	// コマンド情報(コマンド実行可能回数4回)
@@ -203,7 +205,7 @@ private: // 定数
 			{kPipelineIndexOutline, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // アウトライン
 			{kPipelineIndexDissolve, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ディゾルブ
 			{kPipelineIndexHSVFilter, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // HSVフィルター
-			{kPipelineIndexDOROKERA, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ドロケラ
+			{kPipelineIndexDOROKERA, kPipelineIndexDOROKERA2, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ドロケラ
 		},
 	};
 

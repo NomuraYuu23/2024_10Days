@@ -37,9 +37,14 @@ private: // 変数
 	// 平行光源データ
 	DirectionalLightData directionalLightData_;
 
+	// 昼か
+	bool isDaytime_ = true;
+
 public: // アクセッサ
 
 	DirectionalLightData GetDirectionalLightData() { return directionalLightData_; }
+
+	bool GetIsDaytime() { return isDaytime_; }
 
 private: // グローバル変数
 

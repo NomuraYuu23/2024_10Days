@@ -14,10 +14,20 @@ void PostEffectSystem::Initialize(Player* player)
 	// ダメージエフェクト
 	damage_.Initialize(this);
 
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
+
 }
 
 void PostEffectSystem::Update()
 {
+
+	if (isDaytime_) {
+		PostEffect::GetInstance()->SetThreshold(0.05f);
+	}
+	else {
+		PostEffect::GetInstance()->SetThreshold(0.13f);
+	}
 
 	uint32_t executionFlag = 0;
 

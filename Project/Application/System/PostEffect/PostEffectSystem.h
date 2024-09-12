@@ -33,6 +33,8 @@ public:
 	
 	void Draw(DirectXCommon* dxCommon, RenderTargetTexture* renderTargetTexture);
 
+	void SetIsDaytime(bool isDaytime) { isDaytime_ = isDaytime; }
+
 private:
 
 	PostEffect* postEffect_;
@@ -42,6 +44,8 @@ private:
 
 	// ダメージエフェクト
 	Damage damage_;
+
+	bool isDaytime_;
 
 };
 

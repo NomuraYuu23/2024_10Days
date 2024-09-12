@@ -226,6 +226,7 @@ void GameScene::Update() {
 	UISystem_->Update();
 
 	// ポストエフェクト
+	postEffectSystem_->SetIsDaytime(directionalLightSystem_->GetIsDaytime());
 	postEffectSystem_->Update();
 
 	ImguiDraw();
@@ -277,6 +278,9 @@ void GameScene::Draw() {
 
 	ModelDraw::PostDraw();
 
+	// ポストエフェクト
+	postEffectSystem_->Draw(dxCommon_, renderTargetTexture_);
+
 #pragma endregion
 
 #pragma region 線描画
@@ -293,9 +297,6 @@ void GameScene::Draw() {
 
 	// エネミー
 	enemyManager_->ParticleDraw(camera_);
-
-	// ポストエフェクト
-	postEffectSystem_->Draw(dxCommon_, renderTargetTexture_);
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

@@ -65,9 +65,20 @@ void DirectionalLightSystem::Update()
 
 	if (isDaytime) {
 		color = Ease::Easing(Ease::EaseName::EaseOutQuart, daytimeColor_, nightColor_, t);
+		if (t > 0.5f) {
+			isDaytime_ = false;
+		}else{
+			isDaytime_ = true;
+		}
 	}
 	else {
 		color = Ease::Easing(Ease::EaseName::EaseOutQuart, nightColor_, daytimeColor_, t);
+		if (t > 0.5f) {
+			isDaytime_ = true;
+		}
+		else {
+			isDaytime_ = false;
+		}
 	}
 
 	// 方向の変更

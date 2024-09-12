@@ -1987,5 +1987,8 @@
     <FxCompile Include="Resources\shaders\PostEffect\DOROKERA.CS.hlsl">
       <Filter>shaders\PostEffect\DOROKERA</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\DOROKERA2.CS.hlsl">
+      <Filter>shaders\PostEffect\DOROKERA</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
