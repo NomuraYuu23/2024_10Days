@@ -580,6 +580,9 @@ void GameScene::PreGameUpdate()
 
 		directionalLightSystem_->SetIsStart(true);
 
+		//プレイヤー
+		player_->SetIsPreGame(false);
+
 	}
 	countDown_->Update();
 

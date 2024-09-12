@@ -135,6 +135,8 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	prePosition_ = worldTransform_.GetWorldPosition();
 
+	isPreGame_ = true;
+
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
@@ -501,6 +503,10 @@ void Player::InvincibleUpdate()
 
 void Player::Damage()
 {
+
+	if (isPreGame_) {
+		return;
+	}
 
 	hp_--;
 	if (hp_ <= 0) {

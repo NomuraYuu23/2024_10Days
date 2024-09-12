@@ -249,6 +249,9 @@ private: //	変数
 	// リスポーン位置
 	Vector3 respawnPosition_;
 
+	// ゲーム開始前か
+	bool isPreGame_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -306,6 +309,9 @@ public: // アクセッサ
 
 	//ダメージを受けたか
 	bool GetReceiveDamage() { return receiveDamage_; }
+
+	// ゲーム開始前
+	void SetIsPreGame(bool isPreGame) { isPreGame_ = isPreGame; }
 
 private: // グローバル変数
 
