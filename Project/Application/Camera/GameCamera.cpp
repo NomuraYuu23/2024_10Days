@@ -91,6 +91,7 @@ void GameCamera::Update(float elapsedTime)
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonRST)) {
 		if (isAutomatic_) {
 			isAutomatic_ = false;
+			manualDestinationAngleX_ = transform_.rotate.x;
 		}
 		else {
 			isAutomatic_ = true;
@@ -98,6 +99,7 @@ void GameCamera::Update(float elapsedTime)
 	}
 	else if ((Vector2::Length(input_->GetRightAnalogstick()) != 0.0f) && isAutomatic_) {
 		isAutomatic_ = false;
+		manualDestinationAngleX_ = transform_.rotate.x;
 	}
 
 	if (isAutomatic_) {
