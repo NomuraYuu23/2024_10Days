@@ -75,6 +75,11 @@ private: // ベースのメンバ変数
 private: // ステート関数
 
 	/// <summary>
+	/// 待機状態
+	/// </summary>
+	void Idle();
+
+	/// <summary>
 	/// 移動状態
 	/// </summary>
 	void Rush();
