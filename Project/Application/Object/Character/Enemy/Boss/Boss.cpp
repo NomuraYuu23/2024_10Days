@@ -451,23 +451,36 @@ void Boss::Summon() {
 void Boss::SummonPhaseOne() {
 	EnemyData data;
 
-	//wave1
-
 	data.className = "Enemy";
 	data.spownFrame = 180;
-	data.position = { -8.0f,8.0f,0.0f };
+	data.position = { -8.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	enemyManager_->AddEnemy(data);
 
 	data.className = "Enemy";
 	data.spownFrame = 180;
-	data.position = { 8.0f,8.0f,0.0f };
+	data.position = { 8.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	enemyManager_->AddEnemy(data);
 }
 
 void Boss::SummonPhaseTwo() {
+	EnemyData data;
+	float direction = RandomEngine::GetRandom(0.0f,1.0f);
+	if (direction < 0.5f) {
+		direction = 1.0f;
+	}
+	else {
+		direction = -1.0f;
+	}
 
+	for (int i = 0;i< Block::kNumOnece_; i++) {
+		data.className = "FlyEnemy";
+		data.spownFrame = 0;
+		data.position = { 48.0f * direction + direction * float(2 * Block::kSize_ * i),worldTransform_.GetWorldPosition().y,-float(Block::kNumOnece_)*Block::kSize_ + float(2 * Block::kSize_*i)};
+		data.velocity = { -direction,0,0 };
+		enemyManager_->AddEnemy(data);
+	}
 }
 
 void Boss::SummonPhaseThree() {
