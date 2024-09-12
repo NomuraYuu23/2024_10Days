@@ -37,9 +37,22 @@ private: // 変数
 	// 平行光源データ
 	DirectionalLightData directionalLightData_;
 
+	// システム開始フラグ
+	bool isStart_;
+
+	// カウントダウンスピード
+	float countDownSpeed_;
+
+	// カウントダウン中
+	bool countDownNow_;
+
 public: // アクセッサ
 
 	DirectionalLightData GetDirectionalLightData() { return directionalLightData_; }
+
+	void SetIsStart(bool isStart) { isStart_ = isStart; }
+
+	void SetCountDownNow(bool countDownNow) { countDownNow_ = countDownNow; }
 
 private: // グローバル変数
 
