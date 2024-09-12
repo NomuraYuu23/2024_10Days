@@ -151,7 +151,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		OnCollisionObstacle(colliderPartner, collisionData);
 		if (isCollisionObstacle_) {
 			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
-				hp_--;
+				/*hp_--;
 				if (hp_ > 0) {
 					state_ = std::bind(&Head::Damage, this);
 				}
@@ -166,7 +166,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 				}
 				else {
 					velocity_ = Vector3::Normalize(worldTransform_.GetWorldPosition() - std::get<Block*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition()) * 5.0f;
-				}
+				}*/
 			}
 		}
 	}
@@ -262,7 +262,7 @@ void Head::RegistrationGlobalVariables()
 */
 
 void Head::Root() {
-	worldTransform_.transform_.translate = { 0.0f,0.0f,0.0f };
+	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, {0,0,0},0.05f);
 	worldTransform_.transform_.rotate = { 0.0f,0.0f,0.0f };
 }
 
@@ -334,4 +334,26 @@ void Head::PartInitialize()
 	// 待ちアニメーション
 	animation_.StartAnimation(kHeadMotionRoar, true);
 
+}
+
+
+void Head::Attack() {
+	isCollisionObstacle_ = true;
+	isAttack_ = true;
+	isDamageMovingBlock_ = true;
+	worldTransform_.transform_.rotate = { 3.141592f * 0.5f ,0.0f,0.0f };
+	if (countUp_ <=kAttackMoveLength_) {
+		float t = float(countUp_) / float(kAttackMoveLength_);
+		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
+	}
+	if (countUp_ > kAttackAnimationLength_) {//仮
+		state_ = std::bind(&Head::Root, this);
+		parent_->EndHeadAttack();
+	}
+	countUp_++;
+}
+
+void Head::AttackCall() {
+	state_ = std::bind(&Head::Attack, this);
+	countUp_ = 0;
 }

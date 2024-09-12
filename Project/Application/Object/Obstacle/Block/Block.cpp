@@ -210,10 +210,33 @@ void Block::Idle() {
 }
 
 void Block::MoveStart() {
-	countUp_ = 0;
-	state_ = std::bind(&Block::Move, this);
-	audioManager_->PlayWave(kGameBlockSE);
+	if (!isRockMove_) {
+		countUp_ = 0;
+		state_ = std::bind(&Block::Move, this);
+		audioManager_->PlayWave(kGameBlockSE);
+	}
 }
+
+void Block::Up() {
+	if (!hight_) {
+		if (!isMoveNow_) {
+			countUp_ = 0;
+			audioManager_->PlayWave(kGameBlockSE);
+		}
+		state_ = std::bind(&Block::Move, this);
+	}
+}
+
+void Block::Down() {
+	if (hight_) {
+		if (!isMoveNow_) {
+			countUp_ = 0;
+			audioManager_->PlayWave(kGameBlockSE);
+		}
+		state_ = std::bind(&Block::Move, this);
+	}
+}
+
 
 void Block::Move() {
 	isMoveNow_ = true;
