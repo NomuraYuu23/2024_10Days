@@ -208,7 +208,7 @@ private: // パーツ,アニメーション変数
 	//浮き沈みの高さ
 	float floatHight_ = kFloatHight;
 	//攻撃時のブロックの浮き
-	float attackFloatStrength_ = 3.0f;
+	float attackFloatStrength_ = 6.0f;
 
 	//枯れた色
 	Vector3 blownColor_ = {200.0f/255.0f,160.0f/255.0f,300.0f/255.0f};
