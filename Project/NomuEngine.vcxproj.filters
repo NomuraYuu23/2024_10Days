@@ -439,6 +439,9 @@
     <Filter Include="Application\System\TitleSystem">
       <UniqueIdentifier>{aa38794a-eeb5-46d5-86b3-84b632078c55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\TutorialSystem">
+      <UniqueIdentifier>{b4745681-a991-454e-9353-235364de4ab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -999,6 +1002,9 @@
     </ClCompile>
     <ClCompile Include="Application\UI\RightStickBG.cpp">
       <Filter>Application\UI\RightStickBG</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSystem\TutorialSystem.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1715,6 +1721,9 @@
     </ClInclude>
     <ClInclude Include="Application\UI\RightStickUI.h">
       <Filter>Application\UI\RightStick</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSystem\TutorialSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
