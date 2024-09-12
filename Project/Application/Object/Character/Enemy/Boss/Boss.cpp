@@ -262,23 +262,17 @@ void Boss::Root() {
 	leftArmJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, leftArmJointWorldTransform_.transform_.translate, leftHandRootPos_, 0.05f);
 	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
 	if (countUp_ == 60) {
-		if (executeAction_ == 1) {
-			if (rightHand_ || leftHand_) {
-				float random = RandomEngine::GetRandom(0.0f,1.0f);
+		if (rightHand_ || leftHand_) {
+			if (executeAction_ == 1) {
+				float random = RandomEngine::GetRandom(0.0f, 1.0f);
 				if (random < 0.5f) {
 					state_ = std::bind(&Boss::RightStampAttack, this);
 				}
 				else {
 					state_ = std::bind(&Boss::LeftStampAttack, this);
 				}
-
 			}
-			else{
-				state_ = std::bind(&Boss::HeadButtAttack, this);
-			}
-		}
-		else {
-			if (rightHand_ || leftHand_) {
+			else {
 				float random = RandomEngine::GetRandom(0.0f, 1.0f);
 				if (random < 0.5f) {
 					state_ = std::bind(&Boss::RightRoundAttack, this);
@@ -286,14 +280,21 @@ void Boss::Root() {
 				else {
 					state_ = std::bind(&Boss::LeftRoundAttack, this);
 				}
-
+			}
+			executeAction_ *= -1;
+		}
+		else {
+			float random = RandomEngine::GetRandom(0.0f, 1.0f);
+			if (random < headButtProbability_ || executeAction_ == 1) {
+				state_ = std::bind(&Boss::HeadButtAttack, this);
+				executeAction_ = -1;
 			}
 			else {
 				state_ = std::bind(&Boss::Summon, this);
+				executeAction_ = 1;
 			}
 		}
 		//state_ = std::bind(&Boss::HeadButtAttack, this);
-		executeAction_ *= -1;
 		countUp_ = 0;
 		return;
 	}
