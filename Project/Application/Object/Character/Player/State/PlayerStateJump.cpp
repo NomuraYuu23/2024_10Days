@@ -130,6 +130,9 @@ void PlayerStateJump::Update()
 		playerPos.x += velocityDir.x * speedCorrection;
 		playerPos.z += velocityDir.y * speedCorrection;
 
+		playerPos.x = std::clamp(playerPos.x, Block::kMinRange_.x, Block::kMaxRange_.x);
+		playerPos.z = std::clamp(playerPos.z, Block::kMinRange_.z, Block::kMaxRange_.z);
+
 		/// 補正ここまで
 
 		// ブロックまでの距離
