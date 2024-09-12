@@ -168,6 +168,9 @@ void GameScene::Initialize() {
 	countDown_ = std::make_unique<CountDown>();
 	countDown_->Initialize();
 
+	tutorialSkipSystem_ = std::make_unique<TutorialSkipSystem>();
+	tutorialSkipSystem_->Initialize(blockManager_.get(), enemyManager_.get());
+ 
 	IScene::InitilaizeCheck();
 
 }
@@ -187,14 +190,7 @@ void GameScene::Update() {
 
 #endif // _DEMO
 
-	// タイトルシステム
-	titleSystem_->Update();
-
-	// チュートリアルシステム
-	tutorialSystem_->Update();
-	
-	// カウントダウン
-	countDown_->Update();
+	PreGameUpdate();
 
 	enemyManager_->Update();
 
@@ -527,4 +523,35 @@ void GameScene::CreateBoss() {
 	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
+}
+
+void GameScene::PreGameUpdate()
+{
+
+	// タイトルシステム
+	titleSystem_->Update();
+
+	// チュートリアルシステム
+	tutorialSystem_->Update();
+
+	// チュートリアルスキップ
+	if (tutorialSystem_->GetIsRun()) {
+		tutorialSkipSystem_->ForcedTermination();
+	}
+	tutorialSkipSystem_->Update();
+
+	// カウントダウン
+	if (tutorialSkipSystem_->GetCountDownStart() || tutorialSystem_->GetIsEnd()) {
+		// 開始
+		countDown_->SetIsRun(true);
+		// 強制終了
+		tutorialSystem_->ForcedTermination();
+
+
+		// タイトルの終了
+		titleSystem_->SetEndSystem(true);
+
+	}
+	countDown_->Update();
+
 }

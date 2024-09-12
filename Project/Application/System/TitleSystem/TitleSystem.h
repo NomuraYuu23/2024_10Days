@@ -106,5 +106,8 @@ public:
 
 	void SetTutorialSystem(TutorialSystem* tutorialSystem) { tutorialSystem_ = tutorialSystem; }
 
+	// 終了システム
+	void SetEndSystem(bool endSystem) { endSystem_ = endSystem; }
+
 };
 

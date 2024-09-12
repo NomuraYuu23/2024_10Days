@@ -83,6 +83,10 @@ void TutorialSystem::Update()
 void TutorialSystem::Draw(BaseCamera& camera)
 {
 
+	if (isEnd_) {
+		return;
+	}
+
 	if (tutorialFlowNumber_ == kTutorialFlowStartCheck) {
 		tutorialArrowObject_->Draw(camera);
 		startPosObject_->Draw(camera);
@@ -197,6 +201,7 @@ void TutorialSystem::ForcedTermination()
 	isRun_ = false;
 
 	blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(false);
+	UISystem_->SetTutorialPosAddX(0.0f);
 
 }
 

@@ -15,7 +15,7 @@ void CountDown::Initialize()
 	SpriteInitialize();
 
 	// 実行フラグ
-	isRun_ = true;
+	isRun_ = false;
 
 	// ゲーム開始フラグ
 	isGameStart_ = false;
@@ -38,6 +38,11 @@ void CountDown::Update()
 
 void CountDown::Draw()
 {
+
+	if (!isRun_) {
+		return;
+	}
+
 	if (isGameStart_) {
 		gameStartString_->Draw();
 	}

@@ -31,6 +31,7 @@
 #include "../../System/TutorialSystem/TutorialSystem.h"
 #include "../../System/CountDown/CountDown.h"
 #include "../../System/CountDown/CountDown.h"
+#include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
 
 class GameScene : public IScene
 {
@@ -110,6 +111,11 @@ private:
 	/// </summary>
 	void CreateBoss();
 
+	/// <summary>
+	/// ゲーム開始前処理
+	/// </summary>
+	void PreGameUpdate();
+
 private:
 
 	// オーディオマネージャー
@@ -162,5 +168,8 @@ private:
 
 	//CountDown
 	std::unique_ptr<CountDown> countDown_;
+
+	// チュートリアルスキップ
+	std::unique_ptr<TutorialSkipSystem> tutorialSkipSystem_;
 
 };

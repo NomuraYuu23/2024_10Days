@@ -25,6 +25,7 @@ void TutorialSkipSystem::Update()
 	if (blockManager_->GetBlocks()->at(blockNumCheck_)->GetIsAttack()) {
 		// カウントダウン起動
 		countDownStart_ = true;
+		isEnd_ = true;
 	}
 
 }
