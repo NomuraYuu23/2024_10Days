@@ -473,12 +473,9 @@ void Player::OnCollisionDamage(const Vector3& position)
 void Player::PositionLimit()
 {
 
-	Vector3 Max = { 24.0f,1000.0f, 24.0f };
-	Vector3 Min = { -24.0f,-1000.0f, -24.0f };
-
-	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
-	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);
-	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Min.z, Max.z);
+	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Block::kMinRange_.x, Block::kMaxRange_.x);
+	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Block::kMinRange_.y, Block::kMaxRange_.y);
+	worldTransform_.transform_.translate.z = std::clamp(worldTransform_.transform_.translate.z, Block::kMinRange_.z, Block::kMaxRange_.z);
 
 }
 
