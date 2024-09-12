@@ -77,9 +77,10 @@ void EnemyManager::Update() {
 		}
 		return false;
 		});
-
-	frameCount_++;
-
+	//オーバーフロー防止
+	if (frameCount_ < 3600) {
+		frameCount_++;
+	}
 	if (spownDatas_[waveNum].empty() && enemys_.empty() && eggs_.empty()) {
 		if (waveNum<kWaveNum-1) {
 			waveNum++;

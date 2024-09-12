@@ -113,9 +113,18 @@ private: // ステート関数
 	void HeadButtAttack();
 
 	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
+
+	//出現
+	void Spawn();
+
+	/// <summary>
 	/// 死亡状態
 	/// </summary>
-	//void Dead();
+	void Dead();
 
 public:
 	void CreateHand();
@@ -130,6 +139,10 @@ public:
 	void DeathRightHand();
 
 	void DeathLeftHand();
+
+	void DamageHead();
+
+	void DeathHead();
 
 	void RotateToPlayer();
 
@@ -168,12 +181,21 @@ private: //	変数
 	Head* head_ = nullptr;
 
 	//薙ぎ払いの準備時間
-	static const size_t kRightHandRoundMoveLength_ = 30;
+	static const size_t kRightHandRoundMoveLength_ = 60;
 
 	//仮行動制御
 	int32_t executeAction_ = 1;
 
 	size_t headButtMoveLength_ = 60;
+
+	//ダメージ受けた時に下に沈むまでの時間
+	size_t damageAnimationlength_ = 60;
+
+	//出現の長さ
+	size_t spawnAnimationLength_ = 120;
+
+	float moveTargetY_;
+	float moveFromY_;
 
 public: // アクセッサ
 
@@ -215,5 +237,8 @@ private: //各動作の腕の位置
 	Vector3 HeadInitPos_ = { 0.0f,9.0f,0.0f };
 
 	Vector3 HeadAttackPos_ = { 0.0f,4.0f,4.0f };
+
+	Vector3 oridinSpownPos_ = {0.0f,-64.0f,0.0f};
+	Vector3 oridinRootPos_ = { 0.0f,0.0f,32.0f };
 };
 

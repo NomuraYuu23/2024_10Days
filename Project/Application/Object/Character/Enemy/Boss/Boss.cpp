@@ -81,9 +81,9 @@ void Boss::Initialize(LevelData::MeshData* data)
 	//hp_ = initHp_;
 
 	//初期ステート
-	state_ = std::bind(&Boss::Root, this);
+	state_ = std::bind(&Boss::Spawn, this);
 
-	worldTransform_.transform_.translate = { 0,0,32.0f };
+	worldTransform_.transform_.translate = oridinSpownPos_;
 	worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 	worldTransform_.UpdateMatrix();
 
@@ -238,7 +238,13 @@ void Boss::RegistrationGlobalVariables()
 */
 
 void Boss::Root() {
-	ChacePlayerY();
+	if (countUp_ == 0) {
+		ChacePlayerY();
+	}
+	if (countUp_ <= 60) {
+		float t = float(countUp_) / float(60);
+		worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, moveFromY_, moveTargetY_, t);
+	}
 	RotateToPlayer();
 	//worldTransform_.transform_.translate = { 0,0,32.0f };
 	//worldTransform_.usedDirection_ = false;
@@ -262,6 +268,9 @@ void Boss::Root() {
 			else if(leftHand_){
 				state_ = std::bind(&Boss::LeftStampAttack, this);
 			}
+			else{
+				state_ = std::bind(&Boss::HeadButtAttack, this);
+			}
 		}
 		else {
 			if (rightHand_) {
@@ -278,7 +287,7 @@ void Boss::Root() {
 	}
 
 	if (!rightHand_ && !leftHand_) {//両手ともなかったら
-		CreateHand();
+		//CreateHand();
 	}
 
 	countUp_++;
@@ -312,7 +321,7 @@ void Boss::HeadButtAttack() {
 			float t = float(countUp_) / float(headButtMoveLength_);
 			headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, HeadInitPos_, HeadAttackPos_, t);
 			RotateToPlayer();
-			ChacePlayerY();
+			//ChacePlayerY();
 		}
 		if (countUp_ == headButtMoveLength_) {
 			head_->AttackCall();
@@ -354,6 +363,52 @@ void Boss::LeftRoundAttack() {
 		}
 		countUp_++;
 	}
+}
+
+void Boss::Damage() {
+		if (countUp_ <= damageAnimationlength_) {
+			worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
+		}
+		if (countUp_ == damageAnimationlength_) {
+			state_ = std::bind(&Boss::Spawn, this);
+			countUp_ = 0;
+			return;
+		}
+		countUp_++;
+}
+
+void Boss::Dead() {
+	
+	if (countUp_ <= damageAnimationlength_) {
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
+	}
+	if (countUp_ == damageAnimationlength_) {
+		isDead_ = true;
+		countUp_ = damageAnimationlength_;
+		return;
+	}
+	countUp_++;
+}
+
+void Boss::Spawn() {
+	if (countUp_ == 0) {
+		//CreateHand();
+		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
+		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
+		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
+		headJointWorldTransform_.transform_.translate = HeadInitPos_;
+	}
+
+	if (countUp_ <= spawnAnimationLength_) {
+		float t = float(countUp_) / float(spawnAnimationLength_);
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutBack, oridinSpownPos_,oridinRootPos_, t);
+	}
+	if (countUp_ == spawnAnimationLength_) {
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
 }
 
 void Boss::CreateHand() {
@@ -427,6 +482,17 @@ void Boss::DeathLeftHand() {
 	countUp_ = 0;
 }
 
+void Boss::DamageHead() {
+	state_ = std::bind(&Boss::Damage, this);
+	countUp_ = 0;
+}
+
+void Boss::DeathHead() {
+	state_ = std::bind(&Boss::Dead, this);
+	countUp_ = 0;
+	head_ = nullptr;
+}
+
 void Boss::RotateToPlayer() {
 	Vector3 from = worldTransform_.GetWorldPosition();
 	Vector3 to = target_->GetWorldTransformAdress()->GetWorldPosition();
@@ -440,5 +506,12 @@ void Boss::RotateToPlayer() {
 }
 
 void Boss::ChacePlayerY() {
-	worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target_->GetWorldTransformAdress()->GetWorldPosition().y,0.05f);
+	float playerY = target_->GetWorldTransformAdress()->GetWorldPosition().y;
+	float target = Block::kLowHight + 2.0f;
+	if (playerY > Block::kFloatHight) {
+		target += Block::kFloatHight;
+	}
+	moveTargetY_ = target;
+	moveFromY_ = worldTransform_.transform_.translate.y;
+	//worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate.y, target,0.05f);
 }
