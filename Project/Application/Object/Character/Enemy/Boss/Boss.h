@@ -136,6 +136,11 @@ private: // ステート関数
 	void SummonPhaseTwo();
 	void SummonPhaseThree();
 
+	/// <summary>
+	/// 咆哮
+	/// </summary>
+	void Roar();
+
 public:
 	void CreateHand();
 

@@ -560,6 +560,20 @@ void Boss::SummonPhaseThree() {
 	enemyManager_->AddEnemy(data);
 }
 
+void Boss::Roar() {
+	if (countUp_ == 0) {
+		audioManager_->PlayWave(kGameBossRoarSE);
+		head_->Summon();
+	}
+	if (countUp_ == summonAnimationLength_) {
+		head_->SummonEnd();
+		state_ = std::bind(&Boss::Root, this);
+		countUp_ = 0;
+		return;
+	}
+	countUp_++;
+}
+
 void Boss::Spawn() {
 	if (countUp_ == 0) {
 		CreateHand();
@@ -575,7 +589,7 @@ void Boss::Spawn() {
 		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutBack, oridinSpownPos_,oridinRootPos_, t);
 	}
 	if (countUp_ == spawnAnimationLength_) {
-		state_ = std::bind(&Boss::Root, this);
+		state_ = std::bind(&Boss::Roar, this);
 		countUp_ = 0;
 		return;
 	}
