@@ -190,7 +190,7 @@ void EnemyManager::Initialize() {
 
 	data.className = "Enemy";
 	data.spownFrame = 150;
-	data.position = { 3f,40.0f,-21.0f };
+	data.position = { 3.0f,40.0f,-21.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
