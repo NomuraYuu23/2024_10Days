@@ -246,6 +246,7 @@ public: // アクセッサ
 	BaseCamera* GetCamera() { return camera_; }
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	GameAudioManager* GetAudioManager() { return audioManager_; }
 
 private: // グローバル変数
 
