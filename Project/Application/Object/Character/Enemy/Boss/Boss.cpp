@@ -508,6 +508,7 @@ void Boss::SummonPhaseThree() {
 void Boss::Spawn() {
 	if (countUp_ == 0) {
 		CreateHand();
+		camera_->ShakeStart(0.5f, 2.0f);
 		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;

@@ -537,6 +537,7 @@ void GameScene::CreateBoss() {
 	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
+	static_cast<Boss*>(pointer)->SetCamera(gameCamera_.get());
 	boss_ = static_cast<Boss*>(pointer);
 }
 
