@@ -90,6 +90,7 @@ void FlyEnemy::Initialize(LevelData::MeshData* data)
 
 	bodyWorldTransform_.Initialize(model_->GetRootNode());
 	bodyWorldTransform_.SetParent(&worldTransform_);
+	bodyWorldTransform_.transform_.scale = Vector3{ 0.5f,0.5f,0.5f };
 }
 
 void FlyEnemy::Update()
@@ -160,6 +161,9 @@ void FlyEnemy::Rush() {
 void FlyEnemy::Dead() {
 	isPlayDeathAnimation_ = true;
 	currentMotionNo_ = kFlyEnemyMotionDead;
+	float t = float(countUp) / float(deathAnimationLength);
+	//worldTransform_.transform_.scale = Vector3{0.5f,0.5f,0.5f}* (1.0f - t);
+	bodyWorldTransform_.transform_.scale = Vector3{ 0.5f,0.5f,0.5f }*(1.0f - t);
 	if (countUp > deathAnimationLength) {
 		isDead_ = true;
 	}
@@ -221,6 +225,7 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 
 	//isDead_ = true;
 	state_ = std::bind(&FlyEnemy::Dead, this);
+	countUp = 0;
 	isPlayDeathAnimation_ = true;
 }
 

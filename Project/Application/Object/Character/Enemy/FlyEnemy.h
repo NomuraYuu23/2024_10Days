@@ -152,7 +152,7 @@ private: //	変数
 	size_t rushIdleLength = 60;
 
 	//死亡アニメーションの終了フレーム
-	size_t deathAnimationLength = 15;
+	size_t deathAnimationLength = 30;
 
 	size_t countUp=0;
 
