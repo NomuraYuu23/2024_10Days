@@ -1051,6 +1051,9 @@
     <ClCompile Include="Application\System\GameOver\GameOver.cpp">
       <Filter>Application\System\GameOver</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\Boss\AttackArrow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1793,6 +1796,9 @@
     </ClInclude>
     <ClInclude Include="Application\System\GameOver\GameOver.h">
       <Filter>Application\System\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\Boss\AttackArrow.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

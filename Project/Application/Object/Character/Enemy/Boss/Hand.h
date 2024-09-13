@@ -5,7 +5,7 @@
 #include "../BaseEnemy.h"
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
-
+#include "AttackArrow.h"
 class Boss;
 
 class Hand :
@@ -190,6 +190,8 @@ private: //	変数
 
 	bool stampSE_ = false;
 
+
+	std::unique_ptr<AttackArrowObject> arrow_;
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

@@ -88,6 +88,9 @@ void Hand::Initialize(LevelData::MeshData* data)
 	//初期ステート
 	state_ = std::bind(&Hand::Root, this);
 
+	arrow_ = std::make_unique<AttackArrowObject>();
+	LevelData::MeshData adata = AttackArrowObject::ArrowCreate();
+	arrow_->Initialize(&adata);
 }
 
 void Hand::Update()
@@ -116,13 +119,16 @@ void Hand::Update()
 	ColliderUpdate();
 
 	isCollision_ = false;
+	arrow_->Update(worldTransform_.GetWorldPosition());
 }
 
 void Hand::Draw(BaseCamera& camera)
 {
 
 	MeshObject::Draw(camera);
-
+	if (isCollisionObstacle_ && !isAttack_) {
+		arrow_->Draw(camera);
+	}
 }
 
 void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
