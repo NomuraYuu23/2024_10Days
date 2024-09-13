@@ -34,5 +34,13 @@ private:
 	std::unique_ptr<Sprite> buttonSprite_;
 	std::unique_ptr<Sprite> blockSprite_;
 
+	Vector2 basePos_ = {};
+
+	Vector2 addPos_ = {};
+
+	float t_;
+
+	bool tUp_;
+
 };
 

@@ -236,6 +236,9 @@ private: //	変数
 
 	GameAudioManager* audioManager_;
 
+	//確定で召喚するか
+	bool isSummonConfirm_ = false;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

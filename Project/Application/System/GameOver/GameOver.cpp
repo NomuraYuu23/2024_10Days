@@ -20,6 +20,11 @@ void GameOver::Initialize()
 
 	Vector2 pos = { 640.0f, 300.0f };
 
+	basePos_ = pos;
+	addPos_ = { 0.0f,0.0f };
+	t_ = 0.0f;
+	tUp_ = true;
+
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	gameoverSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/GameOver.png", dxCommon), pos, color));
@@ -50,6 +55,25 @@ void GameOver::Update(bool isGameOver)
 	if (!isGameOver) {
 		return;
 	}
+
+	if (tUp_) {
+		t_ += kDeltaTime_;
+		if (t_ >= 1.0f) {
+			tUp_ = !tUp_;
+			t_ = 1.0f;
+		}
+	}
+	else {
+		t_ -= kDeltaTime_;
+		if (t_ <= 0.0f) {
+			tUp_ = !tUp_;
+			t_ = 0.0f;
+		}
+	}
+
+	addPos_.y = Ease::Easing(Ease::EaseName::Lerp, -50.0f, 50.0f, t_);
+
+	gameoverSprite_->SetPosition(basePos_ + addPos_);
 
 	graceTimer_ += kDeltaTime_;
 	if (graceTimer_ >= graceTime_) {

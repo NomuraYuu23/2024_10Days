@@ -301,12 +301,13 @@ void Boss::Root() {
 		}
 		else {
 			float random = RandomEngine::GetRandom(0.0f, 1.0f);
-			if (random < headButtProbability_ || executeAction_ == 1) {
+			if ((random < headButtProbability_ || executeAction_ == 1) && !isSummonConfirm_) {
 				state_ = std::bind(&Boss::HeadButtAttack, this);
 				executeAction_ = -1;
 			}
 			else {
 				state_ = std::bind(&Boss::Summon, this);
+				isSummonConfirm_ = false;
 				executeAction_ = 1;
 			}
 		}
@@ -577,6 +578,7 @@ void Boss::Roar() {
 void Boss::Spawn() {
 	if (countUp_ == 0) {
 		CreateHand();
+		isSummonConfirm_ = true;
 		camera_->ShakeStart(0.5f, 2.0f);
 		worldTransform_.transform_.rotate = { 0,3.141592f,0.0f };
 		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;

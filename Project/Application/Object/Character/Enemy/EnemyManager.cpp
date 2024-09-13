@@ -235,7 +235,7 @@ void EnemyManager::Update() {
 
 
 	// エフェクトのリセット
-	eggBreakParticleManager_->PositionClear();
+	//eggBreakParticleManager_->PositionClear();
 
 	enemys_.remove_if([](BaseEnemy* enemy) {
 		if (enemy->GetIsPlayDeathAnimation_()) {
@@ -337,8 +337,6 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	static_cast<Enemy*>(enemy)->SetAudioManager(audioManager_);
 	enemys_.push_back(enemy);
 
-	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
-	audioManager_->PlayWave(kGameEggBreakSE);
 	audioManager_->PlayWave(kGameEnemySpawnSE);
 }
 
@@ -366,6 +364,8 @@ void EnemyManager::AddEgg(const Vector3& position)
 void EnemyManager::RemoveEgg(Egg* in) {
 	eggs_.remove_if([&](Egg* egg) {
 		if (egg == in) {
+			eggBreakParticleManager_->PositionRegister((egg)->GetWorldTransformAdress()->GetWorldPosition());
+			audioManager_->PlayWave(kGameEggBreakSE);
 			return true;
 		}
 		return false;

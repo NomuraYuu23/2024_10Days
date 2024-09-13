@@ -264,6 +264,8 @@ void GameScene::Update() {
 
 	PreGameUpdate();
 
+	enemyManager_->EffectReset();
+
 	if (countDown_->GetIsGameStart()) {
 		if (!gameStartSE_) {
 			gameStartSE_ = true;

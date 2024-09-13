@@ -280,6 +280,7 @@ void Hand::StampStand() {
 	if (countUp_ == stampChaseLength_) {
 		state_ = std::bind(&Hand::StampAttack, this);
 		isCollision_ = false;
+		isStampAttack_ = true;
 		countUp_=0;
 	}
 	countUp_++;
@@ -288,7 +289,9 @@ void Hand::StampStand() {
 
 void Hand::StampAttack() {
 	isCollisionObstacle_ = true;
-	isAttack_ = true;
+	if (isStampAttack_) {
+		isAttack_ = true;
+	}
 	// 重力
 	velocity_ += Gravity::Execute()*2.0f;
 	// 速度制限
@@ -301,6 +304,7 @@ void Hand::StampAttack() {
 			parent_->GetAudioManager()->PlayWave(kGameHeadDropSE);
 		}
 		isAttack_ = false;
+		isStampAttack_ = false;
 		if (countUp_ > stampStiffnessLength){//仮
 			state_ = std::bind(&Hand::Root, this);
 			parent_->EndAttack();

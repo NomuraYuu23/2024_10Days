@@ -80,6 +80,9 @@ public:
 
 	bool GetIsEndAllWave() { return isEndAllWave_ && isBossSpawn_; };
 
+	//エミッターリセット
+	void EffectReset() { eggBreakParticleManager_->PositionClear(); };
+
 private:
 
 	// 

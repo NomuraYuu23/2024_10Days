@@ -190,6 +190,7 @@ private: //	変数
 
 	bool stampSE_ = false;
 
+	bool isStampAttack_ = false;
 
 	std::unique_ptr<AttackArrowObject> arrow_;
 public: // アクセッサ
