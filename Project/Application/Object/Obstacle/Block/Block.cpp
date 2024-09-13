@@ -195,6 +195,7 @@ void Block::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 			AttackStart();
 			isMove_ = false;
 			std::get<Player*>(colliderPartner)->SetIsKnockBlock(true);
+			audioManager_->PlayWave(kGameHitBlockSE);
 		}
 		
 	}
