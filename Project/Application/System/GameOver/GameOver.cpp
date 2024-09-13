@@ -52,8 +52,17 @@ void GameOver::Update(bool isGameOver)
 	// ゲームオーバー
 	isRun_ = true;
 
-	if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
-		isEnd_ = true;
+	Input* input = Input::GetInstance();
+
+	if (input->GetJoystickConnected()) {
+		if (input->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
+			isEnd_ = true;
+		}
+	}
+	else {
+		if (input->TriggerKey(DIK_SPACE)) {
+			isEnd_ = true;
+		}
 	}
 
 }
