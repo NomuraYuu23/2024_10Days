@@ -1,6 +1,6 @@
 {
     "FlyEnemy": {
-        "attackSpeed": 1.0,
+        "attackSpeed": 0.75,
         "deathAnimationLength": 15,
         "rushIdleLength": 30,
         "speed": 0.5

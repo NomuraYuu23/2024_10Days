@@ -159,21 +159,69 @@ void EnemyManager::Initialize() {
 	datas.clear();
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { -16.0f,28.0f,0.0f };
+	data.spownFrame = 90;
+	data.position = { -3.0f,40.0f,3.0f };
+	data.velocity = { 0,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { 42.0f,24.0f,-3.0f };
+	data.velocity = { -1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 150;
+	data.position = { 21.0f,40.0f,-3.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 16.0f,28.0f,0.0f };
+	data.spownFrame = 150;
+	data.position = { -21.0f,40.0f,-3.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 0.0f,28.0f,16.0f };
+	data.spownFrame = 150;
+	data.position = { -3.0f,40.0f,21.0f };
 	data.velocity = { 0,0,0 };
+	datas.push_back(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 150;
+	data.position = { 3f,40.0f,-21.0f };
+	data.velocity = { 0,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { -42.0f,24.0f,-3.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { 42.0f,4.0f,-3.0f };
+	data.velocity = { -1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { -42.0f,4.0f,-3.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 150;
+	data.position = { -3.0f,24.0f,-42.0f };
+	data.velocity = { 0.0f,0.0f, 1.0f };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 150;
+	data.position = { -3.0f,24.0f,42.0f };
+	data.velocity = { 0.0f,0.0f, -1.0f };
 	datas.push_back(data);
 
 	spownDatas_.push_back(datas);
