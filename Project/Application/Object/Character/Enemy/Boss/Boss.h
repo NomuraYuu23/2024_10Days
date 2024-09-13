@@ -185,6 +185,9 @@ private: //	変数
 	//オブジェクトマネージャー
 	BaseObjectManager* objectManager_ = nullptr;
 
+	// カメラ
+	BaseCamera* camera_ = nullptr;
+
 	Player* target_ = nullptr;
 
 	Hand* rightHand_ = nullptr;
@@ -235,6 +238,10 @@ public: // アクセッサ
 	MeshObject* GetRightHand() { return rightHand_; };
 	MeshObject* GetLeftHand() { return leftHand_; };
 	MeshObject* GetHead() { return head_; };
+
+	void SetCamera(BaseCamera* camera) { camera_ = camera; }
+
+	BaseCamera* GetCamera() { return camera_; }
 
 private: // グローバル変数
 
