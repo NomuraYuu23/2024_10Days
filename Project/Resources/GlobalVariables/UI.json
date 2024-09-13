@@ -29,6 +29,15 @@
             64.0,
             64.0
         ],
+        "CameraResetposition": [
+            250.0,
+            325.0
+        ],
+        "CameraResetrotate": 0.0,
+        "CameraResetsize": [
+            368.0,
+            107.5
+        ],
         "HP1position": [
             116.0,
             166.0
