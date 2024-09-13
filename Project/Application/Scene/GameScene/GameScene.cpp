@@ -221,9 +221,12 @@ void GameScene::Update() {
 	// クリア
 	if (!gameOver_->GetIsRun()) {
 		gameClear_->Update(isCreateBoss_ && (boss_ == nullptr));
-		if (gameClear_->GetIsEnd()) {
-			resetScene_ = true;
-			isBeingReset_ = true;
+		if (gameClear_->GetIsRun()) {
+			player_->SetIsGameClear(true);
+			if (gameClear_->GetIsEnd()) {
+				resetScene_ = true;
+				isBeingReset_ = true;
+			}
 		}
 	}
 
