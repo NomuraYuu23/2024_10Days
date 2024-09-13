@@ -157,6 +157,8 @@ void Hand::Hit() {
 	}
 	countUp_ = 0;
 	velocity_ = { 0.0f,5.0f,0.0f };
+	isCollisionObstacle_ = false;
+	isAttack_ = false;
 }
 
 void Hand::ParticleDraw(BaseCamera& camera)

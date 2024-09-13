@@ -69,6 +69,7 @@ public:
 	void SetPlayer(Player* player) { player_ = player; };
 
 	std::list<BaseEnemy*>* GetEnemys() { return &enemys_; }
+	std::list<BaseEnemy*>* GetFlyEnemys() { return &flyEnemys_; }
 	std::list<Egg*>* GetEggs() { return &eggs_; }
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
@@ -83,6 +84,8 @@ private:
 
 	// 
 	std::list<BaseEnemy*> enemys_;
+
+	std::list<BaseEnemy*> flyEnemys_;
 
 	std::list<Egg*> eggs_;
 

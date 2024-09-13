@@ -195,6 +195,9 @@ private: //	変数
 
 	Player* target_ = nullptr;
 
+	// カメラ
+	BaseCamera* camera_ = nullptr;
+
 	//被弾後の無敵時間か
 	bool isHitCoolTime_ = false;
 
@@ -237,6 +240,8 @@ public: // アクセッサ
 	bool IsAttack() { return isAttack_; };
 
 	int32_t GetHp() { return hp_; };
+
+	void SetCamera(BaseCamera* camera) { camera_ = camera; }
 
 private: // グローバル変数
 

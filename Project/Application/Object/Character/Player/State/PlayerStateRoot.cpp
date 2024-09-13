@@ -43,6 +43,41 @@ void PlayerStateRoot::Update()
 		// 角度補間
 		worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
 	}
+	else {
+
+		// 移動量
+		Vector3 move = { 0.0f, 0.0f, 0.0f };
+
+		if (input_->PushKey(DIK_W) || input_->PushKey(DIK_UP)) {
+			move.z += 1.0f;
+		}
+
+		if (input_->PushKey(DIK_S) || input_->PushKey(DIK_DOWN)) {
+			move.z -= 1.0f;
+		}
+
+		if (input_->PushKey(DIK_D) || input_->PushKey(DIK_RIGHT)) {
+			move.x += 1.0f;
+		}
+
+		if (input_->PushKey(DIK_A) || input_->PushKey(DIK_LEFT)) {
+			move.x -= 1.0f;
+		}
+
+		move = Vector3::Normalize(move);
+
+		if (Vector3::Length(move) != 0.0f) {
+			//ランニング
+			Move(move, worldTransform, player_->GetRunningSpeed());
+			playerMotionNo_ = kPlayerMotionRun;
+		}
+		else {
+			playerMotionNo_ = kPlayerMotionWait;
+		}
+
+		// 角度補間
+		worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
+	}
 
 	player_->SetReceiveCommand(true);
 

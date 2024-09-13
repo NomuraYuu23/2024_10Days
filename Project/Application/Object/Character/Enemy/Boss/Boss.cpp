@@ -255,8 +255,8 @@ void Boss::Root() {
 	if (countUp_ == 0) {
 		ChacePlayerY();
 	}
-	if (countUp_ <= 60) {
-		float t = float(countUp_) / float(60);
+	if (countUp_ <= moveLength_) {
+		float t = float(countUp_) / float(moveLength_);
 		worldTransform_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, moveFromY_, moveTargetY_, t);
 	}
 	RotateToPlayer();
@@ -277,7 +277,7 @@ void Boss::Root() {
 	headJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, headJointWorldTransform_.transform_.translate, HeadInitPos_, 0.05f);
 	bodyJointWorldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.translate, bodyRootPos_, 0.05f);
 	bodyJointWorldTransform_.transform_.rotate.x = Ease::Easing(Ease::EaseName::Lerp, bodyJointWorldTransform_.transform_.rotate.x, 0, 0.05f);
-	if (countUp_ == 60) {
+	if (countUp_ == changeStateLength_) {
 		if (rightHand_ || leftHand_) {
 			if (executeAction_ == 1) {
 				float random = RandomEngine::GetRandom(0.0f, 1.0f);
@@ -571,6 +571,7 @@ void Boss::CreateHead() {
 	headJointWorldTransform_.transform_.translate = HeadInitPos_;
 	headJointWorldTransform_.UpdateMatrix();
 	head_->ConnectJoint(&headJointWorldTransform_);
+	head_->SetCamera(camera_);
 }
 
 void Boss::EndAttack() {
@@ -629,7 +630,7 @@ void Boss::RotateToPlayer() {
 
 void Boss::ChacePlayerY() {
 	float playerY = target_->GetWorldTransformAdress()->GetWorldPosition().y;
-	float target = Block::kLowHight + 2.0f;
+	float target = Block::kLowHight + Block::kSize_;
 	if (playerY > Block::kFloatHight) {
 		target += Block::kFloatHight;
 	}

@@ -207,12 +207,19 @@ private: //	変数
 	size_t headButtMoveLength_ = 60;
 
 	//ダメージ受けた時に下に沈むまでの時間
-	size_t damageAnimationlength_ = 60;
+	size_t damageAnimationlength_ = 120;
 
 	//出現の長さ
-	size_t spawnAnimationLength_ = 120;
+	size_t spawnAnimationLength_ = 180;
 
 	size_t summonAnimationLength_ = 180;
+
+	//行動に移るまでの時間
+	size_t changeStateLength_ = 180;
+	//移動を完了するまでの時間
+	size_t moveLength_ = 120;
+	//攻撃対象を変える猶予
+//	size_t targetChace_ = 60;
 
 	float moveTargetY_;
 	float moveFromY_;

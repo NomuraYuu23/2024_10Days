@@ -25,8 +25,15 @@ uint32_t PlayerCommand::Command()
 
 	uint32_t resultState = PlayerState::kPlayerStateRoot;
 
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
-		resultState = PlayerState::kPlayerStateJump;
+	if (input_->GetJoystickConnected()) {
+		if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
+			resultState = PlayerState::kPlayerStateJump;
+		}
+	}
+	else {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			resultState = PlayerState::kPlayerStateJump;
+		}
 	}
 
 	return resultState;

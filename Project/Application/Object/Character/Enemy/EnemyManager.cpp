@@ -71,6 +71,13 @@ void EnemyManager::Update() {
 		return false;
 		});
 
+	flyEnemys_.remove_if([](BaseEnemy* enemy) {
+		if (enemy->GetIsPlayDeathAnimation_()) {
+			return true;
+		}
+		return false;
+		});
+
 	spownDatas_[waveNum].remove_if([&](EnemyData enemy) {
 		if (enemy.spownFrame == frameCount_) {
 			AddEnemy(enemy);
@@ -139,7 +146,7 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		//enemy.transform.translate.y = 16.0f;
 		pointer = objectManager_->AddObject(odata);
 		static_cast<FlyEnemy*>(pointer)->SetVelocity(data.velocity);
-		enemys_.push_back(static_cast<BaseEnemy*>(pointer));
+		flyEnemys_.push_back(static_cast<BaseEnemy*>(pointer));
 
 		// 音
 		audioManager_->PlayWave(kGamePteraSpawnSE);

@@ -177,6 +177,12 @@ void GameScene::Initialize() {
 	padConnect_ = std::make_unique<PadConnect>();
 	padConnect_->Initialize();
  
+	gameOver_ = std::make_unique<GameOver>();
+	gameOver_->Initialize();
+
+	gameClear_ = std::make_unique<GameClear>();
+	gameClear_->Initialize();
+
 	audioManager_->PlayWave(kGameBGM);
 
 	IScene::InitilaizeCheck();
@@ -196,7 +202,46 @@ void GameScene::Update() {
 		requestSceneNo_ = kClear;
 	}
 
+	if (input_->TriggerKey(DIK_0)) {
+		isCreateBoss_ = true;
+		boss_ = nullptr;
+	}
+
 #endif // _DEMO
+
+	if (isBeingReset_) {
+		resetScene_ = false;
+		// BGM音量下げる
+		if (isDecreasingVolume) {
+			LowerVolumeBGM();
+		}
+		return;
+	}
+
+	// クリア
+	if (!gameOver_->GetIsRun()) {
+		gameClear_->Update(isCreateBoss_ && (boss_ == nullptr));
+		if (gameClear_->GetIsRun()) {
+			player_->SetIsGameClear(true);
+			gameCamera_->SetIsGameClear(true);
+			if (gameClear_->GetIsEnd()) {
+				resetScene_ = true;
+				isBeingReset_ = true;
+			}
+		}
+	}
+
+	if (!gameClear_->GetIsRun()) {
+		// オーバー
+		gameOver_->Update(player_->GetIsGameOver());
+		if (gameOver_->GetIsRun()) {
+			if (gameOver_->GetIsEnd()) {
+				resetScene_ = true;
+				isBeingReset_ = true;
+			}
+			return;
+		}
+	}
 
 	PreGameUpdate();
 
@@ -324,18 +369,24 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon_->GetCommadList());
 
 	// UI
-	UISystem_->Draw();
 
-	// チュートリアル
-	tutorialSystem_->SpriteDraw();
+	if (!gameOver_->GetIsRun() && !gameClear_->GetIsRun()) {
+		UISystem_->Draw();
 
-	// カウントダウン
-	countDown_->Draw();
+		// チュートリアル
+		tutorialSystem_->SpriteDraw();
 
-	// チュートリアルスキップ
-	tutorialSkipSystem_->Draw();
+		// カウントダウン
+		countDown_->Draw();
 
-	padConnect_->Draw();
+		// チュートリアルスキップ
+		tutorialSkipSystem_->Draw();
+
+		padConnect_->Draw();
+	}
+	gameOver_->Draw();
+
+	gameClear_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -400,23 +451,23 @@ void GameScene::LowerVolumeBGM()
 {
 
 
-	const uint32_t startHandleIndex = 3;
+	const uint32_t startHandleIndex = 0;
 
-	//for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-	//	if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameAudioNameIndexBGM + startHandleIndex) {
-	//		float decreasingVolume = 1.0f / 60.0f;
-	//		float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
-	//		if (volume < 0.0f) {
-	//			volume = 0.0f;
-	//			audioManager_->StopWave(i);
-	//			isDecreasingVolume = false;
-	//		}
-	//		else {
-	//			audioManager_->SetPlayingSoundDataVolume(i, volume);
-	//			audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
-	//		}
-	//	}
-	//}
+	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameBGM + startHandleIndex) {
+			float decreasingVolume = 1.0f / 60.0f;
+			float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
+			if (volume < 0.0f) {
+				volume = 0.0f;
+				audioManager_->StopWave(i);
+				isDecreasingVolume = false;
+			}
+			else {
+				audioManager_->SetPlayingSoundDataVolume(i, volume);
+				audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+			}
+		}
+	}
 
 }
 
@@ -497,6 +548,15 @@ void GameScene::ShadowUpdate()
 
 	}
 
+	// プテラ
+	std::list<BaseEnemy*>::iterator itrFlyEnemy = enemyManager_->GetFlyEnemys()->begin();
+	for (; itrFlyEnemy != enemyManager_->GetFlyEnemys()->end(); ++itrFlyEnemy) {
+
+		BaseEnemy* enemy = *itrFlyEnemy;
+		shadowManager_->CastsShadowObjListRegister(enemy);
+
+	}
+
 	// 卵
 	std::list<Egg*>::iterator itrEgg = enemyManager_->GetEggs()->begin();
 	for (; itrEgg != enemyManager_->GetEggs()->end(); ++itrEgg) {
@@ -551,19 +611,19 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
 	static_cast<Boss*>(pointer)->SetAudioManager(audioManager_.get());
 	//static_cast<Boss*>(pointer)->CreateHand();
+	static_cast<Boss*>(pointer)->SetCamera(gameCamera_.get());
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
-	static_cast<Boss*>(pointer)->SetCamera(gameCamera_.get());
 	static_cast<Boss*>(pointer)->SetDeadCall(std::bind(&GameScene::DeadBoss, this));
 	boss_ = static_cast<Boss*>(pointer);
 }
 
 void GameScene::AddBossShadows() {
 	if (boss_) {
-		if (boss_->GetLeftHand()) {
+		if (boss_->GetLeftHand() && static_cast<Hand*>(boss_->GetLeftHand())->IsAttack()) {
 			shadowManager_->CastsShadowObjListRegister(boss_->GetLeftHand());
 		}
-		if (boss_->GetRightHand()) {
+		if (boss_->GetRightHand() && static_cast<Hand*>(boss_->GetRightHand())->IsAttack()) {
 			shadowManager_->CastsShadowObjListRegister(boss_->GetRightHand());
 		}
 		if (boss_->GetHead()) {

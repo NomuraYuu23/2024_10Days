@@ -148,7 +148,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 
 	if (std::holds_alternative<Block*>(colliderPartner)) {
 		if (isCollisionObstacle_) {
-			OnCollisionObstacle(colliderPartner, collisionData);
+			//OnCollisionObstacle(colliderPartner, collisionData);
 		}
 		if (isCollisionObstacle_) {
 			if (std::get<Block*>(colliderPartner)->GetIsAttack() && hp_>0) {
@@ -166,6 +166,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 }
 
 void Head::Hit() {
+	isCollisionObstacle_ = false; 
 	hp_--;
 	state_ = std::bind(&Head::Damage, this);
 	velocity_ = { 0.0f,3.0f,0.0f };
@@ -310,6 +311,7 @@ void Head::Damage() {
 			clearMiddlePos_.y += 32.0f;
 
 			state_ = std::bind(&Head::Dead, this);
+			camera_->ShakeStart(2.0f,float(deadAnimationLength)* kDeltaTime_);
 			countUp_ = 0;
 			return;
 		}
@@ -392,10 +394,14 @@ void Head::Attack() {
 	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 	isCollisionObstacle_ = true;
 	isAttack_ = true;
-	isDamageMovingBlock_ = true;
+	//isDamageMovingBlock_ = true;
 	if (countUp_ <=kAttackMoveLength_) {
 		float t = float(countUp_) / float(kAttackMoveLength_);
 		worldTransform_.transform_.translate.z = Ease::Easing(Ease::EaseName::EaseInBack, 0, attackWidth_, t);
+	}
+	else {
+		isAttack_ = false;
+		currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	}
 	if (countUp_ > kAttackAnimationLength_) {//仮
 		state_ = std::bind(&Head::PullBack, this);
