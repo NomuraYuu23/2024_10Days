@@ -310,6 +310,7 @@ void Head::Damage() {
 			clearMiddlePos_.y += 32.0f;
 
 			state_ = std::bind(&Head::Dead, this);
+			camera_->ShakeStart(2.0f,float(deadAnimationLength)* kDeltaTime_);
 			countUp_ = 0;
 			return;
 		}
