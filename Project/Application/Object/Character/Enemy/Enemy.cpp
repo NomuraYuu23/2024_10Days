@@ -192,6 +192,12 @@ void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionDat
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 	else if (std::holds_alternative<Player*>(colliderPartner)) {
+		if (std::get<Player*>(colliderPartner)->GetCurrentStateNo() == PlayerState::kPlayerStateHeadDrop && !isPlayDeathAnimation_) {
+			//死亡
+			isPlayDeathAnimation_ = true;
+			state_ = std::bind(&Enemy::Dead, this);
+			countUp_ = 0;
+		}
 		if (!isKnockback_ && !isPlayDeathAnimation_) {
 			KnockbackInitialize();
 		}

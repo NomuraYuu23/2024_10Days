@@ -179,7 +179,7 @@ void FlyEnemy::Draw(BaseCamera& camera)
 void FlyEnemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<Block*>(colliderPartner)) {
+	if (std::holds_alternative<Block*>(colliderPartner) ||(std::holds_alternative<Player*>(colliderPartner) && std::get<Player*>(colliderPartner)->GetCurrentStateNo() == PlayerState::kPlayerStateHeadDrop) ) {
 		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
