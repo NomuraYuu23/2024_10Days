@@ -660,6 +660,8 @@ void Boss::DeathRightHand() {
 	//rightHand_->ConnectJoint(nullptr);
 	rightHand_ = nullptr;
 	countUp_ = 0;
+	audioManager_->PlayWave(kGameBossHitSE);
+
 }
 
 void Boss::DeathLeftHand() {
@@ -667,6 +669,7 @@ void Boss::DeathLeftHand() {
 	//leftHand_->ConnectJoint(nullptr);
 	leftHand_ = nullptr;
 	countUp_ = 0;
+	audioManager_->PlayWave(kGameBossHitSE);
 }
 
 void Boss::DamageHead() {
