@@ -498,7 +498,7 @@ void Boss::SummonPhaseTwo() {
 	for (int i = 0;i< Block::kNumOnece_; i++) {
 		data.className = "FlyEnemy";
 		data.spownFrame = 0;
-		data.position = { 48.0f * direction + direction * float(2 * Block::kSize_ * i),worldTransform_.GetWorldPosition().y,-float(Block::kNumOnece_)*Block::kSize_ + float(2 * Block::kSize_*i)};
+		data.position = { 48.0f * direction + direction * float(2 * Block::kSize_ * i),worldTransform_.GetWorldPosition().y+2.0f,-float(Block::kNumOnece_)*Block::kSize_ + float(2 * Block::kSize_*i)};
 		data.velocity = { -direction,0,0 };
 		enemyManager_->AddEnemy(data);
 	}
