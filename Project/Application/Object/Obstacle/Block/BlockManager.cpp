@@ -71,3 +71,10 @@ bool BlockManager::IsConnectRoad(Vector3 from, Vector3 to, bool hight) {
 	}
 	return false;
 }
+
+void BlockManager::AllDown() {
+	for(Block* block : blocks_) {
+		block->Down();
+		block->SetIsRockMove(true);
+	}
+}

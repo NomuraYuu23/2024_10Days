@@ -68,6 +68,9 @@ public: //メンバ関数
 	/// </summary>
 	void DebugCameraUpdate();
 
+	//ボスが死んだとき
+	void DeadBoss();
+
 private: // メンバ関数
 
 	/// <summary>

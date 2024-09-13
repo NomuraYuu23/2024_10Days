@@ -219,6 +219,9 @@ private: //	変数
 
 	EnemyManager* enemyManager_;
 
+	//死亡したときに呼ぶ
+	std::function<void(void)> dead_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -242,6 +245,9 @@ public: // アクセッサ
 	void SetCamera(BaseCamera* camera) { camera_ = camera; }
 
 	BaseCamera* GetCamera() { return camera_; }
+
+	//死亡したときにゲームシーンに送る用
+	void SetDeadCall(std::function<void(void)> func) { dead_ = func; };
 
 private: // グローバル変数
 

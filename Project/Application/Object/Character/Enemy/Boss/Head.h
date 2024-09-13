@@ -200,6 +200,9 @@ private: //	変数
 	//被弾アニメーションの終了フレーム
 	size_t damageAnimationLength = 120;
 
+	//死亡アニメーションの終了フレーム
+	size_t deadAnimationLength = 120;
+
 	//親
 	Boss* parent_ = nullptr;
 
@@ -215,6 +218,10 @@ private: //	変数
 	bool isDamageMovingBlock_ = false;
 
 	Vector3 roarRotate_ = {-0.5f,0.0f,0.0f};
+
+	//クリア演出用の保存座標
+	Vector3 clearStartPos_;
+	Vector3 clearMiddlePos_;
 
 public: // アクセッサ
 

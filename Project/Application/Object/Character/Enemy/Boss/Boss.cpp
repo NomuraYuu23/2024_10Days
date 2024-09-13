@@ -431,7 +431,10 @@ void Boss::Damage() {
 }
 
 void Boss::Dead() {
-	
+	if (countUp_ ==0) {
+		dead_();
+	}
+
 	if (countUp_ <= damageAnimationlength_) {
 		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, oridinSpownPos_, 0.05f);
 	}
