@@ -508,7 +508,56 @@ void Boss::SummonPhaseTwo() {
 }
 
 void Boss::SummonPhaseThree() {
+	EnemyData data;
 
+	data.className = "Enemy";
+	data.spownFrame = 120;
+	data.position = { -21.0f,28.0f,0.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 120;
+	data.position = { 21.0f,28.0f,-21.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "Enemy";
+	data.spownFrame = 120;
+	data.position = { 21.0f,28.0f,21.0f };
+	data.velocity = { 0,0,0 };
+	enemyManager_->AddEnemy(data);
+
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { -42.0f,24.0f,-3.0f };
+	data.velocity = { 1.0f,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { 42.0f,4.0f,-3.0f };
+	data.velocity = { -1.0f,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 140;
+	data.position = { -42.0f,4.0f,-3.0f };
+	data.velocity = { 1.0f,0,0 };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 150;
+	data.position = { -3.0f,24.0f,-42.0f };
+	data.velocity = { 0.0f,0.0f, 1.0f };
+	enemyManager_->AddEnemy(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 150;
+	data.position = { -3.0f,24.0f,42.0f };
+	data.velocity = { 0.0f,0.0f, -1.0f };
+	enemyManager_->AddEnemy(data);
 }
 
 void Boss::Spawn() {
