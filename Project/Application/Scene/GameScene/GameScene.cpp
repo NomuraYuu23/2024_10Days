@@ -185,6 +185,8 @@ void GameScene::Initialize() {
 
 	audioManager_->PlayWave(kGameBGM);
 
+	switchToClearBGM_ = false;
+
 	IScene::InitilaizeCheck();
 
 }
@@ -224,6 +226,13 @@ void GameScene::Update() {
 		if (gameClear_->GetIsRun()) {
 			player_->SetIsGameClear(true);
 			gameCamera_->SetIsGameClear(true);
+
+			if (!switchToClearBGM_) {
+				switchToClearBGM_ = true;
+				audioManager_->StopWave(kGameBGM);
+				audioManager_->PlayWave(kGameClearBGM);
+			}
+
 			if (gameClear_->GetIsEnd()) {
 				resetScene_ = true;
 				isBeingReset_ = true;
@@ -453,21 +462,39 @@ void GameScene::TextureLoad()
 void GameScene::LowerVolumeBGM()
 {
 
-
 	const uint32_t startHandleIndex = 0;
 
-	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameBGM + startHandleIndex) {
-			float decreasingVolume = 1.0f / 60.0f;
-			float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
-			if (volume < 0.0f) {
-				volume = 0.0f;
-				audioManager_->StopWave(i);
-				isDecreasingVolume = false;
+	if (!switchToClearBGM_) {
+		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+			if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameBGM + startHandleIndex) {
+				float decreasingVolume = 1.0f / 60.0f;
+				float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
+				if (volume < 0.0f) {
+					volume = 0.0f;
+					audioManager_->StopWave(i);
+					isDecreasingVolume = false;
+				}
+				else {
+					audioManager_->SetPlayingSoundDataVolume(i, volume);
+					audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+				}
 			}
-			else {
-				audioManager_->SetPlayingSoundDataVolume(i, volume);
-				audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+		}
+	}
+	else {
+		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+			if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameClearBGM + startHandleIndex) {
+				float decreasingVolume = 1.0f / 60.0f;
+				float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
+				if (volume < 0.0f) {
+					volume = 0.0f;
+					audioManager_->StopWave(i);
+					isDecreasingVolume = false;
+				}
+				else {
+					audioManager_->SetPlayingSoundDataVolume(i, volume);
+					audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+				}
 			}
 		}
 	}

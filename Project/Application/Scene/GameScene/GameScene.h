@@ -200,4 +200,6 @@ private:
 	// ゲームクリア
 	std::unique_ptr<GameClear> gameClear_;
 
+	bool switchToClearBGM_;
+
 };

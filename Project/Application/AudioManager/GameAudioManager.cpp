@@ -30,6 +30,10 @@ void GameAudioManager::Initialize()
 
 	audioDatas_[kGameBGM].isBGM_ = true;
 	audioDatas_[kGameBGM].isLoop_ = true;
+
+	audioDatas_[kGameClearBGM].isBGM_ = true;
+	audioDatas_[kGameClearBGM].isLoop_ = true;
+
 }
 
 void GameAudioManager::Update()

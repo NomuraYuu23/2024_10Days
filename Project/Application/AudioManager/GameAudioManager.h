@@ -16,6 +16,7 @@ enum GameAudioNameIndex {
 	kGameGameStartSE, // スタートSE
 	kGameHitBlockSE, // ヒットブロックSE
 	kGameHitAttackSE, // ヒットアタックSE
+	kGameClearBGM, // クリアBGM
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -65,6 +66,7 @@ private: // メンバ変数
 		"Sound/SE/gameStart.mp3",
 		"Sound/SE/Hit_Block.mp3",
 		"Sound/SE/Hit_Attack.mp3",
+		"Sound/BGM/gameClear.mp3",
 	};
 
 };
