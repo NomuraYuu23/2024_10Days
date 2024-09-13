@@ -64,16 +64,29 @@ void EnemyManager::Initialize() {
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
-	data.spownFrame = 90;
-	data.position = { -42.0f,4.0f,16.0f };
+	data.spownFrame = 120;
+	data.position = { -42.0f,4.0f,18.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
-	data.spownFrame = 90;
-	data.position = { 42.0f,4.0f,-16.0f };
+	data.spownFrame = 120;
+	data.position = { 42.0f,4.0f,-18.0f };
 	data.velocity = { -1.0f,0,0 };
 	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 180;
+	data.position = { -18.0f,16.0f,42.0f };
+	data.velocity = { 0.0f,-1,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 180;
+	data.position = { 18.0f,16.0f,-42.0f };
+	data.velocity = { 0.0f,1,0 };
+	datas.push_back(data);
+
 
 	spownDatas_.push_back(datas);
 
