@@ -608,6 +608,8 @@ void GameScene::PreGameUpdate()
 
 	padConnect_->Update();
 
+	UISystem_->SetLeftTopMove(countDown_->GetIsGameStart());
+
 }
 
 void GameScene::DeadBoss() {

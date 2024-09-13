@@ -10,6 +10,9 @@
 #include "TimeTenNumUI.h"
 #include "TimeOneNumUI.h"
 
+#include "../../Engine/Math/DeltaTime.h"
+#include "../../Engine/Math/Ease.h"
+
 void UISystem::Initialize(DirectXCommon* dxCommon, Player* player, uint32_t* dayCount)
 {
 
@@ -18,7 +21,9 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player, uint32_t* day
 	// タイトルの追加位置
 	titlePosAddX_ = -640.0f;
 
-	tutorialPosAddX_ = -640.0f;
+	leftTopMove_ = false;
+
+	leftTopPosAddX_ = -640.0f;
 
 	dayCount_ = dayCount;
 
@@ -117,6 +122,14 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player, uint32_t* day
 void UISystem::Update()
 {
 
+	if (leftTopMove_ && moveTimer_ != moveTimerMax_) {
+		moveTimer_ += kDeltaTime_;
+		if (moveTimer_ >= moveTimerMax_) {
+			moveTimer_ = moveTimerMax_;
+		}
+		leftTopPosAddX_ = Ease::Easing(Ease::EaseName::EaseInQuint, -640.0f, 0.0f, moveTimer_ / moveTimerMax_);
+	}
+
 	// UI
 	Vector2 pos = { 0.0f,0.0f };
 	for (uint32_t i = 0; i < kUIIndexOfCount; ++i) {
@@ -126,10 +139,10 @@ void UISystem::Update()
 			pos.x += titlePosAddX_;
 			UIs_[i]->SetPosition(pos);
 		}
-		if (tutorialPosAddX_ != 0.0f) {
+		if (leftTopPosAddX_ != 0.0f) {
 			if (i >= kUIIndexHP1) {
 				pos = UIs_[i]->GetPosition();
-				pos.x += tutorialPosAddX_;
+				pos.x += leftTopPosAddX_;
 				UIs_[i]->SetPosition(pos);
 			}
 		}

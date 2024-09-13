@@ -78,12 +78,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="titlePosAddX"></param>
 	void SetTitlePosAddX(float titlePosAddX) { titlePosAddX_ = titlePosAddX; }
-
-	/// <summary>
-	///	チュートリアルの追加位置設定
-	/// </summary>
-	/// <param name="tutorialPosAddX"></param>
-	void SetTutorialPosAddX(float tutorialPosAddX) { tutorialPosAddX_ = tutorialPosAddX; }
+	
+	void SetLeftTopMove(bool leftTopMove) { leftTopMove_ = leftTopMove; }
 
 private:
 
@@ -99,11 +95,17 @@ private:
 	// タイトルの追加位置
 	float titlePosAddX_;
 
-	// チュートリアルの追加位置
-	float tutorialPosAddX_;
-
 	// 経過日数
 	uint32_t* dayCount_;
+
+	// 左上の追加位置
+	float leftTopPosAddX_;
+
+	bool leftTopMove_ = false;
+
+	float moveTimer_ = 0.0f;
+
+	float moveTimerMax_ = 1.5f;
 
 private: 
 
