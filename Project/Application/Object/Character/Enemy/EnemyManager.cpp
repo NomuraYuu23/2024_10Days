@@ -71,6 +71,13 @@ void EnemyManager::Update() {
 		return false;
 		});
 
+	flyEnemys_.remove_if([](BaseEnemy* enemy) {
+		if (enemy->GetIsPlayDeathAnimation_()) {
+			return true;
+		}
+		return false;
+		});
+
 	spownDatas_[waveNum].remove_if([&](EnemyData enemy) {
 		if (enemy.spownFrame == frameCount_) {
 			AddEnemy(enemy);
