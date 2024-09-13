@@ -51,7 +51,46 @@ void PlayerStateJump::Update()
 			Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
 			if (Vector3::Length(move) > kThresholdRunning) {
 				//ランニング
-				Move(move, worldTransform, player_->GetRunningSpeed() * moveMagnification_);
+				Move(move, worldTransform, player_->GetRunningSpeed());
+				playerMotionNo_ = kPlayerMotionRun;
+			}
+			else {
+				playerMotionNo_ = kPlayerMotionWait;
+			}
+
+			// 角度補間
+			worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
+		}
+		else {
+
+			// 移動量
+			Vector3 move = { 0.0f, 0.0f, 0.0f };
+
+			if (input_->PushKey(DIK_W) || input_->PushKey(DIK_UP)) {
+				move.z += 1.0f;
+			}
+
+			if (input_->PushKey(DIK_S) || input_->PushKey(DIK_DOWN)) {
+				move.z -= 1.0f;
+			}
+
+			if (input_->PushKey(DIK_D) || input_->PushKey(DIK_RIGHT)) {
+				move.x += 1.0f;
+			}
+
+			if (input_->PushKey(DIK_A) || input_->PushKey(DIK_LEFT)) {
+				move.x -= 1.0f;
+			}
+
+			move = Vector3::Normalize(move);
+
+			if (Vector3::Length(move) != 0.0f) {
+				//ランニング
+				Move(move, worldTransform, player_->GetRunningSpeed());
+				playerMotionNo_ = kPlayerMotionRun;
+			}
+			else {
+				playerMotionNo_ = kPlayerMotionWait;
 			}
 
 			// 角度補間
@@ -65,19 +104,34 @@ void PlayerStateJump::Update()
 	jumpElapsedTime_ += kDeltaTime_;
 
 	if (steppingIn_ && jumpElapsedTime_ > kDeltaTime_ * static_cast<float>(player_->GetJumpCheckpointFrame())) {
-
 		steppingIn_ = false;
-		if (input_->NoPushJoystick(JoystickButton::kJoystickButtonA)) {
-			animStop_ = false;
-			animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
-			animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
-			player_->SetVelocity(Vector3{ 0.0f, player_->GetSmallJumpInitialSpeed(), 0.0f });
+		if (input_->GetJoystickConnected()) {
+			if (input_->NoPushJoystick(JoystickButton::kJoystickButtonA)) {
+				animStop_ = false;
+				animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+				animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+				player_->SetVelocity(Vector3{ 0.0f, player_->GetSmallJumpInitialSpeed(), 0.0f });
+			}
+			else {
+				animStop_ = false;
+				animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+				animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+				player_->SetVelocity(Vector3{ 0.0f, player_->GetJumpInitialSpeed() , 0.0f });
+			}
 		}
 		else {
-			animStop_ = false;
-			animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
-			animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
-			player_->SetVelocity(Vector3{ 0.0f, player_->GetJumpInitialSpeed() , 0.0f });
+			if (input_->NoPushKey(DIK_SPACE)) {
+				animStop_ = false;
+				animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+				animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+				player_->SetVelocity(Vector3{ 0.0f, player_->GetSmallJumpInitialSpeed(), 0.0f });
+			}
+			else {
+				animStop_ = false;
+				animTimer = static_cast<double>(kDeltaTime_) * player_->GetJumpCheckpointFrame();
+				animation->AnimationTimerFix(kPlayerMotionJump, animTimer);
+				player_->SetVelocity(Vector3{ 0.0f, player_->GetJumpInitialSpeed() , 0.0f });
+			}
 		}
 	}
 
