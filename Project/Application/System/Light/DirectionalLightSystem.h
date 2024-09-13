@@ -46,6 +46,9 @@ private: // 変数
 	// カウントダウン中
 	bool countDownNow_;
 
+	// 経過日数
+	uint32_t dayCount_;
+
 public: // アクセッサ
 
 	DirectionalLightData GetDirectionalLightData() { return directionalLightData_; }
@@ -53,6 +56,8 @@ public: // アクセッサ
 	void SetIsStart(bool isStart) { isStart_ = isStart; }
 
 	void SetCountDownNow(bool countDownNow) { countDownNow_ = countDownNow; }
+
+	uint32_t* GetDayCountAddress() { return &dayCount_; }
 
 private: // グローバル変数
 

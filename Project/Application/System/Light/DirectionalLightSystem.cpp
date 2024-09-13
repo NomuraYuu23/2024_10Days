@@ -38,6 +38,8 @@ void DirectionalLightSystem::initialize(DirectionalLight* directionalLight)
 	// カウントダウンスピード
 	countDownSpeed_ = dailyCycleTime_ / 60.0f;
 
+	dayCount_ = 0;
+
 }
 
 void DirectionalLightSystem::Update()
@@ -52,7 +54,14 @@ void DirectionalLightSystem::Update()
 		timer_ = fmodf(timer_ + countDownSpeed_, dailyCycleTime_);
 	}
 	else {
+		float preTimer = timer_;
 		timer_ = fmodf(timer_ + kDeltaTime_, dailyCycleTime_);
+		if (preTimer > timer_) {
+			dayCount_++;
+			if (dayCount_ >= 100) {
+				dayCount_ = 99;
+			}
+		}
 	}
 
 	// 色の変更

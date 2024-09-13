@@ -154,7 +154,7 @@ void GameScene::Initialize() {
 
 	// UIシステム
 	UISystem_ = std::make_unique<UISystem>();
-	UISystem_->Initialize(dxCommon_, player_);
+	UISystem_->Initialize(dxCommon_, player_, directionalLightSystem_->GetDayCountAddress());
 
 	postEffectSystem_ = std::make_unique<PostEffectSystem>();
 	postEffectSystem_->Initialize(player_);

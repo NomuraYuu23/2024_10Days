@@ -46,7 +46,7 @@
             50.0
         ],
         "HP3position": [
-            165.0,
+            145.0,
             120.0
         ],
         "HP3size": [
@@ -128,6 +128,33 @@
         ],
         "RightStickrotate": 0.0,
         "RightSticksize": [
+            64.0,
+            64.0
+        ],
+        "TimeOneNumposition": [
+            405.0,
+            310.0
+        ],
+        "TimeOneNumrotate": 0.0,
+        "TimeOneNumsize": [
+            64.0,
+            64.0
+        ],
+        "TimeStringposition": [
+            170.0,
+            300.0
+        ],
+        "TimeStringrotate": 0.0,
+        "TimeStringsize": [
+            288.0,
+            100.0
+        ],
+        "TimeTenNumposition": [
+            350.0,
+            310.0
+        ],
+        "TimeTenNumrotate": 0.0,
+        "TimeTenNumsize": [
             64.0,
             64.0
         ]

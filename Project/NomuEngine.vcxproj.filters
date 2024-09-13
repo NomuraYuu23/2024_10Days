@@ -451,6 +451,12 @@
     <Filter Include="Application\UI\HPNum">
       <UniqueIdentifier>{0bfa9461-1508-41b6-8ea3-7dc9a88f9278}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UI\TimeTenNum">
+      <UniqueIdentifier>{e66527c0-b25c-4c1d-ba67-c2820872daa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\UI\TimeOneNum">
+      <UniqueIdentifier>{b8be2c40-0d05-4e96-b666-5557e672e017}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1021,10 +1027,16 @@
     <ClCompile Include="Application\System\CountDown\CountDown.cpp">
       <Filter>Application\System\CountDown</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\UI\HPNumUI.cpp">
+      <Filter>Application\UI\HPNum</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.cpp">
+      <Filter>Application\System\TutorialSkipSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\TimeTenNumUI.cpp">
+      <Filter>Application\UI\TimeTenNum</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\TimeOneNumUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1752,10 +1764,16 @@
     <ClInclude Include="Application\System\CountDown\CountDown.h">
       <Filter>Application\System\CountDown</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\UI\HPNumUI.h">
+      <Filter>Application\UI\HPNum</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\TutorialSkipSystem\TutorialSkipSystem.h">
+      <Filter>Application\System\TutorialSkipSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\TimeTenNumUI.h">
+      <Filter>Application\UI\TimeTenNum</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\TimeOneNumUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

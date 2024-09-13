@@ -66,6 +66,5 @@ void TutorialSkipSystem::ForcedTermination()
 	//卵削除したい
 	Egg* egg = *(enemyManager_->GetEggs()->begin());
 	egg->Delete();
-	//enemyManager_->RemoveEgg(egg);
 
 }

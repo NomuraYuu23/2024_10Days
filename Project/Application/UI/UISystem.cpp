@@ -7,8 +7,10 @@
 #include "RightStickBG.h"
 #include "RightStickUI.h"
 #include "HPNumUI.h"
+#include "TimeTenNumUI.h"
+#include "TimeOneNumUI.h"
 
-void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
+void UISystem::Initialize(DirectXCommon* dxCommon, Player* player, uint32_t* dayCount)
 {
 
 	player_ = player;
@@ -17,6 +19,8 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	titlePosAddX_ = -640.0f;
 
 	tutorialPosAddX_ = -640.0f;
+
+	dayCount_ = dayCount;
 
 	// テクスチャハンドル
 	for (uint32_t i = 0; i < kUITextureHandleIndexOfCount; ++i) {
@@ -78,14 +82,35 @@ void UISystem::Initialize(DirectXCommon* dxCommon, Player* player)
 	UIs_[kUIIndexHPStr]->Initialize(textureHandles_[kUITextureHandleIndexHPStr], "HPString");
 
 	
-	//  HP文字
+	//  HP数字
 	UIs_[kUIIndexHPNum] = std::make_unique<HPNumUI>();
 	std::array<uint32_t, 4> textureHandles;
-	textureHandles[0] = textureHandles_[kUITextureHandleIndexHP0];
-	textureHandles[1] = textureHandles_[kUITextureHandleIndexHP1];
-	textureHandles[2] = textureHandles_[kUITextureHandleIndexHP2];
-	textureHandles[3] = textureHandles_[kUITextureHandleIndexHP3];
+	textureHandles[0] = textureHandles_[kUITextureHandleIndex0];
+	textureHandles[1] = textureHandles_[kUITextureHandleIndex1];
+	textureHandles[2] = textureHandles_[kUITextureHandleIndex2];
+	textureHandles[3] = textureHandles_[kUITextureHandleIndex3];
 	static_cast<HPNumUI*>(UIs_[kUIIndexHPNum].get())->Initialize(player_, textureHandles, "HPNum");
+
+	//  経過時間文字
+	UIs_[kUIIndexTimeStr] = std::make_unique<UI>();
+	UIs_[kUIIndexTimeStr]->Initialize(textureHandles_[kUITextureHandleIndexTimeStr], "TimeString");
+
+	std::array<uint32_t, 10> timeTextureHandles;
+	timeTextureHandles[0] = textureHandles_[kUITextureHandleIndex0];
+	timeTextureHandles[1] = textureHandles_[kUITextureHandleIndex1];
+	timeTextureHandles[2] = textureHandles_[kUITextureHandleIndex2];
+	timeTextureHandles[3] = textureHandles_[kUITextureHandleIndex3];
+	timeTextureHandles[4] = textureHandles_[kUITextureHandleIndex4];
+	timeTextureHandles[5] = textureHandles_[kUITextureHandleIndex5];
+	timeTextureHandles[6] = textureHandles_[kUITextureHandleIndex6];
+	timeTextureHandles[7] = textureHandles_[kUITextureHandleIndex7];
+	timeTextureHandles[8] = textureHandles_[kUITextureHandleIndex8];
+	timeTextureHandles[9] = textureHandles_[kUITextureHandleIndex9];
+
+	UIs_[kUIIndexTimeTenNum] = std::make_unique<TimeTenNumUI>();
+	static_cast<TimeTenNumUI*>(UIs_[kUIIndexTimeTenNum].get())->Initialize(dayCount_, timeTextureHandles, "TimeTenNum");
+	UIs_[kUIIndexTimeOneNum] = std::make_unique<TimeOneNumUI>();
+	static_cast<TimeOneNumUI*>(UIs_[kUIIndexTimeOneNum].get())->Initialize(dayCount_, timeTextureHandles, "TimeOneNum");
 
 }
 

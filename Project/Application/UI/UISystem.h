@@ -14,10 +14,18 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexRightStick, // 右スティック
 	kUITextureHandleIndexRightStickStr, // 右スティック文字
 	kUITextureHandleIndexHPStr, // HP文字
-	kUITextureHandleIndexHP0, // 0
-	kUITextureHandleIndexHP1, // 1
-	kUITextureHandleIndexHP2, // 2
-	kUITextureHandleIndexHP3, // 3
+	kUITextureHandleIndexTimeStr, // 経過時間文字
+
+	kUITextureHandleIndex0, // 0
+	kUITextureHandleIndex1, // 1
+	kUITextureHandleIndex2, // 2
+	kUITextureHandleIndex3, // 3
+	kUITextureHandleIndex4, // 4
+	kUITextureHandleIndex5, // 5
+	kUITextureHandleIndex6, // 6
+	kUITextureHandleIndex7, // 7
+	kUITextureHandleIndex8, // 8
+	kUITextureHandleIndex9, // 9
 
 	kUITextureHandleIndexOfCount
 };
@@ -36,6 +44,9 @@ enum UIIndex {
 	kUIIndexHP2,// HP2
 	kUIIndexHPStr, // HP文字
 	kUIIndexHPNum, // HP数字
+	kUIIndexTimeStr, // 経過時間文字
+	kUIIndexTimeTenNum, // 経過時間文字10の位
+	kUIIndexTimeOneNum, // 経過時間文字1の位
 	kUIIndexOfCount
 };
 
@@ -49,7 +60,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="dxCommon"></param>
 	/// <param name="player"></param>
-	void Initialize(DirectXCommon* dxCommon, Player* player);
+	/// <param name="dayCount"></param>
+	void Initialize(DirectXCommon* dxCommon, Player* player, uint32_t* dayCount);
 
 	/// <summary>
 	/// 更新
@@ -90,6 +102,9 @@ private:
 	// チュートリアルの追加位置
 	float tutorialPosAddX_;
 
+	// 経過日数
+	uint32_t* dayCount_;
+
 private: 
 
 	// テクスチャのパス
@@ -104,10 +119,18 @@ private:
 		"Resources/UI/joystick_R.png",
 		"Resources/UI/cameraUI.png",
 		"Resources/UI/HP_UI.png",
+		"Resources/UI/DayCount.png",
+
 		"Resources/Sprite/nums/0.png",
 		"Resources/Sprite/nums/1.png",
 		"Resources/Sprite/nums/2.png",
 		"Resources/Sprite/nums/3.png",
+		"Resources/Sprite/nums/4.png",
+		"Resources/Sprite/nums/5.png",
+		"Resources/Sprite/nums/6.png",
+		"Resources/Sprite/nums/7.png",
+		"Resources/Sprite/nums/8.png",
+		"Resources/Sprite/nums/9.png",
 	};
 
 };
