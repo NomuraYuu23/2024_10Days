@@ -44,6 +44,14 @@ void GameScene::Initialize() {
 	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
 
+	for (uint32_t i = 0; i < GameAudioNameIndex::kGameAudioNameIndexOfCount; ++i) {
+		audioManager_->PlayWave(i);
+	}
+
+	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+		audioManager_->StopWave(i);
+	}
+
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
 	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
