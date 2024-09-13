@@ -14,7 +14,7 @@ void CloudSystem::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	emitter.frequency = 0.2f;
 	emitter.frequencyTime = 0.2f;
 	emitter.translate = Vector3(0.0f, cloudPosY_, 0.0f);
-	emitter.radius = 18.0f;
+	emitter.radius = 24.0f;
 	emitter.emit = 0;
 
 	cloudParticle_->SetEmitter(emitter, true);
@@ -75,6 +75,9 @@ void CloudSystem::Update(const Vector4& color)
 void CloudSystem::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
 
-	cloudParticle_->Draw(commandList, camera);
+
+	if (camera.GetRotate().x < 0.5f ) {
+		cloudParticle_->Draw(commandList, camera);
+	}
 
 }
