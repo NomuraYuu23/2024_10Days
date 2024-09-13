@@ -460,6 +460,9 @@
     <Filter Include="Application\System\PadConnect">
       <UniqueIdentifier>{4f023c85-9320-41b4-8f00-fc861c088b6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\GameOver">
+      <UniqueIdentifier>{d2ea19eb-7d06-4968-9823-a4ae0b2944c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1044,6 +1047,9 @@
     </ClCompile>
     <ClCompile Include="Application\System\PadConnect\PadConnect.cpp">
       <Filter>Application\System\PadConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\GameOver\GameOver.cpp">
+      <Filter>Application\System\GameOver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1784,6 +1790,9 @@
     </ClInclude>
     <ClInclude Include="Application\System\PadConnect\PadConnect.h">
       <Filter>Application\System\PadConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\GameOver\GameOver.h">
+      <Filter>Application\System\GameOver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

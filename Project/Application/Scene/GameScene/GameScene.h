@@ -24,8 +24,6 @@
 #include "../../System/CloudSystem/CloudSystem.h"
 #include "../../UI/UISystem.h"
 
-// デバッグ
-#include "../../GPUParticle/EggBreakParticle/EggBreakParticle.h"
 #include "../../System/PostEffect/PostEffectSystem.h"
 #include "../../System/TitleSystem/TitleSystem.h"
 #include "../../System/TutorialSystem/TutorialSystem.h"
@@ -33,6 +31,7 @@
 #include "../../System/CountDown/CountDown.h"
 #include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
 #include "../../System/PadConnect/PadConnect.h"
+#include "../../System/GameOver/GameOver.h"
 
 class GameScene : public IScene
 {
@@ -190,6 +189,10 @@ private:
 	// パッド接続
 	std::unique_ptr<PadConnect> padConnect_;
 
+	// ゲームスタートSE
 	bool gameStartSE_;
+
+	// ゲームオーバー
+	std::unique_ptr<GameOver> gameOver_;
 
 };
