@@ -15,6 +15,7 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexRightStickStr, // 右スティック文字
 	kUITextureHandleIndexHPStr, // HP文字
 	kUITextureHandleIndexTimeStr, // 経過時間文字
+	kUITextureHandleIndexCameraReset, // カメラリセット
 
 	kUITextureHandleIndex0, // 0
 	kUITextureHandleIndex1, // 1
@@ -44,9 +45,10 @@ enum UIIndex {
 	kUIIndexHP2,// HP2
 	kUIIndexHPStr, // HP文字
 	kUIIndexHPNum, // HP数字
-	kUIIndexTimeStr, // 経過時間文字
-	kUIIndexTimeTenNum, // 経過時間文字10の位
-	kUIIndexTimeOneNum, // 経過時間文字1の位
+	//kUIIndexTimeStr, // 経過時間文字
+	//kUIIndexTimeTenNum, // 経過時間文字10の位
+	//kUIIndexTimeOneNum, // 経過時間文字1の位
+	kUIIndexCameraReset, // カメラリセット
 	kUIIndexOfCount
 };
 
@@ -122,6 +124,7 @@ private:
 		"Resources/UI/cameraUI.png",
 		"Resources/UI/HP_UI.png",
 		"Resources/UI/DayCount.png",
+		"Resources/UI/camera_Reset.png",
 
 		"Resources/Sprite/nums/0.png",
 		"Resources/Sprite/nums/1.png",
