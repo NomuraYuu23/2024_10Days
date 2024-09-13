@@ -209,7 +209,9 @@ void GameScene::Update() {
 	// デバッグ用 クリアシーンへ
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonBACK)) {
 		// 行きたいシーンへ
-		requestSceneNo_ = kClear;
+		//requestSceneNo_ = kClear;
+
+		audioManager_->PlayWave(kGameBossFangSE);
 	}
 
 	if (input_->TriggerKey(DIK_0)) {
