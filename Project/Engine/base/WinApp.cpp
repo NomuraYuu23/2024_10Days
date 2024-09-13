@@ -87,6 +87,13 @@ void WinApp::CreateGameWindow(const wchar_t* title, UINT windowStyle, int32_t cl
 		GetSystemMetrics(SM_CYSCREEN),
 		SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
+	//マウスカーソル非表示
+	int mouseCounter=0;
+	do
+	{
+		mouseCounter = ShowCursor(false);
+	} while(mouseCounter>0);
+
 #endif // _RELEASE
 
 	// システムタイマーの分解度を上げる
