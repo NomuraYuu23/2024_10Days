@@ -166,6 +166,7 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 }
 
 void Head::Hit() {
+	isCollisionObstacle_ = false; 
 	hp_--;
 	state_ = std::bind(&Head::Damage, this);
 	velocity_ = { 0.0f,3.0f,0.0f };
