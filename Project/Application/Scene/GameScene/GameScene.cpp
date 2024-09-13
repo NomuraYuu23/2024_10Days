@@ -172,6 +172,9 @@ void GameScene::Initialize() {
 
 	tutorialSkipSystem_ = std::make_unique<TutorialSkipSystem>();
 	tutorialSkipSystem_->Initialize(blockManager_.get(), enemyManager_.get());
+
+	padConnect_ = std::make_unique<PadConnect>();
+	padConnect_->Initialize();
  
 	IScene::InitilaizeCheck();
 
@@ -324,6 +327,8 @@ void GameScene::Draw() {
 
 	// チュートリアルスキップ
 	tutorialSkipSystem_->Draw();
+
+	padConnect_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -587,7 +592,11 @@ void GameScene::PreGameUpdate()
 		//プレイヤー
 		player_->SetIsPreGame(false);
 
+		padConnect_->SetIsRun(false);
+
 	}
 	countDown_->Update();
+
+	padConnect_->Update();
 
 }

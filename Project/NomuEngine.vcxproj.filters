@@ -457,6 +457,9 @@
     <Filter Include="Application\UI\TimeOneNum">
       <UniqueIdentifier>{b8be2c40-0d05-4e96-b666-5557e672e017}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System\PadConnect">
+      <UniqueIdentifier>{4f023c85-9320-41b4-8f00-fc861c088b6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1038,6 +1041,9 @@
     </ClCompile>
     <ClCompile Include="Application\UI\TimeOneNumUI.cpp">
       <Filter>Application\UI\TimeOneNum</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\PadConnect\PadConnect.cpp">
+      <Filter>Application\System\PadConnect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1775,6 +1781,9 @@
     </ClInclude>
     <ClInclude Include="Application\UI\TimeOneNumUI.h">
       <Filter>Application\UI\TimeOneNum</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\PadConnect\PadConnect.h">
+      <Filter>Application\System\PadConnect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

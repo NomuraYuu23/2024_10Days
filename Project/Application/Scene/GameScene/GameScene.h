@@ -32,6 +32,7 @@
 #include "../../System/CountDown/CountDown.h"
 #include "../../System/CountDown/CountDown.h"
 #include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
+#include "../../System/PadConnect/PadConnect.h"
 
 class GameScene : public IScene
 {
@@ -182,5 +183,8 @@ private:
 
 	// チュートリアルスキップ
 	std::unique_ptr<TutorialSkipSystem> tutorialSkipSystem_;
+
+	// パッド接続
+	std::unique_ptr<PadConnect> padConnect_;
 
 };
