@@ -596,10 +596,10 @@ void GameScene::CreateBoss() {
 
 void GameScene::AddBossShadows() {
 	if (boss_) {
-		if (boss_->GetLeftHand()) {
+		if (boss_->GetLeftHand() && static_cast<Hand*>(boss_->GetLeftHand())->IsAttack()) {
 			shadowManager_->CastsShadowObjListRegister(boss_->GetLeftHand());
 		}
-		if (boss_->GetRightHand()) {
+		if (boss_->GetRightHand() && static_cast<Hand*>(boss_->GetRightHand())->IsAttack()) {
 			shadowManager_->CastsShadowObjListRegister(boss_->GetRightHand());
 		}
 		if (boss_->GetHead()) {
