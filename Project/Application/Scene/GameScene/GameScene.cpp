@@ -360,9 +360,7 @@ void GameScene::Draw() {
 
 		padConnect_->Draw();
 	}
-	else {
-		gameOver_->Draw();
-	}
+	gameOver_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();

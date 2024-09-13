@@ -181,6 +181,10 @@ void Player::Update()
 
 #endif // _DEMO
 
+	if (isGameOver_) {
+		return;
+	}
+
 	MeshObject::Update();
 
 	if (receiveCommand_) {

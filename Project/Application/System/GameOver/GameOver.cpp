@@ -2,6 +2,8 @@
 
 #include "../../../Engine/Input/Input.h"
 #include "../../../Engine/base/TextureManager.h"
+#include "../../../Engine/Math/Ease.h"
+#include "../../../Engine/Math/DeltaTime.h"
 
 void GameOver::Initialize()
 {
@@ -49,6 +51,23 @@ void GameOver::Update(bool isGameOver)
 		return;
 	}
 
+	graceTimer_ += kDeltaTime_;
+	if (graceTimer_ >= graceTime_) {
+		graceTimer_ = graceTime_;
+	}
+	else {
+		Vector4 color = { 0.0f,0.0f,0.0f,0.0f };
+		color.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 0.9f, graceTimer_ / graceTime_);
+		blockSprite_->SetColor(color);
+
+		color = { 1.0f, 1.0f, 1.0f, color.w };
+		gameoverSprite_->SetColor(color);
+		goTitleSprite_->SetColor(color);
+		buttonSprite_->SetColor(color);
+
+		return;
+	}
+
 	// ゲームオーバー
 	isRun_ = true;
 
@@ -69,6 +88,10 @@ void GameOver::Update(bool isGameOver)
 
 void GameOver::Draw()
 {
+
+	if (graceTimer_ == 0.0f) {
+		return;
+	}
 
 	blockSprite_->Draw();
 
