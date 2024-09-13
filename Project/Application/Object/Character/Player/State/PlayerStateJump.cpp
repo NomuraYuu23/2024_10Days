@@ -152,7 +152,7 @@ void PlayerStateJump::Update()
 		Vector3 velocity = { 0.0f, 0.0f, 0.0f };
 
 		// 移動量に速さを反映
-		Vector3 move = {}; Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+		Vector3 move = {};
 
 		if (input_->GetJoystickConnected()) {
 			move =Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
@@ -207,7 +207,7 @@ void PlayerStateJump::Update()
 		// ブロックまでの距離
 		Vector2 distanceToBlock{};
 		// 範囲内距離
-		float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
+		float distance = (Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x) * std::sqrtf(2.0f);
 		// フラグ
 		bool dropFlg = false;
 
