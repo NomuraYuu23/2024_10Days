@@ -497,6 +497,15 @@ void GameScene::ShadowUpdate()
 
 	}
 
+	// プテラ
+	std::list<BaseEnemy*>::iterator itrFlyEnemy = enemyManager_->GetFlyEnemys()->begin();
+	for (; itrFlyEnemy != enemyManager_->GetFlyEnemys()->end(); ++itrFlyEnemy) {
+
+		BaseEnemy* enemy = *itrFlyEnemy;
+		shadowManager_->CastsShadowObjListRegister(enemy);
+
+	}
+
 	// 卵
 	std::list<Egg*>::iterator itrEgg = enemyManager_->GetEggs()->begin();
 	for (; itrEgg != enemyManager_->GetEggs()->end(); ++itrEgg) {
