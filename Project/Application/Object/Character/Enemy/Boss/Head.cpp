@@ -97,6 +97,9 @@ void Head::Initialize(LevelData::MeshData* data)
 	//初期ステート
 	state_ = std::bind(&Head::Root, this);
 
+	arrow_ = std::make_unique<AttackArrowObject>();
+	LevelData::MeshData adata = AttackArrowObject::ArrowCreate();
+	arrow_->Initialize(&adata);
 }
 
 void Head::Update()
@@ -112,10 +115,14 @@ void Head::Update()
 	isCollisionObstacle_ = false;
 	isAttack_ = false;
 	isDamageMovingBlock_ = false;
+	material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	state_();
 
 	worldTransform_.UpdateMatrix();
 
+	if (isCollisionObstacle_ && !isAttack_) {
+		material_->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	}
 
 	// アニメーション
 	AnimationUpdate();
@@ -128,6 +135,7 @@ void Head::Update()
 	ColliderUpdate();
 
 	isCollision_ = false;
+	arrow_->Update(worldTransform_.GetWorldPosition());
 }
 
 void Head::Draw(BaseCamera& camera)
@@ -140,7 +148,9 @@ void Head::Draw(BaseCamera& camera)
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
-	
+	if (isCollisionObstacle_ && !isAttack_) {
+		arrow_->Draw(camera);
+	}
 }
 
 void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)

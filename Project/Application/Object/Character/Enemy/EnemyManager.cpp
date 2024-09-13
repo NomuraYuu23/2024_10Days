@@ -9,6 +9,7 @@ void EnemyManager::Initialize() {
 	frameCount_ = 0;
 	waveNum = 0;
 	isEndAllWave_ = false;
+	isBossSpawn_ = false;
 	std::list<EnemyData> datas;
 	EnemyData data;
 
@@ -95,8 +96,16 @@ void EnemyManager::Update() {
 			frameCount_ = 0;
 		}
 		else {
+			if (!isEndAllWave_) {
+				frameCount_ = 0;
+			}
 			isEndAllWave_ = true;
-			frameCount_ = 0;
+			if (frameCount_ > bossSpwanTime_) {
+				isBossSpawn_ =true;
+			}
+			if (!isBossSpawn_) {
+				frameCount_++;
+			}
 		}
 	}
 

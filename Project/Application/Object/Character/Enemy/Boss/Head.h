@@ -5,7 +5,7 @@
 #include "../BaseEnemy.h"
 #include "../../../Obstacle/Block/BlockManager.h"
 #include "../../../Engine/Object/BaseObjectManager.h"
-
+#include "AttackArrow.h"
 class Boss;
 
 
@@ -228,6 +228,8 @@ private: //	変数
 	//クリア演出用の保存座標
 	Vector3 clearStartPos_;
 	Vector3 clearMiddlePos_;
+
+	std::unique_ptr<AttackArrowObject> arrow_;
 
 public: // アクセッサ
 
