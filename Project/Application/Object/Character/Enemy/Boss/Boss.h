@@ -207,7 +207,7 @@ private: //	変数
 	int32_t executeAction_ = 1;
 
 	//頭突きが連続で出る確率、0で交互、1で頭突きしかしなくなる
-	float headButtProbability_ = 0.5f;
+	float headButtProbability_ = 0.6f;
 
 	size_t headButtMoveLength_ = 60;
 
