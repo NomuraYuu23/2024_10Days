@@ -3,6 +3,7 @@
 #include "../../Object/Obstacle/Block/BlockManager.h"
 #include "../../../Engine/base/DirectXCommon.h"
 #include "../../../Engine/base/TextureManager.h"
+#include "../../Object/Character/Enemy/Egg.h"
 
 void TutorialSkipSystem::Initialize(BlockManager* blockManager, EnemyManager* enemyManager)
 {
@@ -56,8 +57,15 @@ void TutorialSkipSystem::Draw()
 void TutorialSkipSystem::ForcedTermination()
 {
 
+	if (isEnd_) {
+		return;
+	}
+
 	isEnd_ = true;
 
 	//卵削除したい
+	Egg* egg = *(enemyManager_->GetEggs()->begin());
+	egg->Delete();
+	//enemyManager_->RemoveEgg(egg);
 
 }
