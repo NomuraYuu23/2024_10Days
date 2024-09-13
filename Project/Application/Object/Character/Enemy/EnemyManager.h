@@ -101,6 +101,11 @@ private:
 	//すべてのウェーブが終了したか
 	bool isEndAllWave_ = false;
 
+	bool isBossSpawn_ = false;
+
+	//ウェーブ終了からボスが出現するまでの時間
+	size_t bossSpwanTime_ = 180;
+
 	// ブロックマネージャー
 	BlockManager* blockManager_ = nullptr;
 
