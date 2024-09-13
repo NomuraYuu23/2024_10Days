@@ -97,7 +97,7 @@ private:
 	size_t frameCount_=0;
 
 	//ウェーブ数(仮)
-	size_t kWaveNum = 5;
+	size_t kWaveNum = 4;
 
 	size_t waveNum = 0;
 
