@@ -104,7 +104,11 @@ void Hand::Update()
 	isCollisionObstacle_ = false;
 	isAttack_ = false;
 	isDamageMovingBlock_ = false;
+	material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	state_();
+	if (isCollisionObstacle_ && !isAttack_) {
+		material_->SetColor({0.2f,0.2f,0.2f,1.0f});
+	}
 
 	worldTransform_.UpdateMatrix();
 

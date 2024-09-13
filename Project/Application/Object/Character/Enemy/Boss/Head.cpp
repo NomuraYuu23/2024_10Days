@@ -112,10 +112,14 @@ void Head::Update()
 	isCollisionObstacle_ = false;
 	isAttack_ = false;
 	isDamageMovingBlock_ = false;
+	material_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	state_();
 
 	worldTransform_.UpdateMatrix();
 
+	if (isCollisionObstacle_ && !isAttack_) {
+		material_->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	}
 
 	// アニメーション
 	AnimationUpdate();
