@@ -285,6 +285,7 @@ void Head::Roar() {
 	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
 	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.translate, { 0,1.0f,1.0f }, 0.05f);
 	worldTransform_.transform_.rotate = Ease::Easing(Ease::EaseName::Lerp, worldTransform_.transform_.rotate, roarRotate_, 0.05f);
+	parent_->GetAudioManager()->PlayWave(kGameBossFangSE);
 }
 
 void Head::Damage() {
