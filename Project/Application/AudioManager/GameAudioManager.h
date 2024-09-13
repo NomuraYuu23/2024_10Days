@@ -7,7 +7,8 @@ enum GameAudioNameIndex {
 	kGameBlockSE, // ブロックSE
 	kGamePteraSpawnSE, // プテラスポーンSE
 	kGameMoveSE, // 移動SE
-	kGameHeadDropSE, // ヘッドドロップ
+	kGameHeadDropSE, // ヘッドドロップSE
+	kGameEggBreakSE, // 卵破壊SE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -49,6 +50,8 @@ private: // メンバ変数
 		"Sound/SE/Ptera_Spawn.mp3",
 		"Sound/SE/Move.mp3",
 		"Sound/SE/HeadDrop.mp3",
+		"Sound/SE/Egg_Break.mp3",
+		
 	};
 
 };

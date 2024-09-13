@@ -151,6 +151,7 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy){
 	enemys_.push_back(enemy);
 
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
+	audioManager_->PlayWave(kGameEggBreakSE);
 }
 
 void EnemyManager::AddEgg(const Vector3& position)
