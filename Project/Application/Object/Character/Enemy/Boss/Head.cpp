@@ -390,7 +390,7 @@ void Head::PartInitialize()
 
 void Head::Attack() {
 	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
-	isCollisionObstacle_ = true;
+	//isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
 	if (countUp_ <=kAttackMoveLength_) {

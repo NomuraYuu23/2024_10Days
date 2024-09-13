@@ -87,6 +87,9 @@ void FlyEnemy::Initialize(LevelData::MeshData* data)
 
 	//初期ステート
 	state_ = std::bind(&FlyEnemy::Move, this);
+
+	bodyWorldTransform_.Initialize(model_->GetRootNode());
+	bodyWorldTransform_.SetParent(&worldTransform_);
 }
 
 void FlyEnemy::Update()
@@ -113,7 +116,7 @@ void FlyEnemy::Update()
 	localMatrixManager_->Map();
 
 	worldTransform_.UpdateMatrix();
-
+	bodyWorldTransform_.UpdateMatrix();
 	// コライダー
 	ColliderUpdate();
 
@@ -165,15 +168,17 @@ void FlyEnemy::Dead() {
 
 void FlyEnemy::Draw(BaseCamera& camera)
 {
-	/*ModelDraw::AnimObjectDesc desc;
-	desc.camera = &camera;
-	desc.localMatrixManager = localMatrixManager_.get();
-	desc.material = material_.get();
+	if (material_->GetMaterialMap()->color.w == 0.0f) {
+		return;
+	}
+	ModelDraw::NormalObjectDesc desc;
+
 	desc.model = model_;
-	desc.worldTransform = &worldTransform_;
-	ModelDraw::AnimObjectDraw(desc);
-	*/
-	MeshObject::Draw(camera);
+	desc.material = material_.get();
+	desc.camera = &camera;
+	desc.worldTransform = &bodyWorldTransform_;
+
+	ModelDraw::NormalObjectDraw(desc);
 }
 
 void FlyEnemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
