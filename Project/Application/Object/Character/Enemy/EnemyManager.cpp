@@ -35,20 +35,20 @@ void EnemyManager::Initialize() {
 	datas.clear();
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { -12.0f,28.0f,0.0f };
+	data.spownFrame = 120;
+	data.position = { -21.0f,28.0f,0.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 12.0f,28.0f,-12.0f };
+	data.spownFrame = 120;
+	data.position = { 21.0f,28.0f,-21.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 12.0f,28.0f,12.0f };
+	data.spownFrame = 120;
+	data.position = { 21.0f,28.0f,21.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
@@ -58,33 +58,33 @@ void EnemyManager::Initialize() {
 	datas.clear();
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
+	data.spownFrame = 120;
 	data.position = { -3.0f,28.0f,3.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
-	data.spownFrame = 120;
+	data.spownFrame = 180;
 	data.position = { -42.0f,4.0f,18.0f };
 	data.velocity = { 1.0f,0,0 };
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
-	data.spownFrame = 120;
+	data.spownFrame = 180;
 	data.position = { 42.0f,4.0f,-18.0f };
 	data.velocity = { -1.0f,0,0 };
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
 	data.spownFrame = 180;
-	data.position = { -18.0f,16.0f,42.0f };
-	data.velocity = { 0.0f,-1,0 };
+	data.position = { -18.0f,24.0f,42.0f };
+	data.velocity = { 0.01f,0.0f, -1.0f };
 	datas.push_back(data);
 
 	data.className = "FlyEnemy";
 	data.spownFrame = 180;
-	data.position = { 18.0f,16.0f,-42.0f };
-	data.velocity = { 0.0f,1,0 };
+	data.position = { 18.0f,24.0f,-42.0f };
+	data.velocity = { 0.0f,0.0f, 1.0f };
 	datas.push_back(data);
 
 
@@ -94,21 +94,63 @@ void EnemyManager::Initialize() {
 	datas.clear();
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { -16.0f,28.0f,0.0f };
+	data.spownFrame = 90;
+	data.position = { -9.0f,28.0f,9.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
 	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 16.0f,28.0f,0.0f };
+	data.spownFrame = 90;
+	data.position = { 9.0f,28.0f,-9.0f };
 	data.velocity = { 0,0,0 };
 	datas.push_back(data);
 
-	data.className = "Enemy";
-	data.spownFrame = 60;
-	data.position = { 0.0f,28.0f,16.0f };
-	data.velocity = { 0,0,0 };
+	data.className = "FlyEnemy";
+	data.spownFrame = 90;
+	data.position = { -42.0f,4.0f,21.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { -42.0f,4.0f,15.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { -42.0f,4.0f,9.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { -42.0f,4.0f,3.0f };
+	data.velocity = { 1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { 42.0f,24.0f,-21.0f };
+	data.velocity = { -1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { 42.0f,24.0f,-15.0f };
+	data.velocity = { -1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { 42.0f,24.0f,-9.0f };
+	data.velocity = { -1.0f,0,0 };
+	datas.push_back(data);
+
+	data.className = "FlyEnemy";
+	data.spownFrame = 100;
+	data.position = { 42.0f,24.0f,-3.0f };
+	data.velocity = { -1.0f,0,0 };
 	datas.push_back(data);
 
 	spownDatas_.push_back(datas);
