@@ -291,29 +291,37 @@ void Head::Damage() {
 			velocity_ = Vector3::Normalize( worldTransform_.direction_);
 			velocity_ *= 2.0f;
 			velocity_.y = 1.5f;
+
+			clearStartPos_ = worldTransform_.transform_.translate;
+			if (clearStartPos_.x == 0.0f) {
+				clearStartPos_.x = -0.01f;
+			}
+			clearMiddlePos_ = worldTransform_.transform_.translate*-0.5f;
+			clearMiddlePos_.y = 32.0f;
+
 			state_ = std::bind(&Head::Dead, this);
+			countUp_ = 0;
+			return;
 		}
 	}
 	countUp_++;
 }
 
 void Head::Dead() {
-	isCollisionObstacle_ = true;
-	// 重力
-	velocity_ += Gravity::Execute();
-	// 速度制限
-	velocity_.y = std::fmaxf(velocity_.y, -1.0f);
-
-	velocity_.x *= 0.9f;
-	velocity_.z *= 0.9f;
-
-	if (isCollision_) {
-		velocity_.x = 0;
-		velocity_.z = 0;
+	//isCollisionObstacle_ = true;
+	
+	if (countUp_ <= deadAnimationLength / 2) {
+		float t = float(countUp_) / float(deadAnimationLength);
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCubic,clearStartPos_,clearMiddlePos_,t*2.0f);
+	}
+	else if (countUp_ <= deadAnimationLength) {
+		float t = float(countUp_ - deadAnimationLength / 2) / float(deadAnimationLength);
+		Vector3 target = {0,0,0};
+		target.y = Block::kLowHight + Block::kSize_ + std::get<OBB>(*collider_.get()).size_.y;
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCubic, clearMiddlePos_,target, 1.0f - (t * 2.0f));
 	}
 
-	// 位置更新
-	worldTransform_.transform_.translate += velocity_;
+	countUp_++;
 }
 
 void Head::ConnectJoint(WorldTransform* pointer) {
