@@ -187,4 +187,6 @@ private:
 	// パッド接続
 	std::unique_ptr<PadConnect> padConnect_;
 
+	bool gameStartSE_;
+
 };

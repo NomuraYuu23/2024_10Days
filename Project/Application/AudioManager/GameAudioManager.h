@@ -13,6 +13,7 @@ enum GameAudioNameIndex {
 	kGameEnemyBulletSE, // スピノバレットSE
 	kGameBossAttackSE, // ボス攻撃SE
 	kGameBossRoarSE, // ボス咆哮SE
+	kGameGameStartSE, // スタートSE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -59,6 +60,7 @@ private: // メンバ変数
 		"Sound/SE/Enemy_Bullet.mp3",
 		"Sound/SE/Boss_Attack.mp3",
 		"Sound/SE/Boss_Roar.mp3",
+		"Sound/SE/gameStart.mp3",
 	};
 
 };

@@ -199,6 +199,10 @@ void GameScene::Update() {
 	PreGameUpdate();
 
 	if (countDown_->GetIsGameStart()) {
+		if (!gameStartSE_) {
+			gameStartSE_ = true;
+			audioManager_->PlayWave(kGameGameStartSE);
+		}
 		enemyManager_->Update();
 	}
 	

@@ -26,6 +26,7 @@ void GameAudioManager::Initialize()
 	audioDatas_[kGameEggBreakSE].volume_ = 1.5f;
 
 	audioDatas_[kGameBossAttackSE].volume_ = 1.0f;
+	audioDatas_[kGameGameStartSE].volume_ = 2.0f;
 }
 
 void GameAudioManager::Update()
