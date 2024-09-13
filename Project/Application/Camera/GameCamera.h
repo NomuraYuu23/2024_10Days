@@ -130,9 +130,13 @@ private:
 	// タイトル時のオフセット
 	float titleCameraOffsetSide_ = 0.0f;
 
+	bool isGameClear_ = false;
+
 public:
 
 	void SetTitleCameraOffsetSide(float titleCameraOffsetSide) { titleCameraOffsetSide_ = titleCameraOffsetSide; }
+
+	void SetIsGameClear(bool isGameClear) { isGameClear_ = isGameClear; }
 
 };
 

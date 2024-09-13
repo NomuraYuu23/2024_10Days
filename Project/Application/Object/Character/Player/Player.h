@@ -258,6 +258,9 @@ private: //	変数
 	// ゲームオーバー
 	bool isGameOver_ = false;
 
+	// ゲームクリア
+	bool isGameClear_ = false;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -320,6 +323,8 @@ public: // アクセッサ
 	void SetIsPreGame(bool isPreGame) { isPreGame_ = isPreGame; }
 
 	bool GetIsGameOver() { return isGameOver_; }
+
+	void SetIsGameClear(bool isGameClear) { isGameClear_ = isGameClear; }
 
 private: // グローバル変数
 

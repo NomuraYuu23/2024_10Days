@@ -139,6 +139,10 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	moveSoundSecond_ = false;
 
+	isGameClear_ = false;
+
+	isGameOver_ = false;
+
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
@@ -532,7 +536,7 @@ void Player::Damage()
 	audioManager_->PlayWave(kGameHitAttackSE);
 	receiveDamage_ = true;
 
-	if (isPreGame_) {
+	if (isPreGame_ || isGameClear_) {
 		return;
 	}
 
