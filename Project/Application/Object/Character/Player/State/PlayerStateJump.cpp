@@ -207,7 +207,7 @@ void PlayerStateJump::Update()
 		// ブロックまでの距離
 		Vector2 distanceToBlock{};
 		// 範囲内距離
-		float distance = Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x;
+		float distance = (Block::kSize_ + std::get<OBB>(*player_->GetCollider()).size_.x) * std::sqrtf(2.0f);
 		// フラグ
 		bool dropFlg = false;
 
