@@ -296,8 +296,8 @@ void Head::Damage() {
 			if (clearStartPos_.x == 0.0f) {
 				clearStartPos_.x = -0.01f;
 			}
-			clearMiddlePos_ = worldTransform_.transform_.translate*-0.5f;
-			clearMiddlePos_.y = 32.0f;
+			clearMiddlePos_ = worldTransform_.transform_.translate + worldTransform_.transform_.translate*-0.5f;
+			clearMiddlePos_.y += 32.0f;
 
 			state_ = std::bind(&Head::Dead, this);
 			countUp_ = 0;
@@ -326,7 +326,7 @@ void Head::Dead() {
 		worldTransform_.transform_.translate = target;
 		countUp_ = deadAnimationLength + 1;
 	}
-
+	currentMotionNo_ = HeadMotionIndex::kHeadMotionNormal;
 	countUp_++;
 }
 

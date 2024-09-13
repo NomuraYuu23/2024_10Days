@@ -538,7 +538,7 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());
 	static_cast<Boss*>(pointer)->SetCamera(gameCamera_.get());
-	static_cast<Boss*>(pointer)->SetDeadCall(std::bind(&GameScene::ReleaseBossPointer, this));
+	static_cast<Boss*>(pointer)->SetDeadCall(std::bind(&GameScene::DeadBoss, this));
 	boss_ = static_cast<Boss*>(pointer);
 }
 
@@ -588,4 +588,9 @@ void GameScene::PreGameUpdate()
 	}
 	countDown_->Update();
 
+}
+
+void GameScene::DeadBoss() {
+	boss_ = nullptr;
+	blockManager_->AllDown();
 }

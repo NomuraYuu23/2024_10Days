@@ -45,6 +45,9 @@ public:
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 	GameAudioManager* GetAudioManager() { return audioManager_; }
 
+	//すべてのブロックを下に下げる
+	void AllDown();
+
 private:
 
 	// ブロック
