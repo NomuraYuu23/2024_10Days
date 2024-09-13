@@ -134,6 +134,7 @@ void GameScene::Initialize() {
 	enemyManager_->SetPlayer(player_);
 	enemyManager_->SetObjectManager(objectManager_.get());
 	enemyManager_->SetBlockManager(blockManager_.get());
+	enemyManager_->SetAudioManager(audioManager_.get());
 
 	isCreateBoss_ = false;
 

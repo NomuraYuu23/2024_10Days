@@ -2,10 +2,10 @@
 #include "../../Engine/Audio/AudioManager.h"
 
 enum GameAudioNameIndex {
-	kGameAudioNameIndexSample, // サンプル
 	kGameBGM, // BGM
 	kGamejumpSE, // ジャンプSE
 	kGameBlockSE, // ブロックSE
+	kGamePteraSpawnSE, // プテラスポーンSE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -41,10 +41,10 @@ private: // メンバ変数
 	// ファイル名
 	std::array<const std::string, GameAudioNameIndex::kGameAudioNameIndexOfCount> audioNames_ = 
 	{
-		"default/Alarm01.mp3",
 		"Sound/BGM/inGameBGM.mp3",
 		"Sound/SE/jump.mp3",
 		"Sound/SE/block.mp3",
+		"Sound/SE/Ptera_Spawn.mp3",
 	};
 
 };
