@@ -19,6 +19,11 @@ void GameAudioManager::Initialize()
 	}
 
 	// 個別設定
+	audioDatas_[kGamePteraSpawnSE].volume_ = 0.5f;
+	audioDatas_[kGameEnemySpawnSE].volume_ = 0.5f;
+
+	audioDatas_[kGamejumpSE].volume_ = 2.0f;
+	audioDatas_[kGameEggBreakSE].volume_ = 1.5f;
 }
 
 void GameAudioManager::Update()
