@@ -219,6 +219,8 @@ private: //	変数
 
 	EnemyManager* enemyManager_;
 
+	GameAudioManager* audioManager_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -242,6 +244,8 @@ public: // アクセッサ
 	void SetCamera(BaseCamera* camera) { camera_ = camera; }
 
 	BaseCamera* GetCamera() { return camera_; }
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 private: // グローバル変数
 

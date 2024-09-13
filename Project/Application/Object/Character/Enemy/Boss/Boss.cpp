@@ -384,6 +384,7 @@ void Boss::RightRoundAttack() {
 		}
 		if (countUp_ == kRightHandRoundMoveLength_) {
 			rightHand_->Round();
+			audioManager_->PlayWave(kGameBossAttackSE);
 		}
 		countUp_++;
 	}
@@ -407,6 +408,7 @@ void Boss::LeftRoundAttack() {
 		}
 		if (countUp_ == kRightHandRoundMoveLength_) {
 			leftHand_->Round();
+			audioManager_->PlayWave(kGameBossAttackSE);
 		}
 		countUp_++;
 	}
