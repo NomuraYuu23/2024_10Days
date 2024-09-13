@@ -383,6 +383,9 @@ void GameScene::Draw() {
 		tutorialSkipSystem_->Draw();
 
 		padConnect_->Draw();
+
+		titleSystem_->ESCDraw();
+
 	}
 	gameOver_->Draw();
 
