@@ -52,10 +52,6 @@ void PlayerStateJump::Update()
 			if (Vector3::Length(move) > kThresholdRunning) {
 				//ランニング
 				Move(move, worldTransform, player_->GetRunningSpeed());
-				playerMotionNo_ = kPlayerMotionRun;
-			}
-			else {
-				playerMotionNo_ = kPlayerMotionWait;
 			}
 
 			// 角度補間
@@ -87,10 +83,6 @@ void PlayerStateJump::Update()
 			if (Vector3::Length(move) != 0.0f) {
 				//ランニング
 				Move(move, worldTransform, player_->GetRunningSpeed());
-				playerMotionNo_ = kPlayerMotionRun;
-			}
-			else {
-				playerMotionNo_ = kPlayerMotionWait;
 			}
 
 			// 角度補間
@@ -160,7 +152,30 @@ void PlayerStateJump::Update()
 		Vector3 velocity = { 0.0f, 0.0f, 0.0f };
 
 		// 移動量に速さを反映
-		Vector3 move = Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+		Vector3 move = {}; Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+
+		if (input_->GetJoystickConnected()) {
+			move =Vector3::Normalize({ input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y });
+		}
+		else {
+			if (input_->PushKey(DIK_W) || input_->PushKey(DIK_UP)) {
+				move.z += 1.0f;
+			}
+
+			if (input_->PushKey(DIK_S) || input_->PushKey(DIK_DOWN)) {
+				move.z -= 1.0f;
+			}
+
+			if (input_->PushKey(DIK_D) || input_->PushKey(DIK_RIGHT)) {
+				move.x += 1.0f;
+			}
+
+			if (input_->PushKey(DIK_A) || input_->PushKey(DIK_LEFT)) {
+				move.x -= 1.0f;
+			}
+
+			move = Vector3::Normalize(move);
+		}
 
 		// カメラの角度から回転行列を計算する
 		Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(camera->GetRotate());
