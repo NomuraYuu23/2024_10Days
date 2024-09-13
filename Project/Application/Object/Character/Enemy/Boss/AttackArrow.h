@@ -15,7 +15,7 @@ public: // 関数
 
     void Draw(BaseCamera& camera);
 private :
-    float offset_ = 5.0f;
+    float offset_ = 7.0f;
     float theta_=0;
     float moveLength_ = 1.0f;
 };
