@@ -32,7 +32,6 @@ private:
 	std::unique_ptr<Sprite> gameclearSprite_;
 	std::unique_ptr<Sprite> goTitleSprite_;
 	std::unique_ptr<Sprite> buttonSprite_;
-	std::unique_ptr<Sprite> blockSprite_;
 
 };
 

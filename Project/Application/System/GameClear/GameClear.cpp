@@ -36,12 +36,6 @@ void GameClear::Initialize()
 	buttonSprite_.reset(Sprite::Create(TextureManager::Load("Resources/UI/buttonA.png", dxCommon), pos, color));
 	buttonSprite_->SetSize(size);
 
-	size = { 1280.0f,720.0f };
-	pos = { 640.0f,360.0f };
-	color = { 0.0f,0.0f,0.0f,0.9f };
-	blockSprite_.reset(Sprite::Create(TextureManager::Load("Resources/default/white2x2.png", dxCommon), pos, color));
-	blockSprite_->SetSize(size);
-
 }
 
 void GameClear::Update(bool isGameClear)
@@ -58,8 +52,6 @@ void GameClear::Update(bool isGameClear)
 	else {
 		Vector4 color = { 0.0f,0.0f,0.0f,0.0f };
 		color.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 0.9f, graceTimer_ / graceTime_);
-		blockSprite_->SetColor(color);
-
 		color = { 1.0f, 1.0f, 1.0f, color.w };
 		gameclearSprite_->SetColor(color);
 		goTitleSprite_->SetColor(color);
@@ -92,8 +84,6 @@ void GameClear::Draw()
 	if (graceTimer_ == 0.0f) {
 		return;
 	}
-
-	blockSprite_->Draw();
 
 	gameclearSprite_->Draw();
 
