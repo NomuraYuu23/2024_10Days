@@ -67,6 +67,9 @@ public: //メンバ関数
 	/// </summary>
 	void DebugCameraUpdate();
 
+	//ボスが死んだときにポインタを手放す
+	void ReleaseBossPointer() {	boss_ = nullptr;}
+
 private: // メンバ関数
 
 	/// <summary>
