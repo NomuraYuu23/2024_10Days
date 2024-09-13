@@ -6,6 +6,7 @@ enum GameAudioNameIndex {
 	kGamejumpSE, // ジャンプSE
 	kGameBlockSE, // ブロックSE
 	kGamePteraSpawnSE, // プテラスポーンSE
+	kGameMoveSE, // 移動SE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -45,6 +46,7 @@ private: // メンバ変数
 		"Sound/SE/jump.mp3",
 		"Sound/SE/block.mp3",
 		"Sound/SE/Ptera_Spawn.mp3",
+		"Sound/SE/Move.mp3",
 	};
 
 };
