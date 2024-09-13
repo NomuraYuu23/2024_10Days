@@ -91,6 +91,15 @@ void Egg::Update()
 		float t = float(countUp_) / float(enemyCreateTime_);
 		float color = Ease::Easing(Ease::EaseName::Lerp,1.0f,0.0f,t);
 		material_->SetColor({color,color ,color ,1.0f});
+
+		theta_ += 0.3f * t;
+		if (theta_ > 3.141592f * 2.0f) {
+			theta_ = 0;
+		}
+
+		worldTransform_.transform_.rotate.x = std::sinf(theta_) * rotateMax_ * t;
+		worldTransform_.transform_.rotate.z = std::cosf(theta_) * rotateMax_ * t;
+
 		if (countUp_ < enemyCreateTime_) {
 			countUp_++;
 		}
@@ -145,7 +154,7 @@ void Egg::ColliderUpdate()
 
 	obb.center_ = worldTransform_.GetWorldPosition();
 	obb.center_.y += obb.size_.y / 2.0f + coliderAddY;
-	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+	//obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 
 	ColliderShape* colliderShape = new ColliderShape();
 

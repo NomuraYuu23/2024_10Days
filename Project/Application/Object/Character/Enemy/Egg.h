@@ -114,6 +114,10 @@ private: //	変数
 	//敵を産むか
 	bool isCreateEnemy_ = true;
 
+	float theta_;
+
+	float rotateMax_ = 0.25f * 3.141592f;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
