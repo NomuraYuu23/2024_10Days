@@ -58,7 +58,7 @@ private: // メンバ変数
 		"Sound/SE/Egg_Break.mp3",
 		"Sound/SE/Enemy_Spawn.mp3",
 		"Sound/SE/Enemy_Bullet.mp3",
-		"Sound/SE/Boss_Attack.mp3",
+		"Sound/SE/Boss_Attack_2.mp3",
 		"Sound/SE/Boss_Roar.mp3",
 		"Sound/SE/gameStart.mp3",
 	};
