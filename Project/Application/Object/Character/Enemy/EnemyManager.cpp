@@ -275,9 +275,6 @@ void EnemyManager::Update() {
 			if (frameCount_ > bossSpwanTime_) {
 				isBossSpawn_ =true;
 			}
-			if (!isBossSpawn_) {
-				frameCount_++;
-			}
 		}
 	}
 

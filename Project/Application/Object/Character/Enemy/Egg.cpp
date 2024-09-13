@@ -88,6 +88,9 @@ void Egg::Update()
 	worldTransform_.UpdateMatrix();
 
 	if (isCreateEnemy_) {
+		float t = float(countUp_) / float(enemyCreateTime_);
+		float color = Ease::Easing(Ease::EaseName::Lerp,1.0f,0.0f,t);
+		material_->SetColor({color,color ,color ,1.0f});
 		if (countUp_ < enemyCreateTime_) {
 			countUp_++;
 		}
