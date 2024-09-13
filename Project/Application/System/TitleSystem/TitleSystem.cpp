@@ -70,6 +70,16 @@ void TitleSystem::Draw()
 
 }
 
+void TitleSystem::ESCDraw()
+{
+
+	if (!isRun_) {
+		return;
+	}
+
+	escSprite_->Draw();
+}
+
 void TitleSystem::EndSystem()
 {
 
@@ -99,6 +109,13 @@ void TitleSystem::LogoInitialize(DirectXCommon* dxCommon)
 	// スプライト
 	titleLogoSprite_.reset(Sprite::Create(titleLogoTextureHandle_, positon, color));
 
+
+	positon = { 275.0f, 650.0f };
+	escTextureHandle_ = TextureManager::Load("Resources/Sprite/ESC.png", dxCommon);
+	escSprite_.reset(Sprite::Create(escTextureHandle_, positon, color));
+	Vector2 size = { 288.0f, 100.0f};
+	escSprite_->SetSize(size);
+
 }
 
 void TitleSystem::LogoUpdate()
@@ -111,6 +128,8 @@ void TitleSystem::LogoUpdate()
 		color.w = Ease::Easing(Ease::EaseName::Lerp, 1.0f, 0.0f, t);
 
 		titleLogoSprite_->SetColor(color);
+
+		escSprite_->SetColor(color);
 
 	}
 

@@ -29,6 +29,11 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ESC描画
+	/// </summary>
+	void ESCDraw();
+
 private:
 
 	/// <summary>
@@ -92,6 +97,10 @@ private:
 	// ロゴ
 	std::unique_ptr<Sprite> titleLogoSprite_;
 	uint32_t titleLogoTextureHandle_;
+
+	// ESC
+	std::unique_ptr<Sprite> escSprite_;
+	uint32_t escTextureHandle_;
 
 	// ゲームカメラ
 	GameCamera* gameCamera_;
