@@ -582,6 +582,7 @@ void Boss::Spawn() {
 		rightArmJointWorldTransform_.transform_.translate = rightHandRootPos_;
 		leftArmJointWorldTransform_.transform_.translate = leftHandRootPos_;
 		headJointWorldTransform_.transform_.translate = HeadInitPos_;
+		bodyJointWorldTransform_.transform_.rotate.x = 0;
 	}
 
 	if (countUp_ <= spawnAnimationLength_) {
