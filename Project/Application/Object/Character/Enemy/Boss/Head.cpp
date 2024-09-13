@@ -318,7 +318,13 @@ void Head::Dead() {
 		float t = float(countUp_ - deadAnimationLength / 2) / float(deadAnimationLength);
 		Vector3 target = {0,0,0};
 		target.y = Block::kLowHight + Block::kSize_ + std::get<OBB>(*collider_.get()).size_.y;
-		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCubic, clearMiddlePos_,target, 1.0f - (t * 2.0f));
+		worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCubic, target, clearMiddlePos_, 1.0f - (t * 2.0f));
+	}
+	else {
+		Vector3 target = { 0,0,0 };
+		target.y = Block::kLowHight + Block::kSize_ + std::get<OBB>(*collider_.get()).size_.y;
+		worldTransform_.transform_.translate = target;
+		countUp_ = deadAnimationLength + 1;
 	}
 
 	countUp_++;
