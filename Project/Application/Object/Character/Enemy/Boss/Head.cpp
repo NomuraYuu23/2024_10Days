@@ -152,16 +152,26 @@ void Head::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		}
 		if (isCollisionObstacle_) {
 			if (std::get<Block*>(colliderPartner)->GetIsAttack() && hp_>0) {
-				hp_--;
-				state_ = std::bind(&Head::Damage, this);
-				velocity_ = { 0.0f,3.0f,0.0f };
-				
-				//isHitCoolTime_ = true;
-				countUp_ = 0;
+				Hit();
 			}
 		}
 	}
+	else if (std::holds_alternative<Player*>(colliderPartner)) {
+		if (isCollisionObstacle_) {
+			if (std::get<Player*>(colliderPartner)->GetCurrentStateNo() == PlayerState::kPlayerStateHeadDrop && hp_ > 0) {
+				Hit();
+			}
+		}
+	}
+}
 
+void Head::Hit() {
+	hp_--;
+	state_ = std::bind(&Head::Damage, this);
+	velocity_ = { 0.0f,3.0f,0.0f };
+
+	//isHitCoolTime_ = true;
+	countUp_ = 0;
 }
 
 void Head::ParticleDraw(BaseCamera& camera)

@@ -130,31 +130,33 @@ void Hand::OnCollision(ColliderParentObject colliderPartner, const CollisionData
 		}
 		if (isCollisionObstacle_ || isAttack_){
 			if (std::get<Block*>(colliderPartner)->GetIsAttack() || (std::get<Block*>(colliderPartner)->GetIsMoveNow() && isDamageMovingBlock_)) {
-				hp_--;
-				if (hp_>0) {
-					state_ = std::bind(&Hand::Damage, this);
-				}
-				else {
-					state_ = std::bind(&Hand::Dead, this);
-					if (direction_ == 1.0f) {
-						parent_->DeathRightHand();
-					}
-					else {
-						parent_->DeathLeftHand();
-					}
-				}
-				//isHitCoolTime_ = true;
-				countUp_ = 0;
-				if (std::get<Block*>(colliderPartner)->GetIsAttack()) {
-					velocity_ = {0.0f,5.0f,0.0f};
-				}
-				else {
-					velocity_ = Vector3::Normalize(worldTransform_.GetWorldPosition() - std::get<Block*>(colliderPartner)->GetWorldTransformAdress()->GetWorldPosition()) * 5.0f;
-				}
+				Hit();
 			}
 		}
 	}
+	else if (std::holds_alternative<Player*>(colliderPartner)) {
+		if ((isCollisionObstacle_ || isAttack_) && std::get<Player*>(colliderPartner)->GetCurrentStateNo() == PlayerState::kPlayerStateHeadDrop) {
+			Hit();
+		}
+	}
+}
 
+void Hand::Hit() {
+	hp_--;
+	if (hp_ > 0) {
+		state_ = std::bind(&Hand::Damage, this);
+	}
+	else {
+		state_ = std::bind(&Hand::Dead, this);
+		if (direction_ == 1.0f) {
+			parent_->DeathRightHand();
+		}
+		else {
+			parent_->DeathLeftHand();
+		}
+	}
+	countUp_ = 0;
+	velocity_ = { 0.0f,5.0f,0.0f };
 }
 
 void Hand::ParticleDraw(BaseCamera& camera)

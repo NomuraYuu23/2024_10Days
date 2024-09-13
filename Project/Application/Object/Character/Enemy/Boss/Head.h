@@ -142,6 +142,9 @@ private: // ステート関数
 
 	void DisConnect();
 
+	//攻撃受けた時のあれこれ
+	void Hit();
+
 public:
 	//本体からの命令
 

@@ -115,6 +115,9 @@ private: // ステート関数
 	/// </summary>
 	void Dead();
 
+	//攻撃受けた時のあれこれ
+	void Hit();
+
 public:
 	//本体からの命令
 
