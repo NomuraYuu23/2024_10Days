@@ -177,6 +177,8 @@ void GameScene::Initialize() {
 	padConnect_ = std::make_unique<PadConnect>();
 	padConnect_->Initialize();
  
+	audioManager_->PlayWave(kGameBGM);
+
 	IScene::InitilaizeCheck();
 
 }

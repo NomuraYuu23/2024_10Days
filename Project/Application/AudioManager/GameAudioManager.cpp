@@ -27,6 +27,9 @@ void GameAudioManager::Initialize()
 
 	audioDatas_[kGameBossAttackSE].volume_ = 1.0f;
 	audioDatas_[kGameGameStartSE].volume_ = 2.0f;
+
+	audioDatas_[kGameBGM].isBGM_ = true;
+	audioDatas_[kGameBGM].isLoop_ = true;
 }
 
 void GameAudioManager::Update()
