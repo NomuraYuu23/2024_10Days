@@ -139,7 +139,7 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		//enemy.transform.translate.y = 16.0f;
 		pointer = objectManager_->AddObject(odata);
 		static_cast<FlyEnemy*>(pointer)->SetVelocity(data.velocity);
-		enemys_.push_back(static_cast<BaseEnemy*>(pointer));
+		flyEnemys_.push_back(static_cast<BaseEnemy*>(pointer));
 
 		// 音
 		audioManager_->PlayWave(kGamePteraSpawnSE);
