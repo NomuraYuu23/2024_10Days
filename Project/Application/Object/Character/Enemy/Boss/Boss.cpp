@@ -447,6 +447,7 @@ void Boss::Dead() {
 
 void Boss::Summon() {
 	if (countUp_ == 0) {
+		audioManager_->PlayWave(kGameBossRoarSE);
 		head_->Summon();
 		//敵召喚する
 		if (head_->GetHp() == 3) {
