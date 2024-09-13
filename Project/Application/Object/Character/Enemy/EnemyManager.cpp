@@ -140,13 +140,21 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 		pointer = objectManager_->AddObject(odata);
 		static_cast<FlyEnemy*>(pointer)->SetVelocity(data.velocity);
 		enemys_.push_back(static_cast<BaseEnemy*>(pointer));
+
+		// 音
+		audioManager_->PlayWave(kGamePteraSpawnSE);
+
 	}
 }
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy){
+
+	static_cast<Enemy*>(enemy)->SetAudioManager(audioManager_);
 	enemys_.push_back(enemy);
 
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
+	audioManager_->PlayWave(kGameEggBreakSE);
+	audioManager_->PlayWave(kGameEnemySpawnSE);
 }
 
 void EnemyManager::AddEgg(const Vector3& position)

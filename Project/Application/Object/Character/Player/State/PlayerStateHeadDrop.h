@@ -34,5 +34,8 @@ private: // メンバ変数
 	// 経過時間
 	float time_ = 0.0f;
 
+	// se鳴らした
+	bool rangSE_;
+
 };
 

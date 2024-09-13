@@ -188,6 +188,8 @@ private: //	変数
 	//動いてるブロックでダメージを受けるか
 	bool isDamageMovingBlock_ = false;
 
+	bool stampSE_ = false;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

@@ -457,6 +457,8 @@ void Enemy::CreateBullet(float rotateY) {
 	pointer = objectManager_->AddObject(data);
 	static_cast<Bullet*>(pointer)->SetVelocity(Matrix4x4::TransformNormal(Vector3::Normalize(worldTransform_.direction_),Matrix4x4::MakeRotateYMatrix(rotateY)));
 	
+	audioManager_->PlayWave(kGameEnemyBulletSE);
+
 }
 
 void Enemy::KnockbackInitialize()

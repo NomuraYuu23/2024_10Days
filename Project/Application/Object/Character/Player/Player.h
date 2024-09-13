@@ -252,6 +252,9 @@ private: //	変数
 	// ゲーム開始前か
 	bool isPreGame_;
 
+	// 二歩目の音
+	bool moveSoundSecond_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }

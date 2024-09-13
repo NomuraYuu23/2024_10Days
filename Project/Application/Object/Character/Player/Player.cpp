@@ -137,6 +137,8 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	isPreGame_ = true;
 
+	moveSoundSecond_ = false;
+
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
@@ -199,6 +201,26 @@ void Player::Update()
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 	
 	localMatrixManager_->Map();
+
+	// 歩きサウンド再生
+	if (currentMotionNo_ == kPlayerMotionRun && velocity_.y == 0.0f) {
+		if (!moveSoundSecond_) {
+			if (animation_.GetAnimationDatas()->at(kPlayerMotionRun).timer - kDeltaTime_ <= 0.0f) {
+				audioManager_->PlayWave(kGameMoveSE);
+				moveSoundSecond_ = true;
+			}
+		}
+		else {
+			if (animation_.GetAnimationDatas()->at(kPlayerMotionRun).timer - kDeltaTime_ >= 0.25f) {
+				audioManager_->PlayWave(kGameMoveSE);
+				moveSoundSecond_ = false;
+			}
+		}
+	}
+	else {
+		moveSoundSecond_ = false;
+	}
+
 
 	// 重力
 	velocity_ += Gravity::Execute();
@@ -461,7 +483,6 @@ void Player::OnCollisionDamage(const Vector3& position)
 
 	knockbackDirection_ = Vector3::Normalize(Vector3::Subtract(position,playerPos));
 	nextStateNo_ = kPlayerStateKnockback;
-	receiveDamage_ = true;
 	receiveCommand_ = false;
 	changeStatedirectly = true;
 
@@ -503,6 +524,9 @@ void Player::InvincibleUpdate()
 
 void Player::Damage()
 {
+
+	audioManager_->PlayWave(kGameHitAttackSE);
+	receiveDamage_ = true;
 
 	if (isPreGame_) {
 		return;

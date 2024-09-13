@@ -253,6 +253,7 @@ void Hand::RegistrationGlobalVariables()
 void Hand::Root() {
 	worldTransform_.transform_.translate = {0.0f,0.0f,0.0f};
 	worldTransform_.transform_.rotate = { 0.0f,0.0f,0.0f };
+	stampSE_ = false;
 }
 
 void Hand::StampStand() {
@@ -283,6 +284,10 @@ void Hand::StampAttack() {
 	// 位置更新
 	worldTransform_.transform_.translate += velocity_;
 	if (isCollision_){
+		if (!stampSE_) {
+			stampSE_ = true;
+			parent_->GetAudioManager()->PlayWave(kGameHeadDropSE);
+		}
 		isAttack_ = false;
 		if (countUp_ > stampStiffnessLength){//仮
 			state_ = std::bind(&Hand::Root, this);

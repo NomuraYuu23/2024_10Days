@@ -26,6 +26,8 @@ void PlayerStateHeadDrop::Initialize()
 	// 経過時間
 	time_ = 0.0f;
 
+	rangSE_ = false;
+
 }
 
 void PlayerStateHeadDrop::Update()
@@ -36,6 +38,11 @@ void PlayerStateHeadDrop::Update()
 
 	// 補間係数決定
 	float t = time_ / fallEndTime_;
+
+	if (t >= 1.0f && !rangSE_) {
+		rangSE_ = true;
+		player_->GetAudioManager()->PlayWave(kGameHeadDropSE);
+	}
 
 	// 位置変更
 	WorldTransform* worldTransform = player_->GetWorldTransformAdress();

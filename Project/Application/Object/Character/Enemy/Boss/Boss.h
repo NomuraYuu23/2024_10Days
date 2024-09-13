@@ -222,6 +222,8 @@ private: //	変数
 	//死亡したときに呼ぶ
 	std::function<void(void)> dead_;
 
+	GameAudioManager* audioManager_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -248,6 +250,9 @@ public: // アクセッサ
 
 	//死亡したときにゲームシーンに送る用
 	void SetDeadCall(std::function<void(void)> func) { dead_ = func; };
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	GameAudioManager* GetAudioManager() { return audioManager_; }
 
 private: // グローバル変数
 

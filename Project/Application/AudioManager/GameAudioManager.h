@@ -2,10 +2,20 @@
 #include "../../Engine/Audio/AudioManager.h"
 
 enum GameAudioNameIndex {
-	kGameAudioNameIndexSample, // サンプル
 	kGameBGM, // BGM
 	kGamejumpSE, // ジャンプSE
 	kGameBlockSE, // ブロックSE
+	kGamePteraSpawnSE, // プテラスポーンSE
+	kGameMoveSE, // 移動SE
+	kGameHeadDropSE, // ヘッドドロップSE
+	kGameEggBreakSE, // 卵破壊SE
+	kGameEnemySpawnSE, // スピノスポーンSE
+	kGameEnemyBulletSE, // スピノバレットSE
+	kGameBossAttackSE, // ボス攻撃SE
+	kGameBossRoarSE, // ボス咆哮SE
+	kGameGameStartSE, // スタートSE
+	kGameHitBlockSE, // ヒットブロックSE
+	kGameHitAttackSE, // ヒットアタックSE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -41,10 +51,20 @@ private: // メンバ変数
 	// ファイル名
 	std::array<const std::string, GameAudioNameIndex::kGameAudioNameIndexOfCount> audioNames_ = 
 	{
-		"default/Alarm01.mp3",
-		"Sound/BGM/inGameBGM.mp3",
+		"Sound/BGM/BGM.mp3",
 		"Sound/SE/jump.mp3",
 		"Sound/SE/block.mp3",
+		"Sound/SE/Ptera_Spawn.mp3",
+		"Sound/SE/Move.mp3",
+		"Sound/SE/HeadDrop.mp3",
+		"Sound/SE/Egg_Break.mp3",
+		"Sound/SE/Enemy_Spawn.mp3",
+		"Sound/SE/Enemy_Bullet.mp3",
+		"Sound/SE/Boss_Attack_2.mp3",
+		"Sound/SE/Boss_Roar.mp3",
+		"Sound/SE/gameStart.mp3",
+		"Sound/SE/Hit_Block.mp3",
+		"Sound/SE/Hit_Attack.mp3",
 	};
 
 };

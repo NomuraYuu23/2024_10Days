@@ -134,6 +134,7 @@ void GameScene::Initialize() {
 	enemyManager_->SetPlayer(player_);
 	enemyManager_->SetObjectManager(objectManager_.get());
 	enemyManager_->SetBlockManager(blockManager_.get());
+	enemyManager_->SetAudioManager(audioManager_.get());
 
 	isCreateBoss_ = false;
 
@@ -176,6 +177,8 @@ void GameScene::Initialize() {
 	padConnect_ = std::make_unique<PadConnect>();
 	padConnect_->Initialize();
  
+	audioManager_->PlayWave(kGameBGM);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -198,6 +201,10 @@ void GameScene::Update() {
 	PreGameUpdate();
 
 	if (countDown_->GetIsGameStart()) {
+		if (!gameStartSE_) {
+			gameStartSE_ = true;
+			audioManager_->PlayWave(kGameGameStartSE);
+		}
 		enemyManager_->Update();
 	}
 	
@@ -542,6 +549,7 @@ void GameScene::CreateBoss() {
 	static_cast<Boss*>(pointer)->SetPlayer(player_);
 	static_cast<Boss*>(pointer)->SetBlockManager(blockManager_.get());
 	static_cast<Boss*>(pointer)->SetObjectManager(objectManager_.get());
+	static_cast<Boss*>(pointer)->SetAudioManager(audioManager_.get());
 	//static_cast<Boss*>(pointer)->CreateHand();
 	static_cast<Boss*>(pointer)->CreateHead();
 	static_cast<Boss*>(pointer)->SetEnemyManager(enemyManager_.get());

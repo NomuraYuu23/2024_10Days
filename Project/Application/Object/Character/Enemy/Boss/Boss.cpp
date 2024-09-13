@@ -384,6 +384,7 @@ void Boss::RightRoundAttack() {
 		}
 		if (countUp_ == kRightHandRoundMoveLength_) {
 			rightHand_->Round();
+			audioManager_->PlayWave(kGameBossAttackSE);
 		}
 		countUp_++;
 	}
@@ -407,6 +408,7 @@ void Boss::LeftRoundAttack() {
 		}
 		if (countUp_ == kRightHandRoundMoveLength_) {
 			leftHand_->Round();
+			audioManager_->PlayWave(kGameBossAttackSE);
 		}
 		countUp_++;
 	}
@@ -448,6 +450,7 @@ void Boss::Dead() {
 
 void Boss::Summon() {
 	if (countUp_ == 0) {
+		audioManager_->PlayWave(kGameBossRoarSE);
 		head_->Summon();
 		//敵召喚する
 		if (head_->GetHp() == 3) {
