@@ -9,7 +9,7 @@ LevelData::MeshData AttackArrowObject::ArrowCreate()
 	data.name = "AttackArrow" + std::to_string(id++);
 	// トランスフォーム
 	data.transform = {
-		3.0f,3.0f,3.0f,
+		3.0f,3.0f,1.0f,
 		0.0f,0.0f,0.0f,
 		0.0f,0.0f,0.0f
 	};
