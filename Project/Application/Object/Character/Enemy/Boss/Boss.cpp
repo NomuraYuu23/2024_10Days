@@ -629,7 +629,7 @@ void Boss::RotateToPlayer() {
 
 void Boss::ChacePlayerY() {
 	float playerY = target_->GetWorldTransformAdress()->GetWorldPosition().y;
-	float target = Block::kLowHight + 2.0f;
+	float target = Block::kLowHight + Block::kSize_;
 	if (playerY > Block::kFloatHight) {
 		target += Block::kFloatHight;
 	}
