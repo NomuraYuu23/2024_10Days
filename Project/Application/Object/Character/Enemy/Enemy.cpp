@@ -299,8 +299,8 @@ void Enemy::PositionLimit()
 	}
 
 
-	Vector3 Max = { 18.0f,1000.0f, 18.0f };
-	Vector3 Min = { -18.0f,-1000.0f, -18.0f };
+	Vector3 Max = Block::kMaxRange_;
+	Vector3 Min = Block::kMinRange_;
 
 	worldTransform_.transform_.translate.x = std::clamp(worldTransform_.transform_.translate.x, Min.x, Max.x);
 	worldTransform_.transform_.translate.y = std::clamp(worldTransform_.transform_.translate.y, Min.y, Max.y);

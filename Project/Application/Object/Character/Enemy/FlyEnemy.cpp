@@ -90,6 +90,7 @@ void FlyEnemy::Initialize(LevelData::MeshData* data)
 
 	bodyWorldTransform_.Initialize(model_->GetRootNode());
 	bodyWorldTransform_.SetParent(&worldTransform_);
+	bodyWorldTransform_.transform_.scale = Vector3{ 0.5f,0.5f,0.5f };
 }
 
 void FlyEnemy::Update()
@@ -160,6 +161,9 @@ void FlyEnemy::Rush() {
 void FlyEnemy::Dead() {
 	isPlayDeathAnimation_ = true;
 	currentMotionNo_ = kFlyEnemyMotionDead;
+	float t = float(countUp) / float(deathAnimationLength);
+	//worldTransform_.transform_.scale = Vector3{0.5f,0.5f,0.5f}* (1.0f - t);
+	bodyWorldTransform_.transform_.scale = Vector3{ 0.5f,0.5f,0.5f }*(1.0f - t);
 	if (countUp > deathAnimationLength) {
 		isDead_ = true;
 	}
@@ -221,6 +225,7 @@ void FlyEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const C
 
 	//isDead_ = true;
 	state_ = std::bind(&FlyEnemy::Dead, this);
+	countUp = 0;
 	isPlayDeathAnimation_ = true;
 }
 
@@ -243,8 +248,8 @@ void FlyEnemy::PositionLimit()
 bool FlyEnemy::IsInnerAttackArea()
 {
 
-	Vector3 Max = { 24.0f,1000.0f, 24.0f };
-	Vector3 Min = { -24.0f,-1000.0f, -24.0f };
+	Vector3 Max = Block::kMaxRange_;
+	Vector3 Min = Block::kMinRange_;
 
 	if (worldTransform_.transform_.translate.x < Min.x || Max.x < worldTransform_.transform_.translate.x ||
 		worldTransform_.transform_.translate.z < Min.z || Max.z < worldTransform_.transform_.translate.z) {
