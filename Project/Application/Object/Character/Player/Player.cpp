@@ -483,7 +483,6 @@ void Player::OnCollisionDamage(const Vector3& position)
 
 	knockbackDirection_ = Vector3::Normalize(Vector3::Subtract(position,playerPos));
 	nextStateNo_ = kPlayerStateKnockback;
-	receiveDamage_ = true;
 	receiveCommand_ = false;
 	changeStatedirectly = true;
 
@@ -525,6 +524,9 @@ void Player::InvincibleUpdate()
 
 void Player::Damage()
 {
+
+	audioManager_->PlayWave(kGameHitAttackSE);
+	receiveDamage_ = true;
 
 	if (isPreGame_) {
 		return;
