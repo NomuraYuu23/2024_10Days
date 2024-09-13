@@ -223,6 +223,7 @@ void GameScene::Update() {
 		gameClear_->Update(isCreateBoss_ && (boss_ == nullptr));
 		if (gameClear_->GetIsRun()) {
 			player_->SetIsGameClear(true);
+			gameCamera_->SetIsGameClear(true);
 			if (gameClear_->GetIsEnd()) {
 				resetScene_ = true;
 				isBeingReset_ = true;

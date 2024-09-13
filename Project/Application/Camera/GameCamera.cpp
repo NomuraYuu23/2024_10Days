@@ -108,24 +108,39 @@ void GameCamera::Update(float elapsedTime)
 	else {
 		Manual();
 	}
+	
+	// ゲームクリア
+	if (isGameClear_) {
 
-	// 追従対象がいれば
-	// 追従座標の補間
-	interTarget_ = Ease::Easing(Ease::EaseName::Lerp, interTarget_, stageCenter_, moveRate_);
+		interTarget_ = Ease::Easing(Ease::EaseName::Lerp, interTarget_, player_->GetWorldTransformAdress()->GetWorldPosition(), moveRate_);
 
-	// オフセット
-	Vector3 offset = OffsetCalc();
+		// オフセット
+		Vector3 offset = OffsetCalc();
 
-	transform_.translate = Vector3::Add(interTarget_, offset);
+		transform_.translate = Vector3::Add(interTarget_, offset);
 
-	// FOV
-	if (player_->GetCurrentStateNo() == kPlayerStateHeadDrop) {
-		targetFovY_ = targetFovYMax_;
+		targetFovY_ = 0.2f;
 	}
 	else {
-		targetFovY_ = targetFovYMin_;
-	}
 
+		// 追従対象がいれば
+		// 追従座標の補間
+		interTarget_ = Ease::Easing(Ease::EaseName::Lerp, interTarget_, stageCenter_, moveRate_);
+
+		// オフセット
+		Vector3 offset = OffsetCalc();
+
+		transform_.translate = Vector3::Add(interTarget_, offset);
+
+		// FOV
+		if (player_->GetCurrentStateNo() == kPlayerStateHeadDrop) {
+			targetFovY_ = targetFovYMax_;
+		}
+		else {
+			targetFovY_ = targetFovYMin_;
+		}
+
+	}
 
 	//ビュー更新
 	BaseCamera::Update(kDeltaTime_);
