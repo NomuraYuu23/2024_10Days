@@ -78,7 +78,7 @@ public:
 	//入ってきたポインタをリストから排除する
 	void RemoveEgg(Egg* in);
 
-	bool GetIsEndAllWave() { return isEndAllWave_; };
+	bool GetIsEndAllWave() { return isEndAllWave_ && isBossSpawn_; };
 
 private:
 
