@@ -128,7 +128,7 @@ void Player::Initialize(LevelData::MeshData* data)
 	invincibilityElapsedTime_ = invincibilityTime_;
 
 	// 落下位置
-	fallingPositionY_ = -10.0f;
+	fallingPositionY_ = -30.0f;
 
 	// リスポーン位置
 	respawnPosition_ = {0.01f,35.0f,0.0f};
