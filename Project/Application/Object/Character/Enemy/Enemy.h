@@ -232,6 +232,8 @@ private: //	変数
 	// ノックバック上昇速度
 	float knockbackClimbSpeed_;
 
+	GameAudioManager* audioManager_;
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -259,6 +261,8 @@ public: // アクセッサ
 	//Animation* GetAnimationAdress() { return &animation_; }
 
 	void SetPlayer(Player* player) { target_ = player; };
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 private: // グローバル変数
 

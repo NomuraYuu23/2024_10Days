@@ -10,6 +10,7 @@ enum GameAudioNameIndex {
 	kGameHeadDropSE, // ヘッドドロップSE
 	kGameEggBreakSE, // 卵破壊SE
 	kGameEnemySpawnSE, // スピノスポーンSE
+	kGameEnemyBulletSE, // スピノバレットSE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -53,7 +54,7 @@ private: // メンバ変数
 		"Sound/SE/HeadDrop.mp3",
 		"Sound/SE/Egg_Break.mp3",
 		"Sound/SE/Enemy_Spawn.mp3",
-		
+		"Sound/SE/Enemy_Bullet.mp3",
 	};
 
 };

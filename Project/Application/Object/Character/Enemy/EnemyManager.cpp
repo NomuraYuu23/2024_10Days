@@ -148,6 +148,8 @@ void EnemyManager::AddEnemy(EnemyData& data) {
 }
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy){
+
+	static_cast<Enemy*>(enemy)->SetAudioManager(audioManager_);
 	enemys_.push_back(enemy);
 
 	eggBreakParticleManager_->PositionRegister(static_cast<Enemy*>(enemy)->GetWorldTransformAdress()->GetWorldPosition());
