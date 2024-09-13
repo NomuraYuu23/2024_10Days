@@ -202,4 +202,6 @@ private:
 
 	bool switchToClearBGM_;
 
+	bool switchToBossBGM_;
+
 };
