@@ -1037,7 +1037,7 @@
       <Filter>Application\UI\TimeTenNum</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\TimeOneNumUI.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI\TimeOneNum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1774,7 +1774,7 @@
       <Filter>Application\UI\TimeTenNum</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\TimeOneNumUI.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\UI\TimeOneNum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
