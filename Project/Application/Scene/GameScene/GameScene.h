@@ -32,6 +32,8 @@
 #include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
 #include "../../System/PadConnect/PadConnect.h"
 #include "../../System/GameOver/GameOver.h"
+#include "../../System/GameClear/GameClear.h"
+
 
 class GameScene : public IScene
 {
@@ -194,5 +196,8 @@ private:
 
 	// ゲームオーバー
 	std::unique_ptr<GameOver> gameOver_;
+
+	// ゲームクリア
+	std::unique_ptr<GameClear> gameClear_;
 
 };

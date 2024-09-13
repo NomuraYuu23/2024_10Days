@@ -180,6 +180,9 @@ void GameScene::Initialize() {
 	gameOver_ = std::make_unique<GameOver>();
 	gameOver_->Initialize();
 
+	gameClear_ = std::make_unique<GameClear>();
+	gameClear_->Initialize();
+
 	audioManager_->PlayWave(kGameBGM);
 
 	IScene::InitilaizeCheck();
@@ -199,6 +202,11 @@ void GameScene::Update() {
 		requestSceneNo_ = kClear;
 	}
 
+	if (input_->TriggerKey(DIK_0)) {
+		isCreateBoss_ = true;
+		boss_ = nullptr;
+	}
+
 #endif // _DEMO
 
 	if (isBeingReset_) {
@@ -210,13 +218,25 @@ void GameScene::Update() {
 		return;
 	}
 
-	gameOver_->Update(player_->GetIsGameOver());
-	if (gameOver_->GetIsRun()) {
-		if (gameOver_->GetIsEnd()) {
+	// クリア
+	if (!gameOver_->GetIsRun()) {
+		gameClear_->Update(isCreateBoss_ && (boss_ == nullptr));
+		if (gameClear_->GetIsEnd()) {
 			resetScene_ = true;
 			isBeingReset_ = true;
 		}
-		return;
+	}
+
+	if (!gameClear_->GetIsRun()) {
+		// オーバー
+		gameOver_->Update(player_->GetIsGameOver());
+		if (gameOver_->GetIsRun()) {
+			if (gameOver_->GetIsEnd()) {
+				resetScene_ = true;
+				isBeingReset_ = true;
+			}
+			return;
+		}
 	}
 
 	PreGameUpdate();
@@ -346,7 +366,7 @@ void GameScene::Draw() {
 
 	// UI
 
-	if (!gameOver_->GetIsRun()) {
+	if (!gameOver_->GetIsRun() && !gameClear_->GetIsRun()) {
 		UISystem_->Draw();
 
 		// チュートリアル
@@ -361,6 +381,8 @@ void GameScene::Draw() {
 		padConnect_->Draw();
 	}
 	gameOver_->Draw();
+
+	gameClear_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
