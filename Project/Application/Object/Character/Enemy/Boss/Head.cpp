@@ -180,6 +180,7 @@ void Head::Hit() {
 	hp_--;
 	state_ = std::bind(&Head::Damage, this);
 	velocity_ = { 0.0f,3.0f,0.0f };
+	parent_->GetAudioManager()->PlayWave(kGameBossHitSE);
 
 	//isHitCoolTime_ = true;
 	countUp_ = 0;
