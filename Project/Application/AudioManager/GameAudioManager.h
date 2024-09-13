@@ -17,6 +17,7 @@ enum GameAudioNameIndex {
 	kGameHitBlockSE, // ヒットブロックSE
 	kGameHitAttackSE, // ヒットアタックSE
 	kGameClearBGM, // クリアBGM
+	kGameBossFangSE, // ボス噛みつきSE
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -67,6 +68,7 @@ private: // メンバ変数
 		"Sound/SE/Hit_Block.mp3",
 		"Sound/SE/Hit_Attack.mp3",
 		"Sound/BGM/gameClear.mp3",
+		"Sound/SE/Boss_Fang.mp3",
 	};
 
 };
