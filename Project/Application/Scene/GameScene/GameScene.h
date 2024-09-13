@@ -33,6 +33,7 @@
 #include "../../System/CountDown/CountDown.h"
 #include "../../System/TutorialSkipSystem/TutorialSkipSystem.h"
 #include "../../System/PadConnect/PadConnect.h"
+#include "../../System/GameOver/GameOver.h"
 
 class GameScene : public IScene
 {
@@ -191,5 +192,7 @@ private:
 	std::unique_ptr<PadConnect> padConnect_;
 
 	bool gameStartSE_;
+
+	std::unique_ptr<GameOver> gameOver_;
 
 };

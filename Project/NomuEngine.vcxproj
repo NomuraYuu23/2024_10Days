@@ -204,6 +204,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\System\BackGround\BackGround.cpp" />
     <ClCompile Include="Application\System\CloudSystem\CloudSystem.cpp" />
     <ClCompile Include="Application\System\CountDown\CountDown.cpp" />
+    <ClCompile Include="Application\System\GameOver\GameOver.cpp" />
     <ClCompile Include="Application\System\Light\DirectionalLightSystem.cpp" />
     <ClCompile Include="Application\System\PadConnect\PadConnect.cpp" />
     <ClCompile Include="Application\System\PostEffect\PostEffectSystem.cpp" />
@@ -404,6 +405,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\System\BackGround\BackGround.h" />
     <ClInclude Include="Application\System\CloudSystem\CloudSystem.h" />
     <ClInclude Include="Application\System\CountDown\CountDown.h" />
+    <ClInclude Include="Application\System\GameOver\GameOver.h" />
     <ClInclude Include="Application\System\Light\DirectionalLightSystem.h" />
     <ClInclude Include="Application\System\PadConnect\PadConnect.h" />
     <ClInclude Include="Application\System\PostEffect\PostEffectSystem.h" />

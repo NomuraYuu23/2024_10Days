@@ -536,7 +536,7 @@ void Player::Damage()
 	if (hp_ <= 0) {
 		hp_ = 0;
 		// 死んだ判定
-
+		isGameOver_ = true;
 	}
 
 	// 無敵
