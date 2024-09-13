@@ -201,3 +201,9 @@ void Egg::CreateEnemy() {
 	//自分自身をリストから除外する
 	enemyManager_->RemoveEgg(this);
 }
+
+void Egg::Delete() {
+	isCreateEnemy_ = false;
+	isDead_ = true;
+	enemyManager_->RemoveEgg(this);
+}

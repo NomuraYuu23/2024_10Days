@@ -194,7 +194,10 @@ void GameScene::Update() {
 
 	PreGameUpdate();
 
-	enemyManager_->Update();
+	if (countDown_->GetIsGameStart()) {
+		enemyManager_->Update();
+	}
+	
 	if (enemyManager_->GetIsEndAllWave() && !isCreateBoss_) {
 		isCreateBoss_=true;
 		CreateBoss();

@@ -92,7 +92,7 @@ public:
 
 	bool GetIsRun() { return isRun_; }
 	
-	bool GetIsGameStart(bool isGameStart) { isGameStart_ = isGameStart; }
+	bool GetIsGameStart() { return isGameStart_; }
 
 };
 
