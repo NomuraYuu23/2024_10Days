@@ -156,6 +156,8 @@ private: //	変数
 
 	size_t countUp=0;
 
+	WorldTransform bodyWorldTransform_;
+
 	//ステート
 	std::function<void(void)> state_;
 

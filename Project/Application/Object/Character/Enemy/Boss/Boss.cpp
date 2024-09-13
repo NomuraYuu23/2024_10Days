@@ -571,6 +571,7 @@ void Boss::CreateHead() {
 	headJointWorldTransform_.transform_.translate = HeadInitPos_;
 	headJointWorldTransform_.UpdateMatrix();
 	head_->ConnectJoint(&headJointWorldTransform_);
+	head_->SetCamera(camera_);
 }
 
 void Boss::EndAttack() {

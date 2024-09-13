@@ -310,6 +310,7 @@ void Head::Damage() {
 			clearMiddlePos_.y += 32.0f;
 
 			state_ = std::bind(&Head::Dead, this);
+			camera_->ShakeStart(2.0f,float(deadAnimationLength)* kDeltaTime_);
 			countUp_ = 0;
 			return;
 		}
@@ -390,7 +391,7 @@ void Head::PartInitialize()
 
 void Head::Attack() {
 	currentMotionNo_ = HeadMotionIndex::kHeadMotionRoar;
-	isCollisionObstacle_ = true;
+	//isCollisionObstacle_ = true;
 	isAttack_ = true;
 	isDamageMovingBlock_ = true;
 	if (countUp_ <=kAttackMoveLength_) {
