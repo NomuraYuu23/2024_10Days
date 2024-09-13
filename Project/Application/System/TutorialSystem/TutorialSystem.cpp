@@ -201,7 +201,6 @@ void TutorialSystem::ForcedTermination()
 	isRun_ = false;
 
 	blockManager_->GetBlocks()->at(blockNumStartCheck_)->SetIsRockMove(false);
-	UISystem_->SetTutorialPosAddX(0.0f);
 
 }
 
@@ -389,8 +388,5 @@ void TutorialSystem::EndSystem()
 		isEnd_ = true;
 		isRun_ = false;
 	}
-
-	float t = elapsedTime_ / timeMax_;
-	UISystem_->SetTutorialPosAddX(Ease::Easing(Ease::EaseName::EaseInCubic, -640.0f, 0.0f, t));
 
 }
